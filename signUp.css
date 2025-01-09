@@ -3,12 +3,25 @@ body {
     font-family: 'Figtree', serif;
 }
 
+header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding: 0 20px
+}
+
+.header-right-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .signUp-container {
     width: 652px;
     height: 449px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: 180px auto 0px;
+    margin: 70px auto 0px;
     border-radius: 30px;
 }
 
@@ -36,9 +49,22 @@ h1 {
     border-radius: 10px;
 }
 
+input {
+    padding-right: 50px;
+    width: 70%;
+    box-sizing: border-box;
+    border: 1px solid #D1D1D1;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 16px;
+    outline: none;
+    cursor: pointer;
+}
+
 .input-container {
-    display: flex
-;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -49,17 +75,16 @@ h1 {
 .input-with-icon {
     background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24"%3E%3Cpath d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM4 6h16v2l-8 5-8-5V6zm0 12V9l8 5 8-5v9H4z"/%3E%3C/svg%3E') no-repeat right 16px center;
     background-size: 20px;
-  }
-  
-  .password-input {
+}
+
+.password-input {
     background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="gray" viewBox="0 0 24 24"%3E%3Cpath d="M12 4.5c-4.05 0-7.42 2.4-9 6 1.58 3.6 4.95 6 9 6s7.42-2.4 9-6c-1.58-3.6-4.95-6-9-6zm0 10c-2.22 0-4-1.78-4-4s1.78-4 4-4 4 1.78 4 4-1.78 4-4 4zm0-6.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z"/%3E%3C/svg%3E') no-repeat right 16px center;
     background-size: 20px;
     cursor: pointer;
-  }
+}
 
 .login-buttons {
-    display: flex
-;
+    display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 60px;
@@ -89,6 +114,16 @@ h1 {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+.signUp-button {
+    background-color: rgb(42, 54, 71);
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
 .login-button:hover {
     background-color: #29ABE2;
     color: white;
@@ -99,6 +134,13 @@ h1 {
 .guestLogin-button:hover {
     color: #29ABE2;
     border-color: #29ABE2;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(1.01) translateZ(10px);
+}
+
+.signUp-button:hover {
+    background-color: #29ABE2;
+    color: white;
     box-shadow: 0px 4px rgba(0, 0, 0, 0.1);
     transform: scale(1.01) translateZ(10px);
 }
