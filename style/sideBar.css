@@ -1,0 +1,70 @@
+.sideBar {
+    height: 100vh;
+    width: 240px;
+    background-color: #2A3647;
+    position: relative;
+}
+
+.joinLogo {
+    padding-top: 64px;
+    padding-bottom: 128px;
+    height: 120px;
+    width: 100px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.active {
+    background-color: #091931;
+}
+
+.menuPos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.navMenu {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px;
+}
+
+.navMenu:hover {
+    cursor: pointer;
+    background-color: #2A3D59;
+}
+
+.navMenu img {
+    padding-left: 56px;
+}
+
+.navMenu a {
+    color: #CDCDCD;
+}
+
+.navMenu img {
+    height: 30px;
+    width: 30px;
+}
+
+.lawSection {
+    position: absolute;
+    bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 66px;
+    gap: 16px;
+}
+
+.lawSection a {
+    color: #A8A8A8;
+}
+
+.lawSection a:hover {
+    color: #29ABE2;
+    font-weight: bold;
+    cursor: pointer;
+}
