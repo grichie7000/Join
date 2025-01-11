@@ -20,16 +20,30 @@
 
 .topBar h3 {
     padding-left: 120px;
+    font-weight: 400;
 }
 
-.initials{
-    border-radius: 43%;
-    border: 2px solid black;
-    padding: 8px;
+.initials {
+    border-radius: 50%;
+    border: 3px solid black;
+    padding: 10px 8px;
+    color: #29ABE2;
 }
 
-.questions{
-    border-radius:50%;
-    border: 2px solid black;
-    padding: 6px;
+.initials:hover {
+    cursor: pointer;
+    background-color: #E2E6EC;
+}
+
+.questions {
+    border-radius: 50%;
+    color: #A8A8A8;
+    border: 2px solid #A8A8A8;
+    padding: 0px 4px;
+    font-size: 12px;
+}
+
+.questions:hover {
+    cursor: pointer;
+    font-size: 16px;
 }

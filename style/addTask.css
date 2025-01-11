@@ -10,4 +10,24 @@ body{
     flex: 1;
     display: flex;
     flex-direction: column;
+    height: 100vh;
+}
+
+.inputSection{
+    display: flex;
+    gap:16px
+
+}
+
+.addTask h2{
+    font-size: 72px;
+    padding-left: 92px;
+    padding-top: 92px;
+    padding-bottom: 46px;
+}
+
+.seperator{
+    height: 240px;
+    width: 2px;
+    background-color: grey;
 }

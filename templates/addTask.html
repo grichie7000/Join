@@ -56,18 +56,40 @@
 
     <div class="mainContent">
         <div class="topBar">
-            <h3>Kanban Project Managment Tool</h3>
+            <h3>Kanban Project Management Tool</h3>
             <div class="profile">
-                <p class="questions">?</p>
+                <a href="../help.html" class="questions">?</a>
                 <p class="initials">SM</p>
             </div>
         </div>
 
-        <div class="addTask">
+        <form class="addTask">
+            <div>
+                <h2>Add Task</h2>
+            </div>
 
-        </div>
+            <div class="inputSection">
+                <div class="inputLeft">
+                    <label for="title">Title<span class="required">*</span></label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div class="seperator">
+                </div>
+
+                <div class="inputRight">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description"></textarea>
+                </div>
+            </div>
+
+            <div class="createAndClear">
+                <button id="createButton" type="submit">Create Task</button>
+                <button id="resetButton" type="reset">Reset</button>
+            </div>
+
+        </form>
     </div>
-
 </body>
 
 </html>
