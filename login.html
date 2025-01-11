@@ -4,13 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="signUp.css">
+    <link rel="stylesheet" href="login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet">
-    <title>Join</title>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="template.js"></script>
+    <title>Login</title>
 </head>
 
 <body>
@@ -23,27 +22,31 @@
         <path d="M240.153 286.944V324.834H233.43V286.944H240.153Z" fill="#2A3647" />
         <path d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"fill="#2A3647" />
        </svg>
-       <div class="header-right-content">
-        <div>Not a Join User?</div>
-        <div class="signUp-button">Sign up</div>
+       <div id="header-right-content" class="header-right-content">
+         <div>Not a Join User?</div>
+         <div onclick="openSignUp()" class="signUp-button">Sign up</div>
        </div>
     </header>
 
 
-    <section class="signUp-container">
+    <section id="login" class="login-container">
         <div class="headline-container">
             <h1>Log in</h1>
             <div class="horizontal-line"></div>
         </div>
         <div class="input-container">
-            <input type="text" placeholder="Email" class="input-with-icon">
-            <input type="text" placeholder="Password" class="password-input">
+            <input type="text" placeholder="Email" class="input-with-icon" required>
+            <input type="text" placeholder="Password" class="password-input" required>
         </div>
         <div class="login-buttons">
             <div class="login-button">Log in</div>
             <div class="guestLogin-button">Guest Log in</div>
         </div>
     </section>
+
+    <section id="signUp"></section>
+
+    <script src="login.js"></script>
 </body>
 
 </html>
