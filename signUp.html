@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="signUp.css">
+    <link rel="stylesheet" href="style/signUp.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
      </header>
 
     <div class="signUp-container">
-        <svg onclick='backToLogin()' class='back-button' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <a href="index.html"><svg class='back-button' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
           <g clip-path="url(#clip0_576_3168)">
           <path d="M10.4373 14.6667H25.3333C26.0696 14.6667 26.6666 15.2637 26.6666 16.0001C26.6666 16.7364 26.0696 17.3334 25.3333 17.3334H10.4373L16.6466 23.5427C17.1672 24.0634 17.1672 24.9074 16.6466 25.4281C16.126 25.9487 15.2819 25.9487 14.7613 25.4281L6.74746 17.4143C5.96642 16.6332 5.96642 15.3669 6.74747 14.5858L14.7613 6.57206C15.2819 6.05144 16.126 6.05144 16.6466 6.57206C17.1672 7.09268 17.1672 7.93677 16.6466 8.45739L10.4373 14.6667Z" fill="#29ABE2"/>
           </g>
@@ -32,23 +32,23 @@
             <rect width="32" height="32" fill="white"/>
             </clipPath>
          </defs>
-        </svg>
+        </svg></a>
         <div class="headline-container">
                 <h1>Sign Up</h1>
                 <div class="horizontal-line"></div>
             </div>
             <div class="input-container">
-                <input type="text" placeholder="Name" class="input-with-icon" required>
-                <input type="password" placeholder="Email" class="input-with-icon" required>
-                <input type="text" placeholder="Password" class="password-input" required>
-                <input type="password" placeholder="Confirm Password" class="password-input" required>
+                <input type="text" placeholder="Name" style="background-image: url('logo: .png;');" required>
+                <input type="password" placeholder="Email" class="input-email-icon" required>
+                <input type="text" placeholder="Password" class="password-input-icon" required>
+                <input type="password" placeholder="Confirm Password" class="password-input-icon" required>
             </div>
             <div class='checkbox'>
-                <input class="checkbox-input" type="checkbox" id="" name="" value="" required>
-                <label for="">I accept the <a class="accept-policy" href="#">Privacy policy</a></label>
+                <input class="checkbox-input" type="checkbox" required>
+                <label>I accept the <a class="accept-policy" href="#">Privacy policy</a></label>
               </div>
             <div class="signUp-button-container">
-                <div class="signUp-button">Sign Up</div>
+                <a href="signUpAccess.html" class="signUp-button">Sign Up</a>
             </div>
         </div>
 </body>
