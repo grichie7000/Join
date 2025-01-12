@@ -377,5 +377,3 @@ async function saveContacts(contacts) {
         body: JSON.stringify(contacts),
     });
 }
-
-
