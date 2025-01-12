@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="inputRight">
-                    <label for="due-date">Due date *</label>
+                    <label for="due-date">Due date<span class="required">*</span></label>
                     <input type="date" id="due-date" name="due-date" required>
 
                     <label for="prio">Prio</label>
@@ -100,7 +100,7 @@
                         <option value="low">Low</option>
                     </select>
 
-                    <label for="category">Category *</label>
+                    <label for="category">Category<span class="required">*</span></label>
                     <select id="category" name="category" required>
                         <option value="" disabled selected hidden>Select task category</option>
                         <option value="technical-task">Technical Task</option>
@@ -113,7 +113,7 @@
             </div>
 
             <div class="createAndClear">
-                <button id="resetButton" type="reset">Clear X</button>
+                <button id="resetButton" type="reset">Clear <span class="required">X</span></button>
                 <button id="createButton" type="submit">Create Task</button>
             </div>
 

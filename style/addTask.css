@@ -16,12 +16,12 @@ body {
 .inputSection {
     display: flex;
     gap: 16px;
-    justify-content: center;
 }
 
-.addTask{
+.addTask {
     padding-left: 92px;
     padding-right: 92px;
+    font-size: 20px;
 }
 
 .addTask h2 {
@@ -41,11 +41,36 @@ body {
     flex-direction: column;
 }
 
+.addTask input,
+textarea,
+select {
+    font-size: 20px;
+    font-weight: 400;
+    width: 440px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 8px;
+}
+
+#description{
+    height: 168px;
+}
+
 .inputRight {
     display: flex;
     flex-direction: column;
 }
 
-.inputSection label{
+.inputSection label {
     padding-top: 32px;
+}
+
+.addTask button{
+    font-size: 20px;
+    padding: 8px;
+}
+
+.required{
+    color: red;
 }
