@@ -1,15 +1,16 @@
-function openSignUp() {
-    let login = document.getElementById('login');
-    login.style.display = 'none';
-    let header = document.getElementById('header-right-content');
-    header.style.display = 'none';
-    document.getElementById('signUp').innerHTML = getSignUpTemplate();
+
+let BASE_URL = 'https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/'
+
+async function loadDataUser() {
+   let response = await fetch(BASE_URL + ".json");
+   let responseToJson = await response.json();
+   console.log(responseToJson);
 }
 
-function backToLogin() {
-    let login = document.getElementById('login');
-    login.style.display = 'block';
-    let header = document.getElementById('header-right-content');
-    header.style.display = 'flex';
-    document.getElementById('signUp').innerHTML = '';
+function addData() {
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+
+    localStorage.setItem('userEmail', email);
+    localStorage.setItem('userPassword', password);
 }
