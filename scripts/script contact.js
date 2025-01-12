@@ -395,3 +395,52 @@ function closeContactInfo() {
     // Schließe das Modal
     document.getElementById("contactInfoPopUp").style.display = 'none';
 }
+
+
+
+
+
+function openEditContactForm() {
+    const name = document.getElementById("contactName").textContent;
+    const email = document.getElementById("contactEmail").textContent;
+    const phone = document.getElementById("contactPhone").textContent;
+
+    // Füllen des Formulars mit den aktuellen Kontaktinformationen
+    document.getElementById("editContactName").value = name;
+    document.getElementById("editContactEmail").value = email;
+    document.getElementById("editContactPhone").value = phone;
+
+    // Zeige das Editierformular an
+    document.getElementById("editContactForm").classList.remove("d-none");
+
+    // Schließe das Kontaktinfo-Popup
+    closeContactInfo();
+}
+
+function deleteContact() {
+    // In einer echten App würde hier ein Löschbefehl an die Datenbank/Server gesendet werden
+    alert("Kontakt gelöscht");
+
+    // Schließe das Kontaktinfo-Popup
+    closeContactInfo();
+
+    // Du könntest hier auch die visuelle Darstellung des Kontakts aus der Liste entfernen
+    // Zum Beispiel, indem du das betreffende Element aus dem DOM entfernst.
+}
+
+
+function saveContactChanges() {
+    const name = document.getElementById("editContactName").value;
+    const email = document.getElementById("editContactEmail").value;
+    const phone = document.getElementById("editContactPhone").value;
+
+    // Aktualisiere die Kontaktinformationen im Popup
+    document.getElementById("contactName").textContent = name;
+    document.getElementById("contactEmail").textContent = email;
+    document.getElementById("contactPhone").textContent = phone;
+
+    // Schließe das Editierformular
+    cancelCreateContact();
+
+    alert("Kontakt wurde aktualisiert!");
+}

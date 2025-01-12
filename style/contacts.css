@@ -432,3 +432,31 @@ body {
     top: 10px;
     right: 10px;
 }
+
+.contact-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contact-actions button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.edit-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+.contact-actions button:hover {
+    opacity: 0.8;
+}
