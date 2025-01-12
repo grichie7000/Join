@@ -1,50 +1,4 @@
-/**
- * Loads all contacts from the server and displays them on the page.
- * @async
- * @function loadAll
- * @returns {Promise<void>}
- */
- async function loadAll() {
-    await loadContacts();
-}
 
-/**
- * Fetches the contacts from the server and organizes them by their first letter.
- * Then, it loads and displays each contact group.
- * @async
- * @function loadContacts
- * @returns {Promise<void>}
- */
-async function loadContacts() {
-    const response = await fetch(BASE_URL + "Contacts.json");
-    const contacts = await response.json();
-    const contactContainer = document.getElementById("showContacts");
-    if (!contactContainer) return;    
-    contactContainer.innerHTML = "";
-    const letters = Object.keys(contacts).sort();    
-    for (let i = 0; i < letters.length; i++) {
-        loadContactsSecondFunction(letters[i], contacts[letters[i]], contactContainer);
-    }
-}
-
-/**
- * Generates and appends HTML for each contact group based on the first letter of the contact names.
- * @function loadContactsSecondFunction
- * @param {string} letter - The first letter of the contact group.
- * @param {Array} contactsForLetter - The contacts under the specific letter group.
- * @param {HTMLElement} contactContainer - The container element where contacts will be displayed.
- * @returns {void}
- */
-function loadContactsSecondFunction(letter, contactsForLetter, contactContainer) {
-    let letterHTML = `<div class="contact-letter-section"><h2 class="letter-border">${letter}</h2>`;  
-    for (let j = 0; j < contactsForLetter.length; j++) {
-        const contact = contactsForLetter[j];
-        const initials = getInitials(contact.name);
-        letterHTML += getLoadContactTemplate(contact, initials);
-    }
-    letterHTML += '</div>';
-    contactContainer.innerHTML += letterHTML;
-}
 
 /**
  * Hides the "new contact" and "edit contact" forms.
@@ -65,17 +19,26 @@ async function cancelCreateContact() {
  * @function renderAddContactForm
  * @returns {Promise<void>}
  */
-async function renderAddContactForm() {
+async function renderAddContactForm() { 
     if (window.innerWidth < 1351) {
         document.getElementById("new-contact-container").classList.remove("aninmation");
         document.getElementById("new-contact-container").classList.add("aninmationTopDow");
-    }else{
+    } else {
         document.getElementById("new-contact-container").classList.add("aninmation");
         document.getElementById("new-contact-container").classList.remove("aninmationTopDow");
     }
+    
+    // Zeigt das Formular an
     const newContactForm = document.getElementById("newContactForm");
     newContactForm.classList.remove("d-none");
     newContactForm.classList.add("bg-blur");
+}
+
+// Funktion zum Schließen des Formulars
+function cancelCreateContact() {
+    const newContactForm = document.getElementById("newContactForm");
+    newContactForm.classList.add("d-none");
+    newContactForm.classList.remove("bg-blur");
 }
 
 /**
@@ -84,24 +47,6 @@ async function renderAddContactForm() {
  * @function createContact
  * @returns {Promise<void>}
  */
-async function createContact() {
-    const name = getName();
-    const email = getEmail();
-    const phone = getPhone();
-    const bgColor = getRandomColor();
-    if (!isValidForm(name, email, phone)) return;
-    const contact = createContactObject(name, email, phone, bgColor);
-    const firstLetter = getFirstLetter(name);
-    try {
-        const contacts = await fetchContacts();
-        await saveContact(firstLetter, contacts, contact);
-        resetForm();
-        await loadContacts();
-        cancelCreateContact();
-    } catch (error) {
-        console.error("Error while adding the contact:", error);
-    }
-}
 
 function getName() {
     return document.getElementById("newContactName").value;
@@ -175,19 +120,6 @@ function getInitials(name) {
     return initials.toUpperCase();
 }
 
-/**
- * Generates a random color in hexadecimal format.
- * @function getRandomColor
- * @returns {string} A random hex color code.
- */
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
 
 /**
  * Displays detailed information of a contact in a modal-like container.
@@ -313,15 +245,6 @@ async function deleteContact(contactEmail) {
             break;
         }
     }
-    await fetch(BASE_URL + "Contacts.json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(contacts),
-    });
-    displayContactInfo(null, null, null, null, null);
-    loadAll();
 }
 
 async function addNewContactContainer() {
@@ -330,15 +253,7 @@ async function addNewContactContainer() {
     loadPage('contacts');
 }
 
-/**
- * The main function that runs when the page is loaded. It initiates the loading of all contacts.
- * @async
- * @function main
- * @returns {Promise<void>}
- */
-(async function main() {
-    await loadAll();
-})();
+
 
 function showOtherButtons() {
     document.getElementById("responsive-contact-buttons").classList.toggle("d-none")
@@ -394,17 +309,6 @@ function populateEditForm(foundContact) {
         emailInput.value = foundContact.email;
         phoneInput.value = foundContact.phone;
     }
-}
-
-function setupEditFormOverlay(foundContact, contactEmail) {
-    const editContactForm = document.getElementById("editContactForm");
-    if (editContactForm) {
-        editContactForm.classList.remove("d-none");
-        editContactForm.classList.add("bg-blur");
-        editContactForm.dataset.bgColor = foundContact.bgColor;
-    }
-    editContactForm.dataset.currentEmail = contactEmail;
-    getCurrentMailForButtons(contactEmail);
 }
 
 /**
@@ -474,21 +378,4 @@ async function saveContacts(contacts) {
     });
 }
 
-/**
- * Finalizes the contact editing process by hiding the edit form and reloading the contacts.
- * @function finalizeContactEditing
- * @param {Object} updatedContact - The updated contact that has been edited.
- * @returns {void}
- */
-function finalizeContactEditing(updatedContact) {
-    document.getElementById("editContactForm").classList.add("d-none");
-    loadContacts();
-    displayContactInfo(
-        updatedContact.name,
-        updatedContact.email,
-        updatedContact.phone,
-        getInitials(updatedContact.name),
-        updatedContact.bgColor
-    );
-}
 
