@@ -2,32 +2,50 @@ h1 {
     color: yellow;
 }
 
-body{
+body {
     display: flex;
 }
 
-.mainContent{
+.mainContent {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100vh;
 }
 
-.inputSection{
+.inputSection {
     display: flex;
-    gap:16px
-
+    gap: 16px;
+    justify-content: center;
 }
 
-.addTask h2{
-    font-size: 72px;
+.addTask{
     padding-left: 92px;
+    padding-right: 92px;
+}
+
+.addTask h2 {
+    font-size: 72px;
     padding-top: 92px;
     padding-bottom: 46px;
 }
 
-.seperator{
+.seperator {
     height: 240px;
     width: 2px;
     background-color: grey;
+}
+
+.inputLeft {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputRight {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputSection label{
+    padding-top: 32px;
 }

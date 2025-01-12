@@ -71,21 +71,50 @@
             <div class="inputSection">
                 <div class="inputLeft">
                     <label for="title">Title<span class="required">*</span></label>
-                    <input type="text" id="title" name="title" required>
+                    <input type="text" placeholder="Enter a title" id="title" name="title" required>
+
+                    <label for="description">Description</label>
+                    <textarea placeholder="Enter a Discription" id="description" name="description"></textarea>
+
+                    <label for="contacts">Assigned to</label>
+                    <select name="contacts" id="contacts">
+                        <option value="" disabled selected hidden>Select contacts to assign</option>
+                        <option value="1">kontakt1</option>
+                        <option value="2">kontakt2</option>
+                        <option value="3">kontakt3</option>
+                        <option value="4">kontakt4</option>
+                    </select>
                 </div>
 
                 <div class="seperator">
                 </div>
 
                 <div class="inputRight">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description"></textarea>
+                    <label for="due-date">Due date *</label>
+                    <input type="date" id="due-date" name="due-date" required>
+
+                    <label for="prio">Prio</label>
+                    <select id="prio" name="prio">
+                        <option value="urgent">Urgent</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+
+                    <label for="category">Category *</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected hidden>Select task category</option>
+                        <option value="technical-task">Technical Task</option>
+                        <option value="user-story">User Story</option>
+                    </select>
+
+                    <label for="subtasks">Subtasks</label>
+                    <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
                 </div>
             </div>
 
             <div class="createAndClear">
+                <button id="resetButton" type="reset">Clear X</button>
                 <button id="createButton" type="submit">Create Task</button>
-                <button id="resetButton" type="reset">Reset</button>
             </div>
 
         </form>
