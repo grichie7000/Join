@@ -1,0 +1,32 @@
+body {
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Figtree', serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.success-overlay {
+    background-color: #2A3647;
+    color: #CACDD1;
+    padding: 20px;
+    border-radius: 10px;
+    transform: translateY(100%); 
+    animation: pop-up 2s ease-out forwards; 
+}
+
+@keyframes pop-up {
+    0% {
+        opacity: 0;
+        transform: translateY(100%); 
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-20%); 
+    }
+    100% {
+        transform: translateY(0); 
+    }
+}
