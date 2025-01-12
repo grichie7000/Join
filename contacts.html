@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main id="main-content" class="content">
+        <div id="contacts" class="contacts-container">
+        <div class="flex">
+            <div class="contacts">
+                <div class="contact-div">
+                    <button class="btnGray" onclick="renderAddContactForm()"><p>Add new contact</p> <img src="#" alt=""></button>
+                </div>
+                <div class="showContacts" id="showContacts"><div class="contact-letter-section"><h2 class="letter-border">A</h2>
+            <div class="contact-item" onclick="displayContactInfo('Asterix', 'asterix@gallier.fr', '012345678', 'A', '#06ECF6')">
+                <div class="initials" style="background-color: #06ECF6;">A</div>
+                <div>
+                    <p><strong></strong><br></p><p class="email"></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="contact-letter-section"><h2 class="letter-border">A</h2>
+            <div class="contact-item" onclick="displayContactInfo('Asterix', 'Asterix@gallier.fr', '012345678', 'A', '#773DFD')">
+                <div class="initials" style="background-color: #773DFD;">A</div>
+                <div>
+                    <p><strong>Asterix</strong><br></p><p class="email">Asterix@gallier.fr</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="contact-letter-section"><h2 class="letter-border">M</h2>
+            <div class="contact-item" onclick="displayContactInfo('Miraculix', 'Miraculix@gallier.fr', '012345678', 'M', '#C558CB')">
+                <div class="initials" style="background-color: #C558CB;">M</div>
+                <div>
+                    <p><strong>Miraculix</strong><br></p><p class="email">Miraculix@gallier.fr</p>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="contact-letter-section"><h2 class="letter-border">M</h2>
+            <div class="contact-item" onclick="displayContactInfo('Max Mustermann', 'muster@aol.de', '01234567890')">
+                <div class="initials" style="background-color: #5AC493;">M</div>
+                <div>
+                    <p><strong>Max Mustermann</strong><br></p><p class="email">muster@aol.de</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-letter-section"><h2 class="letter-border">O</h2>
+            <div class="contact-item" onclick="displayContactInfo('Obelix', 'obelix@gallier.fr', '012345678', 'O', '#B86581')">
+                <div class="initials" style="background-color: #B86581;">O</div>
+                <div>
+                    <p><strong>Obelix</strong><br></p><p class="email"></p>
+                </div>
+            </div>
+        </div>     
+    </div>
+                <div class="media-contact-div">
+                    <button class="btnGray" onclick="renderAddContactForm()"> alt=""></button>
+                </div>
+            </div>
+            <div class="contact-container mobil-hidden" id="contactContainer">
+                <div class="padding">
+                    <div class="headline-container">
+                        <div class="flex justify-between items-center">
+                            <h1>Contacts</h1>
+                            <div class="close-contact-info">
+                                <img src="#" alt="" onclick="closeContactInfo()" class="img-help cursor-pointer">
+                            </div>
+                            
+                        </div>
+                        <div>
+                            <span>
+                                <p>Better with a team</p>
+                                <div class="seperator"></div>
+                            </span>
+                        </div>
+    
+                    </div>
+                    <div id="contactInfo"></div>
+                </div>
+               
+                <div class="responsive-contact-info-buttons">
+                </div>
+            </div>
+        </div>    
+        
+        <div id="newContactForm" class="newContactForm bg-blur" onclick="cancelCreateContact()">
+            <div class="new-contact-container aninmationTopDow" id="new-contact-container" onclick="event.stopPropagation()">
+                <div class="bg-main">
+                    <div class="join-contact-container">
+                        <img src="#" alt="">
+                    </div>
+                    <div class="join-contact-container">
+                        <h2>Add Contact</h2>
+                        <p>Tasks are better with a team!</p>
+                    </div>
+                </div>
+                <div class="bg-white">
+                    <div class="flex justify-end mt-8 media-cancel">
+                        <div class="cursor-pointer">
+                            <p onclick="cancelCreateContact()"><strong>X</strong></p>
+                        </div>
+                    </div>
+                    <div class="flex margin gap-24 items-center edit-container add-container">
+                        <div class="add-contact-info-img">
+                            <img src="#" alt="">
+                        </div>
+                        <div class="contact-inuptfield-container">
+                            <div class="input-container">
+                                <input type="text" id="newContactName" placeholder="Name">
+                                <img src="#" alt="">
+                            </div>
+                            <div class="input-container">
+                                <input type="email" id="newContactEmail" placeholder="Email">
+                                <img src="#" alt="">
+                            </div>
+                            <div class="input-container">
+                                <input type="tel" id="newContactPhone" placeholder="Phone">
+                                <img src="#" alt="">
+                            </div>
+                            <div class="new-contact-button-container">
+                                <div class="cancel cursor-pointer" onclick="cancelCreateContact()">
+                                    <button>Cancel</button>
+                                    <img src="#" alt="">
+                                </div>
+                                <div class="create btnGray" onclick="validateForm()">
+                                    <button>Create Contact</button>
+                                    <img src="#" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <div id="editContactForm" class="newContactForm d-none" onclick="cancelCreateContact()">
+            <div class="new-contact-container aninmation" id="new-contact-containerEdit" onclick="event.stopPropagation()">
+                <div class="bg-main">
+                    <div class="join-contact-container">
+                        <img src="#" alt="">
+                    </div>
+                    <div class="join-contact-container">
+                        <h2>Edit Contact</h2>
+                        <p class="border-bottom"></p>
+                    </div>
+                </div>
+                <div class="bg-white editContactWhiteDiv">
+                    <div class="flex justify-end mt-8 media-cancel">
+                        <div class="cursor-pointer">
+                            <p onclick="cancelCreateContact()"><strong>X</strong></p>
+                        </div>
+                    </div>
+                    <div class="editContactsInfo">
+                        <div class="editContactsInfoImg">
+                            <img src="#" alt="">
+                        </div>
+                        <div class="contact-inuptfield-container">
+                            <div class="input-container">
+                                <input type="text" id="editContactName" placeholder="Name">
+                                <img src="#" alt="">
+                            </div>
+                            <div class="input-container">
+                                <input type="email" id="editContactEmail" placeholder="Email">
+                                <img src="#" alt="">
+                            </div>
+                            <div class="input-container">
+                                <input type="tel" id="editContactPhone" placeholder="Phone">
+                                <img src="#" alt="">
+                            </div>
+                            <div class="new-contact-button-container" id="new-contact-button-container">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>    
+        <div id="contactInfoPopUp"></div>  
+    </div></main>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+
+    <link rel="stylesheet" href="../style/standard.css">
+    <link rel="stylesheet" href="../style/sideBar.css">
+    <link rel="stylesheet" href="../style/topBar.css">
+    <link rel="stylesheet" href="../style/addTask.css">
+
+    <script src="../scripts/addTask.js"></script>
+    <script src="../scripts/topBar.js"></script>
+    <script src="../scripts/sideBar.js"></script>
+
+    <link rel="icon" type="image/x-icon" href="../assets/img/Join-logo.png">
+
+</head>
+
+<body>
+
+    <div class="sideBar">
+
+        <img class="joinLogo" src="../assets/img/Join-logo.png" alt="JoinLogo">
+
+        <div class="menuPos">
+            <div class="navMenu">
+                <img src="../assets/img/summaryLogo.png" alt="summaryLogo">
+                <a href="../summary.html">Summary</a>
+            </div>
+            <div class="navMenu  active">
+                <img src="../assets/img/addTaskLogo.png" alt="summaryLogo">
+                <a href="./addTask.html">Add Task</a>
+            </div>
+            <div class="navMenu">
+                <img src="../assets/img/BoardLogo.png" alt="summaryLogo">
+                <a href="../board.html">Board</a>
+            </div>
+            <div class="navMenu">
+                <img src="../assets/img/contactsLogo.png" alt="summaryLogo">
+                <a href="../contacts.html">Contacts</a>
+            </div>
+        </div>
+
+
+        <div class="lawSection">
+            <a href="../privacyPolicy.html">Privacy Policy</a>
+            <a href="../legalNotice.html">Legal notice</a>
+        </div>
+    </div>
+
+
+
+
+    <div class="mainContent">
+        <div class="topBar">
+            <h3>Kanban Project Management Tool</h3>
+            <div class="profile">
+                <a href="../help.html" class="questions">?</a>
+                <p class="initials">SM</p>
+            </div>
+        </div>
+
+        <form class="addTask">
+            <div>
+                <h2>Add Task</h2>
+            </div>
+
+            <div class="inputSection">
+                <div class="inputLeft">
+                    <label for="title">Title<span class="required">*</span></label>
+                    <input type="text" placeholder="Enter a title" id="title" name="title" required>
+
+                    <label for="description">Description</label>
+                    <textarea placeholder="Enter a Discription" id="description" name="description"></textarea>
+
+                    <label for="contacts">Assigned to</label>
+                    <select name="contacts" id="contacts">
+                        <option value="" disabled selected hidden>Select contacts to assign</option>
+                        <option value="1">kontakt1</option>
+                        <option value="2">kontakt2</option>
+                        <option value="3">kontakt3</option>
+                        <option value="4">kontakt4</option>
+                    </select>
+                </div>
+
+                <div class="seperator">
+                </div>
+
+                <div class="inputRight">
+                    <label for="due-date">Due date<span class="required">*</span></label>
+                    <input type="date" id="due-date" name="due-date" required>
+
+                    <label for="prio">Prio</label>
+                    <select id="prio" name="prio">
+                        <option value="urgent">Urgent</option>
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                    </select>
+
+                    <label for="category">Category<span class="required">*</span></label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected hidden>Select task category</option>
+                        <option value="technical-task">Technical Task</option>
+                        <option value="user-story">User Story</option>
+                    </select>
+
+                    <label for="subtasks">Subtasks</label>
+                    <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
+                </div>
+            </div>
+
+            <div class="createAndClear">
+                <button id="resetButton" type="reset">Clear <span class="required">X</span></button>
+                <button id="createButton" type="submit">Create Task</button>
+            </div>
+
+        </form>
+    </div>
+</body>
+
+</html>

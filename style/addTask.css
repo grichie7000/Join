@@ -1,0 +1,76 @@
+h1 {
+    color: yellow;
+}
+
+body {
+    display: flex;
+}
+
+.mainContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.inputSection {
+    display: flex;
+    gap: 16px;
+}
+
+.addTask {
+    padding-left: 92px;
+    padding-right: 92px;
+    font-size: 20px;
+}
+
+.addTask h2 {
+    font-size: 72px;
+    padding-top: 92px;
+    padding-bottom: 46px;
+}
+
+.seperator {
+    height: 240px;
+    width: 2px;
+    background-color: grey;
+}
+
+.inputLeft {
+    display: flex;
+    flex-direction: column;
+}
+
+.addTask input,
+textarea,
+select {
+    font-size: 20px;
+    font-weight: 400;
+    width: 440px;
+    border: 1px solid gray;
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 8px;
+}
+
+#description{
+    height: 168px;
+}
+
+.inputRight {
+    display: flex;
+    flex-direction: column;
+}
+
+.inputSection label {
+    padding-top: 32px;
+}
+
+.addTask button{
+    font-size: 20px;
+    padding: 8px;
+}
+
+.required{
+    color: red;
+}
