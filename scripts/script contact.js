@@ -377,3 +377,21 @@ async function saveContacts(contacts) {
         body: JSON.stringify(contacts),
     });
 }
+
+
+
+function displayContactInfo(name, email, phone, additionalInfo = "") {
+    // Setze die Daten des Kontakts im Modal
+    document.getElementById("contactName").textContent = name;
+    document.getElementById("contactEmail").textContent = email;
+    document.getElementById("contactPhone").textContent = phone;
+    document.getElementById("contactAdditionalInfo").textContent = additionalInfo;
+
+    // Zeige das Modal an
+    document.getElementById("contactInfoPopUp").style.display = 'flex';
+}
+
+function closeContactInfo() {
+    // Schließe das Modal
+    document.getElementById("contactInfoPopUp").style.display = 'none';
+}

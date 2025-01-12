@@ -71,12 +71,12 @@
                     <button class="btnGray" onclick="renderAddContactForm()"><p>Add new contact</p> <img src="./assets/img/person_add.png" alt=""></button>
                 </div>
                 <div class="showContacts" id="showContacts"><div class="contact-letter-section"><h2 class="letter-border">A</h2>
-            <div class="contact-item" onclick="displayContactInfo('Asterix', 'asterix@gallier.fr', '012345678', 'A', '#06ECF6')">
-                <div class="initials" style="background-color: #06ECF6;">A</div>
-                <div>
-                    <p><strong></strong><br></p><p class="email"></p>
-                </div>
-            </div>
+           <div class="contact-item" onclick="displayContactInfo('Asterix', 'asterix@gallier.fr', '012345678', 'A', '#06ECF6')">
+    <div class="initials" style="background-color: #06ECF6;">A</div>
+    <div>
+        <p><strong>Asterix</strong><br></p><p class="email">asterix@gallier.fr</p>
+    </div>
+</div>
         </div>
 	   
 		
@@ -112,7 +112,7 @@
             <div class="contact-item" onclick="displayContactInfo('Obelix', 'obelix@gallier.fr', '012345678', 'O', '#B86581')">
                 <div class="initials" style="background-color: #B86581;">OG</div>
                 <div>
-                    <p><strong>Obelix</strong><br></p><p class="email"></p>
+                    <p><strong>Obelix</strong><br></p><p class="email">welcherdicke@gallier.fr</p>
                 </div>
             </div>
         </div>     
@@ -214,8 +214,17 @@
                 </div>
             </div>
         </div>    
-        <div id="contactInfoPopUp"></div>  
+        <div id="contactInfoPopUp" class="contact-info-popup d-none">
+    <div class="popup-content">
+        <button class="close-popup" onclick="closeContactInfo()">X</button>
+        <h2 id="contactName"></h2>
+        <p id="contactEmail"></p>
+        <p id="contactPhone"></p>
+        <p id="contactAdditionalInfo"></p>
     </div>
+</div>
+</div>  
+</div>
 </main>
 </body>
 </html>
