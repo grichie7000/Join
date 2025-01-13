@@ -146,15 +146,15 @@
                         <div class="contact-inuptfield-container">
                             <div class="input-container">
                                 <input type="text" id="newContactName" placeholder="Name">
-                                <img src="#" alt="">
+                                <img src="./assets/img/person.png" alt="">
                             </div>
                             <div class="input-container">
                                 <input type="email" id="newContactEmail" placeholder="Email">
-                                <img src="#" alt="">
+                                <img src="./assets/img/mail.svg" alt="">
                             </div>
                             <div class="input-container">
                                 <input type="tel" id="newContactPhone" placeholder="Phone">
-                                <img src="#" alt="">
+                                <img src="./assets/img/call.png" alt="">
                             </div>
                             <div class="new-contact-button-container">
                                 <div class="cancel cursor-pointer" onclick="cancelCreateContact()">
@@ -224,8 +224,19 @@
 
         <!-- Buttons für Bearbeiten und Löschen -->
         <div class="contact-actions">
-            <button class="edit-btn" onclick="openEditContactForm()">Edit</button>
-            <button class="delete-btn" onclick="deleteContact()">Delete</button>
+		<button class="edit-btn" onclick="openEditContactForm()">
+			<img src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
+			Edit
+			</button>            
+			<button class="delete-btn" onclick="deleteContact()">
+		<img src="./assets/img/delete.png" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
+			Delete
+		</button>
+			<div class="responsive-contact-button-Div" id="responsive-contact-buttons">
+                <button class="flex" onclick="editContact('')"><img src="#" alt=""> Edit</button>
+                <button class="flex" onclick="deleteContact('')"><img src="#" alt=""> Delete</button>
+				
+                </div>
         </div>
     </div>
 	</div>

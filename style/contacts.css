@@ -9,6 +9,7 @@
 
 body {
 	display: flex;
+	overflow-y: hidden;
 }
 
 .btnGray {
@@ -18,6 +19,18 @@ body {
     color: white;
     border: none;
     padding: 16px;
+}
+
+.btnGray:hover {
+  cursor: pointer;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+button {
+	cursor: pointer;
 }
 
 .showContacts {
@@ -304,12 +317,14 @@ body {
     padding: 24px;
     height: 100%;
     border-radius: 8px;
+	background-color: red;
 }
 
 .create{
     display: flex;
     gap: 8px;
     height: 57px;
+	background-color: green;
 }
 
 .margin{
@@ -428,9 +443,7 @@ body {
     border: none;
     font-size: 20px;
     cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 10px;
+   
 }
 
 .contact-actions {
