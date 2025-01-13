@@ -21,6 +21,10 @@ body {
     padding: 16px;
 }
 
+.innerCreate {
+	background-color: #90EE90;
+}
+
 .btnGray:hover {
   cursor: pointer;
 }
@@ -307,6 +311,7 @@ button {
     align-items: center;
     height: 57px;
     gap: 40px;
+	padding-top: 40px;
 }
 .cancel{
     display: flex;
