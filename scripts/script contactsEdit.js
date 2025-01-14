@@ -36,18 +36,6 @@ function openEditContactForm(contactEmail) {
     closeContactInfo();
 }
 
-function openEditContactForm(contactEmail) {
-    const contacts = await fetchContacts();
-    if (!contacts) return;
-
-    const foundContact = findContactByEmail(contacts, contactEmail);
-    if (!foundContact) return;
-
-    populateEditForm(foundContact);
-    setupEditFormOverlay(foundContact, contactEmail);
-    handleEditFormAnimation(); // Animation für die Anzeige des Formulars
-}
-
 
 function handleEditFormAnimation() {
     const editForm = document.getElementById("new-contact-containerEdit");
