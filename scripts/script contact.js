@@ -1,3 +1,52 @@
+const BASE_URL = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
+let UsersAmountViaId = 0;
+let currentTime = new Date()
+let currentDraggedId;
+let toDoTaskCount = 0;
+let awaitFeedbackTaskCount = 0;
+let doneTaskCount = 0;
+let inProgressTaskCount = 0;
+let urgentAmount = 0;
+let urgentAmountDeadlines = [];
+let nextDeadline = "";
+let mailIsUsed = false;
+let isGuestAccount = false;
+accountExists = false;
+let newAssigned = "";
+let newAssignedBgColor = "";
+let newPrio = "";
+let newCategory = "";
+let newTaskData = {};
+
+/**
+ * Initializes the task creation process by clearing the input fields.
+ * @function stopEventBubbling
+ * 
+ */
+function stopEventBubbling(event) {
+    event.stopPropagation()
+}
+
+
+
+/**
+ * Generates and appends HTML for each contact group based on the first letter of the contact names.
+ * @function loadContactsSecondFunction
+ * @param {string} letter - The first letter of the contact group.
+ * @param {Array} contactsForLetter - The contacts under the specific letter group.
+ * @param {HTMLElement} contactContainer - The container element where contacts will be displayed.
+ * @returns {void}
+ */
+function loadContactsSecondFunction(letter, contactsForLetter, contactContainer) {
+    let letterHTML = `<div class="contact-letter-section"><h2 class="letter-border">${letter}</h2>`;  
+    for (let j = 0; j < contactsForLetter.length; j++) {
+        const contact = contactsForLetter[j];
+        const initials = getInitials(contact.name);
+        letterHTML += getLoadContactTemplate(contact, initials);
+    }
+    letterHTML += '</div>';
+    contactContainer.innerHTML += letterHTML;
+}
 
 
 /**
@@ -47,6 +96,24 @@ function cancelCreateContact() {
  * @function createContact
  * @returns {Promise<void>}
  */
+async function createContact() {
+    const name = getName();
+    const email = getEmail();
+    const phone = getPhone();
+    const bgColor = getRandomColor();
+    if (!isValidForm(name, email, phone)) return;
+    const contact = createContactObject(name, email, phone, bgColor);
+    const firstLetter = getFirstLetter(name);
+    try {
+        const contacts = await fetchContacts();
+        await saveContact(firstLetter, contacts, contact);
+        resetForm();
+        await loadContacts();
+        cancelCreateContact();
+    } catch (error) {
+        console.error("Error while adding the contact:", error);
+    }
+}
 
 function getName() {
     return document.getElementById("newContactName").value;
@@ -102,6 +169,7 @@ function resetForm() {
 }
 
 
+
 /**
  * Retrieves the initials of a contact's name.
  * @function getInitials
@@ -119,6 +187,21 @@ function getInitials(name) {
     }
     return initials.toUpperCase();
 }
+
+/**
+ * Generates a random color in hexadecimal format.
+ * @function getRandomColor
+ * @returns {string} A random hex color code.
+ */
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
 
 
 /**
@@ -199,6 +282,7 @@ function modifyContacts(contacts, updatedContact, oldLetter, newLetter, currentE
     addToNewGroup(contacts, newLetter, updatedContact);
 }
 
+
 /**
  * Removes a contact from its old letter group.
  * @function removeFromOldGroup
@@ -245,6 +329,7 @@ async function deleteContact(contactEmail) {
             break;
         }
     }
+   
 }
 
 async function addNewContactContainer() {
@@ -252,14 +337,6 @@ async function addNewContactContainer() {
     await new Promise(r => setTimeout(r, 2000));
     loadPage('contacts');
 }
-
-
-
-function showOtherButtons() {
-    document.getElementById("responsive-contact-buttons").classList.toggle("d-none")
-}
-
-
 
 
 function displayContactInfo(name, email, phone, additionalInfo = "") {
@@ -278,8 +355,6 @@ function closeContactInfo() {
     document.getElementById("contactInfoPopUp").style.display = 'none';
 }
 
-
-
 function deleteContact() {
     // In einer echten App würde hier ein Löschbefehl an die Datenbank/Server gesendet werden
     alert("Kontakt gelöscht");
@@ -290,7 +365,6 @@ function deleteContact() {
     // Du könntest hier auch die visuelle Darstellung des Kontakts aus der Liste entfernen
     // Zum Beispiel, indem du das betreffende Element aus dem DOM entfernst.
 }
-
 
 function saveContactChanges() {
     const name = document.getElementById("editContactName").value;
