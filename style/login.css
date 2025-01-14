@@ -1,6 +1,9 @@
 body {
     background-color: rgb(246, 247, 248);
     font-family: 'Figtree', serif;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden; 
 }
 
 header {
@@ -12,9 +15,14 @@ header {
 
 
 .header-right-content {
+    position: absolute;
+    top: 50px;
+    right: 50px;
     display: flex;
     align-items: center;
     gap: 20px;
+    opacity: 0; /* Anfangs unsichtbar */
+    transition: opacity 1s ease-in-out; /* Einblend-Effekt */
 }
 
 .login-container {
@@ -22,8 +30,10 @@ header {
     height: 449px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: 40px auto 0px;
+    margin: 180px auto 0px;
     border-radius: 30px;
+    opacity: 0; 
+    transition: opacity 1s ease-in-out; 
 }
 
 .headline-container {
@@ -64,6 +74,11 @@ input {
     cursor: pointer;
 }
 
+input:focus {
+    border-color: rgb(41, 171, 226);
+    border-width: 2px;
+}
+
 .input-container {
     display: flex;
     flex-direction: column;
@@ -90,10 +105,16 @@ input {
     height: 15px;
 }
 
+.checkbox {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    gap: 7px;
+}
+
 .login-buttons {
     display: flex;
     justify-content: center;
-    align-items: center;
     margin-top: 60px;
     gap: 50px;
 }
@@ -185,12 +206,6 @@ input {
     transform: scale(1.01) translateZ(10px);
 }
 
-.checkbox {
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
-}
-
 .accept-policy{
     text-decoration: none;
     color: #29aae28e;
@@ -208,4 +223,39 @@ input {
     text-align: center;
     padding: 10px;
 }
+
+.logo-header-container{
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+.logo-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(4);
+    animation: LogoAnimate 0.9s 0.5s forwards ease-in-out; /* 0.5s Verzögerung */
+    height: auto;
+    z-index: 1;
+}
+
+@keyframes LogoAnimate {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(4); /* Start-Position und -Größe */
+    }
+    100% {
+        top: 0;
+        left: 0;
+        transform: translate(0, 0) scale(1); /* End-Position (obere linke Ecke) und -Größe */
+    }
+}
+
+
+.show-content {
+    opacity: 1; 
+}
+
+
 

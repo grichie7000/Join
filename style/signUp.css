@@ -7,7 +7,7 @@ header {
     display: flex;
     justify-content: space-between;
     margin-top: 20px;
-    padding: 0 20px
+    padding: 0 12px
 }
 
 .headline-container {
@@ -78,6 +78,11 @@ input {
     padding-left: 16px;
     outline: none;
     cursor: pointer;
+}
+
+input:focus {
+    border-color: rgb(41, 171, 226);
+    border-width: 2px;
 }
 
 .error-message {
@@ -159,6 +164,7 @@ input {
     display: flex;
     justify-content: center;
     margin-top: 25px;
+    gap: 7px;
 }
 
 .accept-policy {
