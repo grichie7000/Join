@@ -14,57 +14,62 @@ const firebaseConfig = {
 };
 
 // Firebase initialisieren
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const db = getDatabase(initializeApp(firebaseConfig));
 
-// Login-Formular-Eventlistener
-document.getElementById("loginForm").addEventListener("submit", async (e) => {
+// Validierungsfunktionen
+function validateInput(email, password) {
+    const emailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
+    const passwordValid = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+    return emailValid && passwordValid;
+}
+
+// Gespeicherte Benutzer und Vorschläge
+function manageLocalUsers(email, password, populate = false) {
+    const users = JSON.parse(localStorage.getItem("savedUsers")) || [];
+    if (populate) {
+        document.getElementById("emailSuggestions").innerHTML = users.map(u => `<option value="${u.email}"></option>`).join("");
+        const user = users.find(u => u.email === email);
+        document.getElementById("password").value = user ? user.password : "";
+    } else if (!users.some(u => u.email === email)) {
+        users.push({ email, password });
+        localStorage.setItem("savedUsers", JSON.stringify(users));
+    }
+}
+
+// Benutzeranmeldung
+async function handleLogin(email, password) {
+    const snapshot = await get(child(ref(db), `users`));
+    if (!snapshot.exists()) return false;
+    return Object.values(snapshot.val()).some(user => user.email === email && user.password === password);
+}
+
+// Eventlistener
+document.getElementById("loginForm").addEventListener("submit", function (e) {
     e.preventDefault();
-
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const errorMessage = document.getElementById("error-message");
 
-    // Validierung: E-Mail-Format prüfen
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailRegex.test(email)) {
-        errorMessage.textContent = "Bitte eine gültige E-Mail-Adresse eingeben!";
+    if (!validateInput(email, password)) {
+        errorMessage.textContent = "Ungültige Eingaben!";
         return;
     }
 
-    // Validierung: Passwort prüfen (mindestens 8 Zeichen, ein Großbuchstabe, eine Zahl)
-    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/;
-    if (!passwordRegex.test(password)) {
-        errorMessage.textContent = "Das Passwort ist nicht korrekt!";
-        return;
-    }
-
-    try {
-        // Abrufen der Benutzerdaten aus Firebase
-        const dbRef = ref(db);
-        const snapshot = await get(child(dbRef, `users`));
-
-        if (snapshot.exists()) {
-            const users = snapshot.val();
-            let userFound = false;
-
-            // Überprüfung, ob die E-Mail und das Passwort in der Datenbank existieren
-            for (const userId in users) {
-                const user = users[userId];
-                if (user.email === email && user.password === password) {
-                    userFound = true;
-                    break;
-                }
-            }
-
-            if (userFound) {
-                alert("Login erfolgreich!");
-                window.location.href = "board.html"; // Weiterleitung zur Board-Seite
-            } else {
-                errorMessage.textContent = "E-Mail oder Passwort ist nicht korrekt!";
-            }
+    handleLogin(email, password).then(function (success) {
+        if (success) {
+            manageLocalUsers(email, password);
+            alert("Login erfolgreich!");
+            window.location.href = "contacts.html";
+        } else {
+            errorMessage.textContent = "E-Mail oder Passwort ist nicht korrekt!";
         }
-    } catch (error) {
-        errorMessage.textContent = "Fehler beim Zugriff auf die Datenbank: " + error.message;
-    }
+    }).catch(error => errorMessage.textContent = "Fehler: " + error.message);
+});
+
+document.getElementById("email").addEventListener("focus", function () {
+    manageLocalUsers("", "", true);
+});
+
+document.getElementById("email").addEventListener("input", function (e) {
+    manageLocalUsers(e.target.value, "", true);
 });
