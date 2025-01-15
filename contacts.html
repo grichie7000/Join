@@ -227,6 +227,28 @@
         <p id="contactPhone"></p>
         <p id="contactAdditionalInfo"></p>
 
+<!-- Popup für die Kontaktinformationen -->
+<!-- Popup für die Kontaktinformationen -->
+<div id="contactInfoPopUp" class="contact-info-popup d-none">
+    <div class="popup-content">
+        <h3>Contact Details</h3>
+        <div id="contactName"></div>
+        <div id="contactEmail"></div>
+        <div id="contactPhone"></div>
+        <div id="contactAdditionalInfo"></div>
+
+        <!-- Editierbares Formular -->
+        <form id="editContactForm" onsubmit="saveContactChanges(event)">
+            <input type="text" id="editName" placeholder="Name" required>
+            <input type="email" id="editEmail" placeholder="Email" required>
+            <input type="tel" id="editPhone" placeholder="Phone" required>
+            <button type="submit">Save Changes</button>
+        </form>
+
+        <button onclick="closeContactInfo()">X</button>
+    </div>
+</div>
+
         <!-- Buttons für Bearbeiten und Löschen -->
         <div class="contact-actions">
 		<button class="edit-btn" onclick="editContact(contactEmail)">
