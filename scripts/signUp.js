@@ -23,50 +23,11 @@ function validateInput(email, password, repeatPassword) {
     return "";
 }
 
-const passwordInput = document.getElementById('password');
-
-// Überwachen, ob der Benutzer etwas ins Feld schreibt
-passwordInput.addEventListener('input', () => {
-    if (passwordInput.value) {
-        // Wenn das Feld nicht leer ist, auf "hide"-Icon umschalten
-        passwordInput.classList.remove('input-with-eye-icon');
-        passwordInput.classList.add('input-with-eye-icon-active');
-    } else {
-        // Wenn das Feld leer wird, auf das Standard-Icon zurückschalten
-        passwordInput.classList.remove('input-with-eye-icon-active');
-        passwordInput.classList.remove('input-with-eye-icon-clicked');
-        passwordInput.classList.add('input-with-eye-icon');
-    }
-});
-
-// Überwachen, ob auf das Icon geklickt wird
-passwordInput.addEventListener('click', (event) => {
-    const inputWidth = passwordInput.offsetWidth;
-    const clickX = event.offsetX;
-
-    // Prüfen, ob der Klick auf den Icon-Bereich erfolgt (rechter Bereich des Inputs)
-    if (clickX >= inputWidth - 40 && passwordInput.value) {
-        if (passwordInput.classList.contains('input-with-eye-icon-active')) {
-            // Von "hide" zu "eye" wechseln und Passwort sichtbar machen
-            passwordInput.type = 'text';
-            passwordInput.classList.remove('input-with-eye-icon-active');
-            passwordInput.classList.add('input-with-eye-icon-clicked');
-        } else if (passwordInput.classList.contains('input-with-eye-icon-clicked')) {
-            // Von "eye" zu "hide" wechseln und Passwort wieder verbergen
-            passwordInput.type = 'password';
-            passwordInput.classList.remove('input-with-eye-icon-clicked');
-            passwordInput.classList.add('input-with-eye-icon-active');
-        }
-    }
-});
-
-// Daten speichern
 function saveUser(name, email, password) {
     const userId = Date.now();
     return set(ref(db, "users/" + userId), { name, email, password });
 }
 
-// E-Mail prüfen und Benutzer registrieren
 function checkAndRegister(name, email, password, errorMessage) {
     get(child(ref(db), "users")).then(snapshot => {
         const emailExists = snapshot.exists() && Object.values(snapshot.val()).some(user => user.email === email);
@@ -79,9 +40,8 @@ function checkAndRegister(name, email, password, errorMessage) {
     }).catch(error => errorMessage.textContent = error.message);
 }
 
-// Eventlistener für Formular
-document.getElementById("form").addEventListener("submit", function (e) {
-    e.preventDefault();
+document.getElementById("form").addEventListener("submit", function (event) {
+    event.preventDefault();
 
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -94,5 +54,103 @@ document.getElementById("form").addEventListener("submit", function (e) {
         errorMessage.textContent = validationError;
     } else {
         checkAndRegister(name, email, password, errorMessage);
+    }
+});
+
+const passwordInput = document.getElementById('password');
+
+function setActiveIcon() {
+    passwordInput.classList.remove('input-with-eye-icon');
+    passwordInput.classList.add('input-with-eye-icon-active');
+}
+
+function resetIcon() {
+    passwordInput.classList.remove('input-with-eye-icon-active');
+    passwordInput.classList.remove('input-with-eye-icon-clicked');
+    passwordInput.classList.add('input-with-eye-icon');
+}
+
+passwordInput.addEventListener('input', () => {
+    if (passwordInput.value) {
+        setActiveIcon();
+    } else {
+        resetIcon(); 
+    }
+});
+
+function togglePassword() {
+    const isActive = passwordInput.classList.contains('input-with-eye-icon-active');
+
+    if (isActive) {
+        passwordInput.type = 'text'; // Passwort sichtbar machen
+        passwordInput.classList.remove('input-with-eye-icon-active');
+        passwordInput.classList.add('input-with-eye-icon-clicked');
+    } else {
+        passwordInput.type = 'password'; // Passwort unsichtbar machen
+        passwordInput.classList.remove('input-with-eye-icon-clicked');
+        passwordInput.classList.add('input-with-eye-icon-active');
+    }
+}
+
+// Funktion zur Überprüfung, ob der Klick im Icon-Bereich des Passwortfelds war
+function clickOnIconArea(event) {
+    const inputWidth = passwordInput.offsetWidth;
+    const clickX = event.offsetX;
+
+    return clickX >= inputWidth - 40 && passwordInput.value;
+}
+
+passwordInput.addEventListener('click', (event) => {
+    if (clickOnIconArea(event)) {
+        togglePassword();
+    }
+});
+
+const repeatPasswordInput = document.getElementById('repeat-password');
+
+function RepeatPasswordIcon() {
+    repeatPasswordInput.classList.remove('input-with-eye-icon');
+    repeatPasswordInput.classList.add('input-with-eye-icon-active');
+}
+
+function resetRepeatPasswordIcon() {
+    repeatPasswordInput.classList.remove('input-with-eye-icon-active');
+    repeatPasswordInput.classList.remove('input-with-eye-icon-clicked');
+    repeatPasswordInput.classList.add('input-with-eye-icon');
+}
+
+repeatPasswordInput.addEventListener('input', () => {
+    if (repeatPasswordInput.value) {
+        RepeatPasswordIcon();
+    } else {
+        resetRepeatPasswordIcon(); 
+    }
+});
+
+function toggleRepeatPassword() {
+    const isActive = repeatPasswordInput.classList.contains('input-with-eye-icon-active');
+
+    if (isActive) {
+        repeatPasswordInput.type = 'text'; // Passwort sichtbar machen
+        repeatPasswordInput.classList.remove('input-with-eye-icon-active');
+        repeatPasswordInput.classList.add('input-with-eye-icon-clicked');
+    } else {
+        repeatPasswordInput.type = 'password'; // Passwort unsichtbar machen
+        repeatPasswordInput.classList.remove('input-with-eye-icon-clicked');
+        repeatPasswordInput.classList.add('input-with-eye-icon-active');
+    }
+}
+
+// Funktion zur Überprüfung, ob der Klick im Icon-Bereich des Passwortfelds war
+function clickOnRepeatPasswordIconArea(event) {
+    const inputWidth = repeatPasswordInput.offsetWidth;
+    const clickX = event.offsetX;
+
+    return clickX >= inputWidth - 40 && repeatPasswordInput.value;
+}
+
+repeatPasswordInput.addEventListener('click', (event) => {
+    if (clickOnRepeatPasswordIconArea(event)) {
+        toggleRepeatPassword();
     }
 });
