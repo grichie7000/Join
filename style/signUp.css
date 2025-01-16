@@ -118,6 +118,23 @@ input:focus {
 .input-with-eye-icon {
     background: url('../assets/img/lock-password.png') no-repeat right 16px center;
     background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-active {
+    background: url('../assets/img/hide.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-clicked {
+    background: url('../assets/img/eye.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
     font-size: 15px;
     cursor: pointer;
 }

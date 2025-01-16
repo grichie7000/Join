@@ -32,8 +32,8 @@ header {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
     margin: 180px auto 0px;
     border-radius: 30px;
-    opacity: 0; 
-    transition: opacity 1s ease-in-out; 
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; 
 }
 
 .headline-container {
@@ -92,12 +92,29 @@ input:focus {
     background-size: 20px;
     font-size: 15px;
 }
-
+  
 .input-with-eye-icon {
     background: url('../assets/img/lock-password.png') no-repeat right 16px center;
     background-size: 20px;
-    cursor: pointer;
+    padding-right: 40px;
     font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-active {
+    background: url('../assets/img/hide.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-clicked {
+    background: url('../assets/img/eye.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
 }
 
 .checkbox-input {
@@ -157,10 +174,11 @@ input:focus {
     color: white;
     cursor: pointer;
     font-weight: 700;
-    padding: 10px 20px;
+    padding: 10px 12px;
     border-radius: 5px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-decoration: none;
+    font-size: 14px;
 }
 
 .signUp-container {
@@ -234,7 +252,7 @@ input:focus {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(4);
-    animation: LogoAnimate 0.9s 0.5s forwards ease-in-out; /* 0.5s Verzögerung */
+    animation: LogoAnimate 0.5s 0.2s forwards ease-in-out; 
     height: auto;
     z-index: 1;
 }
