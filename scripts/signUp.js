@@ -60,7 +60,6 @@ passwordInput.addEventListener('click', (event) => {
     }
 });
 
-
 // Daten speichern
 function saveUser(name, email, password) {
     const userId = Date.now();
