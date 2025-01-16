@@ -12,6 +12,10 @@ body {
 	overflow-y: hidden;
 }
 
+.d-flex {
+	display: flex;
+}
+
 .btnGray {
     background-color: #2A3647;
     border-radius: 10px;
@@ -478,4 +482,8 @@ button {
 
 .contact-actions button:hover {
     opacity: 0.8;
+}
+
+.d-flex {
+	display: flex;
 }

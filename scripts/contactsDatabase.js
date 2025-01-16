@@ -171,7 +171,8 @@ function displayContactInfo(contact) {
     currentContact = contact;
 
     // Display the popup
-    popup.classList.remove('d-none');
+    popup.classList.remove('d-none')
+	popup.classList.add('d-flex');
 }
 
 // Function to close contact info popup
