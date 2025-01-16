@@ -7,5 +7,5 @@ function loadBody() {
         const loginForm = document.getElementById('loginForm');
         headerContent.classList.add('show-content');
         loginForm.classList.add('show-content');
-    }, 1000); 
+    }, 300); 
 }
