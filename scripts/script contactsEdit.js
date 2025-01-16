@@ -1,3 +1,4 @@
+
 /**
  * Edits an existing contact's information.
  * @async
@@ -147,6 +148,7 @@ async function saveContacts(contacts) {
         body: JSON.stringify(contacts),
     });
 }
+
 
 /**
  * Finalizes the contact editing process by hiding the edit form and reloading the contacts.

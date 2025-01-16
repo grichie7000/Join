@@ -229,8 +229,8 @@
 
 <!-- Popup für die Kontaktinformationen -->
 <!-- Popup für die Kontaktinformationen -->
-<div id="contactInfoPopUp" class="contact-info-popup d-none">
-    <div class="popup-content">
+<div id="editPopUp" class="edit-popup d-none">
+    <div class="edit-content">
         <h3>Contact Details</h3>
         <div id="contactName"></div>
         <div id="contactEmail"></div>
@@ -251,7 +251,7 @@
 
         <!-- Buttons für Bearbeiten und Löschen -->
         <div class="contact-actions">
-		<button class="edit-btn" onclick="editContact(contactEmail)">
+		<button class="edit-btn" onclick="displayEditPopup(contactEmail)">
 			<img src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
 			Edit
 			</button>            

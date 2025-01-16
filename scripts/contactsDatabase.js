@@ -73,6 +73,8 @@ function renderContacts() {
     });
 }
 
+
+
 // Funktion zum Anzeigen der Kontaktinformationen im Popup
 function displayContactInfo(contact) {
     const popup = document.getElementById('contactInfoPopUp');
@@ -88,8 +90,39 @@ function displayContactInfo(contact) {
     document.getElementById('editEmail').value = contact.email;
     document.getElementById('editPhone').value = contact.phone;
 
-    // Klasse 'visible' hinzufügen, um Popup anzuzeigen
-    popup.classList.add('visible');
+    // Setze den aktuellen Kontakt, der bearbeitet wird
+    currentContact = contact;
+
+    // Popup anzeigen, indem d-none entfernt und d-flex hinzugefügt wird
+    popup.classList.remove('d-none');
+    popup.classList.add('d-flex');
+}
+
+// Funktion zum Schließen des Popups
+function closeContactInfo() {
+    const popup = document.getElementById('contactInfoPopUp');
+    popup.classList.add('d-none'); // Popup ausblenden
+    popup.classList.remove('d-flex'); // d-flex entfernen, um es auszublenden
+}
+
+// Funktion zum Speichern der Änderungen
+function saveContactChanges(event) {
+    event.preventDefault();
+
+    const newName = document.getElementById('editName').value;
+    const newEmail = document.getElementById('editEmail').value;
+    const newPhone = document.getElementById('editPhone').value;
+
+    // Aktualisiere den Kontakt in der Datenbank
+    if (currentContact) {
+        currentContact.name = newName;
+        currentContact.email = newEmail;
+        currentContact.phone = newPhone;
+    }
+    renderContacts();
+
+    // Schließe das Popup nach dem Speichern der Änderungen
+    closeContactInfo();
 }
 
 // Funktion zum Schließen des Popups
@@ -105,12 +138,6 @@ window.onload = function() {
 
 // Function to display contact information in a popup
 
-
-// Function to close contact info popup
-function closeContactInfo() {
-    const popup = document.getElementById('contactInfoPopUp');
-    popup.classList.remove('visible'); // Hide the popup by removing the "visible" class
-}
 
 
 // Store the contact being edited
@@ -154,6 +181,12 @@ function renderContacts() {
     });
 }
 
+// Diese Funktion wird aufgerufen, um das Editier-Popup zu schließen
+function closeEditPopup() {
+    document.getElementById("editPopUp").classList.add("d-none");
+    document.getElementById("editPopUp").classList.remove("d-flex");
+}
+
 // Function to display contact information in a popup
 function displayContactInfo(contact) {
     const popup = document.getElementById('contactInfoPopUp');
@@ -175,11 +208,27 @@ function displayContactInfo(contact) {
 	popup.classList.add('d-flex');
 }
 
+// Diese Funktion wird aufgerufen, wenn auf den Editier-Button geklickt wird
+function displayEditPopup(contact) {
+    // Setze die Eingabefelder im Editier-Popup mit den Kontaktinformationen
+    document.getElementById('contactName').innerText = contact.name;
+    document.getElementById('contactEmail').innerText = contact.email;
+    document.getElementById('contactPhone').innerText = contact.phone;
+
+    // Setze den Hintergrund des Popups (falls gewünscht)
+
+    // Zeige das Editier-Popup an, indem die d-none-Klasse entfernt und d-flex hinzugefügt wird
+    document.getElementById("editPopUp").classList.remove("d-none");
+    document.getElementById("editPopUp").classList.add("d-flex");
+}
+
+
 // Function to close contact info popup
 function closeContactInfo() {
-    const popup = document.getElementById('contactInfoPopUp');
+    const popup = document.getElementById('editPopUp');
     popup.classList.add('d-none');
 }
+
 
 // Function to save the edited contact
 function saveContactChanges(event) {
