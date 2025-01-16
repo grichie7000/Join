@@ -99,7 +99,7 @@ function displayContactInfo(contact) {
 }
 
 // Funktion zum Schließen des Popups
-function closeContactInfo() {
+function closeContactDetails() {
     const popup = document.getElementById('contactInfoPopUp');
     popup.classList.add('d-none'); // Popup ausblenden
     popup.classList.remove('d-flex'); // d-flex entfernen, um es auszublenden
@@ -227,7 +227,17 @@ function displayEditPopup(contact) {
 function closeContactInfo() {
     const popup = document.getElementById('editPopUp');
     popup.classList.add('d-none');
+	 popup.classList.remove('d-flex')
 }
+
+
+// Function to close contact info popup
+function closeContactDetails() {
+    const popup1 = document.getElementById('contactInfoPopUp');
+    popup1.classList.add('d-none');
+	 popup1.classList.remove('d-flex')
+}
+
 
 
 // Function to save the edited contact
