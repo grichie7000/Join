@@ -23,6 +23,43 @@ function validateInput(email, password, repeatPassword) {
     return "";
 }
 
+const passwordInput = document.getElementById('password');
+
+// Überwachen, ob der Benutzer etwas ins Feld schreibt
+passwordInput.addEventListener('input', () => {
+    if (passwordInput.value) {
+        // Wenn das Feld nicht leer ist, auf "hide"-Icon umschalten
+        passwordInput.classList.remove('input-with-eye-icon');
+        passwordInput.classList.add('input-with-eye-icon-active');
+    } else {
+        // Wenn das Feld leer wird, auf das Standard-Icon zurückschalten
+        passwordInput.classList.remove('input-with-eye-icon-active');
+        passwordInput.classList.remove('input-with-eye-icon-clicked');
+        passwordInput.classList.add('input-with-eye-icon');
+    }
+});
+
+// Überwachen, ob auf das Icon geklickt wird
+passwordInput.addEventListener('click', (event) => {
+    const inputWidth = passwordInput.offsetWidth;
+    const clickX = event.offsetX;
+
+    // Prüfen, ob der Klick auf den Icon-Bereich erfolgt (rechter Bereich des Inputs)
+    if (clickX >= inputWidth - 40 && passwordInput.value) {
+        if (passwordInput.classList.contains('input-with-eye-icon-active')) {
+            // Von "hide" zu "eye" wechseln und Passwort sichtbar machen
+            passwordInput.type = 'text';
+            passwordInput.classList.remove('input-with-eye-icon-active');
+            passwordInput.classList.add('input-with-eye-icon-clicked');
+        } else if (passwordInput.classList.contains('input-with-eye-icon-clicked')) {
+            // Von "eye" zu "hide" wechseln und Passwort wieder verbergen
+            passwordInput.type = 'password';
+            passwordInput.classList.remove('input-with-eye-icon-clicked');
+            passwordInput.classList.add('input-with-eye-icon-active');
+        }
+    }
+});
+
 // Daten speichern
 function saveUser(name, email, password) {
     const userId = Date.now();

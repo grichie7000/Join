@@ -23,6 +23,35 @@ function validateInput(email, password) {
     return emailValid && passwordValid;
 }
 
+const passwordInput = document.getElementById('password');
+
+function updateInputIcon() {
+    if (passwordInput.value) {
+        passwordInput.classList.remove('input-with-eye-icon');
+        passwordInput.classList.add('input-with-eye-icon-active');
+    } else {
+        passwordInput.classList.remove('input-with-eye-icon-active', 'input-with-eye-icon-clicked');
+        passwordInput.classList.add('input-with-eye-icon');
+    }
+}
+
+function togglePassword(event) {
+    const clickX = event.offsetX;
+    const iconArea = passwordInput.offsetWidth - 40;
+
+    if (clickX >= iconArea && passwordInput.value) {
+        const isActive = passwordInput.classList.contains('input-with-eye-icon-active');
+        if (isActive) {passwordInput.type = 'text';} 
+        else {passwordInput.type = 'password';}        
+        passwordInput.classList.toggle('input-with-eye-icon-active', !isActive);
+        passwordInput.classList.toggle('input-with-eye-icon-clicked', isActive);
+    }
+}
+
+passwordInput.addEventListener('input', updateInputIcon);
+passwordInput.addEventListener('click', togglePassword);
+
+
 // Gespeicherte Benutzer und Vorschläge
 function manageLocalUsers(email, password, populate = false) {
     const users = JSON.parse(localStorage.getItem("savedUsers")) || [];
@@ -43,33 +72,40 @@ async function handleLogin(email, password) {
     return Object.values(snapshot.val()).some(user => user.email === email && user.password === password);
 }
 
-// Eventlistener
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
+// Haupt-Login-Handler
+function handleLoginFormSubmit(event) {
+    event.preventDefault();
+    const email = getInputValue("email");
+    const password = getInputValue("password");
     const errorMessage = document.getElementById("error-message");
 
-    if (!validateInput(email, password)) {
-        errorMessage.textContent = "Ungültige Eingaben!";
-        return;
-    }
+    if (!validateInput(email, password)) {return showError(errorMessage, "Ungültige Eingaben!");}
 
-    handleLogin(email, password).then(function (success) {
-        if (success) {
-            manageLocalUsers(email, password);
-            alert("Login erfolgreich!");
-            window.location.href = "contacts.html";
-        } else {
-            errorMessage.textContent = "E-Mail oder Passwort ist nicht korrekt!";
-        }
-    }).catch(error => errorMessage.textContent = "Fehler: " + error.message);
-});
+    handleLogin(email, password)
+        .then(success => {
+            if (success) {
+                manageLocalUsers(email, password);
+                alert("Login erfolgreich!");
+                window.location.href = "board.html";
+            } else {showError(errorMessage, "E-Mail oder Passwort ist nicht korrekt!");}
+        })
+        .catch(error => showError(errorMessage, "Fehler: " + error.message));
+}
 
-document.getElementById("email").addEventListener("focus", function () {
-    manageLocalUsers("", "", true);
-});
+function handleEmailFocusOrInput(event) {
+    const email = event.type === "input" ? event.target.value : "";
+    manageLocalUsers(email, "", true);
+}
 
-document.getElementById("email").addEventListener("input", function (e) {
-    manageLocalUsers(e.target.value, "", true);
-});
+function getInputValue(id) {
+    return document.getElementById(id).value.trim();
+}
+
+function showError(element, message) {
+    element.textContent = message;
+}
+
+document.getElementById("loginForm").addEventListener("submit", handleLoginFormSubmit);
+document.getElementById("email").addEventListener("focus", handleEmailFocusOrInput);
+document.getElementById("email").addEventListener("input", handleEmailFocusOrInput);
+
