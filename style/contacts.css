@@ -456,6 +456,28 @@ button {
    
 }
 
+.edit-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+	display: none;/* Modal ist standardmäßig unsichtbar */
+    justify-content: center;
+    align-items: center;
+}
+
+.edit-popup .popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 600px;
+}
+
+
+
 .contact-actions {
     margin-top: 20px;
     display: flex;
@@ -486,4 +508,8 @@ button {
 
 .d-flex {
 	display: flex;
+}
+
+.d-none {
+	display: none;
 }
