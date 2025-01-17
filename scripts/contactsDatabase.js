@@ -208,21 +208,6 @@ function displayContactInfo(contact) {
 	popup.classList.add('d-flex');
 }
 
-// Diese Funktion wird aufgerufen, wenn auf den Editier-Button geklickt wird
-function displayEditPopup(contact) {
-    // Setze die Eingabefelder im Editier-Popup mit den Kontaktinformationen
-    document.getElementById('contactName').innerText = contact.name;
-    document.getElementById('contactEmail').innerText = contact.email;
-    document.getElementById('contactPhone').innerText = contact.phone;
-
-    // Setze den Hintergrund des Popups (falls gewünscht)
-
-    // Zeige das Editier-Popup an, indem die d-none-Klasse entfernt und d-flex hinzugefügt wird
-    document.getElementById("editPopUp").classList.remove("d-none");
-    document.getElementById("editPopUp").classList.add("d-flex");
-}
-
-
 // Function to close contact info popup
 function closeContactInfo() {
     const popup = document.getElementById('editPopUp');
@@ -237,6 +222,25 @@ function closeContactDetails() {
     popup1.classList.add('d-none');
 	 popup1.classList.remove('d-flex')
 }
+
+
+// Diese Funktion wird aufgerufen, wenn auf den Editier-Button geklickt wird
+function displayEditPopup(contact) {
+	
+	    closeContactDetails();
+	
+    // Setze die Eingabefelder im Editier-Popup mit den Kontaktinformationen
+    document.getElementById('contactName').innerText = contact.name;
+    document.getElementById('contactEmail').innerText = contact.email;
+    document.getElementById('contactPhone').innerText = contact.phone;
+
+    // Setze den Hintergrund des Popups (falls gewünscht)
+
+    // Zeige das Editier-Popup an, indem die d-none-Klasse entfernt und d-flex hinzugefügt wird
+    document.getElementById("editPopUp").classList.remove("d-none");
+    document.getElementById("editPopUp").classList.add("d-flex");
+}
+
 
 
 

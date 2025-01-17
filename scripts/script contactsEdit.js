@@ -167,3 +167,52 @@ function finalizeContactEditing(updatedContact) {
         updatedContact.bgColor
     );
 }
+
+
+// Funktionen zum Speichern und Anzeigen der Daten im localStorage, 
+// werden noch nicht verwendet.
+
+async function saveEditedContact() {
+    const { name, email, phone, currentEmail, bgColor } = getEditedContactInputs();
+    if (!name || !email || !phone || !currentEmail) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
+    // Speichere die Kontaktinformationen im LocalStorage
+    const contact = { name, email, phone, bgColor };
+
+    // Verwende den aktuellen Email als Schlüssel, um den Kontakt im LocalStorage zu speichern
+    localStorage.setItem(currentEmail, JSON.stringify(contact));
+
+    // Optional: Auch auf dem Server speichern (Firebase o.ä.)
+    const contacts = await fetchContacts();
+    if (!contacts) return console.log("No contacts found in Firebase.");
+    const updatedContact = { name, email, phone, bgColor };
+    const { oldLetter, newLetter } = getLetterGroups(contacts, name, currentEmail);
+    modifyContacts(contacts, updatedContact, oldLetter, newLetter, currentEmail);
+    await saveContacts(contacts);
+
+    finalizeContactEditing(updatedContact);
+    displayContactInfo(name, email, phone, name.charAt(0).toUpperCase(), bgColor);
+}
+
+function loadContactFromLocalStorage(email) {
+    const contactData = localStorage.getItem(email);
+    if (contactData) {
+        const { name, email, phone, bgColor } = JSON.parse(contactData);
+        document.getElementById('contactName').textContent = name;
+        document.getElementById('contactEmail').textContent = email;
+        document.getElementById('contactPhone').textContent = phone;
+        // Fülle auch das Bearbeitungsformular
+        document.getElementById('editContactName').value = name;
+        document.getElementById('editContactEmail').value = email;
+        document.getElementById('editContactPhone').value = phone;
+    }
+}
+
+window.onload = function() {
+    // Angenommen, das Modal zeigt den Kontakt, dessen Email gespeichert ist
+    const contactEmail = 'muster@aol.de'; // Beispiel für eine Email, die gespeichert wurde
+    loadContactFromLocalStorage(contactEmail);
+};

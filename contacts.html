@@ -219,7 +219,7 @@
                 </div>
             </div>
         </div>    
-       <div id="contactInfoPopUp" class="contact-info-popup d-none">
+<div id="contactInfoPopUp" class="contact-info-popup d-none">
     <div class="popup-content">
         <button class="close-popup" onclick="closeContactDetails()">X</button>
         <h2 id="contactName"></h2>
@@ -227,10 +227,28 @@
         <p id="contactPhone"></p>
         <p id="contactAdditionalInfo"></p>
 
+<!-- Buttons für Bearbeiten und Löschen -->
+        <div class="contact-actions">
+		<button class="edit-btn" onclick="displayEditPopup(contactEmail)">
+			<img src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
+			Edit
+			</button>            
+			<button class="delete-btn" onclick="deleteContact()">
+		<img src="./assets/img/delete.png" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
+			Delete
+		</button>
+			
+        </div>
+		    </div>
+
+    </div>
+
+
 <!-- Popup für die Kontaktinformationen -->
 <!-- Popup für die Kontaktinformationen -->
-<div id="editPopUp" class="edit-popup d-none">
+<div id="editPopUp" class="edit-popup d-none new-contact-container">
     <div class="edit-content">
+	        <button onclick="closeContactInfo()">X</button>
         <h3>Contact Details</h3>
         <div id="contactName"></div>
         <div id="contactEmail"></div>
@@ -245,27 +263,9 @@
             <button type="submit">Save Changes</button>
         </form>
 
-        <button onclick="closeContactInfo()">X</button>
-    </div>
 </div>
 
-        <!-- Buttons für Bearbeiten und Löschen -->
-        <div class="contact-actions">
-		<button class="edit-btn" onclick="displayEditPopup(contactEmail)">
-			<img src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
-			Edit
-			</button>            
-			<button class="delete-btn" onclick="deleteContact()">
-		<img src="./assets/img/delete.png" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
-			Delete
-		</button>
-			<div class="responsive-contact-button-Div" id="responsive-contact-buttons">
-                <button class="flex" onclick="editContact('')"><img src="#" alt=""> Edit</button>
-                <button class="flex" onclick="deleteContact('')"><img src="#" alt=""> Delete</button>
-				
-                </div>
-        </div>
-    </div>
+        
 	</div>
 </div>  
 </div>
