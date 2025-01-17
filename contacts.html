@@ -247,7 +247,7 @@
 
 <!-- Popup für die Kontaktinformationen -->
 <!-- Popup für die Kontaktinformationen -->
-<div id="editPopUp" class="edit-popup d-none">
+<div id="editPopUp" class="edit-popup d-none" onclick="closeContactInfo()">
     <div class="new-contact-container aninmationTopDow" id="new-contact-containerEdit" onclick="event.stopPropagation()">
             <div class="bg-main">
                 <div class="join-contact-container">
@@ -274,16 +274,16 @@
 			<h3>Contact Details</h3>
 	
 	<form id="editContactForm" onsubmit="saveContactChanges(event)">
-            <input type="text" id="editName" placeholder="Name" required>
-            <input type="email" id="editEmail" placeholder="Email" required>
-            <input type="tel" id="editPhone" placeholder="Phone" required>
+          <div class="input-container">  <input type="text" id="editName" placeholder="Name" required> <img src="./assets/img/person.png" alt=""> </div>
+          <div class="input-container">  <input type="email" id="editEmail" placeholder="Email" required> <img src="./assets/img/mail.svg" alt=""> </div>
+          <div class="input-container">  <input type="tel" id="editPhone" placeholder="Phone" required> <img src="./assets/img/call.png" alt=""> </div>
             <button type="submit">Save Changes</button>
         </form>
 				</div>
 				</div>
                 <div class="editContactsInfo">
                     <div class="editContactsInfoImg">
-                        <img src="assets/icons/Group13.png" alt="">
+                        
                     </div>
                     <div class="contact-inuptfield-container">
                        <div class="edit-content">
