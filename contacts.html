@@ -192,7 +192,7 @@
                 <div class="bg-white editContactWhiteDiv">
                     <div class="flex justify-end mt-8 media-cancel">
                         <div class="cursor-pointer">
-                            <p onclick="cancelCreateContact()"><strong>X</strong></p>
+                            <p onclick="closeContactInfo()"><strong>X</strong></p>
                         </div>
                     </div>
                     <div class="editContactsInfo">
@@ -222,7 +222,8 @@
 <div id="contactInfoPopUp" class="contact-info-popup d-none">
     <div class="popup-content">
         <button class="close-popup" onclick="closeContactDetails()">X</button>
-        <h2 id="contactName"></h2>
+		
+		<h2 id="contactName"></h2>
         <p id="contactEmail"></p>
         <p id="contactPhone"></p>
         <p id="contactAdditionalInfo"></p>
@@ -246,22 +247,64 @@
 
 <!-- Popup für die Kontaktinformationen -->
 <!-- Popup für die Kontaktinformationen -->
-<div id="editPopUp" class="edit-popup d-none new-contact-container">
-    <div class="edit-content">
-	        <button onclick="closeContactInfo()">X</button>
-        <h3>Contact Details</h3>
-        <div id="contactName"></div>
-        <div id="contactEmail"></div>
-        <div id="contactPhone"></div>
-        <div id="contactAdditionalInfo"></div>
-
-        <!-- Editierbares Formular -->
-        <form id="editContactForm" onsubmit="saveContactChanges(event)">
+<div id="editPopUp" class="edit-popup d-none">
+    <div class="new-contact-container aninmationTopDow" id="new-contact-containerEdit" onclick="event.stopPropagation()">
+            <div class="bg-main">
+                <div class="join-contact-container">
+                    <img src="assets/icons/Capa 1.png" alt="">
+                </div>
+                <div class="join-contact-container">
+                    <h2>Edit Contact</h2>
+                    <p class="border-bottom"></p>
+                </div>
+            </div>
+            <div class="bg-white editContactWhiteDiv">
+                <div class="flex justify-end mt-8 media-cancel">
+                    <div class="cursor-pointer">
+                        <p onclick="closeContactInfo()"><strong>X</strong></p>
+                    </div>
+                </div>
+				<!-- Editierbares Formular -->
+            
+			<div class="flex margin gap-24 items-center edit-container add-container">
+                        <div class="add-contact-info-img">
+                            <img src="#" alt="">
+                       
+			
+			<h3>Contact Details</h3>
+	
+	<form id="editContactForm" onsubmit="saveContactChanges(event)">
             <input type="text" id="editName" placeholder="Name" required>
             <input type="email" id="editEmail" placeholder="Email" required>
             <input type="tel" id="editPhone" placeholder="Phone" required>
             <button type="submit">Save Changes</button>
         </form>
+				</div>
+				</div>
+                <div class="editContactsInfo">
+                    <div class="editContactsInfoImg">
+                        <img src="assets/icons/Group13.png" alt="">
+                    </div>
+                    <div class="contact-inuptfield-container">
+                       <div class="edit-content">
+	        
+                        <div class="new-contact-button-container" id="new-contact-button-container"> 
+        
+		
+		
+		<div class="cancel cursor-pointer" data-email="" onclick="deleteContact('')">
+            <button>Delete</button>
+        </div>
+        <div class="create btnGray" onclick="validateEditForm()">
+            <button>Save</button>
+            <img src="assets/icons/check.png" alt="">
+        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
 
 </div>
 

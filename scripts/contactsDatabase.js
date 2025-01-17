@@ -220,7 +220,7 @@ function closeContactInfo() {
 function closeContactDetails() {
     const popup1 = document.getElementById('contactInfoPopUp');
     popup1.classList.add('d-none');
-	 popup1.classList.remove('d-flex')
+	 popup1.classList.remove('d-flex');
 }
 
 
@@ -237,7 +237,7 @@ function displayEditPopup(contact) {
     // Setze den Hintergrund des Popups (falls gewünscht)
 
     // Zeige das Editier-Popup an, indem die d-none-Klasse entfernt und d-flex hinzugefügt wird
-    document.getElementById("editPopUp").classList.remove("d-none");
+   document.getElementById("editPopUp").classList.remove("d-none");
     document.getElementById("editPopUp").classList.add("d-flex");
 }
 
