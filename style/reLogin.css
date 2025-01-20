@@ -1,0 +1,259 @@
+body {
+    background-color: rgb(246, 247, 248);
+    font-family: 'Figtree', serif;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+.header-right-content {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.login-container {
+    width: 652px;
+    height: 449px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+    margin: 50px auto 0px;
+    border-radius: 30px;
+}
+
+.headline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+}
+
+h1 {
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    padding-top: 40px;
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+}
+
+.horizontal-line {
+    height: 3px;
+    width: 118px;
+    background-color: rgb(41, 171, 226);
+    border-radius: 10px;
+}
+
+input {
+    padding-right: 50px;
+    width: 70%;
+    box-sizing: border-box;
+    border: 1px solid #D1D1D1;
+    height: 50px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    padding-left: 16px;
+    outline: none;
+    cursor: pointer;
+}
+
+input:focus {
+    border-color: rgb(41, 171, 226);
+    border-width: 2px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.input-with-letter-icon {
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24"%3E%3Cpath d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM4 6h16v2l-8 5-8-5V6zm0 12V9l8 5 8-5v9H4z"/%3E%3C/svg%3E') no-repeat right 16px center;
+    background-size: 20px;
+    font-size: 15px;
+}
+  
+.input-with-eye-icon {
+    background: url('../assets/img/lock-password.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-active {
+    background: url('../assets/img/hide.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-clicked {
+    background: url('../assets/img/eye.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.checkbox-input {
+    width: 15px;
+    height: 15px;
+}
+
+.checkbox {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+    gap: 7px;
+}
+
+.login-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    gap: 50px;
+}
+
+.login-button {
+    background-color: rgb(42, 54, 71);
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: 1px solid;
+}
+
+.guestLogin-button {
+    cursor: pointer;
+    background-color: white;
+    color: rgb(42, 54, 71);
+    font-weight: 700;
+    padding: 10px 20px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(42, 54, 71);
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.signUp-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 45px;
+}
+
+.signUp-button {
+    background-color: rgb(42, 54, 71);
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 10px 12px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.signUp-container {
+    position: relative;
+    width: 542px;
+    height: 609px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+    margin: 0px auto 0px;
+    border-radius: 30px;
+}
+
+.back-button {
+    position: absolute;
+    top: 50px;
+    left: 40px;
+    cursor: pointer;
+}
+
+.back-button:hover {
+    background-color: #c1c1c1a9;
+    border-radius: 30px;
+}
+
+.login-button:hover {
+    background-color: #29ABE2;
+    color: white;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+.guestLogin-button:hover {
+    color: #29ABE2;
+    border-color: #29ABE2;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+.signUp-button:hover {
+    background-color: #29ABE2;
+    color: white;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+.accept-policy{
+    text-decoration: none;
+    color: #29aae28e;
+}
+
+.accept-policy:hover{
+    text-decoration: underline;
+    color: #29ABE2;
+}
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    color: #ff00009e;
+    text-align: center;
+    padding: 10px;
+}
+
+.logo-header-container{
+    margin-top: 40px;
+    margin-left: 20px;
+}
+
+.logo-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    z-index: 1;
+}
+
+@keyframes LogoAnimate {
+    0% {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(4); /* Start-Position und -Größe */
+    }
+    100% {
+        top: 0;
+        left: 0;
+        transform: translate(0, 0) scale(1); /* End-Position (obere linke Ecke) und -Größe */
+    }
+}
+
+
+.show-content {
+    opacity: 1; 
+}
+
+
+
