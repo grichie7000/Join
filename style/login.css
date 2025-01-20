@@ -16,7 +16,7 @@ header {
 
 .header-right-content {
     position: absolute;
-    top: 50px;
+    top: 70px;
     right: 50px;
     display: flex;
     align-items: center;
@@ -243,7 +243,7 @@ input:focus {
 }
 
 .logo-header-container{
-    margin-top: 60px;
+    margin-top: 81px;
     margin-left: 40px;
 }
 
@@ -270,17 +270,14 @@ input:focus {
     }
 }
 
-
-.show-content {
-    opacity: 1; 
-}
-
 footer{
     display: flex;
     justify-content: center;
     margin-top: 100px;
     gap: 35px;
     cursor: pointer;
+    opacity: 0; /* Anfangs unsichtbar */
+    transition: opacity 1s ease-in-out; /* Einblend-Effekt */
 }
 
 .footer-content{
@@ -293,5 +290,11 @@ footer{
    color: #29ABE2;
    transform: scale(1.01) translateZ(10px);
 }
+
+
+.show-content {
+    opacity: 1; 
+}
+
 
 
