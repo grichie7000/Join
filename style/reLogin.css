@@ -12,7 +12,7 @@ body {
     right: 50px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 35px;
 }
 
 .login-container {
@@ -20,7 +20,7 @@ body {
     height: 449px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: 50px auto 0px;
+    margin: 30px auto 0px;
     border-radius: 30px;
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 61px;
     display: flex;
     justify-content: center;
     padding-top: 40px;
@@ -225,8 +225,8 @@ input:focus {
 }
 
 .logo-header-container{
-    margin-top: 40px;
-    margin-left: 20px;
+    margin-top: 60px;
+    margin-left: 40px;
 }
 
 .logo-image {
@@ -237,23 +237,25 @@ input:focus {
     z-index: 1;
 }
 
-@keyframes LogoAnimate {
-    0% {
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(4); /* Start-Position und -Größe */
-    }
-    100% {
-        top: 0;
-        left: 0;
-        transform: translate(0, 0) scale(1); /* End-Position (obere linke Ecke) und -Größe */
-    }
+footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+    gap: 35px;
+    cursor: pointer;
 }
 
-
-.show-content {
-    opacity: 1; 
+.footer-content{
+    color: #A8A8A8;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.footer-content:hover{
+   color: #29ABE2;
+   transform: scale(1.01) translateZ(10px);
+}
+
 
 
 

@@ -36,7 +36,7 @@ function checkAndRegister(name, email, password, errorMessage) {
         return saveUser(name, email, password);
     }).then(() => {
         alert("Registrierung erfolgreich!");
-        window.location.href = "index.html";
+        window.location.href = "reLogin.html";
     }).catch(error => errorMessage.textContent = error.message);
 }
 
@@ -108,7 +108,7 @@ passwordInput.addEventListener('click', (event) => {
 
 const repeatPasswordInput = document.getElementById('repeat-password');
 
-function RepeatPasswordIcon() {
+function repeatPasswordIcon() {
     repeatPasswordInput.classList.remove('input-with-eye-icon');
     repeatPasswordInput.classList.add('input-with-eye-icon-active');
 }
@@ -121,7 +121,7 @@ function resetRepeatPasswordIcon() {
 
 repeatPasswordInput.addEventListener('input', () => {
     if (repeatPasswordInput.value) {
-        RepeatPasswordIcon();
+        repeatPasswordIcon();
     } else {
         resetRepeatPasswordIcon(); 
     }

@@ -1,13 +1,22 @@
 body {
     background-color: rgb(246, 247, 248);
     font-family: 'Figtree', serif;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding: 0 12px
+.logo-header-container{
+    margin-top: 60px;
+    margin-left: 40px;
+}
+
+.logo-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    z-index: 1;
 }
 
 .headline-container {
@@ -19,7 +28,7 @@ header {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 61px;
     display: flex;
     justify-content: center;
     padding-top: 40px;
@@ -62,7 +71,7 @@ h1 {
     height: auto;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: -20px auto 0px;
+    margin: -30px auto 0px;
     border-radius: 30px;
 }
 
@@ -90,7 +99,8 @@ input:focus {
     justify-content: center;
     color: #ff00009e;
     text-align: center;
-    padding: 10px;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 
@@ -196,4 +206,24 @@ input:focus {
 
 .incorrect input {
     border-color: #ff00009e;
+}
+
+footer{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    gap: 35px;
+    cursor: pointer;
+}
+
+.footer-content{
+    color: #A8A8A8;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+}
+
+.footer-content:hover{
+   color: #29ABE2;
+   transform: scale(1.01) translateZ(10px);
 }
