@@ -35,10 +35,19 @@ function checkAndRegister(name, email, password, errorMessage) {
 
         return saveUser(name, email, password);
     }).then(() => {
-        alert("Registrierung erfolgreich!");
-        window.location.href = "reLogin.html";
+        const overlay = document.getElementById("successOverlay");
+        const overlay_content = document.getElementById('overlay-content');
+            overlay.style.display = "flex";
+            overlay_content.style.display = 'flex';
+            setTimeout(() => {
+                overlay.style.display = "none";
+                overlay_content.style.display = 'none';
+                window.location.href = "reLogin.html";
+            }, 1000);
     }).catch(error => errorMessage.textContent = error.message);
 }
+
+
 
 document.getElementById("form").addEventListener("submit", function (event) {
     event.preventDefault();
