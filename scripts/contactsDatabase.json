@@ -1,0 +1,36 @@
+{
+  "contactsDatabase": [
+    {
+      "id": 2,
+      "name": "Asterix",
+      "email": "Asterix@gallier.fr",
+      "phone": "012345678",
+      "initials": "AG",
+      "color": "#773DFD"
+    },
+    {
+      "id": 3,
+      "name": "Miraculix",
+      "email": "Miraculix@gallier.fr",
+      "phone": "012345678",
+      "initials": "MG",
+      "color": "#C558CB"
+    },
+    {
+      "id": 4,
+      "name": "Max Mustermann",
+      "email": "muster@aol.de",
+      "phone": "01234567890",
+      "initials": "MM",
+      "color": "#5AC493"
+    },
+    {
+      "id": 5,
+      "name": "Obelix",
+      "email": "obelix@gallier.fr",
+      "phone": "012345678",
+      "initials": "OG",
+      "color": "#B86581"
+    }
+  ]
+}
