@@ -1,39 +1,23 @@
 
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';  
+import { getDatabase, ref, get, set, child } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
+// Firebase-Konfiguration
+const app = initializeApp({
+    apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
+    authDomain: "join-d3707.firebaseapp.com",
+    databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "join-d3707",
+    storageBucket: "join-d3707.firebasestorage.app",
+    messagingSenderId: "961213557325",
+    appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
+});
+
+const db = getDatabase(initializeApp(firebaseConfig));
+
+
 // Hardcoded database of contacts
-const contactsDatabase = contact = [
-    {
-        id: 2,
-        name: "Asterix",
-        email: "Asterix@gallier.fr",
-        phone: "012345678",
-        initials: "AG",
-        color: "#773DFD"
-    },
-    {
-        id: 3,
-        name: "Miraculix",
-        email: "Miraculix@gallier.fr",
-        phone: "012345678",
-        initials: "MG",
-        color: "#C558CB"
-    },
-    {
-        id: 4,
-        name: "Max Mustermann",
-        email: "muster@aol.de",
-        phone: "01234567890",
-        initials: "MM",
-        color: "#5AC493"
-    },
-    {
-        id: 5,
-        name: "Obelix",
-        email: "obelix@gallier.fr",
-        phone: "012345678",
-        initials: "OG",
-        color: "#B86581"
-    }
-];
+const contactsDatabase = contact = databaseURL;
 
 // Funktion zum Rendern der Kontakte
 function renderContacts() {
