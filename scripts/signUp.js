@@ -42,7 +42,7 @@ function checkAndRegister(name, email, password, errorMessage) {
             setTimeout(() => {
                 overlay.style.display = "none";
                 overlay_content.style.display = 'none';
-                window.location.href = "reLogin.html";
+                window.location.href = "relogin.html";
             }, 1000);
     }).catch(error => errorMessage.textContent = error.message);
 }

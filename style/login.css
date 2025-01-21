@@ -30,7 +30,7 @@ header {
     height: 449px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: 170px auto 0px;
+    margin: 130px auto 0px;
     border-radius: 30px;
     opacity: 0;
     transition: opacity 0.5s ease-in-out; 
@@ -263,23 +263,23 @@ input:focus {
     0% {
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%) scale(4); /* Start-Position und -Größe */
+        transform: translate(-50%, -50%) scale(4);
     }
     100% {
         top: 0;
         left: 0;
-        transform: translate(0, 0) scale(1); /* End-Position (obere linke Ecke) und -Größe */
+        transform: translate(0, 0) scale(1); 
     }
 }
 
 footer{
     display: flex;
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 70px;
     gap: 35px;
     cursor: pointer;
-    opacity: 0; /* Anfangs unsichtbar */
-    transition: opacity 1s ease-in-out; /* Einblend-Effekt */
+    opacity: 0; 
+    transition: opacity 1s ease-in-out;
 }
 
 .footer-content{

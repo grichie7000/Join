@@ -20,7 +20,7 @@ body {
     height: 449px;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: 20px auto 0px;
+    margin: -20px auto 0px;
     border-radius: 30px;
 }
 
@@ -240,7 +240,7 @@ input:focus {
 footer{
     display: flex;
     justify-content: center;
-    margin-top: 100px;
+    margin-top: 70px;
     gap: 35px;
     cursor: pointer;
 }
