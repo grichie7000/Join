@@ -13,6 +13,8 @@ const app = initializeApp({
     appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
 });
 
+// Initialisierung der Firebase-App
+
 const db = getDatabase(initializeApp(firebaseConfig));
 
 
@@ -226,6 +228,16 @@ function displayEditPopup(contact) {
 }
 
 
+function saveContactToFirebase(contact) {
+    const contactRef = ref(db, 'contactsDatabase/' + contact.id); // Jeder Kontakt wird unter 'contactsDatabase/{id}' gespeichert
+    set(contactRef, {
+        name: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        initials: contact.initials,
+        color: contact.color
+    });
+}
 
 
 // Function to save the edited contact
@@ -248,6 +260,20 @@ function saveContactChanges(event) {
 
     // Close the popup after saving changes
     closeContactInfo();
+}
+
+function loadContactsFromFirebase() {
+    const contactsRef = ref(db, 'contacts');
+    get(contactsRef).then((snapshot) => {
+        if (snapshot.exists()) {
+            const contacts = snapshot.val();
+            renderContacts(contacts);
+        } else {
+            console.log("Keine Kontakte gefunden!");
+        }
+    }).catch((error) => {
+        console.error("Fehler beim Abrufen der Kontakte:", error);
+    });
 }
 
 // Call renderContacts on page load
