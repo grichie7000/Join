@@ -56,8 +56,16 @@ select {
     background-color: white;
 }
 
+.addTask input:hover,
+textarea:hover,
+select:hover,
+button:hover {
+cursor: pointer;
+}
+
 .addTask select {
     width: 480px;
+    border-bottom: 2px solid #D1D1D1
 }
 
 #description {
@@ -92,6 +100,8 @@ select {
     background-color: white;
 }
 
+
+
 #prio {
     display: flex;
     margin-top: 8px;
@@ -100,6 +110,10 @@ select {
 
 #prio button {
     flex: 1;
+}
+
+#medium {
+    background-color: orange;
 }
 
 #date {
@@ -118,8 +132,19 @@ select {
     padding-left: 92px;
 }
 
+
 .createAndClear{
-    margin-top: 36px;
+    margin-top: 48px;
     padding-left: 740px;
+}
+
+#createButton{
+    background-color: #2A3647;
+    color: white;
+    font-weight: bold;
+}
+
+#resetButton{
+    color: #2A3647;
 }
 

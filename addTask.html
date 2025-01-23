@@ -95,9 +95,9 @@
 
                     <label for="prio">Prio</label>
                     <div id="prio" name="prio">
-                        <button value="urgent">Urgent</button>
-                        <button value="medium">Medium</button>
-                        <button value="low">Low</button>
+                        <button id="urgent" value="urgent">Urgent</button>
+                        <button id="medium" value="medium">Medium</button>
+                        <button id="low" value="low">Low</button>
                     </div>
 
                     <label for="category">Category<span class="required">*</span></label>
@@ -113,10 +113,8 @@
             </div>
 
             <div class="createAndClear">
-                <div>
-                    <button id="resetButton" type="reset">Clear X</button>
-                    <button id="createButton" type="submit">Create Task</button>
-                </div>
+                <button id="resetButton" type="reset">Clear X</button>
+                <button id="createButton" type="submit">Create Task</button>
             </div>
 
         </form>
