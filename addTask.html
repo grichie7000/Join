@@ -90,15 +90,15 @@
                 </div>
 
                 <div class="inputRight">
-                    <label for="due-date">Due date<span class="required">*</span></label>
-                    <input type="date" id="due-date" name="due-date" required>
+                    <label id="date" for="due-date">Due date<span class="required">*</span></label>
+                    <input id="datePlaceholder" type="date" id="due-date" name="due-date" required>
 
                     <label for="prio">Prio</label>
-                    <select id="prio" name="prio">
-                        <option value="urgent">Urgent</option>
-                        <option value="medium">Medium</option>
-                        <option value="low">Low</option>
-                    </select>
+                    <div id="prio" name="prio">
+                        <button value="urgent">Urgent</button>
+                        <button value="medium">Medium</button>
+                        <button value="low">Low</button>
+                    </div>
 
                     <label for="category">Category<span class="required">*</span></label>
                     <select id="category" name="category" required>
@@ -113,11 +113,14 @@
             </div>
 
             <div class="createAndClear">
-                <button id="resetButton" type="reset">Clear <span class="required">X</span></button>
-                <button id="createButton" type="submit">Create Task</button>
+                <div>
+                    <button id="resetButton" type="reset">Clear X</button>
+                    <button id="createButton" type="submit">Create Task</button>
+                </div>
             </div>
 
         </form>
+        <p id="requiredInfo"><span class="required">*</span>This field is required</p>
     </div>
 </body>
 

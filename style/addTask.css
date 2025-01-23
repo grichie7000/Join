@@ -11,6 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    background-color: #F6F7F8;
 }
 
 .inputSection {
@@ -31,9 +32,10 @@ body {
 }
 
 .seperator {
-    height: 240px;
-    width: 2px;
-    background-color: grey;
+    margin-top: 30px;
+    height: 432px;
+    width: 1px;
+    background-color: #dbdbdb96;
 }
 
 .inputLeft {
@@ -47,14 +49,27 @@ select {
     font-size: 20px;
     font-weight: 400;
     width: 440px;
-    border: 1px solid gray;
-    border-radius: 8px;
-    padding: 10px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+    padding: 10px 16px;
     margin-top: 8px;
+    background-color: white;
 }
 
-#description{
-    height: 168px;
+.addTask select {
+    width: 480px;
+}
+
+#description {
+    height: 80px;
+}
+
+#datePlaceholder {
+    color: #dbdbdb96;
+}
+
+#subtasks {
+    padding-right: 24px;
 }
 
 .inputRight {
@@ -64,13 +79,47 @@ select {
 
 .inputSection label {
     padding-top: 32px;
+    font-size: 24px;
+    color: #2A3647;
 }
 
-.addTask button{
+.addTask button {
+    border-radius: 10px;
     font-size: 20px;
-    padding: 8px;
+    padding: 8px 16px;
+    margin-right: 8px;
+    border: 1px solid #D1D1D1;
+    background-color: white;
 }
 
-.required{
-    color: red;
+#prio {
+    display: flex;
+    margin-top: 8px;
+    width: 482px;
 }
+
+#prio button {
+    flex: 1;
+}
+
+#date {
+    width: 408px;
+}
+
+.required {
+    color: #FF8190;
+}
+
+::placeholder {
+    color: #D1D1D1;
+}
+
+#requiredInfo {
+    padding-left: 92px;
+}
+
+.createAndClear{
+    margin-top: 36px;
+    padding-left: 740px;
+}
+
