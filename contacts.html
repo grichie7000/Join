@@ -15,6 +15,9 @@
     <script src="./scripts/sideBar.js"></script>
 	<script src="./scripts/script contact.js"></script>
 	<script src="./scripts/script contact validation.js"></script>
+	<script src="./scripts/script contactsEdit.js"></script>
+	<script type="module" src="./scripts/contactsDatabase.js"></script>
+
 
     <link rel="icon" type="image/x-icon" href="./assets/img/Join-logo.png">
 
@@ -78,6 +81,7 @@
     </div>
 </div>
         </div>
+	   
 	   
 		
         <div class="contact-letter-section"><h2 class="letter-border">A</h2>
@@ -189,7 +193,7 @@
                 <div class="bg-white editContactWhiteDiv">
                     <div class="flex justify-end mt-8 media-cancel">
                         <div class="cursor-pointer">
-                            <p onclick="cancelCreateContact()"><strong>X</strong></p>
+                            <p onclick="closeContactInfo()"><strong>X</strong></p>
                         </div>
                     </div>
                     <div class="editContactsInfo">
@@ -216,17 +220,18 @@
                 </div>
             </div>
         </div>    
-       <div id="contactInfoPopUp" class="contact-info-popup d-none">
+<div id="contactInfoPopUp" class="contact-info-popup d-none">
     <div class="popup-content">
-        <button class="close-popup" onclick="closeContactInfo()">X</button>
-        <h2 id="contactName"></h2>
+        <button class="close-popup" onclick="closeContactDetails()">X</button>
+		
+		<h2 id="contactName"></h2>
         <p id="contactEmail"></p>
         <p id="contactPhone"></p>
         <p id="contactAdditionalInfo"></p>
 
-        <!-- Buttons für Bearbeiten und Löschen -->
+<!-- Buttons für Bearbeiten und Löschen -->
         <div class="contact-actions">
-		<button class="edit-btn" onclick="openEditContactForm()">
+		<button class="edit-btn" onclick="displayEditPopup(contactEmail)">
 			<img src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
 			Edit
 			</button>            
@@ -234,13 +239,77 @@
 		<img src="./assets/img/delete.png" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
 			Delete
 		</button>
-			<div class="responsive-contact-button-Div" id="responsive-contact-buttons">
-                <button class="flex" onclick="editContact('')"><img src="#" alt=""> Edit</button>
-                <button class="flex" onclick="deleteContact('')"><img src="#" alt=""> Delete</button>
-				
-                </div>
+			
         </div>
+		    </div>
+
     </div>
+
+
+<!-- Popup für die Kontaktinformationen -->
+<!-- Popup für die Kontaktinformationen -->
+<div id="editPopUp" class="edit-popup d-none" onclick="closeContactInfo()">
+    <div class="new-contact-container aninmationTopDow" id="new-contact-containerEdit" onclick="event.stopPropagation()">
+            <div class="bg-main">
+                <div class="join-contact-container">
+                    <img src="./assets/img/join-logo2.png" alt="">
+                </div>
+                <div class="join-contact-container">
+                    <h2>Edit Contact</h2>
+                    <p class="border-bottom"></p>
+                </div>
+            </div>
+            <div class="bg-white editContactWhiteDiv">
+                <div class="flex justify-end mt-8 media-cancel">
+                    <div class="cursor-pointer">
+                        <p onclick="closeContactInfo()"><strong>X</strong></p>
+                    </div>
+                </div>
+				<!-- Editierbares Formular -->
+            
+			<div class="flex margin gap-24 items-center edit-container add-container">
+                        <div class="add-contact-info-img">
+                            <img src="#" alt="">
+                       
+			
+			<h3>Contact Details</h3>
+	
+	<form id="editContactForm" onsubmit="saveContactChanges(event)">
+          <div class="input-container">  <input type="text" id="editName" placeholder="Name" required> <img src="./assets/img/person.png" alt=""> </div>
+          <div class="input-container">  <input type="email" id="editEmail" placeholder="Email" required> <img src="./assets/img/mail.svg" alt=""> </div>
+          <div class="input-container">  <input type="tel" id="editPhone" placeholder="Phone" required> <img src="./assets/img/call.png" alt=""> </div>
+            <button type="submit">Save Changes</button>
+        </form>
+				</div>
+				</div>
+                <div class="editContactsInfo">
+                    <div class="editContactsInfoImg">
+                        
+                    </div>
+                    <div class="contact-inuptfield-container">
+                       <div class="edit-content">
+	        
+                        <div class="new-contact-button-container" id="new-contact-button-container"> 
+        
+		
+		
+		<div class="cancel cursor-pointer" data-email="" onclick="deleteContact('')">
+            <button>Delete</button>
+        </div>
+        <div class="create btnGray" onclick="validateEditForm()">
+            <button>Save</button>
+            <img src="./assets/img/check.png" alt="">
+        </div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+ 
+
+</div>
+
+        
 	</div>
 </div>  
 </div>

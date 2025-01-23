@@ -1,13 +1,22 @@
 body {
     background-color: rgb(246, 247, 248);
     font-family: 'Figtree', serif;
+    margin: 0;
+    height: 100vh;
+    overflow: hidden;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    padding: 0 20px
+.logo-header-container {
+    margin-top: 60px;
+    margin-left: 40px;
+}
+
+.logo-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: auto;
+    z-index: 1;
 }
 
 .headline-container {
@@ -19,7 +28,7 @@ header {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 61px;
     display: flex;
     justify-content: center;
     padding-top: 40px;
@@ -62,7 +71,7 @@ h1 {
     height: auto;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
-    margin: -20px auto 0px;
+    margin: -80px auto 0px;
     border-radius: 30px;
 }
 
@@ -80,11 +89,20 @@ input {
     cursor: pointer;
 }
 
+input:focus {
+    border-color: rgb(41, 171, 226);
+    border-width: 2px;
+}
+
 .error-message {
     display: flex;
     justify-content: center;
     color: #ff00009e;
     text-align: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-block-start: 0;
+    margin-block-end: 0;
     padding: 10px;
 }
 
@@ -111,8 +129,25 @@ input {
 }
 
 .input-with-eye-icon {
+    background: url('../assets/img/lock-password.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-active {
     background: url('../assets/img/hide.png') no-repeat right 16px center;
     background-size: 20px;
+    padding-right: 40px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.input-with-eye-icon-clicked {
+    background: url('../assets/img/eye.png') no-repeat right 16px center;
+    background-size: 20px;
+    padding-right: 40px;
     font-size: 15px;
     cursor: pointer;
 }
@@ -159,6 +194,7 @@ input {
     display: flex;
     justify-content: center;
     margin-top: 25px;
+    gap: 7px;
 }
 
 .accept-policy {
@@ -173,4 +209,64 @@ input {
 
 .incorrect input {
     border-color: #ff00009e;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+    gap: 35px;
+    cursor: pointer;
+}
+
+.footer-content {
+    color: #A8A8A8;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+}
+
+.footer-content:hover {
+    color: #29ABE2;
+    transform: scale(1.01) translateZ(10px);
+}
+
+.successOverlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.overlay-content{
+    background-color: #2A3647;
+    font-size: 20px;
+    color: #CACDD1;
+    padding: 20px;
+    border-radius: 20px;
+    transform: translateY(100%); 
+    animation: pop-up 1s ease-out forwards; 
+}
+
+@keyframes pop-up {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
