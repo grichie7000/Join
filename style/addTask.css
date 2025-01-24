@@ -60,16 +60,21 @@ select {
 textarea:hover,
 select:hover,
 button:hover {
-cursor: pointer;
+    cursor: pointer;
+}
+
+.addTask select:hover {
+    border: 1px solid #867979;
+    border-bottom: 2px solid #867979;
 }
 
 .addTask select {
     width: 480px;
-    border-bottom: 2px solid #D1D1D1
+    border-bottom: 2px solid #D1D1D1;
 }
 
 #description {
-    height: 80px;
+    height: 105px;
 }
 
 #datePlaceholder {
@@ -94,7 +99,7 @@ cursor: pointer;
 .addTask button {
     border-radius: 10px;
     font-size: 20px;
-    padding: 8px 16px;
+    padding: 16px;
     margin-right: 8px;
     border: 1px solid #D1D1D1;
     background-color: white;
@@ -102,18 +107,33 @@ cursor: pointer;
 
 
 
+.addTask button:hover {
+    box-shadow: 0px 4px 6px #808080a3;
+}
+
 #prio {
     display: flex;
     margin-top: 8px;
     width: 482px;
 }
 
-#prio button {
+#prio p {
     flex: 1;
+    border-radius: 10px;
+    font-size: 20px;
+    padding: 16px;
+    margin-right: 8px;
+    border: 1px solid #D1D1D1;
+    background-color: white;
+}
+
+#prio p:hover {
+    cursor: pointer;
+    box-shadow: 0px 4px 6px #808080a3;
 }
 
 #medium {
-    background-color: orange;
+    background-color: orange !important;
 }
 
 #date {
@@ -133,18 +153,32 @@ cursor: pointer;
 }
 
 
-.createAndClear{
+.createAndClear {
     margin-top: 48px;
     padding-left: 740px;
 }
 
-#createButton{
+#createButton {
     background-color: #2A3647;
     color: white;
     font-weight: bold;
+    transition: background-color 0.2s;
 }
 
-#resetButton{
+#createButton:hover {
+    background-color: #29ABE2;
+}
+
+#resetButton {
+    transition: box-shadow 0.3s;
     color: #2A3647;
 }
 
+#resetButton:hover {
+    color: #29ABE2;
+    border: 1px solid #29ABE2;
+}
+
+label {
+    pointer-events: none;
+  }
