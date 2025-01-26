@@ -66,11 +66,20 @@ button:hover {
 .addTask select:hover {
     border: 1px solid #867979;
     border-bottom: 2px solid #867979;
+    background-image: url('../assets/img/arrow_with_bg.png');
+    background-repeat: no-repeat;
+    background-position: 95%;
 }
 
 .addTask select {
     width: 480px;
     border-bottom: 2px solid #D1D1D1;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('../assets/img/arrow_drop.png');
+    background-repeat: no-repeat;
+    background-position: 95%;
 }
 
 #description {
@@ -117,6 +126,10 @@ button:hover {
     width: 482px;
 }
 
+#prio img {
+    height: 16px;
+}
+
 #prio p {
     flex: 1;
     border-radius: 10px;
@@ -132,8 +145,29 @@ button:hover {
     box-shadow: 0px 4px 6px #808080a3;
 }
 
+#urgent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
 #medium {
-    background-color: orange !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+}
+
+#medium img {
+    height: 10px;
+}
+
+#low {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
 }
 
 #date {
@@ -156,6 +190,7 @@ button:hover {
 .createAndClear {
     margin-top: 48px;
     padding-left: 740px;
+    display: flex;
 }
 
 #createButton {
@@ -163,7 +198,16 @@ button:hover {
     color: white;
     font-weight: bold;
     transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
+
+#createButton img {
+    height: 12px;
+}
+
 
 #createButton:hover {
     background-color: #29ABE2;
@@ -179,6 +223,16 @@ button:hover {
     border: 1px solid #29ABE2;
 }
 
+#x{
+    font-size: 18px;
+    font-weight: 500;
+}
+
 label {
     pointer-events: none;
-  }
+}
+
+#subtasks{
+    background: url('../assets/img/person_add.png') no-repeat right 16px center;
+    background-size: 20px;
+}

@@ -74,10 +74,10 @@
                     <input type="text" placeholder="Enter a title" id="title" name="title" required>
 
                     <label for="description">Description</label>
-                    <textarea placeholder="Enter a Discription" id="description" name="description"></textarea>
+                    <textarea placeholder="Enter a Description" id="description" name="description"></textarea>
 
                     <label for="contacts">Assigned to</label>
-                    <select name="contacts" id="contacts">
+                    <select class="custom-dropdown" name="contacts" id="contacts">
                         <option value="" disabled selected hidden>Select contacts to assign</option>
                         <option value="1">kontakt1</option>
                         <option value="2">kontakt2</option>
@@ -95,13 +95,13 @@
 
                     <label for="prio">Prio</label>
                     <div id="prio" name="prio">
-                        <p id="urgent" value="urgent">Urgent</p>
-                        <p id="medium" value="medium">Medium</p>
-                        <p id="low" value="low">Low</p>
+                        <p id="urgent" value="urgent">Urgent<img src="./assets/img/urgent.png"></p>
+                        <p id="medium" value="medium">Medium<img src="./assets/img/medium.png"></p>
+                        <p id="low" value="low">Low<img src="./assets/img/low.png"></p>
                     </div>
 
                     <label for="category">Category<span class="required">*</span></label>
-                    <select id="category" name="category" required>
+                    <select class="custom-dropdown" id="category" name="category" required>
                         <option value="" disabled selected hidden>Select task category</option>
                         <option value="technical-task">Technical Task</option>
                         <option value="user-story">User Story</option>
@@ -113,8 +113,8 @@
             </div>
 
             <div class="createAndClear">
-                <button id="resetButton" type="reset">Clear X</button>
-                <button id="createButton" type="submit">Create Task</button>
+                <button id="resetButton" type="reset">Clear <span id="x">X</span></button>
+                <button id="createButton" type="submit">Create Task <img src="./assets/img/check_symbol.png" alt="check"> </button>
             </div>
 
         </form>
