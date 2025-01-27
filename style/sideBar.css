@@ -19,6 +19,11 @@
     background-color: #091931;
 }
 
+a{
+    text-decoration: none;
+    color: #CDCDCD;
+}
+
 .menuPos {
     display: flex;
     flex-direction: column;
