@@ -10,12 +10,61 @@ body {
     background-color: #F6F7F8;
 }
 
-h1{
+h1 {
     font-size: 61px;
     font-weight: 700;
     color: black;
 }
 
-.firstContent{
+.firstContent {
     padding: 80px 80px;
+}
+
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-right{
+    display: flex;
+    gap: 30px;
+    padding-right: 80px;
+}
+
+.findTaskInput {
+    width: 312px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid #A8A8A8;
+    color: #A8A8A8;
+    position: relative;
+    font-size: 21px;
+    padding-left: 16px;
+}
+
+.findTaskInput::placeholder{
+    color: #D2D2D2;
+}
+
+.addTaskButton {
+    background-color: #2A3647;
+    color: white;
+    font-size: 21px;
+    font-weight: 500;
+    width: 160px;
+    height: 48px;
+    border-radius: 10px;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in, transform 0.2s ease-in;
+}
+
+.addTaskButton:hover {
+    transform: 0.2s ease-in;
+    background-color: #29ABE2;
+    color: white;
+    padding: 8px 16px;
+    font-size: 21px;
 }
