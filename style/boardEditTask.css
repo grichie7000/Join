@@ -1,0 +1,134 @@
+.edit-task-form {
+  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 670px;
+  overflow-y: scroll;
+  padding: 0px 8px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 8px;
+}
+
+.form-group label,
+.form-group input,
+.form-group textarea,
+.dropdown-toggle,
+.priority-btn {
+  font-size: 20px;
+  font-family: inter;
+}
+
+.form-group input,
+.form-group textarea,
+.dropdown-toggle,
+.priority-btn {
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 12px 16px;
+}
+
+#dropdownSearchInput {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+
+#dropdownSearchInput:focus {
+  border: none;
+  box-shadow: none;
+}
+
+#editTaskDueDate::-webkit-calendar-picker-indicator {
+  background: url(../assets/icons/addTask_date.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #8acce6;
+  box-shadow: 0px 2px 3px 1px #8acce6;
+}
+
+.form-group textarea {
+  height: 120px;
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.form-actions .add-task img {
+  width: 16px;
+  height: 16px;
+}
+
+.priority-buttons {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.priority-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 136px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.priority-btn.active {
+  border: none;
+}
+
+.priority-btn.active[data-priority="low"] {
+  background-color: #7ae328;
+  color: white;
+}
+
+.priority-btn.active[data-priority="medium"] {
+  background-color: #ffa800;
+  color: white;
+}
+
+.priority-btn.active[data-priority="urgent"] {
+  background-color: #fe3d01;
+  color: white;
+}
+
+.priority-btn.active img {
+  filter: grayscale(100) brightness(100);
+}
+
+.priority-btn:hover {
+  box-shadow: 0px 5px 3px 1px #bfbfbf;
+  border: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(169, 168, 169);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(169, 168, 169, 0.801);
+}
