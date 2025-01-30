@@ -17,13 +17,14 @@ h1 {
 }
 
 .firstContent {
-    padding: 80px 80px;
+    padding-top: 80px;
 }
 
 .board-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-left: 64px;
 }
 
 .header-right{
@@ -77,5 +78,33 @@ h1 {
     background-color: #29ABE2;
     color: white;
     padding: 8px 16px;
+    padding-right: 25px;
     font-size: 21px;
+}
+
+.title-container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding-top: 80px;
+    padding-right: 64px;
+    padding-left: 64px;
+}
+
+.titles{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 180px;
+}
+
+.titleButton{
+    width: 24px;
+    height: 24px;
+}
+
+.titleButton:hover{
+    background-color: #00000046;
+    border-radius: 8px;
+    cursor: pointer;
 }
