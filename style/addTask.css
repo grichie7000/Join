@@ -14,11 +14,6 @@ body {
     background-color: #F6F7F8;
 }
 
-.inputSection {
-    display: flex;
-    gap: 16px;
-}
-
 .addTask {
     padding-left: 92px;
     padding-right: 92px;
@@ -31,9 +26,23 @@ body {
     padding-bottom: 46px;
 }
 
-.seperator {
-    margin-top: 30px;
-    height: 432px;
-    width: 1px;
-    background-color: #dbdbdb96;
+.required{
+    color: red;
 }
+
+label{
+    font-size: 24px;
+    padding-bottom: 8px;
+}
+
+.input-Section {
+}
+
+
+/*----------------- title ----------------- */
+.form-title{
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+}
+
