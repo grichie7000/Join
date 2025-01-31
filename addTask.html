@@ -74,79 +74,91 @@
             </div>
         </div>
 
-        
+
         <div class="addTask">
             <div>
                 <h2>Add Task</h2>
             </div>
+
+            <div class="input-Section">
+                <form action="#" method="post">
+                    <!-- Title -->
+                    <div class="form-title">
+                        <label for="title">Title <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" placeholder="Enter a title" required>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="form-description">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Enter a Description" rows="4"
+                            required></textarea>
+                    </div>
+
+                    <!-- Assigned to -->
+                    <div class="form-assigned">
+                        <label for="assigned-to">Assigned to</label>
+                        <select id="assigned-to" name="assigned_to" required>
+                            <option value="" disabled selected>Select contacts to assign</option>
+                            <option value="contact1">Contact 1</option>
+                            <option value="contact2">Contact 2</option>
+                            <option value="contact3">Contact 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Due date -->
+                    <div class="form-date">
+                        <label for="due-date">Due Date <span class="required">*</span></label>
+                        <input type="date" id="due-date" name="due_date" required>
+                    </div>
+
+                    <!-- Priority -->
+                    <div class="form-priority">
+                        <label for="priority">Priority</label>
+                        <fieldset id="priority">
+                            <legend>Select the priority level</legend>
+                            <label for="urgent">
+                                <input type="radio" id="urgent" name="priority" value="urgent"> Urgent
+                            </label>
+                            <label for="medium">
+                                <input type="radio" id="medium" name="priority" value="medium"> Medium
+                            </label>
+                            <label for="low">
+                                <input type="radio" id="low" name="priority" value="low"> Low
+                            </label>
+                        </fieldset>
+                    </div>
+                    
+                    
+                    
+                    
+
+                    <!-- Category -->
+                    <div class="form-category">
+                        <label for="category">Category <span class="required">*</span></label>
+                        <select id="category" name="category" required>
+                            <option value="" disabled selected>Select task category</option>
+                            <option value="category1">Category 1</option>
+                            <option value="category2">Category 2</option>
+                            <option value="category3">Category 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Subtasks -->
+                    <div class="form-subtask">
+                        <label for="subtasks">Subtasks</label>
+                        <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="form-buttons">
+                        <button type="reset" class="clear-btn">Clear</button>
+                        <button type="submit" class="create-btn">Create Task</button>
+                    </div>
+                </form>
+            </div>
         </div>
 
-        <div class="input-Section">
-            <form action="#" method="post">
-                <!-- Title -->
-                <div class="form-title">
-                    <label for="title">Title <span class="required">*</span></label>
-                    <input type="text" id="title" name="title" placeholder="Enter a title" required>
-                </div>
-    
-                <!-- Description -->
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" name="description" placeholder="Enter a Description" rows="4" required></textarea>
-                </div>
-    
-                <!-- Assigned to -->
-                <div class="form-assigned">
-                    <label for="assigned-to">Assigned to</label>
-                    <select id="assigned-to" name="assigned_to" required>
-                        <option value="" disabled selected>Select contacts to assign</option>
-                        <option value="contact1">Contact 1</option>
-                        <option value="contact2">Contact 2</option>
-                        <option value="contact3">Contact 3</option>
-                    </select>
-                </div>
-    
-                <!-- Due date -->
-                <div class="form-date">
-                    <label for="due-date">Due Date <span class="required">*</span></label>
-                    <input type="date" id="due-date" name="due_date" required>
-                </div>
-    
-                <!-- Priority -->
-                <div class="form-priority">
-                    <label for="prio">Priority</label>
-                    <div id="prio">
-                        <p>Urgent <input type="radio" name="priority" value="urgent"></p>
-                        <p>Medium <input type="radio" name="priority" value="medium"></p>
-                        <p>Low <input type="radio" name="priority" value="low"></p>
-                    </div>
-                </div>
-    
-                <!-- Category -->
-                <div class="form-category">
-                    <label for="category">Category <span class="required">*</span></label>
-                    <select id="category" name="category" required>
-                        <option value="" disabled selected>Select task category</option>
-                        <option value="category1">Category 1</option>
-                        <option value="category2">Category 2</option>
-                        <option value="category3">Category 3</option>
-                    </select>
-                </div>
-    
-                <!-- Subtasks -->
-                <div class="form-subtask">
-                    <label for="subtasks">Subtasks</label>
-                    <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
-                </div>
-    
-                <!-- Buttons -->
-                <div class="form-buttons">
-                    <button type="reset" class="clear-btn">Clear</button>
-                    <button type="submit" class="create-btn">Create Task</button>
-                </div>
-            </form>
-        </div>
-        
 </body>
 
 </html>
