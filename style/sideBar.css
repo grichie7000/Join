@@ -19,7 +19,7 @@
     background-color: #091931;
 }
 
-a{
+a {
     text-decoration: none;
     color: #CDCDCD;
 }
@@ -48,6 +48,10 @@ a{
 
 .navMenu a {
     color: #CDCDCD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 .navMenu img {

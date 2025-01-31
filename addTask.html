@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Task</title>
 
-    <link rel="stylesheet" href="../style/standard.css">
-    <link rel="stylesheet" href="../style/sideBar.css">
-    <link rel="stylesheet" href="../style/topBar.css">
-    <link rel="stylesheet" href="../style/addTask.css">
+    <link rel="stylesheet" href="./style/standard.css">
+    <link rel="stylesheet" href="./style/sideBar.css">
+    <link rel="stylesheet" href="./style/topBar.css">
+    <link rel="stylesheet" href="./style/addTask.css">
 
-    <script src="../scripts/addTask.js"></script>
-    <script src="../scripts/topBar.js"></script>
-    <script src="../scripts/sideBar.js"></script>
+    <script src="./scripts/addTask.js"></script>
+    <script src="./scripts/topBar.js"></script>
+    <script src="./scripts/sideBar.js"></script>
 
-    <link rel="icon" type="image/x-icon" href="../assets/img/Join-logo.png">
+    <link rel="icon" type="image/x-icon" href="./assets/img/Join-logo.png">
 
 </head>
 
@@ -23,31 +23,35 @@
 
     <div class="sideBar">
 
-        <img class="joinLogo" src="../assets/img/Join-logo.png" alt="JoinLogo">
+        <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
 
         <div class="menuPos">
             <div class="navMenu">
-                <img src="../assets/img/summaryLogo.png" alt="summaryLogo">
-                <a href="../summary.html">Summary</a>
+                <a href="./summary.html">
+                    <img src="./assets/img/summaryLogo.png" alt="summaryLogo">
+                    Summary</a>
             </div>
             <div class="navMenu  active">
-                <img src="../assets/img/addTaskLogo.png" alt="summaryLogo">
-                <a href="./addTask.html">Add Task</a>
+                <a href="./addTask.html">
+                    <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">
+                    Add Task</a>
             </div>
             <div class="navMenu">
-                <img src="../assets/img/BoardLogo.png" alt="summaryLogo">
-                <a href="../board.html">Board</a>
+                <a href="./board.html">
+                    <img src="./assets/img/BoardLogo.png" alt="summaryLogo">
+                    Board</a>
             </div>
             <div class="navMenu">
-                <img src="../assets/img/contactsLogo.png" alt="summaryLogo">
-                <a href="../contacts.html">Contacts</a>
+                <a href="./contacts.html">
+                    <img src="./assets/img/contactsLogo.png" alt="summaryLogo">
+                    Contacts</a>
             </div>
         </div>
 
 
         <div class="lawSection">
-            <a href="../privacyPolicy.html">Privacy Policy</a>
-            <a href="../legalNotice.html">Legal notice</a>
+            <a href="./privacyPolicy.html">Privacy Policy</a>
+            <a href="./legalNotice.html">Legal Notice</a>
         </div>
     </div>
 
@@ -58,68 +62,24 @@
         <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
             <div class="profile">
-                <a href="../help.html" class="help">?</a>
-                <p class="initials">SM</p>
+                <a href="./help.html" class="help">?</a>
+                <p class="initials" id="profile-toggle">SM</p>
+                <div class="dropdown" id="dropdown-menu">
+                    <ul>
+                        <li><a href="./legalNotice.html">Legal Notice</a></li>
+                        <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
+                        <li><a href="./logout.html">Log Out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <form class="addTask">
+        <div class="addTask">
             <div>
                 <h2>Add Task</h2>
             </div>
-
-            <div class="inputSection">
-                <div class="inputLeft">
-                    <label for="title">Title<span class="required">*</span></label>
-                    <input type="text" placeholder="Enter a title" id="title" name="title" required>
-
-                    <label for="description">Description</label>
-                    <textarea placeholder="Enter a Description" id="description" name="description"></textarea>
-
-                    <label for="contacts">Assigned to</label>
-                    <select class="custom-dropdown" name="contacts" id="contacts">
-                        <option value="" disabled selected hidden>Select contacts to assign</option>
-                        <option value="1">kontakt1</option>
-                        <option value="2">kontakt2</option>
-                        <option value="3">kontakt3</option>
-                        <option value="4">kontakt4</option>
-                    </select>
-                </div>
-
-                <div class="seperator">
-                </div>
-
-                <div class="inputRight">
-                    <label id="date" for="due-date">Due date<span class="required">*</span></label>
-                    <input id="datePlaceholder" type="date" id="due-date" name="due-date" required>
-
-                    <label for="prio">Prio</label>
-                    <div id="prio" name="prio">
-                        <p id="urgent" value="urgent">Urgent<img src="./assets/img/urgent.png"></p>
-                        <p id="medium" value="medium">Medium<img src="./assets/img/medium.png"></p>
-                        <p id="low" value="low">Low<img src="./assets/img/low.png"></p>
-                    </div>
-
-                    <label for="category">Category<span class="required">*</span></label>
-                    <select class="custom-dropdown" id="category" name="category" required>
-                        <option value="" disabled selected hidden>Select task category</option>
-                        <option value="technical-task">Technical Task</option>
-                        <option value="user-story">User Story</option>
-                    </select>
-
-                    <label for="subtasks">Subtasks</label>
-                    <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
-                </div>
-            </div>
-
-            <div class="createAndClear">
-                <button id="resetButton" type="reset">Clear <span id="x">X</span></button>
-                <button id="createButton" type="submit">Create Task <img src="./assets/img/check_symbol.png" alt="check"> </button>
-            </div>
-
-        </form>
-        <p id="requiredInfo"><span class="required">*</span>This field is required</p>
-    </div>
+        </div>
+        
 </body>
 
 </html>
