@@ -199,7 +199,6 @@ h1 {
     justify-content: flex-start;
     align-items: stretch;
     min-height: 300px;
-    gap: 20px;
 }
 
 .task {

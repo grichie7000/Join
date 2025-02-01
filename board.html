@@ -85,12 +85,15 @@
             <div class="kanban-column">
                 <div class="titles">Await Feedback <div class="titleButton">+</div></div>
                 <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')" ondragover="allowDrop(event)">
+                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)">Task 3</div>
+                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)">Task 4</div>
                 </div>
             </div>
         
             <div class="kanban-column">
                 <div class="titles">Done <div class="noTitleButton"></div></div>
                 <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
+                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)">Task 5</div>
                 </div>
             </div>
         </section>
