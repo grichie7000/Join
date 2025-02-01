@@ -1,9 +1,9 @@
 let arrowDirection = true;
-
+let selectArrow = '';
 
 function initAddTask() {
     console.log('hi');
-
+    selectArrow = document.getElementById('customArrow');
 }
 
 
