@@ -68,24 +68,35 @@
         </section>
 
         <section class="title-container">
-            <div>
-               <div class="titles">To Do <img class="titleButton" src="assets/img/titleButton.png" alt=""></div>
-               <div id="to-do"></div>
+            <div class="kanban-column">
+                <div class="titles">To Do <div class="titleButton">+</div></div>
+                <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)">
+                    <div id="noTasks" class="noTask">No tasks To do</div>
+                </div>
             </div>
-            <div>
-               <div class="titles">In progress <img class="titleButton" src="assets/img/titleButton.png" alt=""></div>
-               <div id="in-progress"></div>
+        
+            <div class="kanban-column">
+                <div class="titles">In Progress <div class="titleButton">+</div></div>
+                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')" ondragover="allowDrop(event)">
+                    <div id="task2" class="task" draggable="true" ondragstart="drag(event)">Task 2</div>
+                </div>
             </div>
-            <div>
-               <div class="titles">Await Feedback <img class="titleButton" src="assets/img/titleButton.png" alt=""></div>
-               <div id="await-feedback"></div>
-           </div> 
-           <div>
-               <div class="titles">Done</div>
-               <div id="done"></div>
-           </div>
+        
+            <div class="kanban-column">
+                <div class="titles">Await Feedback <div class="titleButton">+</div></div>
+                <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')" ondragover="allowDrop(event)">
+                </div>
+            </div>
+        
+            <div class="kanban-column">
+                <div class="titles">Done <div class="noTitleButton"></div></div>
+                <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
+                </div>
+            </div>
         </section>
-
+        
+                
+      <script src="scripts/board.js"></script>        
 </body>
 
 </html>
