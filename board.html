@@ -50,8 +50,15 @@
         <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
             <div class="profile">
-                <a href="../help.html" class="help">?</a>
-                <p class="initials">SM</p>
+                <a href="./help.html" class="help">?</a>
+                <p class="initials" id="profile-toggle">SM</p>
+                <div class="dropdown" id="dropdown-menu">
+                    <ul>
+                        <li><a href="./legalNotice.html">Legal Notice</a></li>
+                        <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
+                        <li><a href="./relogin.html">Log Out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
@@ -62,44 +69,70 @@
 
                     <input class="findTaskInput" type="text" placeholder="Find Task">
 
-                    <button class="addTaskButton">Add task <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"fill="white" /></svg></button>
+                    <button class="addTaskButton">Add task <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
+                                fill="white" />
+                        </svg></button>
                 </div>
             </div>
         </section>
 
         <section class="title-container">
             <div class="kanban-column">
-                <div class="titles">To Do <div class="titleButton">+</div></div>
+                <div class="titles">To Do <div class="titleButton">+</div>
+                </div>
                 <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)">
                     <div id="noTasks" class="noTask">No tasks To do</div>
                 </div>
             </div>
-        
+
             <div class="kanban-column">
-                <div class="titles">In Progress <div class="titleButton">+</div></div>
-                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')" ondragover="allowDrop(event)">
-                    <div id="task2" class="task" draggable="true" ondragstart="drag(event)">Task 2</div>
+                <div class="titles">In Progress <div class="titleButton">+</div>
+                </div>
+                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"
+                    ondragover="allowDrop(event)">
+                    <div id="task2" class="task" draggable="true" ondragstart="drag(event)">
+                        <h3 class="task-title">User Story</h3>
+                        <p class="task-name">Kochwelt Page & Recipe Commender</p>
+                        <p class="task-description">Build start page with recipe recommendation</p>
+                        <!-- Fortschrittsbalken für Subtasks -->
+                        <div class="subtask-progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 50%;"></div>
+                            </div>
+                            <p class="subtask-info">1 / 2 Subtasks</p>
+                        </div>
+                        <div class="contactUrgent">
+                          <p>AT, RG, RJ</p>
+                          <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
+                        </div>
+                    </div>
                 </div>
             </div>
-        
+
             <div class="kanban-column">
-                <div class="titles">Await Feedback <div class="titleButton">+</div></div>
-                <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')" ondragover="allowDrop(event)">
+                <div class="titles">Await Feedback <div class="titleButton">+</div>
+                </div>
+                <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
+                    ondragover="allowDrop(event)">
                     <div id="task3" class="task" draggable="true" ondragstart="drag(event)">Task 3</div>
                     <div id="task4" class="task" draggable="true" ondragstart="drag(event)">Task 4</div>
                 </div>
             </div>
-        
+
             <div class="kanban-column">
-                <div class="titles">Done <div class="noTitleButton"></div></div>
+                <div class="titles">Done <div class="noTitleButton"></div>
+                </div>
                 <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
                     <div id="task5" class="task" draggable="true" ondragstart="drag(event)">Task 5</div>
                 </div>
             </div>
         </section>
-        
-                
-      <script src="scripts/board.js"></script>        
+
+
+        <script src="scripts/board.js"></script>
 </body>
 
 </html>
