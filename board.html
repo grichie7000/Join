@@ -87,7 +87,7 @@
             <div class="kanban-column">
                 <div class="titles">To Do <div class="titleButton">+</div>
                 </div>
-                <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)">
+                <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)" onclick="openEditOverlay(event)">
                     <div id="noTasks" class="noTask">No tasks To do</div>
                 </div>
             </div>
@@ -95,8 +95,7 @@
             <div class="kanban-column">
                 <div class="titles">In Progress <div class="titleButton">+</div>
                 </div>
-                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"
-                    ondragover="allowDrop(event)">
+                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"ondragover="allowDrop(event)" onclick="openEditOverlay(event)">
                     <div id="task2" class="task" draggable="true" ondragstart="drag(event)">
                         <h3 class="task-title">User Story</h3>
                         <p class="task-name">Kochwelt Page & Recipe Commender</p>
@@ -109,8 +108,8 @@
                             <p class="subtask-info">1 / 2 Subtasks</p>
                         </div>
                         <div class="contactUrgent">
-                          <p>AT, RG, RJ</p>
-                          <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
+                            <p>AT, RG, RJ</p>
+                            <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
                         </div>
                     </div>
                 </div>
@@ -121,22 +120,22 @@
                 </div>
                 <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
                     ondragover="allowDrop(event)">
-                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)">
+                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
                         <h3 class="technical-task">Technical Task</h3>
                         <p class="task-name">HTML Base Template Creation</p>
                         <p class="task-description">Create reusable HTML base templates...</p>
                         <div class="contactUrgent">
-                          <p>AT, RG, RJ</p>
-                          <img class="lowUrgent" src="assets/img/low.png" alt=""></img>
+                            <p>AT, RG, RJ</p>
+                            <img class="lowUrgent" src="assets/img/low.png" alt=""></img>
                         </div>
                     </div>
-                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)">
+                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
                         <h3 class="task-title">User Story</h3>
                         <p class="task-name">Daily Kochwelt Recipe</p>
                         <p class="task-description">Implement daily recipe and portion calculator...</p>
                         <div class="contactUrgent">
-                          <p>AT, RG, RJ</p>
-                          <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
+                            <p>AT, RG, RJ</p>
+                            <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
                         </div>
                     </div>
                 </div>
@@ -146,27 +145,48 @@
                 <div class="titles">Done <div class="noTitleButton"></div>
                 </div>
                 <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
-                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)">
+                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
                         <h3 class="technical-task">Technical Task</h3>
                         <p class="task-name">CSS Architecture Planning</p>
                         <p class="task-description">Define CSS naming convestions and structure...</p>
                         <!-- Fortschrittsbalken für Subtasks -->
                         <div class="subtask-progress-container">
                             <div class="progress-bar">
-                                <div class="progress" style="width: 50%;"></div>
+                                <div class="progress" style="width: 100%;"></div>
                             </div>
-                            <p class="subtask-info">1 / 2 Subtasks</p>
+                            <p class="subtask-info">2 / 2 Subtasks</p>
                         </div>
                         <div class="contactUrgent">
-                          <p>AT, RG, RJ</p>
-                          <img class="highUrgent" src="assets/img/urgent.png" alt=""></img>
+                            <p>AT, RG, RJ</p>
+                            <img class="highUrgent" src="assets/img/urgent.png" alt=""></img>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-
+        <div id="editOverlay" class="overlay">
+            <div class="overlay-content">
+                <h2>Edit Task</h2>
+                <form id="editForm">
+                    <label for="taskName">Task Name:</label>
+                    <input class="overlayInput" type="text" id="taskName" name="taskName" value="" required><br><br>
+        
+                    <label for="taskDescription">Description:</label>
+                    <input class="overlayInput" id="taskDescription" name="taskDescription" required><br><br>
+        
+                    <!-- Container für den Fortschritt -->
+                    <div id="progressContainer" style="display:none;">
+                        <label for="progress">Progress:</label>
+                        <input class="overlayInput" type="number" id="progress" name="progress" min="0" max="100" value="" required>%<br><br>
+                    </div>
+        
+                    <button class="saveButton" type="submit" onclick="saveTask(event)">Save</button>
+                    <button class="cancelButton" type="button" onclick="closeEditOverlay()">Cancel</button>
+                </form>
+            </div>
+        </div>
+        
         <script src="scripts/board.js"></script>
 </body>
 
