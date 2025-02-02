@@ -67,7 +67,11 @@
                 <h1>Board</h1>
                 <div class="header-right">
 
-                    <input class="findTaskInput" type="text" placeholder="Find Task">
+                    <div class="input-wrapper">
+                        <input class="findTaskInput" type="text" placeholder="Find Task">
+                        <span class="separator"></span>
+                        <img class="search-icon" src="../assets/img/search.svg" alt="Search">
+                    </div>
 
                     <button class="addTaskButton">Add task <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -96,7 +100,7 @@
                     <div id="task2" class="task" draggable="true" ondragstart="drag(event)">
                         <h3 class="task-title">User Story</h3>
                         <p class="task-name">Kochwelt Page & Recipe Commender</p>
-                        <p class="task-description">Build start page with recipe recommendation</p>
+                        <p class="task-description">Build start page with recipe recommendation...</p>
                         <!-- Fortschrittsbalken für Subtasks -->
                         <div class="subtask-progress-container">
                             <div class="progress-bar">
@@ -117,8 +121,24 @@
                 </div>
                 <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
                     ondragover="allowDrop(event)">
-                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)">Task 3</div>
-                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)">Task 4</div>
+                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)">
+                        <h3 class="technical-task">Technical Task</h3>
+                        <p class="task-name">HTML Base Template Creation</p>
+                        <p class="task-description">Create reusable HTML base templates...</p>
+                        <div class="contactUrgent">
+                          <p>AT, RG, RJ</p>
+                          <img class="lowUrgent" src="assets/img/low.png" alt=""></img>
+                        </div>
+                    </div>
+                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)">
+                        <h3 class="task-title">User Story</h3>
+                        <p class="task-name">Daily Kochwelt Recipe</p>
+                        <p class="task-description">Implement daily recipe and portion calculator...</p>
+                        <div class="contactUrgent">
+                          <p>AT, RG, RJ</p>
+                          <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -126,7 +146,22 @@
                 <div class="titles">Done <div class="noTitleButton"></div>
                 </div>
                 <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
-                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)">Task 5</div>
+                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)">
+                        <h3 class="technical-task">Technical Task</h3>
+                        <p class="task-name">CSS Architecture Planning</p>
+                        <p class="task-description">Define CSS naming convestions and structure...</p>
+                        <!-- Fortschrittsbalken für Subtasks -->
+                        <div class="subtask-progress-container">
+                            <div class="progress-bar">
+                                <div class="progress" style="width: 50%;"></div>
+                            </div>
+                            <p class="subtask-info">1 / 2 Subtasks</p>
+                        </div>
+                        <div class="contactUrgent">
+                          <p>AT, RG, RJ</p>
+                          <img class="highUrgent" src="assets/img/urgent.png" alt=""></img>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
