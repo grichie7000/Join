@@ -26,26 +26,37 @@
         <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
 
         <div class="menuPos">
-            <div class="navMenu">
-                <a href="./summary.html">
+
+            <a href="./summary.html">
+                <div class="navMenu">
                     <img src="./assets/img/summaryLogo.png" alt="summaryLogo">
-                    Summary</a>
-            </div>
-            <div class="navMenu  active">
-                <a href="./addTask.html">
+                    Summary
+
+                </div>
+            </a>
+
+            <a href="./addTask.html">
+                <div class="navMenu  active">
                     <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">
-                    Add Task</a>
-            </div>
-            <div class="navMenu">
-                <a href="./board.html">
+                    Add Task
+
+                </div>
+            </a>
+
+            <a href="./board.html">
+                <div class="navMenu">
                     <img src="./assets/img/BoardLogo.png" alt="summaryLogo">
-                    Board</a>
-            </div>
-            <div class="navMenu">
-                <a href="./contacts.html">
+                    Board
+
+                </div>
+            </a>
+            <a href="./contacts.html">
+                <div class="navMenu">
                     <img src="./assets/img/contactsLogo.png" alt="summaryLogo">
-                    Contacts</a>
-            </div>
+                    Contacts
+
+                </div>
+            </a>
         </div>
 
 
@@ -100,13 +111,13 @@
                         <!-- Assigned to -->
                         <div class="form-assigned-to">
                             <label for="assigned-to">Assigned to</label>
-                            <select id="assigned-to" name="assigned_to" required onclick="toggleArrow()">
+                            <select id="assigned-to" name="assigned_to" required onclick="toggleArrow('assigned-to')">
                                 <option value="" disabled selected>Select contacts to assign</option>
                                 <option value="contact1">Contact 1</option>
                                 <option value="contact2">Contact 2</option>
                                 <option value="contact3">Contact 3</option>
                             </select>
-                            <img id="customArrow" class="custom-arrow" src="./assets/img/arrow_down.png"
+                            <img id="customArrowAssigned" class="custom-arrow" src="./assets/img/arrow_down.png"
                                 alt="arrow_standard">
                         </div>
                     </div>
@@ -119,51 +130,60 @@
                         <div class="form-date">
                             <label for="due-date">Due Date <span class="required">*</span></label>
                             <input type="date" id="due-date" name="due_date" required>
+                            <span class="calendar-icon"><img src="./assets/img/date.png" alt="date">
+                            </span>
                         </div>
 
                         <!-- Priority -->
                         <div class="form-priority">
-                            <label for="priority">Priority</label>
-                            <fieldset id="priority">
-                                <legend>Select the priority level</legend>
-                                <label for="urgent">
-                                    <input type="radio" id="urgent" name="priority" value="urgent"> Urgent
+                            <label for="priority">Prio</label>
+                            <div id="priority">
+                                <label class="radio-container">
+                                    <input type="radio" id="urgent" name="priority" value="urgent">
+                                    <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png"
+                                            alt=""></span>
                                 </label>
-                                <label for="medium">
-                                    <input type="radio" id="medium" name="priority" value="medium"> Medium
+                                <label class="radio-container">
+                                    <input type="radio" id="medium" name="priority" value="medium">
+                                    <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png"
+                                            alt=""></span>
                                 </label>
-                                <label for="low">
-                                    <input type="radio" id="low" name="priority" value="low"> Low
+                                <label class="radio-container">
+                                    <input type="radio" id="low" name="priority" value="low">
+                                    <span class="radio-custom low-radio">Low <img src="./assets/img/low.png"
+                                            alt=""></span>
                                 </label>
-                            </fieldset>
+                            </div>
                         </div>
+
 
                         <!-- Category -->
                         <div class="form-category">
                             <label for="category">Category <span class="required">*</span></label>
-                            <select id="category" name="category" required>
+                            <select id="category" name="category" required onclick="toggleArrow('category')">
                                 <option value="" disabled selected>Select task category</option>
                                 <option value="category1">Category 1</option>
                                 <option value="category2">Category 2</option>
-                                <option value="category3">Category 3</option>
                             </select>
+                            <img id="customArrowCategory" class="custom-arrow" src="./assets/img/arrow_down.png"
+                                alt="arrow_standard">
                         </div>
 
-                        <!-- Subtasks -->
-                        <div class="form-subtask">
-                            <label for="subtasks">Subtasks</label>
-                            <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
-                        </div>
-
-                        <!-- Buttons -->
-                        <div class="form-buttons">
-                            <button type="reset" class="clear-btn">Clear</button>
-                            <button type="submit" class="create-btn">Create Task</button>
-                        </div>
+                    <!-- Subtasks -->
+                    <div class="form-subtask">
+                        <label for="subtasks">Subtasks</label>
+                        <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
                     </div>
-                </form>
+
+                    <!-- Buttons -->
+                    <div class="form-buttons">
+                        <button type="reset" class="clear-btn">Clear</button>
+                        <button type="submit" class="create-btn">Create Task</button>
+                    </div>
             </div>
+            </form>
         </div>
+    </div>
 
 </body>
 
