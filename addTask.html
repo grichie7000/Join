@@ -26,39 +26,27 @@
         <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
 
         <div class="menuPos">
-
             <a href="./summary.html">
                 <div class="navMenu">
-                    <img src="./assets/img/summaryLogo.png" alt="summaryLogo">
-                    Summary
-
+                    <img src="./assets/img/summaryLogo.png" alt="summaryLogo">Summary
                 </div>
             </a>
-
             <a href="./addTask.html">
                 <div class="navMenu  active">
-                    <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">
-                    Add Task
-
+                    <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">Add Task
                 </div>
             </a>
-
             <a href="./board.html">
                 <div class="navMenu">
-                    <img src="./assets/img/BoardLogo.png" alt="summaryLogo">
-                    Board
-
+                    <img src="./assets/img/BoardLogo.png" alt="summaryLogo">Board
                 </div>
             </a>
             <a href="./contacts.html">
                 <div class="navMenu">
-                    <img src="./assets/img/contactsLogo.png" alt="summaryLogo">
-                    Contacts
-
+                    <img src="./assets/img/contactsLogo.png" alt="summaryLogo">Contacts
                 </div>
             </a>
         </div>
-
 
         <div class="lawSection">
             <a href="./privacyPolicy.html">Privacy Policy</a>
@@ -91,8 +79,9 @@
                 <h2>Add Task</h2>
             </div>
 
-            <div class="input-Section">
-                <form action="#" method="post">
+            <form action="#" method="post">
+                <div class="input-Section">
+
                     <div class="inputLeft">
                         <!-- Title -->
                         <div class="form-title">
@@ -103,8 +92,8 @@
                         <!-- Description -->
                         <div class="form-description">
                             <label for="description">Description</label>
-                            <textarea id="description" name="description" placeholder="Enter a Description" rows="4"
-                                required></textarea>
+                            <textarea id="description" name="description" placeholder="Enter a Description"
+                                rows="4"></textarea>
                             <img class="custom-resize" src="./assets/img/resize.png" alt="resize">
                         </div>
 
@@ -169,21 +158,36 @@
                                 alt="arrow_standard">
                         </div>
 
-                    <!-- Subtasks -->
-                    <div class="form-subtask">
-                        <label for="subtasks">Subtasks</label>
-                        <input type="text" id="subtasks" name="subtasks" placeholder="Add new subtask">
+                        <!-- Subtasks -->
+                        <div class="form-subtask">
+                            <p>Subtasks</p>
+                            <div id="subtask">
+                                <div class="subtaskText">
+                                    <span>Add a new Subtask</span>
+                                </div>
+                                <div class="subtaskIcons">
+                                    <p>+</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Buttons -->
-                    <div class="form-buttons">
-                        <button type="reset" class="clear-btn">Clear</button>
-                        <button type="submit" class="create-btn">Create Task</button>
+                <!-- Buttons -->
+                <div class="button-and-text">
+                    <div>
+                        <p id="required-text"><span class="required">*</span>This field is required</p>
                     </div>
-            </div>
+                    <div class="form-buttons">
+                        <button type="reset" class="clear-btn">Clear <span>X</span>
+                        </button>
+                        <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png" alt="">
+                        </button>
+                    </div>
+                </div>
             </form>
+
         </div>
-    </div>
 
 </body>
 

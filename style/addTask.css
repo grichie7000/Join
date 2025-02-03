@@ -1,7 +1,3 @@
-h1 {
-    color: yellow;
-}
-
 body {
     display: flex;
 }
@@ -15,12 +11,12 @@ body {
 }
 
 .addTask {
-    padding-left: 92px;
-    padding-right: 92px;
+    padding-left: 180px;
+    padding-right: 220px;
 }
 
 .addTask h2 {
-    font-size: 72px;
+    font-size: 60px;
     margin-top: 92px;
     padding-bottom: 46px;
 }
@@ -34,7 +30,7 @@ body {
 }
 
 label {
-    font-size: 24px;
+    font-size: 18px;
     padding-bottom: 8px;
     color: #2A3647;
 }
@@ -43,7 +39,7 @@ label {
     font-size: 24px;
 }
 
-.input-Section form {
+.input-Section {
     display: flex;
 }
 
@@ -60,13 +56,13 @@ label {
     border-radius: 12px;
     border: 2px solid #D1D1D1;
     padding: 12px 18px;
-    font-size: 24px;
+    font-size: 18px;
     -webkit-transition: 0.3s;
 }
 
 #title::placeholder {
     color: #D1D1D1;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 #title:focus {
@@ -95,7 +91,7 @@ label {
     border-radius: 12px;
     border: 2px solid #D1D1D1;
     padding: 24px 18px;
-    font-size: 24px;
+    font-size: 18px;
     -webkit-transition: 0.3s;
     height: 100px;
     resize: none;
@@ -103,7 +99,7 @@ label {
 
 #description::placeholder {
     color: #D1D1D1;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 #description:focus {
@@ -138,11 +134,12 @@ label {
 }
 
 #assigned-to {
+    background-color: white;
     border-radius: 12px;
     border: 1px solid #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
     padding: 12px 18px;
-    font-size: 24px;
+    font-size: 18px;
     -webkit-transition: 0.3s;
     -webkit-appearance: none;
     appearance: none;
@@ -182,7 +179,7 @@ label {
     border: 1px solid #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
     padding: 12px 18px;
-    font-size: 24px;
+    font-size: 18px;
     color: #D1D1D1;
 }
 
@@ -234,8 +231,8 @@ input[type="radio"] {
     flex: 1;
 }
 
-/* Der Kreis, der als benutzerdefinierter Radio-Button dient */
 .radio-custom {
+    background-color: white;
     margin-top: 8px;
     height: 60px;
     box-shadow: 0px 0px 4px #D1D1D1;
@@ -273,12 +270,13 @@ input[type="radio"]:checked+.low-radio {
     box-shadow: 0px 6px 2px #D1D1D1;
 }
 
-/*----------------- assigned to  ----------------- */
+/*----------------- category  ----------------- */
 .form-category {
     display: flex;
     flex-direction: column;
     width: 440px;
     position: relative;
+    margin-bottom: 36px;
 }
 
 .custom-arrow {
@@ -299,11 +297,12 @@ input[type="radio"]:checked+.low-radio {
 }
 
 #category {
+    background-color: white;
     border-radius: 12px;
     border: 1px solid #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
     padding: 12px 18px;
-    font-size: 24px;
+    font-size: 18px;
     -webkit-transition: 0.3s;
     -webkit-appearance: none;
     appearance: none;
@@ -319,4 +318,86 @@ input[type="radio"]:checked+.low-radio {
     outline: none;
     border: 1px solid #29ABE2;
     border-bottom: 2px solid #29ABE2;
+}
+
+/*----------------- subtask  ----------------- */
+
+.form-subtask {
+    display: flex;
+    flex-direction: column;
+    width: 440px;
+    font-size: 18px;
+}
+
+.subtaskText {
+    color: #D1D1D1;
+}
+
+#subtask {
+    background-color: white;
+    border-radius: 12px;
+    border: 2px solid #D1D1D1;
+    padding: 12px 18px;
+    font-size: 18px;
+    -webkit-transition: 0.3s;
+    display: flex;
+    justify-content: space-between;
+}
+
+/*----------------- buttons  ----------------- */
+.button-and-text {
+    display: flex;
+    justify-content: space-between;
+    padding-right: 310px;
+}
+
+.create-btn img {
+    height: 12px;
+    padding-left: 8px;
+}
+
+.clear-btn span {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.clear-btn {
+    background-color: #F6F7F8;
+    font-size: 18px;
+    padding: 14px 16px;
+    border: 1px solid #2A3647;
+    color: #2A3647;
+    border-radius: 12px;
+    transition: border 0.2s, color 0.2s;
+
+}
+
+.clear-btn:hover {
+    cursor: pointer;
+    color: #29ABE2;
+    border: 1px solid #29ABE2;
+    box-shadow: 0px 4px 4px #D1D1D1;
+}
+
+.create-btn {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    padding: 14px 16px;
+    background-color: #2A3647;
+    border: none;
+    border-radius: 12px;
+    margin-left: 16px;
+    transition: background-color 0.3s;
+}
+
+.create-btn:hover {
+    background-color: #29ABE2;
+    cursor: pointer;
+    box-shadow: 0px 4px 4px #D1D1D1;
+}
+
+#required-text {
+    font-size: 16px;
+    padding-top: 90px
 }

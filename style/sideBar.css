@@ -19,7 +19,7 @@
     background-color: #091931;
 }
 
-a {
+.sideBar a {
     text-decoration: none;
     color: #CDCDCD;
 }
@@ -31,6 +31,7 @@ a {
 }
 
 .navMenu {
+    font-size: 18px;
     display: flex;
     gap: 8px;
     align-items: center;

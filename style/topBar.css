@@ -15,11 +15,11 @@
     justify-content: center;
     align-items: center;
     gap: 16px;
-    padding-right: 120px;
+    padding-right: 160px;
 }
 
 .topBar h3 {
-    padding-left: 120px;
+    padding-left: 220px;
     font-weight: 400;
 }
 
@@ -84,3 +84,4 @@
     cursor: pointer;
     background-color: #2A3D59;
 }
+
