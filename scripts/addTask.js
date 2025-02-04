@@ -15,8 +15,6 @@ function validateFormular(event) {
     validateTitle(event)
     validateDate(event)
     validateCategory(event)
-
-
 }
 
 
