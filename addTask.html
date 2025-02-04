@@ -104,17 +104,29 @@
                             <div id="assigned-to">
                                 <div class="dropdown-trigger" onclick="toggleDropdown()">
                                     <span id="placeholderAssigned">Select contacts to assign</span>
-                                    <img src="./assets/img/arrow_down.png" alt="arrow" class="custom-arrow" id="customArrowAssigned">
+                                    <img src="./assets/img/arrow_down.png" alt="arrow" class="custom-arrow"
+                                        id="customArrowAssigned">
                                 </div>
                                 <div class="contact-list" id="contactListAssigned">
-                                    <div class="contact-item">Kontakt 1</div>
-                                    <div class="contact-item">Kontakt 2</div>
-                                    <div class="contact-item">Kontakt 3</div>
-                                    <div class="contact-item">Kontakt 4</div>
-                                    <div class="contact-item">Kontakt 5</div>
-                                    <div class="contact-item">Kontakt 6</div>
-                                    <div class="contact-item">Kontakt 7</div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 1 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 2 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 3 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 4 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 5 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 6 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 7 <img
+                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
                                 </div>
+                            </div>
+                            <!-- Div für die Anzeige der ausgewählten Kontakte -->
+                            <div id="selectedContacts">
+                                <div id="selectedContactsList"></div>
                             </div>
                         </div>
                     </div>

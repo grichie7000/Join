@@ -177,10 +177,37 @@ label {
     padding: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 32px;
+    padding-right: 32px;
+    position: relative;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 .contact-item:hover {
     background-color: #f1f1f1;
+}
+
+/* Wenn ein Kontakt ausgewählt wurde */
+.contact-item.selected {
+    background-color: #4CAF50;
+    /* grüner Hintergrund */
+    color: white;
+    /* Textfarbe weiß */
+}
+
+/* Hover-Effekt nach Auswahl */
+.contact-item.selected:hover {
+    background-color: #45a049;
+    /* etwas dunkleres Grün */
+}
+
+.contact-item img {
+    position: absolute;
+    height: 18px;
+    right: 32px;
 }
 
 #assigned-to.open .contact-list {
@@ -189,6 +216,28 @@ label {
 
 .custom-arrow.open {
     transform: rotate(180deg);
+}
+
+
+/* Stil für den Bereich der ausgewählten Kontakte */
+#selectedContacts {
+    padding: 10px;
+}
+
+#selectedContactsList {
+    margin-top: 10px;
+}
+
+.selected-contact-item {
+    padding: 8px;
+    background-color: #e0f7e0;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
+.contact-item.selected img:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 
 /*----------------- seperator  ----------------- */

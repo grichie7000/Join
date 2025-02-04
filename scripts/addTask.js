@@ -70,6 +70,15 @@ function clearTask() {
 
     errorCategory.innerHTML = '';
     category.style.border = "2px solid #D1D1D1"
+
+    const allContacts = document.querySelectorAll('.contact-item');
+
+    allContacts.forEach(contact => {
+        contact.classList.remove('selected');
+    });
+
+    const selectedContactsList = document.getElementById('selectedContactsList');
+    selectedContactsList.innerHTML = '';
 }
 
 
@@ -96,30 +105,84 @@ function changeDateColor() {
 }
 
 
-
-
-
-
 function toggleDropdown() {
     const assignedToElement = document.getElementById('assigned-to');
     const customArrowAssigned = document.getElementById('customArrowAssigned');
-    
+    const placeholderAssigned = document.getElementById('placeholderAssigned');
+
     // Umschalten der "open"-Klasse für das Dropdown-Menü und das Pfeilsymbol
     assignedToElement.classList.toggle('open');
-    
-    // Drehen des Pfeils um 180 Grad
+
     customArrowAssigned.classList.toggle('open');
+
+    if (assignedToElement.classList.contains('open')) {
+        placeholderAssigned.innerHTML = "An |"
+    } else {
+        placeholderAssigned.innerHTML = "Select contacts to assign"
+    }
 }
 
 // Funktion, die überprüft, ob außerhalb des Dropdowns geklickt wurde
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const assignedToElement = document.getElementById('assigned-to');
     const customArrowAssigned = document.getElementById('customArrowAssigned');
-    
+    const placeholderAssigned = document.getElementById('placeholderAssigned');
+
     // Überprüfen, ob der Klick außerhalb des Dropdowns war
     if (!assignedToElement.contains(event.target)) {
         // Dropdown schließen, wenn außerhalb geklickt wurde
         assignedToElement.classList.remove('open');
         customArrowAssigned.classList.remove('open'); // Pfeil zurückdrehen
+        placeholderAssigned.innerHTML = "Select contacts to assign"
     }
 });
+
+// Funktion zum Auswählen und Anzeigen von Kontakten
+function selectContact(contactElement) {
+    // Toggle der 'selected' Klasse bei einem Klick
+    contactElement.classList.toggle('selected');
+
+    // Ändere das Bild je nach Auswahlstatus
+    const checkboxImage = contactElement.querySelector('img');  // Bild innerhalb des Kontakts
+    if (contactElement.classList.contains('selected')) {
+        // Wenn ausgewählt, ändere das Bild zu einem Haken-Bild
+        checkboxImage.src = "./assets/img/checkbox_checked.png";  // Beispiel für ein Haken-Bild
+    } else {
+        // Wenn nicht ausgewählt, setze das Bild zurück auf das leere Kästchen
+        checkboxImage.src = "./assets/img/checkbox_empty.png";
+    }
+
+    // Holen des aktuellen Bereichs für die ausgewählten Kontakte
+    const selectedContactsList = document.getElementById('selectedContactsList');
+
+    // Leeren des Bereichs, um neu zu laden
+    selectedContactsList.innerHTML = '';
+
+    // Holen aller selektierten Kontakt-Elemente
+    const selectedContacts = document.querySelectorAll('.contact-item.selected');
+
+    // Hinzufügen der selektierten Kontakte zum angezeigten Bereich
+    selectedContacts.forEach(contact => {
+        const selectedItem = document.createElement('div');
+        selectedItem.classList.add('selected-contact-item');
+        selectedItem.textContent = contact.textContent.trim();
+        selectedContactsList.appendChild(selectedItem);
+    });
+}
+
+// Funktion zum Zurücksetzen der Auswahl
+function clearSelection() {
+    // Entferne die 'selected' Klasse von allen Kontakt-Elementen
+    const allContacts = document.querySelectorAll('.contact-item');
+    allContacts.forEach(contact => {
+        contact.classList.remove('selected');
+
+        // Bild zurücksetzen auf das leere Kästchen
+        const checkboxImage = contact.querySelector('img');
+        checkboxImage.src = "./assets/img/checkbox_empty.png";  // Setzt das Bild auf das leere Kästchen zurück
+    });
+
+    // Leeren des Bereichs für die ausgewählten Kontakte
+    const selectedContactsList = document.getElementById('selectedContactsList');
+    selectedContactsList.innerHTML = '';  // Alle ausgewählten Kontakte entfernen
+}
