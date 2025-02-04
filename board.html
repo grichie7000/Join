@@ -70,7 +70,7 @@
                         <span class="separator"></span>
                         <img class="search-icon" src="assets/img/search.svg" alt="Search">
                     </div>
-                    <button class="addTaskButton" onclick="addTask('to-do')">
+                    <button class="addTaskButton">
                         Add task
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -83,9 +83,9 @@
         </section>
 
         <section class="title-container">
-            <div class="titles">To Do <div class="titleButton" onclick="addTask('to-do')">+</div></div>
-            <div class="titles">In Progress <div class="titleButton" onclick="addTask('in-progress')">+</div></div>
-            <div class="titles">Await Feedback <div class="titleButton" onclick="addTask('await-feedback')">+</div></div>
+            <div class="titles">To Do <div class="toDoButton">+</div></div>
+            <div class="titles">In Progress <div class="inProgressButton">+</div></div>
+            <div class="titles">Await Feedback <div class="awaitButton">+</div></div>
             <div class="titles">Done</div>
         </section>
 
@@ -113,6 +113,7 @@
 
     <div id="taskOverlay" class="overlay-board-addTask">
         <div class="overlay-board-addTask-content">
+            <h1 class="headerTitle">Add Task</h1>
             <div class="input-Section">
                 <div class="inputLeft">
                     <!-- Title -->
@@ -217,7 +218,7 @@
                     <p id="required-text"><span class="required">*</span>This field is required</p>
                 </div>
                 <div class="form-buttons">
-                    <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span></button>
+                    <button type="reset" class="clear-btn" onclick="clearTask()">Cancel <span>X</span></button>
                     <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png" alt=""></button>
                 </div>
             </div>

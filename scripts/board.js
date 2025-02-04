@@ -16,6 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Funktion zum Laden der Tasks
 function loadTasks() {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(column => {
@@ -40,6 +41,7 @@ function loadTasks() {
     });
 }
 
+// Funktion zum Erstellen eines Task-Elements
 function createTaskElement(task, taskId) {
     const div = document.createElement("div");
     div.classList.add("task");
@@ -54,15 +56,18 @@ function createTaskElement(task, taskId) {
     return div;
 }
 
+// Drag-Event
 function drag(event) {
     event.dataTransfer.setData("text", event.target.id); // ID des gezogenen Tasks speichern
 }
 
-function allowDrop(event) {
+// Allow Drop-Event
+window.allowDrop = function (event) {
     event.preventDefault(); // Standardverhalten verhindern
-}
+};
 
-function moveTo(event, columnId) {
+// Move To-Event
+window.moveTo = function (event, columnId) {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text"); // ID des gezogenen Tasks holen
     const task = document.getElementById(taskId); // Task-Element holen
@@ -70,18 +75,13 @@ function moveTo(event, columnId) {
     column.appendChild(task); // Task in die Zielspalte verschieben
 
     // Task in der Datenbank aktualisieren
-    const taskRef = ref(db, 'tasks/' + columnId + '/' + taskId);
+    const taskRef = ref(db, 'tasks/' + taskId); // Eindeutiger Task-Pfad
     get(taskRef).then(snapshot => {
         if (snapshot.exists()) {
             const taskData = snapshot.val();
+            taskData.status = columnId; // Status der Aufgabe aktualisieren
             set(ref(db, 'tasks/' + columnId + '/' + taskId), taskData).then(() => {
-                // Task aus der alten Spalte entfernen
-                const oldColumnRef = ref(db, 'tasks/' + task.parentElement.id + '/' + taskId);
-                remove(oldColumnRef).then(() => {
-                    loadTasks(); // Tasks neu laden
-                }).catch((error) => {
-                    console.error("Fehler beim Entfernen des Tasks: ", error);
-                });
+                loadTasks(); // Tasks neu laden
             }).catch((error) => {
                 console.error("Fehler beim Verschieben des Tasks: ", error);
             });
@@ -89,12 +89,15 @@ function moveTo(event, columnId) {
     }).catch((error) => {
         console.error("Fehler beim Laden des Tasks: ", error);
     });
-}
+};
 
 // Overlay anzeigen
-function showOverlay() {
+function showOverlay(columnId) {
     const overlay = document.getElementById("taskOverlay");
     overlay.style.display = "flex"; // Overlay anzeigen
+
+    // Speichere die Spalten-ID im Overlay, um sie später zu verwenden
+    overlay.dataset.columnId = columnId;
 }
 
 // Overlay verstecken
@@ -103,8 +106,10 @@ function hideOverlay() {
     overlay.style.display = "none"; // Overlay ausblenden
 }
 
-// Event-Listener für den "Add Task"-Button
-document.querySelector(".addTaskButton").addEventListener("click", showOverlay);
+document.querySelector(".addTaskButton").addEventListener("click", () => showOverlay("to-do"));
+document.querySelector(".toDoButton").addEventListener("click", () => showOverlay("to-do"));
+document.querySelector(".inProgressButton").addEventListener("click", () => showOverlay("in-progress"));
+document.querySelector(".awaitButton").addEventListener("click", () => showOverlay("await-feedback"));
 
 // Event-Listener für das Schließen des Overlays (z. B. durch Klicken außerhalb)
 document.getElementById("taskOverlay").addEventListener("click", (event) => {
@@ -113,6 +118,7 @@ document.getElementById("taskOverlay").addEventListener("click", (event) => {
     }
 });
 
+// Event-Listener für das Erstellen eines neuen Tasks
 document.querySelector(".create-btn").addEventListener("click", (event) => {
     event.preventDefault(); // Verhindere das Neuladen der Seite
 
@@ -122,21 +128,39 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
     const priority = document.querySelector('input[name="priority"]:checked').value;
     const category = document.getElementById("category").value;
 
+    // Hole die Spalten-ID aus dem Overlay
+    const columnId = document.getElementById("taskOverlay").dataset.columnId;
+
     const taskData = {
         title: title,
         description: description,
         dueDate: dueDate,
         priority: priority,
         category: category,
-        status: "to-do" // Standardmäßig in "To Do"
+        status: columnId // Status basierend auf der Spalte setzen
     };
 
     // Task in Firebase speichern
     const newTaskId = Date.now().toString();
-    set(ref(db, 'tasks/to-do/' + newTaskId), taskData).then(() => {
+    set(ref(db, 'tasks/' + columnId + '/' + newTaskId), taskData).then(() => {
         hideOverlay(); // Overlay schließen
         loadTasks(); // Tasks neu laden
     }).catch((error) => {
         console.error("Fehler beim Speichern des Tasks: ", error);
     });
 });
+
+// Funktion zum Anzeigen der Initialen
+function displayUserInitials() {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (loggedInUser && loggedInUser.initials) {
+        const initialsElement = document.getElementById("profile-toggle");
+        initialsElement.textContent = loggedInUser.initials;
+    }
+}
+
+// Initialen beim Laden der Seite anzeigen
+document.addEventListener("DOMContentLoaded", displayUserInitials);
+
+// Initiales Laden der Tasks
+loadTasks();
