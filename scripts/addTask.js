@@ -1,4 +1,4 @@
-let validateIsOk = false;
+let validateIsOk = [false,false,false];
 let title;
 let errorTitle;
 let date;
@@ -6,15 +6,22 @@ let errorDate;
 let category;
 let errorCategory;
 
+const formDataArray = [];
+
 function initAddTask() {
     getElementsByIds()
 }
 
 
 function validateFormular(event) {
+    event.preventDefault();
     validateTitle(event)
     validateDate(event)
     validateCategory(event)
+
+    if (validateIsOk.every(value => value === true)) {
+        submitForm()
+    }
 }
 
 
@@ -25,10 +32,11 @@ function validateTitle(event) {
         errorTitle.innerHTML = 'This field is required'
         title.style.border = "2px solid #FF8190"
         event.preventDefault();
-        return validateIsOk = false
+        validateIsOk[0] = false
+        return false
     }
     title.style.border = "2px solid #D1D1D1"
-    return validateIsOk = true;
+    validateIsOk[0] = true;
 }
 
 function validateDate(event) {
@@ -37,12 +45,12 @@ function validateDate(event) {
     if (!date.value) {
         errorDate.innerHTML = 'This field is required'
         date.style.border = "2px solid #FF8190"
-        console.log(errorDate);
         event.preventDefault();
-        return validateIsOk = false
+        validateIsOk[1] = false
+        return false
     }
     date.style.border = "2px solid #D1D1D1"
-    return validateIsOk = true;
+    validateIsOk[1] = true;
 }
 
 
@@ -53,29 +61,28 @@ function validateCategory(event) {
         errorCategory.innerHTML = 'This field is required'
         category.style.border = "2px solid #FF8190"
         event.preventDefault();
-        return validateIsOk = false
+        validateIsOk[2] = false
+        return false
     }
     category.style.border = "2px solid #D1D1D1"
-    return validateIsOk = true;
+    validateIsOk[2] = true;
 
 }
 
 function clearTask() {
     errorTitle.innerHTML = '';
-    title.style.border = "2px solid #D1D1D1"
+    title.style.border = ""
 
     errorDate.innerHTML = '';
-    date.style.border = "2px solid #D1D1D1"
+    date.style.border = ""
     date.style.color = "#D1D1D1"
 
     errorCategory.innerHTML = '';
-    category.style.border = "2px solid #D1D1D1"
+    category.style.border = ""
 
     const allContacts = document.querySelectorAll('.contact-item');
 
-    allContacts.forEach(contact => {
-        contact.classList.remove('selected');
-    });
+    clearSelection()
 
     const selectedContactsList = document.getElementById('selectedContactsList');
     selectedContactsList.innerHTML = '';
@@ -84,13 +91,13 @@ function clearTask() {
 
 function getElementsByIds() {
     title = document.getElementById('title');
-    errorTitle = document.getElementById('error-title')
+    errorTitle = document.getElementById('error-title');
 
     date = document.getElementById('due-date');
-    errorDate = document.getElementById('error-date')
+    errorDate = document.getElementById('error-date');
 
     category = document.getElementById('category');
-    errorCategory = document.getElementById('error-category')
+    errorCategory = document.getElementById('error-category');
 }
 
 
@@ -185,4 +192,11 @@ function clearSelection() {
     // Leeren des Bereichs für die ausgewählten Kontakte
     const selectedContactsList = document.getElementById('selectedContactsList');
     selectedContactsList.innerHTML = '';  // Alle ausgewählten Kontakte entfernen
+}
+
+
+function submitForm() {
+    console.log(validateIsOk);
+    
+    // window.location.href = './board.html';
 }

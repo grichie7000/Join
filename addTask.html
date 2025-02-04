@@ -79,7 +79,7 @@
                 <h2>Add Task</h2>
             </div>
 
-            <form id="addtask-form" action="#" method="post" novalidate onsubmit="validateFormular(event)">
+            <form id="addtaskForm" novalidate onsubmit="validateFormular(event)">
                 <div class="input-Section">
 
                     <div class="inputLeft">
@@ -108,9 +108,11 @@
                                         id="customArrowAssigned">
                                 </div>
                                 <div class="contact-list" id="contactListAssigned">
-                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 1 <img
+                                    <div class="contact-item" onclick="selectContact(this)"><span class="dropdown-initials">X X</span><span
+                                            class="select-position">Kontakt 1 </span><img
                                             src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
-                                    <div class="contact-item" onclick="selectContact(this)">Kontakt 2 <img
+                                    <div class="contact-item" onclick="selectContact(this)"><span class="dropdown-initials">X X</span><span
+                                            class="select-position">Kontakt 2 Kontakt 2</span><img
                                             src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
                                     <div class="contact-item" onclick="selectContact(this)">Kontakt 3 <img
                                             src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
@@ -172,10 +174,10 @@
                             <label for="category">Category <span class="required">*</span></label>
                             <select id="category" name="category" required>
                                 <option value="" disabled selected>Select task category</option>
-                                <option value="category1">Category 1</option>
-                                <option value="category2">Category 2</option>
+                                <option value="category1">Technical Task</option>
+                                <option value="category2">User Story</option>
                             </select>
-                            <img id="customArrowCategory" class="custom-arrow" src="./assets/img/arrow_down.png"
+                            <img id="customArrowCategory" class="custom-arrow-category" src="./assets/img/arrow_down.png"
                                 alt="arrow_standard">
                             <p id="error-category" class="error-message"></p>
                         </div>
