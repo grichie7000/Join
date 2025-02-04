@@ -109,19 +109,21 @@ h1 {
 }
 
 .title-container {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+    padding: 20px 64px;
+}
+
+.kanban-board {
     max-height: calc(100vh - 200px); 
     overflow-y: auto;
-    overflow-x: auto;
     display: flex;
     align-items: flex-start; 
     justify-content: space-around; 
     gap: 50px;
-    padding-top: 50px;
-    padding-right: 64px;
-    padding-left: 64px;
-    padding-bottom: 50px;
+    padding: 50px 64px;
 }
-
 
 .kanban-column {
     display: flex;
@@ -136,7 +138,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 150px;
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 10px;

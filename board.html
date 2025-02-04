@@ -3,46 +3,45 @@
 
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../style/standard.css">
-    <link rel="stylesheet" href="../style/sideBar.css">
-    <link rel="stylesheet" href="../style/topBar.css">
-    <link rel="stylesheet" href="../style/board.css">
-    <script src="./scripts/topBar.js"></script>
-    <script src="./scripts/sideBar.js"></script>
+    <link rel="stylesheet" href="style/standard.css">
+    <link rel="stylesheet" href="style/sideBar.css">
+    <link rel="stylesheet" href="style/topBar.css">
+    <link rel="stylesheet" href="style/board.css">
+    <link rel="stylesheet" href="style/boardAddTaskOverlay.css">
+    <script src="scripts/topBar.js"></script>
+    <script src="scripts/sideBar.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="./assets/img/Join-logo.png">
+    <link rel="icon" type="image/x-icon" href="assets/img/Join-logo.png">
     <title>Board</title>
 </head>
 
 <body>
 
     <div class="sideBar">
-
-        <img class="joinLogo" src="../assets/img/Join-logo.png" alt="JoinLogo">
+        <img class="joinLogo" src="assets/img/Join-logo.png" alt="JoinLogo">
 
         <div class="menuPos">
-            <a href="../summary.html" class="navMenu">
-                <img src="../assets/img/summaryLogo.png" alt="summaryLogo">
+            <a href="summary.html" class="navMenu">
+                <img src="assets/img/summaryLogo.png" alt="summaryLogo">
                 <div>Summary</div>
             </a>
-            <a href="./addTask.html" class="navMenu">
-                <img src="../assets/img/addTaskLogo.png" alt="summaryLogo">
+            <a href="addTask.html" class="navMenu">
+                <img src="assets/img/addTaskLogo.png" alt="summaryLogo">
                 <div>Add Task</div>
             </a>
-            <a href="../board.html" class="navMenu active">
-                <img src="../assets/img/BoardLogo.png" alt="summaryLogo">
+            <a href="board.html" class="navMenu active">
+                <img src="assets/img/BoardLogo.png" alt="summaryLogo">
                 <div>Board</div>
             </a>
-            <a href="../contacts.html" class="navMenu">
-                <img src="../assets/img/contactsLogo.png" alt="summaryLogo">
+            <a href="contacts.html" class="navMenu">
+                <img src="assets/img/contactsLogo.png" alt="summaryLogo">
                 <div>Contacts</div>
             </a>
         </div>
 
-
         <div class="lawSection">
-            <a href="../privacyPolicy.html">Privacy Policy</a>
-            <a href="../legalNotice.html">Legal notice</a>
+            <a href="privacyPolicy.html">Privacy Policy</a>
+            <a href="legalNotice.html">Legal notice</a>
         </div>
     </div>
 
@@ -50,13 +49,13 @@
         <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
             <div class="profile">
-                <a href="./help.html" class="help">?</a>
+                <a href="help.html" class="help">?</a>
                 <p class="initials" id="profile-toggle">SM</p>
                 <div class="dropdown" id="dropdown-menu">
                     <ul>
-                        <li><a href="./legalNotice.html">Legal Notice</a></li>
-                        <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
-                        <li><a href="./relogin.html">Log Out</a></li>
+                        <li><a href="legalNotice.html">Legal Notice</a></li>
+                        <li><a href="privacyPolicy.html">Privacy Policy</a></li>
+                        <li><a href="relogin.html">Log Out</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,110 +65,165 @@
             <div class="board-header">
                 <h1>Board</h1>
                 <div class="header-right">
-
                     <div class="input-wrapper">
                         <input class="findTaskInput" type="text" placeholder="Find Task">
                         <span class="separator"></span>
-                        <img class="search-icon" src="../assets/img/search.svg" alt="Search">
+                        <img class="search-icon" src="assets/img/search.svg" alt="Search">
                     </div>
-
-                    <button class="addTaskButton">Add task <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
+                    <button class="addTaskButton" onclick="addTask('to-do')">
+                        Add task
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
                                 fill="white" />
-                        </svg></button>
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
 
         <section class="title-container">
-            <div class="kanban-column">
-                <div class="titles">To Do <div class="titleButton">+</div>
-                </div>
-                <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)" onclick="openEditOverlay(event)">
-                    <div id="noTasks" class="noTask">No tasks To do</div>
-                </div>
-            </div>
+            <div class="titles">To Do <div class="titleButton" onclick="addTask('to-do')">+</div></div>
+            <div class="titles">In Progress <div class="titleButton" onclick="addTask('in-progress')">+</div></div>
+            <div class="titles">Await Feedback <div class="titleButton" onclick="addTask('await-feedback')">+</div></div>
+            <div class="titles">Done</div>
+        </section>
 
+        <section class="kanban-board">
             <div class="kanban-column">
-                <div class="titles">In Progress <div class="titleButton">+</div>
-                </div>
-                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"ondragover="allowDrop(event)">
-                    <div id="task2" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="task-title">User Story</h3>
-                        <p class="task-name">Kochwelt Page & Recipe Commender</p>
-                        <p class="task-description">Build start page with recipe recommendation...</p>
-                        <!-- Fortschrittsbalken für Subtasks -->
-                        <div class="subtask-progress-container">
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 50%;"></div>
-                            </div>
-                            <p class="subtask-info">1 / 2 Subtasks</p>
-                        </div>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
-                        </div>
-                    </div>
-                </div>
+                <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)"></div>
             </div>
-
             <div class="kanban-column">
-                <div class="titles">Await Feedback <div class="titleButton">+</div>
-                </div>
-                <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
-                    ondragover="allowDrop(event)">
-                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="technical-task">Technical Task</h3>
-                        <p class="task-name">HTML Base Template Creation</p>
-                        <p class="task-description">Create reusable HTML base templates...</p>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="lowUrgent" src="assets/img/low.png" alt=""></img>
-                        </div>
-                    </div>
-                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="task-title">User Story</h3>
-                        <p class="task-name">Daily Kochwelt Recipe</p>
-                        <p class="task-description">Implement daily recipe and portion calculator...</p>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
-                        </div>
-                    </div>
-                </div>
+                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')" ondragover="allowDrop(event)"></div>
             </div>
-
             <div class="kanban-column">
-                <div class="titles">Done <div class="noTitleButton"></div>
-                </div>
-                <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
-                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="technical-task">Technical Task</h3>
-                        <p class="task-name">CSS Architecture Planning</p>
-                        <p class="task-description">Define CSS naming convestions and structure...</p>
-                        <!-- Fortschrittsbalken für Subtasks -->
-                        <div class="subtask-progress-container">
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 100%;"></div>
-                            </div>
-                            <p class="subtask-info">2 / 2 Subtasks</p>
-                        </div>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="highUrgent" src="assets/img/urgent.png" alt=""></img>
-                        </div>
-                    </div>
-                </div>
+                <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="kanban-column">
+                <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)"></div>
             </div>
         </section>
 
-        <div id="editOverlay" class="overlay">
-            
+        <div id="editOverlay" class="overlay"></div>
+
+        <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js" type="module"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js" type="module"></script>
+        <script src="scripts/board.js" type="module"></script>
+    </div>
+
+    <div id="taskOverlay" class="overlay-board-addTask">
+        <div class="overlay-board-addTask-content">
+            <div class="input-Section">
+                <div class="inputLeft">
+                    <!-- Title -->
+                    <div class="form-title">
+                        <label for="title">Title <span class="required">*</span></label>
+                        <input type="text" id="title" name="title" placeholder="Enter a title" required>
+                        <p id="error-title" class="error-message"></p>
+                    </div>
+    
+                    <!-- Description -->
+                    <div class="form-description">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" placeholder="Enter a Description" rows="4"></textarea>
+                        <img class="custom-resize" src="./assets/img/resize.png" alt="resize">
+                    </div>
+    
+                    <!-- Assigned to -->
+                    <div class="form-assigned-to">
+                        <label>Assigned to</label>
+                        <div id="assigned-to">
+                            <div class="dropdown-trigger" onclick="toggleDropdown()">
+                                <span id="placeholderAssigned">Select contacts to assign</span>
+                                <img src="./assets/img/arrow_down.png" alt="arrow" class="custom-arrow" id="customArrowAssigned">
+                            </div>
+                            <div class="contact-list" id="contactListAssigned">
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 1 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 2 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 3 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 4 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 5 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 6 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                <div class="contact-item" onclick="selectContact(this)">Kontakt 7 <img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                            </div>
+                        </div>
+                        <!-- Div für die Anzeige der ausgewählten Kontakte -->
+                        <div id="selectedContacts">
+                            <div id="selectedContactsList"></div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="seperator"></div>
+    
+                <div class="inputRight">
+                    <!-- Due date -->
+                    <div class="form-date">
+                        <label for="due-date">Due Date <span class="required">*</span></label>
+                        <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
+                        <span class="calendar-icon"><img src="./assets/img/date.png" alt="date"></span>
+                        <p id="error-date" class="error-message"></p>
+                    </div>
+    
+                    <!-- Priority -->
+                    <div class="form-priority">
+                        <label for="priority">Prio</label>
+                        <div id="priority">
+                            <label class="radio-container">
+                                <input type="radio" id="urgent" name="priority" value="urgent">
+                                <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png" alt=""></span>
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" id="medium" name="priority" value="medium">
+                                <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png" alt=""></span>
+                            </label>
+                            <label class="radio-container">
+                                <input type="radio" id="low" name="priority" value="low">
+                                <span class="radio-custom low-radio">Low <img src="./assets/img/low.png" alt=""></span>
+                            </label>
+                        </div>
+                    </div>
+    
+                    <!-- Category -->
+                    <div class="form-category">
+                        <label for="category">Category <span class="required">*</span></label>
+                        <select id="category" name="category" required>
+                            <option value="" disabled selected>Select task category</option>
+                            <option value="category1">Category 1</option>
+                            <option value="category2">Category 2</option>
+                        </select>
+                        <img id="customArrowCategory" class="custom-arrow" src="./assets/img/arrow_down.png" alt="arrow_standard">
+                        <p id="error-category" class="error-message"></p>
+                    </div>
+    
+                    <!-- Subtasks -->
+                    <div class="form-subtask">
+                        <p>Subtasks</p>
+                        <div id="subtask">
+                            <div class="subtaskText">
+                                <span>Add a new Subtask</span>
+                            </div>
+                            <div class="subtaskIcons">
+                                <p>+</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Buttons -->
+            <div class="button-and-text">
+                <div>
+                    <p id="required-text"><span class="required">*</span>This field is required</p>
+                </div>
+                <div class="form-buttons">
+                    <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span></button>
+                    <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png" alt=""></button>
+                </div>
+            </div>
         </div>
-        
-        <script src="scripts/board.js"></script>
+    </div>
+    
 </body>
 
 </html>
