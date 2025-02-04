@@ -95,8 +95,8 @@
             <div class="kanban-column">
                 <div class="titles">In Progress <div class="titleButton">+</div>
                 </div>
-                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"ondragover="allowDrop(event)" onclick="openEditOverlay(event)">
-                    <div id="task2" class="task" draggable="true" ondragstart="drag(event)">
+                <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"ondragover="allowDrop(event)">
+                    <div id="task2" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
                         <h3 class="task-title">User Story</h3>
                         <p class="task-name">Kochwelt Page & Recipe Commender</p>
                         <p class="task-description">Build start page with recipe recommendation...</p>
@@ -166,25 +166,7 @@
         </section>
 
         <div id="editOverlay" class="overlay">
-            <div class="overlay-content">
-                <h2>Edit Task</h2>
-                <form id="editForm">
-                    <label for="taskName">Task Name:</label>
-                    <input class="overlayInput" type="text" id="taskName" name="taskName" value="" required><br><br>
-        
-                    <label for="taskDescription">Description:</label>
-                    <input class="overlayInput" id="taskDescription" name="taskDescription" required><br><br>
-        
-                    <!-- Container für den Fortschritt -->
-                    <div id="progressContainer" style="display:none;">
-                        <label for="progress">Progress:</label>
-                        <input class="overlayInput" type="number" id="progress" name="progress" min="0" max="100" value="" required>%<br><br>
-                    </div>
-        
-                    <button class="saveButton" type="submit" onclick="saveTask(event)">Save</button>
-                    <button class="cancelButton" type="button" onclick="closeEditOverlay()">Cancel</button>
-                </form>
-            </div>
+            
         </div>
         
         <script src="scripts/board.js"></script>
