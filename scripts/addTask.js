@@ -15,6 +15,8 @@ function validateFormular(event) {
     validateTitle(event)
     validateDate(event)
     validateCategory(event)
+
+
 }
 
 
@@ -27,7 +29,7 @@ function validateTitle(event) {
         event.preventDefault();
         return validateIsOk = false
     }
-
+    title.style.border = "2px solid #D1D1D1"
     return validateIsOk = true;
 }
 
@@ -41,7 +43,7 @@ function validateDate(event) {
         event.preventDefault();
         return validateIsOk = false
     }
-
+    date.style.border = "2px solid #D1D1D1"
     return validateIsOk = true;
 }
 
@@ -55,7 +57,7 @@ function validateCategory(event) {
         event.preventDefault();
         return validateIsOk = false
     }
-
+    category.style.border = "2px solid #D1D1D1"
     return validateIsOk = true;
 
 }
@@ -95,3 +97,31 @@ function changeDateColor() {
     }
 }
 
+
+
+
+
+
+function toggleDropdown() {
+    const assignedToElement = document.getElementById('assigned-to');
+    const customArrowAssigned = document.getElementById('customArrowAssigned');
+    
+    // Umschalten der "open"-Klasse für das Dropdown-Menü und das Pfeilsymbol
+    assignedToElement.classList.toggle('open');
+    
+    // Drehen des Pfeils um 180 Grad
+    customArrowAssigned.classList.toggle('open');
+}
+
+// Funktion, die überprüft, ob außerhalb des Dropdowns geklickt wurde
+document.addEventListener('click', function(event) {
+    const assignedToElement = document.getElementById('assigned-to');
+    const customArrowAssigned = document.getElementById('customArrowAssigned');
+    
+    // Überprüfen, ob der Klick außerhalb des Dropdowns war
+    if (!assignedToElement.contains(event.target)) {
+        // Dropdown schließen, wenn außerhalb geklickt wurde
+        assignedToElement.classList.remove('open');
+        customArrowAssigned.classList.remove('open'); // Pfeil zurückdrehen
+    }
+});
