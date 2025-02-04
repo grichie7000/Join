@@ -174,6 +174,7 @@ label {
 }
 
 .contact-item {
+    color: black;
     padding: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -186,22 +187,36 @@ label {
     transition: background-color 0.3s, transform 0.3s;
 }
 
+.select-position {
+    width: 100%;
+    padding-left: 16px;
+}
+
+.dropdown-initials {
+    font-size: 14px;
+    padding: 4px 6px;
+    border: 1px solid black;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .contact-item:hover {
     background-color: #f1f1f1;
 }
 
 /* Wenn ein Kontakt ausgewählt wurde */
 .contact-item.selected {
-    background-color: #4CAF50;
-    /* grüner Hintergrund */
+    background-color: #2A3647;
     color: white;
-    /* Textfarbe weiß */
 }
 
 /* Hover-Effekt nach Auswahl */
 .contact-item.selected:hover {
-    background-color: #45a049;
-    /* etwas dunkleres Grün */
+    background-color: #2A3D59;
 }
 
 .contact-item img {
@@ -218,21 +233,26 @@ label {
     transform: rotate(180deg);
 }
 
-
-/* Stil für den Bereich der ausgewählten Kontakte */
 #selectedContacts {
     padding: 10px;
 }
 
 #selectedContactsList {
     margin-top: 10px;
+    display: flex;
+    gap: 16px;
 }
 
 .selected-contact-item {
-    padding: 8px;
-    background-color: #e0f7e0;
-    margin: 5px 0;
-    border-radius: 5px;
+    font-size: 14px;
+    padding: 4px 6px;
+    border: 1px solid black;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .contact-item.selected img:hover {
@@ -386,6 +406,17 @@ input[type="radio"]:checked+.low-radio img {
     cursor: pointer;
 }
 
+.custom-arrow-category {
+    position: absolute;
+    top: 44%;
+    right: 16px;
+    height: 22px;
+    width: 22px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+}
+
 #category {
     background-color: white;
     border-radius: 12px;
@@ -408,6 +439,10 @@ input[type="radio"]:checked+.low-radio img {
     outline: none;
     border: 1px solid #29ABE2;
     border-bottom: 2px solid #29ABE2;
+}
+
+select:focus+#customArrowCategory {
+    transform: rotate(180deg);
 }
 
 /*----------------- subtask  ----------------- */
