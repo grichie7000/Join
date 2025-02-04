@@ -79,7 +79,7 @@
                 <h2>Add Task</h2>
             </div>
 
-            <form action="#" method="post">
+            <form id="addtask-form" action="#" method="post" novalidate onsubmit="validateFormular(event)">
                 <div class="input-Section">
 
                     <div class="inputLeft">
@@ -87,6 +87,7 @@
                         <div class="form-title">
                             <label for="title">Title <span class="required">*</span></label>
                             <input type="text" id="title" name="title" placeholder="Enter a title" required>
+                            <p id="error-title" class="error-message"></p>
                         </div>
 
                         <!-- Description -->
@@ -100,7 +101,7 @@
                         <!-- Assigned to -->
                         <div class="form-assigned-to">
                             <label for="assigned-to">Assigned to</label>
-                            <select id="assigned-to" name="assigned_to" required onclick="toggleArrow('assigned-to')">
+                            <select id="assigned-to" name="assigned_to" required>
                                 <option value="" disabled selected>Select contacts to assign</option>
                                 <option value="contact1">Contact 1</option>
                                 <option value="contact2">Contact 2</option>
@@ -118,9 +119,10 @@
                         <!-- Due date -->
                         <div class="form-date">
                             <label for="due-date">Due Date <span class="required">*</span></label>
-                            <input type="date" id="due-date" name="due_date" required>
+                            <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
                             <span class="calendar-icon"><img src="./assets/img/date.png" alt="date">
                             </span>
+                            <p id="error-date" class="error-message"></p>
                         </div>
 
                         <!-- Priority -->
@@ -149,13 +151,14 @@
                         <!-- Category -->
                         <div class="form-category">
                             <label for="category">Category <span class="required">*</span></label>
-                            <select id="category" name="category" required onclick="toggleArrow('category')">
+                            <select id="category" name="category" required>
                                 <option value="" disabled selected>Select task category</option>
                                 <option value="category1">Category 1</option>
                                 <option value="category2">Category 2</option>
                             </select>
                             <img id="customArrowCategory" class="custom-arrow" src="./assets/img/arrow_down.png"
                                 alt="arrow_standard">
+                            <p id="error-category" class="error-message"></p>
                         </div>
 
                         <!-- Subtasks -->
@@ -179,7 +182,7 @@
                         <p id="required-text"><span class="required">*</span>This field is required</p>
                     </div>
                     <div class="form-buttons">
-                        <button type="reset" class="clear-btn">Clear <span>X</span>
+                        <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span>
                         </button>
                         <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png" alt="">
                         </button>
