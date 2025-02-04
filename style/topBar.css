@@ -26,8 +26,10 @@
 .initials {
     border-radius: 50%;
     border: 3px solid black;
-    padding: 10px 8px;
+    padding: 16px 12px;
     color: #29ABE2;
+    font-weight: bold;
+    font-size: 24px;
 }
 
 .initials:hover {

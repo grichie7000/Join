@@ -66,27 +66,33 @@
 		
 	   <div class="seperator">
                 </div>
-		
+		<div class="bigcontainer">
+		<div class="details" tabindex="0">
+                <div class="details-wrapper">
+                    <h1 class="details-title">Contacts</h1>
+                    <div class="divider"></div>
+                    <p class="details-title-span">Better with a team</p>
+                    <div class="top-right-button">
+                    </div>
+                </div>
+
+                <div class="contact-details" id="contact-details">
+                    
+                </div>
+            </div>
         <div id="contacts" class="contacts-container">
         <div class="flex">
             <div class="contacts">
                 <div class="contact-div">
                     <button class="btnGray" onclick="renderAddContactForm()"><p>Add new contact</p> <img src="./assets/img/person_add.png" alt=""></button>
                 </div>
-                <div class="showContacts" id="showContacts"><div class="contact-letter-section"><h2 class="letter-border">A</h2>
-           <div class="contact-item" onclick="displayContactInfo('Asterix', 'asterix@gallier.fr', '012345678', 'A', '#06ECF6')">
-    <div class="initials" style="background-color: #06ECF6;">A</div>
-    <div>
-        <p><strong>Asterix</strong><br></p><p class="email">asterix@gallier.fr</p>
-    </div>
-</div>
-        </div>
+                <div class="showContacts" id="showContacts">
 	   
 	   
 		
         <div class="contact-letter-section"><h2 class="letter-border">A</h2>
             <div class="contact-item" onclick="displayContactInfo('Asterix', 'Asterix@gallier.fr', '012345678', 'A', '#773DFD')">
-                <div class="initials" style="background-color: #773DFD;">AG</div>
+                <div class="contentinitials" style="background-color: #773DFD;">AG</div>
                 <div>
                     <p><strong>Asterix</strong><br></p><p class="email">Asterix@gallier.fr</p>
                 </div>
@@ -95,7 +101,7 @@
     
         <div class="contact-letter-section"><h2 class="letter-border">M</h2>
             <div class="contact-item" onclick="displayContactInfo('Miraculix', 'Miraculix@gallier.fr', '012345678', 'M', '#C558CB')">
-                <div class="initials" style="background-color: #C558CB;">MG</div>
+                <div class="contentinitials" style="background-color: #C558CB;">MG</div>
                 <div>
                     <p><strong>Miraculix</strong><br></p><p class="email">Miraculix@gallier.fr</p>
                 </div>
@@ -105,7 +111,7 @@
         
         <div class="contact-letter-section"><h2 class="letter-border">M</h2>
             <div class="contact-item" onclick="displayContactInfo('Max Mustermann', 'muster@aol.de', '01234567890')">
-                <div class="initials" style="background-color: #5AC493;">MM</div>
+                <div class="contentinitials" style="background-color: #5AC493;">MM</div>
                 <div>
                     <p><strong>Max Mustermann</strong><br></p><p class="email">muster@aol.de</p>
                 </div>
@@ -114,19 +120,19 @@
 
         <div class="contact-letter-section"><h2 class="letter-border">O</h2>
             <div class="contact-item" onclick="displayContactInfo('Obelix', 'obelix@gallier.fr', '012345678', 'O', '#B86581')">
-                <div class="initials" style="background-color: #B86581;">OG</div>
+                <div class="contentinitials" style="background-color: #B86581;">OG</div>
                 <div>
                     <p><strong>Obelix</strong><br></p><p class="email">welcherdicke@gallier.fr</p>
                 </div>
             </div>
-        </div>     
+        </div>  		
     </div>
+	
+	
                 <div class="media-contact-div">
                     <button class="btnGray" onclick="renderAddContactForm()"> </button>
                 </div>
             </div>
-            
-        
         <div id="newContactForm" class="newContactForm d-none" onclick="cancelCreateContact()">
             <div class="new-contact-container aninmationTopDow" id="new-contact-container" onclick="event.stopPropagation()">
                 <div class="bg-main">
@@ -312,6 +318,8 @@
         
 	</div>
 </div>  
+</div>
+
 </div>
 </main>
 </body>

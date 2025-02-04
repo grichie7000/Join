@@ -37,8 +37,41 @@ body {
 	cursor: pointer;
 }
 
+.bigcontainer {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+.details {
+	width: 100%;
+    flex: 1;
+    background-color: #F6F7F8;
+    margin-left: 10px;
+    padding: 50px;
+}
+
+.details-wrapper {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
 button {
 	cursor: pointer;
+}
+
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.divider {
+    width: 2px;
+    height: 40px;
+    background: #29ABE2;
+    margin: 0 10px;
 }
 
 .showContacts {
@@ -195,6 +228,7 @@ button {
 .letter-border{
     border-bottom: 1px solid black;
     padding-left: 16px;
+	padding-bottom: 16px;
 }
 
 .contact-info-container{
@@ -494,6 +528,20 @@ button {
     cursor: pointer;
     border-radius: 5px;
     font-size: 16px;
+}
+
+.contentinitials {
+	
+	width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 10px;
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .edit-btn {

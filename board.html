@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="../style/standard.css">
@@ -10,15 +9,19 @@
     <script src="./scripts/topBar.js"></script>
     <script src="./scripts/sideBar.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="./assets/img/Join-logo.png">
-    <title>Board</title>
+    <title>JOIN - Board</title>
+    <link rel="icon" href="./assets/img/logo_white.png" sizes="48x48" />
+    <link rel="stylesheet" href="./styles/board.css">
+    <script src="./scripts/board.js"></script>
+    <script src="./scripts/boardTemplates.js"></script>
+    <script src="./scripts/boardEditTask.js"></script>
 </head>
 
-<body>
+<body onload="onloadFunc()">
 
     <div class="sideBar">
 
-        <img class="joinLogo" src="../assets/img/Join-logo.png" alt="JoinLogo">
+        <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
 
         <div class="menuPos">
             <a href="../summary.html" class="navMenu">
@@ -50,15 +53,8 @@
         <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
             <div class="profile">
-                <a href="./help.html" class="help">?</a>
-                <p class="initials" id="profile-toggle">SM</p>
-                <div class="dropdown" id="dropdown-menu">
-                    <ul>
-                        <li><a href="./legalNotice.html">Legal Notice</a></li>
-                        <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
-                        <li><a href="./relogin.html">Log Out</a></li>
-                    </ul>
-                </div>
+                <a href="../help.html" class="help">?</a>
+                <p class="initials">SM</p>
             </div>
         </div>
 
@@ -66,32 +62,14 @@
             <div class="board-header">
                 <h1>Board</h1>
                 <div class="header-right">
-
-                    <div class="input-wrapper">
-                        <input class="findTaskInput" type="text" placeholder="Find Task">
-                        <span class="separator"></span>
-                        <img class="search-icon" src="../assets/img/search.svg" alt="Search">
-                    </div>
-
-                    <button class="addTaskButton">Add task <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
-                                fill="white" />
-                        </svg></button>
+                    <input class="findTaskInput" type="text" placeholder="Find Task">
+                    <button class="addTaskButton">Add Task +</button>
                 </div>
             </div>
         </section>
 
-        <section class="title-container">
-            <div class="kanban-column">
-                <div class="titles">To Do <div class="titleButton">+</div>
-                </div>
-                <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)" onclick="openEditOverlay(event)">
-                    <div id="noTasks" class="noTask">No tasks To do</div>
-                </div>
-            </div>
 
+<<<<<<< HEAD
             <div class="kanban-column">
                 <div class="titles">In Progress <div class="titleButton">+</div>
                 </div>
@@ -114,62 +92,106 @@
                     </div>
                 </div>
             </div>
+=======
+    <div id="add-task-modal" class="add-task-modal hidden">
+        <div class="add-task-popup">
+            <button class="close-modal-btn" onclick="closeAddTaskModal()">?</button>
+            <iframe id="addTaskIframe" src="./addtask.html" onload="hideIframeElements('addTaskIframe')"
+                frameborder="0"></iframe>
+        </div>
+    </div>
+>>>>>>> bab0e17cbd95bf0a2fdd63b061cd31ba7be2558c
 
-            <div class="kanban-column">
-                <div class="titles">Await Feedback <div class="titleButton">+</div>
-                </div>
-                <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
-                    ondragover="allowDrop(event)">
-                    <div id="task3" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="technical-task">Technical Task</h3>
-                        <p class="task-name">HTML Base Template Creation</p>
-                        <p class="task-description">Create reusable HTML base templates...</p>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="lowUrgent" src="assets/img/low.png" alt=""></img>
-                        </div>
+    <div id="taskPopup" class="popup" onclick="closeTaskPopup()">
+        <div id="taskView" class="popup-content" onclick="event.stopPropagation()">
+            <div class="popup-header">
+                <div id="taskBadge"></div>
+                <button onclick="closeTaskPopup()" class="close-btn">&#x2715</button>
+            </div>
+            <h1 id="taskTitle"></h1>
+            <p id="taskDescription"></p>
+            <p><span class="details">Due date: </span><span id="taskDueDate"></span></p>
+            <p class="task-priority gap-8"><span class="details">Priority: </span><span class="task-priority"
+                    id="taskPriority"></span></p>
+            <p><span class="details">Assigned To: </span><span class="task-contacts" id="taskContacts"></span></p>
+            <p><span class="details">Subtasks</span>
+                <span class="subtasks" id="subtasksList">
+                </span>
+            </p>
+            <div class="popup-footer">
+                <div class="edit-and-delete">
+                    <div class="delete-task" onclick="deleteTask()">
+                        <img src="./assets/img/delete.png" alt="Delete Task">
+                        <span>Delete</span>
                     </div>
-                    <div id="task4" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="task-title">User Story</h3>
-                        <p class="task-name">Daily Kochwelt Recipe</p>
-                        <p class="task-description">Implement daily recipe and portion calculator...</p>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="mediumUrgent" src="assets/img/medium.png" alt=""></img>
-                        </div>
+                    <div class="separator"></div>
+                    <div class="edit-task" onclick="editTask()">
+                        <img src="./assets/img/edit.png" alt="Edit Task">
+                        <span>Edit</span>
                     </div>
                 </div>
             </div>
-
-            <div class="kanban-column">
-                <div class="titles">Done <div class="noTitleButton"></div>
-                </div>
-                <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)">
-                    <div id="task5" class="task" draggable="true" ondragstart="drag(event)" onclick="openEditOverlay(event)">
-                        <h3 class="technical-task">Technical Task</h3>
-                        <p class="task-name">CSS Architecture Planning</p>
-                        <p class="task-description">Define CSS naming convestions and structure...</p>
-                        <!-- Fortschrittsbalken für Subtasks -->
-                        <div class="subtask-progress-container">
-                            <div class="progress-bar">
-                                <div class="progress" style="width: 100%;"></div>
-                            </div>
-                            <p class="subtask-info">2 / 2 Subtasks</p>
-                        </div>
-                        <div class="contactUrgent">
-                            <p>AT, RG, RJ</p>
-                            <img class="highUrgent" src="assets/img/urgent.png" alt=""></img>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<<<<<<< HEAD
         </section>
 
         <div id="editOverlay" class="overlay">
             
+=======
+>>>>>>> bab0e17cbd95bf0a2fdd63b061cd31ba7be2558c
         </div>
-        
-        <script src="scripts/board.js"></script>
+        <div id="taskEdit" class="popup-content hidden" onclick="event.stopPropagation()"></div>
+    </div>
+    <div class="board-container">
+        <div class="board-headline">
+            <h1>Board</h1> <img onclick="window.location.href='./addtask.html'" id="plusAddTaskM"
+                src="./assets/icons/plus-addtask-board.png" alt="Open Add Task">
+            <div class="find-and-add">
+                <div class="searchbar">
+                    <input id="search-input" type="text" placeholder="Find Task" oninput="onSearchInput()"
+                        maxlength="10" />
+                    <div class="search-separator"></div>
+                    <span onclick="findTask()" class="search-icon"><img src="./assets/img/search.svg" alt=""></span>
+                </div>
+                <button class="add-task" onclick="openAddTaskModal()">Add task +</button>
+            </div>
+        </div>
+        <div class="board">
+            <div class="row">
+                <h2>To Do <button class="add-task-btn"><img src="./assets/img/plus-default - Board plus.svg" alt="Add Task"></button></h2>
+                <div id="To-Do" ondrop="moveTo('To-Do')" ondragleave="removeHighlight('To-Do')"
+                    ondragover="allowDrop(event); highlight('To-Do')">
+                    <div class="task-list">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <h2>In Progress <button class="add-task-btn"><img src="./assets/img/plus-default - Board plus.svg" alt="Add Task"></button>
+                </h2>
+                <div id="In Progress" ondrop="moveTo('In Progress')" ondragleave="removeHighlight('In Progress')"
+                    ondragover="allowDrop(event); highlight('In Progress')">
+                    <div class="task-list"></div>
+                </div>
+            </div>
+            <div class="row">
+                <h2>Await Feedback <button class="add-task-btn"><img src="./assets/img/plus-default - Board plus.svg"
+                            alt="Add Task"></button></h2>
+                <div id="Await Feedback" ondrop="moveTo('Await Feedback')"
+                    ondragleave="removeHighlight('Await Feedback')"
+                    ondragover="allowDrop(event); highlight('Await Feedback')">
+                    <div class="task-list"></div>
+                </div>
+            </div>
+            <div class="row">
+                <h2>Done</h2>
+                <div id="Done" ondrop="moveTo('Done')" ondragleave="removeHighlight('Done')"
+                    ondragover="allowDrop(event); highlight('Done')">
+                    <div class="task-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
 </body>
 
 </html>
