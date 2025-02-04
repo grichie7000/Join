@@ -7,7 +7,7 @@
 
 .joinLogo {
     padding-top: 50px;
-    padding-bottom:  124px;
+    padding-bottom: 146px;
     height: 120px;
     width: 100px;
     display: block;
@@ -19,11 +19,6 @@
     background-color: #091931;
 }
 
-.sideBar a {
-    text-decoration: none;
-    color: #CDCDCD;
-}
-
 .menuPos {
     display: flex;
     flex-direction: column;
@@ -31,7 +26,6 @@
 }
 
 .navMenu {
-    font-size: 18px;
     display: flex;
     gap: 8px;
     align-items: center;
@@ -49,10 +43,6 @@
 
 .navMenu a {
     color: #CDCDCD;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
 }
 
 .navMenu img {
