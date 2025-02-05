@@ -4,10 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summary</title>
-    <link rel="stylesheet" href="./style/summary.css">
+    <link rel="stylesheet" href="./style/summary.css"> </link>
+	<link rel="stylesheet" href="./style/sideBar.css"> </link>
+	<link rel="stylesheet" href="./style/topBar.css"> </link>
+
+	<script src="./scripts/sideBar.js"></script>
+	<script src="./scripts/topBar.js"></script>
 </head>
 <body>
-    <div class="summary-container">
+	<div class="flex-row">
+    <div class="sideBar">
+
+        <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
+
+        <div class="menuPos">
+            <a href="./summary.html">
+                <div class="navMenu active">
+                    <img src="./assets/img/summaryLogo.png" alt="summaryLogo">Summary
+                </div>
+            </a>
+            <a href="./addTask.html">
+                <div class="navMenu">
+                    <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">Add Task
+                </div>
+            </a>
+            <a href="./board.html">
+                <div class="navMenu">
+                    <img src="./assets/img/BoardLogo.png" alt="summaryLogo">Board
+                </div>
+            </a>
+            <a href="./contacts.html">
+                <div class="navMenu">
+                    <img src="./assets/img/contactsLogo.png" alt="summaryLogo">Contacts
+                </div>
+            </a>
+        </div>
+
+        <div class="lawSection">
+            <a href="./privacyPolicy.html">Privacy Policy</a>
+            <a href="./legalNotice.html">Legal Notice</a>
+        </div>
+    </div>
+	<main>
+	<div class="topBar">
+            <h3>Kanban Project Management Tool</h3>
+            <div class="profile">
+                <a href="./help.html" class="help">?</a>
+                <p class="initials" id="profile-toggle">SM</p>
+                <div class="dropdown" id="dropdown-menu">
+                    <ul>
+                        <li><a href="./legalNotice.html">Legal Notice</a></li>
+                        <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
+                        <li><a href="./logout.html">Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+	<div class="summary-container">
             <div class="header-summary">
                 <h1>Join 360</h1>
                 <div class="blue-hline deskop-line"></div>
@@ -69,5 +122,7 @@
                 </div>
             </div>
         </div>
+		</main>
+		</div>
 </body>
 </html>
