@@ -235,23 +235,38 @@
     <div class="popup-content">
         <button class="close-popup" onclick="closeContactDetails()">X</button>
 		
-		<h2 id="contactName"></h2>
-        <p id="contactEmail"></p>
-        <p id="contactPhone"></p>
-        <p id="contactAdditionalInfo"></p>
-
-<!-- Buttons für Bearbeiten und Löschen -->
-        <div class="contact-actions">
+		<div class="contact-header">
+				<div class="contentinitials" style="background-color: #773DFD;"></div>		
+        <div> <span class="contact-icon-border center" style="background-color: #175bbe"></span>
+        <div class="contact-info-div">
+           <h2 id="contactName"></h2>
+            <div class="contact-actions">
 		<button class="edit-btn" onclick="displayEditPopup(contactEmail)">
-			<img src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
+			<img class="contact-actions img" src="./assets/img/edit.png" alt="Edit" style="width: 20px; height: 20px; margin-right: 5px;">
 			Edit
 			</button>            
 			<button class="delete-btn" onclick="deleteContact()">
-		<img src="./assets/img/delete.png" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
+		<img class="contact-actions img" src="./assets/img/delete.png" alt="Delete" style="width: 20px; height: 20px; margin-right: 5px;">
 			Delete
 		</button>
 			
         </div>
+        </div>
+		</div>
+    </div>
+		
+		<div class="contact-info-mag">
+            <p class="h2">Contact Information</p>
+        </div>
+		
+		<p class="contact-bold">Email</p>
+        <p class="contact-Email" id="contactEmail"></p>
+		<p class="contact-bold">Phone</p>
+        <p class="contact-phone" id="contactPhone"></p>
+		<p class="contact-bold">Initial (First Name)</p>
+        <p id="contactAdditionalInfo"></p>
+
+<!-- Buttons für Bearbeiten und Löschen -->
 		    </div>
 
     </div>
