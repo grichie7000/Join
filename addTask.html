@@ -198,13 +198,21 @@
                             <li id="subtaskItem1" ondblclick="editItemOne(this)"></li>
                             <div class="edit-position">
                                 <input type="text" name="itemOne" id="editItemOne">
-                                <div class="edit-item-icon">
-                                    <img src="./assets/img/addtask_bin.png" alt="bin">
+                                <div id="editItemIconOne" class="edit-item-icon">
+                                    <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemOne()">
                                     <span>|</span>
-                                    <img src="./assets/img/check_task.png" alt="">
+                                    <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
                                 </div>
                             </div>
                             <li id="subtaskItem2" ondblclick="editItemTwo(this)"></li>
+                            <div class="edit-position">
+                                <input type="text" name="itemTwo" id="editItemTwo">
+                                <div id="editItemIconTwo" class="edit-item-icon">
+                                    <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemTwo()">
+                                    <span>|</span>
+                                    <img src="./assets/img/check_task.png" alt="check" onclick="submitItemTwo()">
+                                </div>
+                            </div>
                         </ul>
                     </div>
                 </div>

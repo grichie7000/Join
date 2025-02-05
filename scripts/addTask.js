@@ -89,6 +89,11 @@ function clearTask() {
     subTaskOne = false;
     subtaskTwo = false;
 
+    document.getElementById('editItemOne').style.display = 'none';
+    document.getElementById('editItemIconOne').style.display = 'none';
+    document.getElementById('editItemTwo').style.display = 'none';
+    document.getElementById('editItemIconTwo').style.display = 'none';
+
     const addedSubtaskOne = document.getElementById('subtaskItem1');
     addedSubtaskOne.innerHTML = '';
     addedSubtaskOne.style.display = 'none'
@@ -96,8 +101,11 @@ function clearTask() {
     addedSubtaskTwo.innerHTML = '';
     addedSubtaskTwo.style.display = 'none'
 
+
+
     const selectedContactsList = document.getElementById('selectedContactsList');
     selectedContactsList.innerHTML = '';
+
 }
 
 
@@ -157,8 +165,6 @@ function subtaskAppend() {
     const subtaskInput = document.getElementById('subtask').value;
     const addedSubtaskOne = document.getElementById('subtaskItem1');
     const addedSubtaskTwo = document.getElementById('subtaskItem2');
-    console.log(addedSubtaskOne);
-
 
     if (!subTaskOne) {
         addedSubtaskOne.innerHTML = subtaskInput;
@@ -171,16 +177,73 @@ function subtaskAppend() {
     }
 }
 
-function editItemOne(element){
-const editItem = document.getElementById('editItemOne');
-element.style.display = 'none';
+function editItemOne(element) {
+    const editItem = document.getElementById('editItemOne');
+    const editIcons = document.getElementById('editItemIconOne');
 
-editItem.style.display = 'block'
-editItem.value = element.innerHTML;
+    element.style.display = 'none';
+
+    editIcons.style.display = 'flex';
+    editItem.style.display = 'block';
+    editItem.value = element.innerHTML;
 }
 
-function editItemTwo(element){
-    
+function deleteItemOne() {
+    const addedSubtaskOne = document.getElementById('subtaskItem1');
+    const editItem = document.getElementById('editItemOne');
+    const editIcons = document.getElementById('editItemIconOne');
+    subTaskOne = false;
+
+    editIcons.style.display = 'none'
+    editItem.style.display = 'none'
+    addedSubtaskOne.innerHTML = '';
+}
+
+function submitItemOne() {
+    const changesItemOne = document.getElementById('editItemOne')
+    const subtaskItemOne = document.getElementById('subtaskItem1');
+    const editItem = document.getElementById('editItemOne');
+    const editIcons = document.getElementById('editItemIconOne');
+
+    subtaskItemOne.innerHTML = changesItemOne.value
+    subtaskItemOne.style.display = "inline list-item";
+    editIcons.style.display = 'none';
+    editItem.style.display = 'none';
+}
+
+
+function editItemTwo(element) {
+    const editItem = document.getElementById('editItemTwo');
+    const editIcons = document.getElementById('editItemIconTwo');
+
+    element.style.display = 'none';
+
+    editIcons.style.display = 'flex';
+    editItem.style.display = 'block';
+    editItem.value = element.innerHTML;
+}
+
+function deleteItemTwo() {
+    const addedSubtaskTwo = document.getElementById('subtaskItem2');
+    const editItem = document.getElementById('editItemTwo');
+    const editIcons = document.getElementById('editItemIconTwo');
+    subtaskTwo = false;
+
+    editIcons.style.display = 'none'
+    editItem.style.display = 'none'
+    addedSubtaskTwo.innerHTML = '';
+}
+
+function submitItemTwo() {
+    const changesItemTwo = document.getElementById('editItemTwo')
+    const subtaskItemTwo = document.getElementById('subtaskItem2');
+    const editItem = document.getElementById('editItemTwo');
+    const editIcons = document.getElementById('editItemIconTwo');
+
+    subtaskItemTwo.innerHTML = changesItemTwo.value
+    subtaskItemTwo.style.display = "inline list-item";
+    editIcons.style.display = 'none';
+    editItem.style.display = 'none';
 }
 
 
