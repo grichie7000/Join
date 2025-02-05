@@ -1,3 +1,7 @@
+body {
+    display: flex;
+}
+
 .overlay-board-addTask {
     display: none; /* Standardmäßig ausgeblendet */
     position: fixed;
@@ -13,19 +17,10 @@
 
 .overlay-board-addTask-content {
     background-color: white;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     width: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.headerTitle{
-    font-size: 40px;
-    margin-bottom: 10px;
-}
-
-body {
-    display: flex;
 }
 
 .mainContent {
@@ -37,14 +32,13 @@ body {
 }
 
 .addTask {
-    padding-left: 180px;
-    padding-right: 220px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
 
 .addTask h2 {
-    font-size: 60px;
-    margin-top: 92px;
-    padding-bottom: 46px;
+    font-size: 40px;
+    padding-bottom: 16px;
 }
 
 .inputLeft {
@@ -200,6 +194,7 @@ label {
 }
 
 .contact-item {
+    color: black;
     padding: 12px;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -212,22 +207,36 @@ label {
     transition: background-color 0.3s, transform 0.3s;
 }
 
+.select-position {
+    width: 100%;
+    padding-left: 16px;
+}
+
+.dropdown-initials {
+    font-size: 14px;
+    padding: 4px 6px;
+    border: 1px solid black;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
 .contact-item:hover {
     background-color: #f1f1f1;
 }
 
 /* Wenn ein Kontakt ausgewählt wurde */
 .contact-item.selected {
-    background-color: #4CAF50;
-    /* grüner Hintergrund */
+    background-color: #2A3647;
     color: white;
-    /* Textfarbe weiß */
 }
 
 /* Hover-Effekt nach Auswahl */
 .contact-item.selected:hover {
-    background-color: #45a049;
-    /* etwas dunkleres Grün */
+    background-color: #2A3D59;
 }
 
 .contact-item img {
@@ -244,21 +253,26 @@ label {
     transform: rotate(180deg);
 }
 
-
-/* Stil für den Bereich der ausgewählten Kontakte */
 #selectedContacts {
     padding: 10px;
 }
 
 #selectedContactsList {
     margin-top: 10px;
+    display: flex;
+    gap: 16px;
 }
 
 .selected-contact-item {
-    padding: 8px;
-    background-color: #e0f7e0;
-    margin: 5px 0;
-    border-radius: 5px;
+    font-size: 14px;
+    padding: 4px 6px;
+    border: 1px solid black;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
 }
 
 .contact-item.selected img:hover {
@@ -412,6 +426,17 @@ input[type="radio"]:checked+.low-radio img {
     cursor: pointer;
 }
 
+.custom-arrow-category {
+    position: absolute;
+    top: 44%;
+    right: 16px;
+    height: 22px;
+    width: 22px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+}
+
 #category {
     background-color: white;
     border-radius: 12px;
@@ -436,36 +461,75 @@ input[type="radio"]:checked+.low-radio img {
     border-bottom: 2px solid #29ABE2;
 }
 
+select:focus+#customArrowCategory {
+    transform: rotate(180deg);
+}
+
 /*----------------- subtask  ----------------- */
 
 .form-subtask {
+    position: relative;
     display: flex;
-    flex-direction: column;
     width: 440px;
     font-size: 18px;
-}
 
-.subtaskText {
-    color: #D1D1D1;
 }
 
 #subtask {
-    margin-top: 8px;
     background-color: white;
     border-radius: 12px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     border: 2px solid #D1D1D1;
+    border-right: none;
     padding: 12px 18px;
     font-size: 18px;
     transition: 0.3s;
     display: flex;
     justify-content: space-between;
+    width: 340px;
+    outline: none;
+}
+
+.symbol-container {
+    transition: border 0.2s;
+    background-color: white;
+    height: 45px;
+    width: 80px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid #D1D1D1;
+    border-radius: 12px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+    display: flex;
+    align-items: center;
+}
+
+.symbol-container img {
+    height: 24px;
+    position: absolute;
+    right: 16px;
+}
+
+.symbol-container img:hover {
+    background-color: #D1D1D1;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+#deleteImg {
+    position: relative;
 }
 
 /*----------------- buttons  ----------------- */
 .button-and-text {
     display: flex;
     justify-content: space-between;
-    padding-top: 20px;
+    padding-top: 32px;
 }
 
 .create-btn img {
