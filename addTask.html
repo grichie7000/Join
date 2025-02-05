@@ -108,12 +108,13 @@
                                         id="customArrowAssigned">
                                 </div>
                                 <div class="contact-list" id="contactListAssigned">
-                                    <div class="contact-item" onclick="selectContact(this)"><span class="dropdown-initials">X X</span><span
-                                            class="select-position">Kontakt 1 </span><img
-                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
-                                    <div class="contact-item" onclick="selectContact(this)"><span class="dropdown-initials">X X</span><span
-                                            class="select-position">Kontakt 2 Kontakt 2</span><img
-                                            src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)"><span
+                                            class="dropdown-initials">X X</span><span class="select-position">Kontakt 1
+                                        </span><img src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
+                                    <div class="contact-item" onclick="selectContact(this)"><span
+                                            class="dropdown-initials">X X</span><span class="select-position">Kontakt 2
+                                            Kontakt 2</span><img src="./assets/img/checkbox_empty.png"
+                                            alt="empty checkbox"></div>
                                     <div class="contact-item" onclick="selectContact(this)">Kontakt 3 <img
                                             src="./assets/img/checkbox_empty.png" alt="empty checkbox"></div>
                                     <div class="contact-item" onclick="selectContact(this)">Kontakt 4 <img
@@ -177,40 +178,44 @@
                                 <option value="category1">Technical Task</option>
                                 <option value="category2">User Story</option>
                             </select>
-                            <img id="customArrowCategory" class="custom-arrow-category" src="./assets/img/arrow_down.png"
-                                alt="arrow_standard">
+                            <img id="customArrowCategory" class="custom-arrow-category"
+                                src="./assets/img/arrow_down.png" alt="arrow_standard">
                             <p id="error-category" class="error-message"></p>
                         </div>
 
                         <!-- Subtasks -->
                         <div class="form-subtask">
-                            <p>Subtasks</p>
-                            <div id="subtask">
-                                <div class="subtaskText">
-                                    <span>Add a new Subtask</span>
-                                </div>
-                                <div class="subtaskIcons">
-                                    <p>+</p>
-                                </div>
+                            <div>
+                                <label for="subtask">Subtasks</label>
+                                <input type="text" id="subtask" name="subtask" placeholder="Add a new Subtask"
+                                    onclick="subtaskStyling(this)">
                             </div>
+                            <div id="symbolStyling" class="symbol-container">
+                                <img src="./assets/img/plus_task.png" alt="plus">
+                            </div>
+                        </div>
+                        <div id="addedSubtask">
                         </div>
                     </div>
                 </div>
 
-                <!-- Buttons -->
-                <div class="button-and-text">
-                    <div>
-                        <p id="required-text"><span class="required">*</span>This field is required</p>
+                <body>
+
+                    <!-- Buttons -->
+                    <div class="button-and-text">
+                        <div>
+                            <p id="required-text"><span class="required">*</span>This field is required</p>
+                        </div>
+                        <div class="form-buttons">
+                            <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span>
+                            </button>
+                            <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png"
+                                    alt="">
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-buttons">
-                        <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span>
-                        </button>
-                        <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png" alt="">
-                        </button>
-                    </div>
-                </div>
             </form>
-            
+
         </div>
 
 </body>

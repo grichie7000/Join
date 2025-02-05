@@ -1,4 +1,4 @@
-let validateIsOk = [false,false,false];
+let validateIsOk = [false, false, false];
 let title;
 let errorTitle;
 let date;
@@ -111,6 +111,64 @@ function changeDateColor() {
     }
 }
 
+function subtaskStyling(subtaskStyling) {
+    const symbolStyling = document.getElementById('symbolStyling')
+    subtaskStyling.style.border = "2px solid #29ABE2"
+    symbolStyling.style.border = "2px solid #29ABE2"
+    symbolStyling.style.borderLeft = "none"
+
+    // Erstelle zwei neue Bilder
+    const deleteImg = document.createElement('img');
+    deleteImg.src = './assets/img/x_task.png'; // Pfad zum ersten Bild
+    deleteImg.alt = 'delet';
+    deleteImg.id = 'deleteImg';
+    deleteImg.setAttribute("onclick", "subtaskInputDelete()")
+
+    const checkImg = document.createElement('img');
+    checkImg.src = './assets/img/check_task.png'; // Pfad zum zweiten Bild
+    checkImg.alt = 'checked';
+    checkImg.id = 'checkImg';
+    checkImg.setAttribute("onclick", "subtaskAppend()")
+
+    // Erstelle das Symbol "|"
+    const symbolTask = document.createElement('span');
+    symbolTask.textContent = '|';
+
+    // Füge die Bilder und das Symbol zum Container hinzu
+    symbolStyling.innerHTML = ''; // Entferne das alte Bild, falls vorhanden
+    symbolStyling.appendChild(deleteImg);
+    symbolStyling.appendChild(symbolTask);
+    symbolStyling.appendChild(checkImg);
+}
+
+function subtaskAppend() {
+    const subtaskInput = document.getElementById('subtask').value;
+    const addedSubtask = document.getElementById('addedSubtask');
+    addedSubtask.innerHTML = subtaskInput;
+}
+
+function subtaskInputDelete() {
+    document.getElementById('subtask').value = "";
+}
+
+function resetAddtaskInput() {
+
+    const symbolStyling = document.getElementById('symbolStyling')
+    const plusImg = document.createElement('img');
+    const subtaskInput = document.getElementById('subtask')
+
+    symbolStyling.style.border = "2px solid #D1D1D1"
+    symbolStyling.innerHTML = '';
+    symbolStyling.style.borderLeft = "none"
+
+    subtaskInput.style.border = "2px solid #D1D1D1"
+    subtaskInput.value = "";
+
+    plusImg.src = './assets/img/plus_task.png'; // Pfad zum zweiten Bild
+    plusImg.alt = 'checked';
+    plusImg.id = 'checkImg';
+    symbolStyling.appendChild(plusImg);
+}
 
 function toggleDropdown() {
     const assignedToElement = document.getElementById('assigned-to');
@@ -129,11 +187,18 @@ function toggleDropdown() {
     }
 }
 
+
+
 // Funktion, die überprüft, ob außerhalb des Dropdowns geklickt wurde
 document.addEventListener('click', function (event) {
     const assignedToElement = document.getElementById('assigned-to');
     const customArrowAssigned = document.getElementById('customArrowAssigned');
     const placeholderAssigned = document.getElementById('placeholderAssigned');
+    const formSubtask = document.querySelector('.form-subtask');
+
+    if (!formSubtask.contains(event.target)) {
+        resetAddtaskInput()
+    }
 
     // Überprüfen, ob der Klick außerhalb des Dropdowns war
     if (!assignedToElement.contains(event.target)) {
@@ -197,6 +262,6 @@ function clearSelection() {
 
 function submitForm() {
     console.log(validateIsOk);
-    
+
     // window.location.href = './board.html';
 }

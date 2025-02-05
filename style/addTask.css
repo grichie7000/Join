@@ -448,26 +448,64 @@ select:focus+#customArrowCategory {
 /*----------------- subtask  ----------------- */
 
 .form-subtask {
+    position: relative;
     display: flex;
-    flex-direction: column;
     width: 440px;
     font-size: 18px;
-}
 
-.subtaskText {
-    color: #D1D1D1;
 }
 
 #subtask {
-    margin-top: 8px;
     background-color: white;
     border-radius: 12px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     border: 2px solid #D1D1D1;
+    border-right: none;
     padding: 12px 18px;
     font-size: 18px;
     transition: 0.3s;
     display: flex;
     justify-content: space-between;
+    width: 340px;
+    outline: none;
+}
+
+.symbol-container {
+    transition: border 0.2s;
+    background-color: white;
+    height: 45px;
+    width: 80px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid #D1D1D1;
+    border-radius: 12px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-left: none;
+    display: flex;
+    align-items: center;
+}
+
+.symbol-container img {
+    height: 24px;
+    position: absolute;
+    right: 16px;
+}
+
+.symbol-container img:hover {
+    background-color: #D1D1D1;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+
+#deleteImg {
+    position: relative;
+}
+
+#checkImg {
 }
 
 /*----------------- buttons  ----------------- */
