@@ -101,13 +101,50 @@
                 <div id="done" class="task-container" ondrop="moveTo(event, 'done')" ondragover="allowDrop(event)"></div>
             </div>
         </section>
-        
-
-        <div id="editOverlay" class="overlay"></div>
 
         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js" type="module"></script>
         <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js" type="module"></script>
         <script src="scripts/board.js" type="module"></script>
+    </div>
+
+    <div id="taskDetailOverlay" class="overlay">
+        <div class="overlay-content">
+            <span class="close-btn" onclick="hideTaskDetailOverlay()">&times;</span>
+            <h2 id="overlayTaskTitle"></h2>
+            <p id="overlayTaskDescription"></p>
+            <p id="overlayTaskCategory"></p>
+            <p id="overlayTaskDueDate"></p>
+            
+            <!-- Aktuelle Priorität anzeigen -->
+            <div id="currentPriority">
+                <p><strong>Priority</strong></p>
+                <div id="priorityDisplay">
+                    <!-- Hier wird das aktuelle Prioritäts-Icon und der Name angezeigt -->
+                </div>
+            </div>
+    
+            <!-- Prioritätsauswahl (nur im Bearbeitungsmodus sichtbar) -->
+            <div id="prioritySelection" style="display: none;">
+                <p><strong>Priority</strong></p>
+                <label>
+                    <input type="radio" name="priority" value="urgent" onchange="updatePriorityDisplay('urgent')">
+                    <img src="assets/img/urgent.png" alt="Urgent" style="width: 15px; height: 10px;"> Urgent
+                </label>
+                <label>
+                    <input type="radio" name="priority" value="medium" onchange="updatePriorityDisplay('medium')">
+                    <img src="assets/img/medium.png" alt="Medium" style="width: 15px; height: 10px;"> Medium
+                </label>
+                <label>
+                    <input type="radio" name="priority" value="low" onchange="updatePriorityDisplay('low')">
+                    <img src="assets/img/low.png" alt="Low" style="width: 15px; height: 10px;"> Low
+                </label>
+            </div>
+    
+            <ul id="overlayTaskSubtasks"></ul>
+            <button id="editButton" onclick="enableEditMode()">Edit</button>
+            <button onclick="saveTaskChanges()" style="display: none;" id="saveButton">Save</button>
+            <button onclick="cancelEditMode()" style="display: none;" id="cancelButton">Cancel</button>
+        </div>
     </div>
 
     <div id="taskOverlay" class="overlay-board-addTask">

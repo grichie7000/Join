@@ -21,19 +21,23 @@ function loadTasks() {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(column => {
         const container = document.getElementById(column);
-        container.innerHTML = ""; // Vorherige Tasks leeren
+        container.innerHTML = "";
 
         const tasksRef = ref(db, 'tasks/' + column);
         get(tasksRef).then(snapshot => {
             if (snapshot.exists()) {
                 snapshot.forEach(childSnapshot => {
-                    const task = childSnapshot.val(); // Task-Daten
-                    const taskId = childSnapshot.key; // Eindeutige ID des Tasks
-                    const taskElement = createTaskElement(task, taskId); // Task-Element erstellen
-                    container.appendChild(taskElement); // Task in die Spalte einfügen
+                    const task = childSnapshot.val();
+                    const taskId = childSnapshot.key;
+                    const taskElement = createTaskElement(task, taskId, column);
+                    container.appendChild(taskElement);
                 });
             } else {
-                console.log("Keine Tasks gefunden für Spalte: ", column);
+                container.innerHTML = `
+                    <div class="empty-placeholder">
+                        Keine Tasks vorhanden
+                    </div>
+                `;
             }
         }).catch((error) => {
             console.error("Fehler beim Laden der Tasks: ", error);
@@ -41,69 +45,262 @@ function loadTasks() {
     });
 }
 
-// Funktion zum Erstellen eines Task-Elements
-function createTaskElement(task, taskId) {
+function createTaskElement(task, taskId, columnId) {
     const div = document.createElement("div");
     div.classList.add("task");
     div.draggable = true;
-    div.id = taskId; // Setze die ID des Tasks
+    div.id = taskId;
+    div.style.position = "relative";
+    
+    let categoryText = "Keine Kategorie";
+    let categoryBgColor = "#f0f0f0";
+    if (task.category === "category1") {
+        categoryText = "Technical Task";
+        categoryBgColor = "#23D8C2";
+    } else if (task.category === "category2") {
+        categoryText = "User Story";
+        categoryBgColor = "#1500ff";
+    }
+
+    let subtasksHtml = "";
+    if (task.subtasks?.length > 0) {
+        subtasksHtml = `<ul class="task-subtasks">${task.subtasks.map(s => `<li>${s}</li>`).join("")}</ul>`;
+    }
+
+    let priorityHtml = "";
+    if (task.priority) {
+        let iconUrl;
+        if (task.priority === "urgent") {
+            iconUrl = "assets/img/urgent.png";
+        } else if (task.priority === "medium") {
+            iconUrl = "assets/img/medium.png";
+        } else if (task.priority === "low") {
+            iconUrl = "assets/img/low.png";
+        }
+
+        if (iconUrl) {
+            priorityHtml = `
+                <img src="${iconUrl}" 
+                     alt="${task.priority}" 
+                     class="task-priority-icon"
+                     style="position: absolute;
+                            bottom: 15px;
+                            right: 15px;
+                            width: 15px;
+                            height: 10px;">
+            `;
+        }
+    }
+
     div.innerHTML = `
+        <p class="task-category" style="background-color: ${categoryBgColor}; color: white; padding: 5px 10px; border-radius: 5px; display: inline-block;">
+            ${categoryText}
+        </p>
         <h3 class="task-title">${task.title}</h3>
-        <p class="task-name">${task.name}</p>
         <p class="task-description">${task.description}</p>
+        ${subtasksHtml}
+        ${priorityHtml}
     `;
-    div.addEventListener("dragstart", drag); // Drag-Event hinzufügen
+
+    div.addEventListener("click", () => {
+        showTaskDetailOverlay(task, taskId, columnId);
+    });
+
+    div.addEventListener("dragstart", drag);
     return div;
 }
 
-// Drag-Event
-function drag(event) {
-    event.dataTransfer.setData("text", event.target.id); // ID des gezogenen Tasks speichern
+window.showTaskDetailOverlay = function (task, taskId, columnId) {
+    const overlay = document.getElementById("taskDetailOverlay");
+    overlay.style.display = "flex";
+
+    document.getElementById("overlayTaskTitle").textContent = task.title;
+    document.getElementById("overlayTaskDescription").textContent = task.description;
+    document.getElementById("overlayTaskCategory").textContent = task.category;
+    document.getElementById("overlayTaskDueDate").textContent = task.dueDate;
+
+    const priorityDisplay = document.getElementById("priorityDisplay");
+    priorityDisplay.innerHTML = getPriorityHtml(task.priority);
+
+    const subtasksList = document.getElementById("overlayTaskSubtasks");
+    subtasksList.innerHTML = "";
+    if (task.subtasks?.length > 0) {
+        task.subtasks.forEach(subtask => {
+            const li = document.createElement("li");
+            li.textContent = subtask;
+            subtasksList.appendChild(li);
+        });
+    }
+
+    overlay.dataset.taskId = taskId;
+    overlay.dataset.columnId = columnId;
+
+    // Aktive Priorität markieren
+    document.querySelectorAll('.priority-option').forEach(option => {
+        option.classList.remove('active');
+        if (option.dataset.priority === task.priority) {
+            option.classList.add('active');
+        }
+    });
 }
 
-// Allow Drop-Event
+function getPriorityHtml(priority) {
+    let iconUrl, priorityText;
+    if (priority === "urgent") {
+        iconUrl = "assets/img/urgent.png";
+        priorityText = "Urgent";
+    } else if (priority === "medium") {
+        iconUrl = "assets/img/medium.png";
+        priorityText = "Medium";
+    } else if (priority === "low") {
+        iconUrl = "assets/img/low.png";
+        priorityText = "Low";
+    }
+
+    return `
+        <img src="${iconUrl}" alt="${priorityText}" style="width: 15px; height: 10px;">
+        <span>${priorityText}</span>
+    `;
+}
+
+window.hideTaskDetailOverlay = function() {
+    const overlay = document.getElementById("taskDetailOverlay");
+    overlay.style.display = "none";
+}
+
+let originalTaskData = null;
+
+window.enableEditMode = function() {
+    const titleElement = document.getElementById("overlayTaskTitle");
+    const descriptionElement = document.getElementById("overlayTaskDescription");
+    const categoryElement = document.getElementById("overlayTaskCategory");
+    const dueDateElement = document.getElementById("overlayTaskDueDate");
+
+    originalTaskData = {
+        title: titleElement.textContent,
+        description: descriptionElement.textContent,
+        category: categoryElement.textContent,
+        dueDate: dueDateElement.textContent,
+        priority: document.querySelector('input[name="priority"]:checked')?.value || "medium",
+    };
+
+    titleElement.contentEditable = true;
+    descriptionElement.contentEditable = true;
+    categoryElement.contentEditable = true;
+    dueDateElement.contentEditable = true;
+
+    document.getElementById("prioritySelection").style.display = "block";
+    document.getElementById("currentPriority").style.display = "none";
+    document.getElementById("editButton").style.display = "none";
+    document.getElementById("saveButton").style.display = "inline-block";
+    document.getElementById("cancelButton").style.display = "inline-block";
+}
+
+window.cancelEditMode = function() {
+    const titleElement = document.getElementById("overlayTaskTitle");
+    const descriptionElement = document.getElementById("overlayTaskDescription");
+    const categoryElement = document.getElementById("overlayTaskCategory");
+    const dueDateElement = document.getElementById("overlayTaskDueDate");
+
+    if (originalTaskData) {
+        titleElement.textContent = originalTaskData.title;
+        descriptionElement.textContent = originalTaskData.description;
+        categoryElement.textContent = originalTaskData.category;
+        dueDateElement.textContent = originalTaskData.dueDate;
+
+        const priorityDisplay = document.getElementById("priorityDisplay");
+        priorityDisplay.innerHTML = getPriorityHtml(originalTaskData.priority);
+    }
+
+    titleElement.contentEditable = false;
+    descriptionElement.contentEditable = false;
+    categoryElement.contentEditable = false;
+    dueDateElement.contentEditable = false;
+
+    document.getElementById("prioritySelection").style.display = "none";
+    document.getElementById("currentPriority").style.display = "block";
+    document.getElementById("editButton").style.display = "inline-block";
+    document.getElementById("saveButton").style.display = "none";
+    document.getElementById("cancelButton").style.display = "none";
+}
+
+window.saveTaskChanges = function() {
+    const taskId = document.getElementById("taskDetailOverlay").dataset.taskId;
+    const columnId = document.getElementById("taskDetailOverlay").dataset.columnId;
+
+    const updatedTask = {
+        title: document.getElementById("overlayTaskTitle").textContent,
+        description: document.getElementById("overlayTaskDescription").textContent,
+        category: document.getElementById("overlayTaskCategory").textContent,
+        dueDate: document.getElementById("overlayTaskDueDate").textContent,
+        priority: document.querySelector('input[name="priority"]:checked').value,
+    };
+
+    const taskRef = ref(db, 'tasks/' + columnId + '/' + taskId);
+    set(taskRef, updatedTask).then(() => {
+        hideTaskDetailOverlay();
+        loadTasks();
+    }).catch(error => {
+        console.error("Fehler beim Aktualisieren des Tasks:", error);
+    });
+}
+
+function drag(event) {
+    event.dataTransfer.setData("text", event.target.id);
+}
+
 window.allowDrop = function (event) {
-    event.preventDefault(); // Standardverhalten verhindern
+    event.preventDefault();
 };
 
-// Move To-Event
 window.moveTo = function (event, columnId) {
     event.preventDefault();
-    const taskId = event.dataTransfer.getData("text"); // ID des gezogenen Tasks holen
-    const task = document.getElementById(taskId); // Task-Element holen
-    const column = document.getElementById(columnId); // Zielspalte holen
-    column.appendChild(task); // Task in die Zielspalte verschieben
+    const taskId = event.dataTransfer.getData("text");
+    const task = document.getElementById(taskId);
+    const oldColumnElement = document.getElementById(task.parentElement.id);
+    const oldColumnId = oldColumnElement.id;
+    const newColumnElement = document.getElementById(columnId);
 
-    // Task in der Datenbank aktualisieren
-    const taskRef = ref(db, 'tasks/' + taskId); // Eindeutiger Task-Pfad
-    get(taskRef).then(snapshot => {
+    // Entferne Platzhalter in der ZIEL-Spalte falls vorhanden
+    const newPlaceholder = newColumnElement.querySelector(".empty-placeholder");
+    if (newPlaceholder) newPlaceholder.remove();
+
+    // Verschiebe den Task
+    newColumnElement.appendChild(task);
+
+    const oldTaskRef = ref(db, 'tasks/' + oldColumnId + '/' + taskId);
+    get(oldTaskRef).then(snapshot => {
         if (snapshot.exists()) {
             const taskData = snapshot.val();
-            taskData.status = columnId; // Status der Aufgabe aktualisieren
-            set(ref(db, 'tasks/' + columnId + '/' + taskId), taskData).then(() => {
-                loadTasks(); // Tasks neu laden
-            }).catch((error) => {
-                console.error("Fehler beim Verschieben des Tasks: ", error);
+            taskData.status = columnId;
+            
+            const newTaskRef = ref(db, 'tasks/' + columnId + '/' + taskId);
+            set(newTaskRef, taskData).then(() => {
+                remove(oldTaskRef).then(() => {
+                    // Überprüfe ob die ALTE Spalte jetzt leer ist
+                    const hasTasks = oldColumnElement.querySelector(".task");
+                    if (!hasTasks) {
+                        oldColumnElement.innerHTML = `
+                            <div class="empty-placeholder">
+                                Keine Tasks vorhanden
+                            </div>
+                        `;
+                    }
+                });
             });
         }
-    }).catch((error) => {
-        console.error("Fehler beim Laden des Tasks: ", error);
     });
 };
 
-// Overlay anzeigen
 function showOverlay(columnId) {
     const overlay = document.getElementById("taskOverlay");
-    overlay.style.display = "flex"; // Overlay anzeigen
-
-    // Speichere die Spalten-ID im Overlay, um sie später zu verwenden
+    overlay.style.display = "flex";
     overlay.dataset.columnId = columnId;
 }
 
-// Overlay verstecken
 function hideOverlay() {
     const overlay = document.getElementById("taskOverlay");
-    overlay.style.display = "none"; // Overlay ausblenden
+    overlay.style.display = "none";
 }
 
 document.querySelector(".addTaskButton").addEventListener("click", () => showOverlay("to-do"));
@@ -111,16 +308,14 @@ document.querySelector(".toDoButton").addEventListener("click", () => showOverla
 document.querySelector(".inProgressButton").addEventListener("click", () => showOverlay("in-progress"));
 document.querySelector(".awaitButton").addEventListener("click", () => showOverlay("await-feedback"));
 
-// Event-Listener für das Schließen des Overlays (z. B. durch Klicken außerhalb)
 document.getElementById("taskOverlay").addEventListener("click", (event) => {
     if (event.target === document.getElementById("taskOverlay")) {
         hideOverlay();
     }
 });
 
-// Event-Listener für das Erstellen eines neuen Tasks
 document.querySelector(".create-btn").addEventListener("click", (event) => {
-    event.preventDefault(); // Verhindere das Neuladen der Seite
+    event.preventDefault();
 
     const title = document.getElementById("title").value;
     const description = document.getElementById("description").value;
@@ -128,7 +323,6 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
     const priority = document.querySelector('input[name="priority"]:checked').value;
     const category = document.getElementById("category").value;
 
-    // Hole die Spalten-ID aus dem Overlay
     const columnId = document.getElementById("taskOverlay").dataset.columnId;
 
     const taskData = {
@@ -137,20 +331,18 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
         dueDate: dueDate,
         priority: priority,
         category: category,
-        status: columnId // Status basierend auf der Spalte setzen
+        status: columnId
     };
 
-    // Task in Firebase speichern
     const newTaskId = Date.now().toString();
     set(ref(db, 'tasks/' + columnId + '/' + newTaskId), taskData).then(() => {
-        hideOverlay(); // Overlay schließen
-        loadTasks(); // Tasks neu laden
+        hideOverlay();
+        loadTasks();
     }).catch((error) => {
         console.error("Fehler beim Speichern des Tasks: ", error);
     });
 });
 
-// Funktion zum Anzeigen der Initialen
 function displayUserInitials() {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser && loggedInUser.initials) {
@@ -159,8 +351,53 @@ function displayUserInitials() {
     }
 }
 
-// Initialen beim Laden der Seite anzeigen
 document.addEventListener("DOMContentLoaded", displayUserInitials);
-
-// Initiales Laden der Tasks
 loadTasks();
+
+// CSS für Platzhalter
+const style = document.createElement('style');
+style.textContent = `
+.empty-placeholder {
+    text-align: center;
+    color: #666;
+    padding: 20px;
+    font-style: italic;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    margin: 10px;
+}
+
+.priority-option {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.priority-option.active {
+    background-color: #e0e0e0;
+    border: 2px solid #007BFF;
+}
+
+.priority-option:hover {
+    background-color: #f0f0f0;
+}
+
+.priority-option input[type="radio"] {
+    display: none;
+}
+
+.priority-option label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.priority-option img {
+    width: 24px;
+    height: 24px;
+}
+`;
+document.head.appendChild(style);
