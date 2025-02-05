@@ -1,4 +1,6 @@
 let validateIsOk = [false, false, false];
+let subTaskOne = false;
+let subtaskTwo = false;
 let title;
 let errorTitle;
 let date;
@@ -84,6 +86,16 @@ function clearTask() {
 
     clearSelection()
 
+    subTaskOne = false;
+    subtaskTwo = false;
+
+    const addedSubtaskOne = document.getElementById('subtaskItem1');
+    addedSubtaskOne.innerHTML = '';
+    addedSubtaskOne.style.display = 'none'
+    const addedSubtaskTwo = document.getElementById('subtaskItem2');
+    addedSubtaskTwo.innerHTML = '';
+    addedSubtaskTwo.style.display = 'none'
+
     const selectedContactsList = document.getElementById('selectedContactsList');
     selectedContactsList.innerHTML = '';
 }
@@ -143,9 +155,35 @@ function subtaskStyling(subtaskStyling) {
 
 function subtaskAppend() {
     const subtaskInput = document.getElementById('subtask').value;
-    const addedSubtask = document.getElementById('addedSubtask');
-    addedSubtask.innerHTML = subtaskInput;
+    const addedSubtaskOne = document.getElementById('subtaskItem1');
+    const addedSubtaskTwo = document.getElementById('subtaskItem2');
+    console.log(addedSubtaskOne);
+
+
+    if (!subTaskOne) {
+        addedSubtaskOne.innerHTML = subtaskInput;
+        addedSubtaskOne.style.display = "inline list-item"
+        subTaskOne = true;
+    } else if (!subtaskTwo) {
+        addedSubtaskTwo.innerHTML = subtaskInput;
+        addedSubtaskTwo.style.display = "inline list-item"
+        subtaskTwo = true;
+    }
 }
+
+function editItemOne(element){
+const editItem = document.getElementById('editItemOne');
+element.style.display = 'none';
+
+editItem.style.display = 'block'
+editItem.value = element.innerHTML;
+}
+
+function editItemTwo(element){
+    
+}
+
+
 
 function subtaskInputDelete() {
     document.getElementById('subtask').value = "";
