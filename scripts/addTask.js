@@ -7,13 +7,54 @@ let date;
 let errorDate;
 let category;
 let errorCategory;
-
+let firebaseData = [];
+const BASE_URL = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 const formDataArray = [];
 
 function initAddTask() {
     getElementsByIds()
+    loadFirebaseData("contactsDatabase");
 }
 
+
+async function loadFirebaseData(path = "") {
+    let response = await fetch(BASE_URL + path + ".json");
+    let responseToJson = await response.json();
+    firebaseData = responseToJson;
+    console.log(firebaseData)
+
+    displayContacts();
+}
+
+function displayContacts() {
+    const contactList = document.getElementById('contactListAssigned'); // Das HTML-Element für die Kontaktliste
+
+    // Leere die Liste, bevor du sie mit neuen Daten füllst
+    contactList.innerHTML = '';
+
+    // Iteriere durch das Array und erstelle für jeden Kontakt ein neues Element
+    firebaseData.forEach(contact => {
+        const contactItem = document.createElement('div');
+        contactItem.classList.add('contact-item');
+
+        // Setze den OnClick-Handler im HTML direkt
+        contactItem.innerHTML = `
+            <p class="dropdown-initials" id="contactNumber${contact.id}">${contact.initials}</p>
+            <span class="select-position">${contact.name}</span>
+            <img src="./assets/img/checkbox_empty.png" alt="empty checkbox" />
+        `;
+
+        // Setze den onclick Attribut mit den Kontaktinformationen
+        contactItem.setAttribute('onclick', `selectContact(this, ${contact.id})`);
+
+        // Setze den Hintergrundfarbe basierend auf der Farbe des Kontakts
+        const initialsElement = contactItem.querySelector('.dropdown-initials');
+        initialsElement.style.backgroundColor = contact.color;
+
+        // Füge das Kontaktitem zur Kontaktliste hinzu
+        contactList.appendChild(contactItem);
+    });
+}
 
 function validateFormular(event) {
     event.preventDefault();
@@ -22,7 +63,7 @@ function validateFormular(event) {
     validateCategory(event)
 
     if (validateIsOk.every(value => value === true)) {
-        submitForm()
+        submitForm(event)
     }
 }
 
@@ -311,7 +352,7 @@ document.addEventListener('click', function (event) {
 });
 
 // Funktion zum Auswählen und Anzeigen von Kontakten
-function selectContact(contactElement) {
+function selectContact(contactElement, id) {
     // Toggle der 'selected' Klasse bei einem Klick
     contactElement.classList.toggle('selected');
 
@@ -336,16 +377,24 @@ function selectContact(contactElement) {
 
     // Hinzufügen der selektierten Kontakte zum angezeigten Bereich
     selectedContacts.forEach(contact => {
-
         // Holen des Textes innerhalb des <p class="dropdown-initials">
         const initials = contact.querySelector('.dropdown-initials').textContent.trim();
+
+        // Holen der Hintergrundfarbe der Initialen
+        const initialsBackgroundColor = contact.querySelector('.dropdown-initials').style.backgroundColor;
+
         // Erstellen eines neuen Elements für die angezeigten Initialen
         const selectedItem = document.createElement('div');
         selectedItem.classList.add('selected-contact-item');
         selectedItem.textContent = initials;
 
+        // Setze die Hintergrundfarbe des neuen Elements auf die Farbe der Initialen
+        selectedItem.style.backgroundColor = initialsBackgroundColor;
+
+        // Füge das Element zur Liste der ausgewählten Kontakte hinzu
         selectedContactsList.appendChild(selectedItem);
     });
+
 }
 
 // Funktion zum Zurücksetzen der Auswahl
@@ -366,8 +415,16 @@ function clearSelection() {
 }
 
 
-function submitForm() {
-    console.log(validateIsOk);
+function submitForm(event) {
+    event.preventDefault(); // Verhindert das Standard-Verhalten (Seiten-Neuladen)
 
-    // window.location.href = './board.html';
+    // Karte sichtbar machen und animieren
+    const card = document.getElementById('submit-card');
+    card.classList.add('visible'); // Karte sichtbar machen und animieren
+
+    setTimeout(function () {
+        window.location.href = './board.html';
+    }, 1500);
+
+
 }

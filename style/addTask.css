@@ -1,5 +1,6 @@
 body {
     display: flex;
+    overflow: hidden;
 }
 
 .mainContent {
@@ -589,6 +590,10 @@ select:focus+#customArrowCategory {
     width: 960px;
 }
 
+.form-buttons{
+    padding-top: 32px;
+}
+
 .create-btn img {
     height: 12px;
     padding-left: 8px;
@@ -638,4 +643,36 @@ select:focus+#customArrowCategory {
 #required-text {
     font-size: 14px;
     padding-top: 96px
+}
+
+
+.submit-card {
+    position: absolute;
+    bottom: -200px; /* Start unterhalb des Bildschirms */
+    width: 280px;
+    height: 60px;
+    font-size: 18px;
+    background-color: #2A3647;
+    color: white;
+    text-align: center;
+    border-radius: 16px;
+    transition: bottom 1s ease, opacity 1s ease; /* Animiert die Bewegung und die Sichtbarkeit */
+    gap: 32px;
+    opacity: 0; /* Karte beginnt unsichtbar */
+    visibility: hidden; /* Karte wird versteckt */
+}
+
+.submit-card img {
+    height: 28px;
+}
+
+.submit-card.visible {
+    display: flex;
+    opacity: 1; /* Karte wird sichtbar */
+    visibility: visible; /* Karte wird sichtbar */
+    bottom: 50%; /* Positioniert die Karte in der Mitte */
+    transform: translateY(50%);
+    right: 47%;
+    align-items: center;
+    justify-content: center;
 }
