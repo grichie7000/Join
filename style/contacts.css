@@ -507,17 +507,13 @@ button {
 .contact-info-popup {
     top: 0;
     left: 0;
-    width: 100%;
     height: 100%;
-	display: none; /*unsichtbar */
-    justify-content: center;
-    align-items: center;
-	
+    display: none;
+    padding-top: 20px;
 }
 
 .contact-info-popup .popup-content {
-	background-color: #F6F7F8;
-    padding: 20px;
+    background-color: #F6F7F8;
     border-radius: 10px;
     max-width: 600px;
 }
