@@ -336,9 +336,14 @@ function selectContact(contactElement) {
 
     // Hinzufügen der selektierten Kontakte zum angezeigten Bereich
     selectedContacts.forEach(contact => {
+
+        // Holen des Textes innerhalb des <p class="dropdown-initials">
+        const initials = contact.querySelector('.dropdown-initials').textContent.trim();
+        // Erstellen eines neuen Elements für die angezeigten Initialen
         const selectedItem = document.createElement('div');
         selectedItem.classList.add('selected-contact-item');
-        selectedItem.textContent = contact.textContent.trim();
+        selectedItem.textContent = initials;
+
         selectedContactsList.appendChild(selectedItem);
     });
 }

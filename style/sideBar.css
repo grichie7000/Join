@@ -9,7 +9,7 @@
     padding-top: 50px;
     padding-bottom: 146px;
     height: 120px;
-    width: 100px;
+    object-fit: cover;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -30,6 +30,7 @@
     gap: 8px;
     align-items: center;
     padding: 8px;
+    font-size: 16px;
 }
 
 .navMenu:hover {
@@ -46,8 +47,8 @@
 }
 
 .navMenu img {
-    height: 30px;
-    width: 30px;
+    height: 28px;
+    width: 28px;
 }
 
 .lawSection {
@@ -57,6 +58,7 @@
     flex-direction: column;
     padding-left: 66px;
     gap: 16px;
+    font-size: 14px;
 }
 
 .lawSection a {

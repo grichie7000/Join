@@ -17,7 +17,7 @@ body {
 
 .addTask h2 {
     font-size: 60px;
-    margin-top: 92px;
+    margin-top: 72px;
     padding-bottom: 46px;
 }
 
@@ -30,7 +30,7 @@ body {
 }
 
 label {
-    font-size: 18px;
+    font-size: 16px;
     padding-bottom: 8px;
     color: #2A3647;
 }
@@ -54,20 +54,21 @@ label {
     display: flex;
     flex-direction: column;
     width: 440px;
-    height: 134px;
+    height: 100px;
+    margin-bottom: 16px;
 }
 
 #title {
     border-radius: 12px;
     border: 2px solid #D1D1D1;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 10px 16px;
+    font-size: 16px;
     transition: 0.3s;
 }
 
 #title::placeholder {
     color: #D1D1D1;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 #title:focus {
@@ -95,8 +96,8 @@ label {
 #description {
     border-radius: 12px;
     border: 2px solid #D1D1D1;
-    padding: 24px 18px;
-    font-size: 18px;
+    padding: 16px 12px;
+    font-size: 16px;
     transition: 0.3s;
     height: 100px;
     resize: none;
@@ -104,7 +105,7 @@ label {
 
 #description::placeholder {
     color: #D1D1D1;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 #description:focus {
@@ -128,8 +129,8 @@ label {
     border-radius: 12px;
     border: 1px solid #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 10px 16px;
+    font-size: 16px;
     transition: 0.3s;
 }
 
@@ -140,7 +141,7 @@ label {
 
 .custom-arrow {
     position: absolute;
-    top: 35%;
+    top: 30%;
     right: 16px;
     height: 22px;
     width: 22px;
@@ -161,7 +162,7 @@ label {
 .contact-list {
     display: none;
     position: absolute;
-    top: 76px;
+    top: 66px;
     left: 0;
     width: 440px;
     max-height: 140px;
@@ -195,26 +196,25 @@ label {
 .dropdown-initials {
     font-size: 14px;
     padding: 4px 6px;
-    border: 1px solid black;
+    border: 2px solid white;
     width: 28px;
     height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background-color: red;
 }
 
 .contact-item:hover {
     background-color: #f1f1f1;
 }
 
-/* Wenn ein Kontakt ausgewählt wurde */
 .contact-item.selected {
     background-color: #2A3647;
     color: white;
 }
 
-/* Hover-Effekt nach Auswahl */
 .contact-item.selected:hover {
     background-color: #2A3D59;
 }
@@ -238,21 +238,22 @@ label {
 }
 
 #selectedContactsList {
-    margin-top: 10px;
+    margin-top: 0px;
     display: flex;
-    gap: 16px;
+    gap: 6px;
 }
 
 .selected-contact-item {
-    font-size: 14px;
+    font-size: 16px;
     padding: 4px 6px;
-    border: 1px solid black;
+    border: 2px solid white;
     width: 28px;
     height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
+    background-color: red;
 }
 
 .contact-item.selected img:hover {
@@ -262,7 +263,7 @@ label {
 
 /*----------------- seperator  ----------------- */
 .seperator {
-    height: 480px;
+    height: 440px;
     width: 1px;
     background-color: #D1D1D1;
     margin-right: 44px;
@@ -273,17 +274,17 @@ label {
     display: flex;
     flex-direction: column;
     width: 440px;
-    height: 96px;
+    height: 92px;
     position: relative;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
 }
 
 #due-date {
     border-radius: 12px;
     border: 1px solid #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 10px 16px;
+    font-size: 16px;
     color: #D1D1D1;
 }
 
@@ -300,7 +301,7 @@ label {
 .calendar-icon {
     position: absolute;
     right: 20px;
-    top: 58%;
+    top: 54%;
     transform: translateY(-50%);
     pointer-events: none;
 }
@@ -318,7 +319,7 @@ label {
 
 .form-priority {
     width: 440px;
-    margin-bottom: 36px;
+    margin-bottom: 24px;
 }
 
 #priority {
@@ -339,10 +340,10 @@ input[type="radio"] {
 .radio-custom {
     background-color: white;
     margin-top: 8px;
-    height: 60px;
+    height: 56px;
     box-shadow: 0px 0px 4px #D1D1D1;
     border: none;
-    border-radius: 16px;
+    border-radius: 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -397,7 +398,7 @@ input[type="radio"]:checked+.low-radio img {
     width: 440px;
     height: 95px;
     position: relative;
-    margin-bottom: 36px;
+    margin-bottom: 24px;
 }
 
 .form-category:hover .custom-arrow {
@@ -408,7 +409,7 @@ input[type="radio"]:checked+.low-radio img {
 
 .custom-arrow-category {
     position: absolute;
-    top: 44%;
+    top: 39%;
     right: 16px;
     height: 22px;
     width: 22px;
@@ -423,8 +424,7 @@ input[type="radio"]:checked+.low-radio img {
     border: 1px solid #D1D1D1;
     border-bottom: 2px solid #D1D1D1;
     padding: 12px 18px;
-    font-size: 18px;
-    transition: 0.3s;
+    font-size: 16px;
     -webkit-appearance: none;
     appearance: none;
 }
@@ -451,7 +451,7 @@ select:focus+#customArrowCategory {
     position: relative;
     display: flex;
     width: 440px;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 #subtask {
@@ -461,8 +461,8 @@ select:focus+#customArrowCategory {
     border-bottom-right-radius: 0;
     border: 2px solid #D1D1D1;
     border-right: none;
-    padding: 12px 18px;
-    font-size: 18px;
+    padding: 10px 16px;
+    font-size: 16px;
     transition: 0.3s;
     display: flex;
     justify-content: space-between;
@@ -474,7 +474,7 @@ select:focus+#customArrowCategory {
 .symbol-container {
     transition: border 0.2s;
     background-color: white;
-    height: 45px;
+    height: 38px;
     width: 80px;
     position: absolute;
     bottom: 0px;
@@ -520,7 +520,7 @@ select:focus+#customArrowCategory {
 .edit-item-icon {
     display: none;
     color: #D1D1D1;
-    font-size: 18px;
+    font-size: 16px;
     height: 24px;
     width: 72px;
     border: solid 1px #D1D1D1;
@@ -586,6 +586,7 @@ select:focus+#customArrowCategory {
     justify-content: space-between;
     padding-right: 310px;
     padding-top: 32px;
+    width: 960px;
 }
 
 .create-btn img {
@@ -600,7 +601,7 @@ select:focus+#customArrowCategory {
 
 .clear-btn {
     background-color: #F6F7F8;
-    font-size: 18px;
+    font-size: 16px;
     padding: 14px 16px;
     border: 1px solid #2A3647;
     color: #2A3647;
@@ -617,7 +618,7 @@ select:focus+#customArrowCategory {
 }
 
 .create-btn {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     color: white;
     padding: 14px 16px;
@@ -635,6 +636,6 @@ select:focus+#customArrowCategory {
 }
 
 #required-text {
-    font-size: 16px;
-    padding-top: 60px
+    font-size: 14px;
+    padding-top: 96px
 }
