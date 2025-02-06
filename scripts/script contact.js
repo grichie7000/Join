@@ -344,7 +344,6 @@ function displayContactInfo(name, email, phone, additionalInfo = "") {
     document.getElementById("contactName").textContent = name;
     document.getElementById("contactEmail").textContent = email;
     document.getElementById("contactPhone").textContent = phone;
-    document.getElementById("contactAdditionalInfo").textContent = additionalInfo;
 
     // Zeige das Modal an
     document.getElementById("contactInfoPopUp").style.display = 'flex';
@@ -380,4 +379,30 @@ function saveContactChanges() {
     cancelCreateContact();
 
     alert("Kontakt wurde aktualisiert!");
+}
+
+
+/*Vorschlag für eine contact-details-Variante*/
+/**
+ * show the contact details.
+ * @param {*} userId 
+ * @returns 
+ */
+function showContactDetails(userId) {
+    try {
+        let contactDetails = document.getElementById("contact-details");
+        let btnMobilePopup = document.getElementById("btn-mobile-popup");
+        contactDetails.innerHTML = "";
+        let selectedUser = userArray.find(user => user.id == userId);
+        if (window.innerWidth <= 826) {
+            contactDetails.parentElement.classList.add('mobile-popup');
+            btnMobilePopup.classList.remove('d-none');
+            document.body.style.overflow = 'hidden';
+            document.getElementById('contact-pop-up').innerHTML = renderEditDeletePopup(selectedUser);
+        }
+        contactDetails.innerHTML = renderContactDetails(selectedUser);
+        return true;
+    } catch (error) {
+        return false;
+    }
 }
