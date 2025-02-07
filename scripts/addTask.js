@@ -7,9 +7,11 @@ let date;
 let errorDate;
 let category;
 let errorCategory;
+let formDataArray = [];
 let firebaseData = [];
 const BASE_URL = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
-const formDataArray = [];
+
+
 
 function initAddTask() {
     getElementsByIds()
@@ -21,9 +23,20 @@ async function loadFirebaseData(path = "") {
     let response = await fetch(BASE_URL + path + ".json");
     let responseToJson = await response.json();
     firebaseData = responseToJson;
-    console.log(firebaseData)
 
     displayContacts();
+}
+
+async function postDatatoBoard(path = "", data={}) {
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    });
+
+    
 }
 
 function displayContacts() {
@@ -415,16 +428,50 @@ function clearSelection() {
 }
 
 
+function getAddTaskData() {
+    let priority = document.querySelector('input[name="priority"]:checked');
+
+    formDataArray.push(document.getElementById('title').value)
+    formDataArray.push(document.getElementById('description').value)
+    formDataArray.push(document.getElementById('selectedContactsList').innerText)
+    formDataArray.push(document.getElementById('due-date').value)
+    if (priority === null) {
+        formDataArray.push("medium");
+    } else {
+        formDataArray.push(priority.value);
+    }
+    formDataArray.push(document.getElementById('category').value)
+    formDataArray.push(document.getElementById('subtaskItem1').innerText)
+    formDataArray.push(document.getElementById('subtaskItem2').innerText)
+    
+    let arrayToObject = {
+        title: formDataArray[0],
+        description: formDataArray[1],
+        contacts: formDataArray[2].split("\n"),
+        dueDate: formDataArray[3],
+        priority: formDataArray[4],
+        category: formDataArray[5],
+        subtaskOne: formDataArray[6],
+        subtaskTwo: formDataArray[7]
+      };
+    return arrayToObject
+}
+
 function submitForm(event) {
     event.preventDefault(); // Verhindert das Standard-Verhalten (Seiten-Neuladen)
+    const dataToBoard = getAddTaskData();
 
+    console.log(dataToBoard);
+    
     // Karte sichtbar machen und animieren
     const card = document.getElementById('submit-card');
     card.classList.add('visible'); // Karte sichtbar machen und animieren
+    
+    postDatatoBoard("/tasks/to-do", dataToBoard)
 
-    setTimeout(function () {
-        window.location.href = './board.html';
-    }, 1500);
+     setTimeout(function () {
+     window.location.href = './board.html';
+     }, 1500);
 
 
 }
