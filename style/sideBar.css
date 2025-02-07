@@ -56,13 +56,16 @@
     bottom: 56px;
     display: flex;
     flex-direction: column;
-    padding-left: 66px;
-    gap: 16px;
     font-size: 14px;
+    width: 100%;
 }
 
 .lawSection a {
     color: #A8A8A8;
+    padding-left: 66px;
+    height: 32px;
+    display: flex;
+    align-items: center;
 }
 
 .lawSection a:hover {
