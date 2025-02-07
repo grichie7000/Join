@@ -9,7 +9,7 @@ let category;
 let errorCategory;
 let formDataArray = [];
 let firebaseData = [];
-const BASE_URL = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
+const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 
 
 
@@ -20,15 +20,15 @@ function initAddTask() {
 
 
 async function loadFirebaseData(path = "") {
-    let response = await fetch(BASE_URL + path + ".json");
+    let response = await fetch(BASE_URL_ADDTASK + path + ".json");
     let responseToJson = await response.json();
     firebaseData = responseToJson;
 
     displayContacts();
 }
 
-async function postDatatoBoard(path = "", data={}) {
-    let response = await fetch(BASE_URL + path + ".json", {
+async function postDatatoBoard(path = "", data = {}) {
+    let response = await fetch(BASE_URL_ADDTASK + path + ".json", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -36,7 +36,7 @@ async function postDatatoBoard(path = "", data={}) {
         body: JSON.stringify(data)
     });
 
-    
+
 }
 
 function displayContacts() {
@@ -443,7 +443,7 @@ function getAddTaskData() {
     formDataArray.push(document.getElementById('category').value)
     formDataArray.push(document.getElementById('subtaskItem1').innerText)
     formDataArray.push(document.getElementById('subtaskItem2').innerText)
-    
+
     let arrayToObject = {
         title: formDataArray[0],
         description: formDataArray[1],
@@ -453,7 +453,7 @@ function getAddTaskData() {
         category: formDataArray[5],
         subtaskOne: formDataArray[6],
         subtaskTwo: formDataArray[7]
-      };
+    };
     return arrayToObject
 }
 
@@ -462,16 +462,16 @@ function submitForm(event) {
     const dataToBoard = getAddTaskData();
 
     console.log(dataToBoard);
-    
+
     // Karte sichtbar machen und animieren
     const card = document.getElementById('submit-card');
     card.classList.add('visible'); // Karte sichtbar machen und animieren
-    
+
     postDatatoBoard("/tasks/to-do", dataToBoard)
 
-     setTimeout(function () {
-     window.location.href = './board.html';
-     }, 1500);
+    setTimeout(function () {
+        window.location.href = './board.html';
+    }, 1500);
 
 
 }

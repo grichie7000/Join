@@ -1,3 +1,7 @@
+const BASE_URL_INITALS = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
+let logedIn;
+
+
 
 // Varibalen werden  nach dem Laden des Dokuments gespeichert
 document.addEventListener("DOMContentLoaded", function () {
@@ -17,3 +21,30 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+
+function loadInitals(){
+    getFirebaseInitals ("initals/logedIn")    
+}
+
+
+async function getFirebaseInitals(path = "") {
+    let response = await fetch(BASE_URL_INITALS  + path + ".json");
+    let responseToJson = await response.json();
+    logedIn = responseToJson;
+
+    displayInitals(logedIn);
+}
+
+
+function displayInitals(initals){
+        // Überprüfen, ob keine Initialen vorhanden sind
+        if (!initals || initals.trim() === "") {
+            const guest = document.getElementById('profile-toggle')
+            guest.innerHTML = "Guest";
+            guest.style.fontSize = '14px'
+            guest.style.padding = "14px 4px"
+        } else {
+            document.getElementById('profile-toggle').innerHTML = initals; // Andernfalls die geladenen Initialen anzeigen
+        }
+}
