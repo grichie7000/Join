@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Summary</title>
-    <link rel="stylesheet" href="./style/summary.css"> </link>
-	<link rel="stylesheet" href="./style/sideBar.css"> </link>
-	<link rel="stylesheet" href="./style/topBar.css"> </link>
+    <link rel="stylesheet" href="./style/summary.css">
+    <link rel="stylesheet" href="./style/standard.css">
+    <link rel="stylesheet" href="./style/sideBar.css">
+    <link rel="stylesheet" href="./style/topBar.css">
 
-	<script src="./scripts/sideBar.js"></script>
-	<script src="./scripts/topBar.js"></script>
+    <script src="./scripts/summary.js"></script>
+    <script src="./scripts/sideBar.js"></script>
+    <script src="./scripts/topBar.js"></script>
+
 </head>
-<body>
-	<div class="flex-row">
-    <div class="sideBar">
 
+<body onload="loadInitals()">
+
+    <div class="sideBar">
         <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
 
         <div class="menuPos">
@@ -45,22 +49,25 @@
             <a href="./legalNotice.html">Legal Notice</a>
         </div>
     </div>
-	<main>
-	<div class="topBar">
+
+    <div class="mainContent">
+        <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
             <div class="profile">
                 <a href="./help.html" class="help">?</a>
-                <p class="initials" id="profile-toggle">SM</p>
+                <p class="initials" id="profile-toggle"></p>
                 <div class="dropdown" id="dropdown-menu">
                     <ul>
                         <li><a href="./legalNotice.html">Legal Notice</a></li>
                         <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
-                        <li><a href="./logout.html">Log Out</a></li>
+                        <li><a href="./relogin.html">Log Out</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-	<div class="summary-container">
+
+
+        <div class="summary-container">
             <div class="header-summary">
                 <h1>Join 360</h1>
                 <div class="blue-hline deskop-line"></div>
@@ -106,15 +113,18 @@
                         </div>
                     </div>
                     <div class="d-flex-sb-c gap-15">
-                        <div class="item-summary task-summary text-container d-flex-col-c-c gap-15" onclick="goToBoard()">
+                        <div class="item-summary task-summary text-container d-flex-col-c-c gap-15"
+                            onclick="goToBoard()">
                             <p id="allTasks" class="num-style">6</p>
                             <span class="m-0">Tasks in <br> Board</span>
                         </div>
-                        <div class="item-summary task-summary text-container d-flex-col-c-c gap-15" onclick="goToBoard()">
+                        <div class="item-summary task-summary text-container d-flex-col-c-c gap-15"
+                            onclick="goToBoard()">
                             <p id="progressNum" class="num-style">0</p>
                             <span class="m-0">Tasks In <br> Progress</span>
                         </div>
-                        <div class="item-summary task-summary text-container d-flex-col-c-c gap-15" onclick="goToBoard()">
+                        <div class="item-summary task-summary text-container d-flex-col-c-c gap-15"
+                            onclick="goToBoard()">
                             <p id="awaitNum" class="num-style">0</p>
                             <span class="m-0">Awaiting <br> feedback</span>
                         </div>
@@ -122,7 +132,7 @@
                 </div>
             </div>
         </div>
-		</main>
-		</div>
+    </div>
 </body>
+
 </html>
