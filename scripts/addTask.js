@@ -1,3 +1,7 @@
+// Globale Variablen initialisieren
+window.selectedContacts = [];
+window.selectedSubtasks = [];
+
 let validateIsOk = [false, false, false];
 let subTaskOne = false;
 let subtaskTwo = false;

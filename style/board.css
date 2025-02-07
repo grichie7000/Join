@@ -1,4 +1,3 @@
-
 body {
     display: flex;
 }
@@ -46,10 +45,10 @@ h1 {
 }
 
 .separator {
-    width: 1px; 
-    height: 30px; 
-    background-color: #A8A8A8; 
-    margin-left: 5px; 
+    width: 1px;
+    height: 30px;
+    background-color: #A8A8A8;
+    margin-left: 5px;
     margin-right: 5px;
 }
 
@@ -60,8 +59,8 @@ h1 {
     font-size: 21px;
     width: 100%;
     color: #A8A8A8;
-    padding-left: 5px; 
-    background: none; 
+    padding-left: 5px;
+    background: none;
 }
 
 .findTaskInput::placeholder {
@@ -116,11 +115,11 @@ h1 {
 }
 
 .kanban-board {
-    max-height: calc(100vh - 200px); 
+    max-height: calc(100vh - 200px);
     overflow-y: auto;
     display: flex;
-    align-items: flex-start; 
-    justify-content: space-around; 
+    align-items: flex-start;
+    justify-content: space-around;
     gap: 50px;
     padding: 40px 64px;
 }
@@ -144,7 +143,9 @@ h1 {
     margin-bottom: 10px;
 }
 
-.awaitButton , .inProgressButton , .toDoButton{
+.awaitButton,
+.inProgressButton,
+.toDoButton {
     width: 24px;
     height: 24px;
     cursor: pointer;
@@ -156,7 +157,9 @@ h1 {
     color: #2A3647;
 }
 
-.awaitButton:hover, .inProgressButton:hover, .toDoButton:hover {
+.awaitButton:hover,
+.inProgressButton:hover,
+.toDoButton:hover {
     border-color: #29ABE2;
     color: #29ABE2;
 }
@@ -200,66 +203,91 @@ h1 {
     padding-top: 10px;
 }
 
-.task-title {
-    border-radius: 24px;
-    font-size: 16px;
-    font-weight: 700;
-    padding-top: 10px;
-    color: #000000;
-}
-
 .task p {
     margin: 5px 0;
     font-size: 14px;
 }
 
-.technical-task {
-    background-color: #1FD7C1;
-    display: inline;
-    padding: 5px 8px;
-    border-radius: 24px;
-    font-size: 13px;
-    font-weight: 200;
-    color: #ffffff;
+.task-subtasks ul {
+    padding-left: 20px;
+    margin: 0 0 10px 0;
 }
 
-.noTask {
-    text-align: center;
-    font-size: 14px;
-    color: #A8A8A8;
-    background-color: #bbbbbb39;
-    border: 2px dotted #D2D2D2;
-    padding: 10px;
-    margin-top: 20px;
-    border-radius: 10px;
+.task-subtasks li {
+    font-size: 12px;
+    color: #666;
 }
 
-.subtask-progress-container {
+.task-footer {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
     margin-top: 10px;
 }
 
-.progress-bar {
-    flex: 1;
-    height: 8px;
-    background-color: #ddd;
-    border-radius: 4px;
-    overflow: hidden;
+.task-contacts ul {
+    display: flex;
+    gap: 5px;
+    padding: 0;
+    margin: 0;
 }
 
-.progress {
-    height: 100%;
-    background-color: #29ABE2;
-    transition: width 0.3s ease-in-out;
-}
-
-.subtask-info {
+.task-contacts li {
+    background: #e3e3e3;
+    padding: 2px 8px;
+    border-radius: 3px;
     font-size: 12px;
-    color: #000000;
-    white-space: nowrap;
+    list-style: none;
 }
+
+.task-priority-icon {
+    width: 15px;
+    height: 10px;
+}
+
+.edit-mode {
+    display: none;
+    display: flex;
+    flex-direction: column;
+}
+
+
+  /* Board.css */
+.edit-mode .input-Section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .edit-mode .inputLeft, 
+  .edit-mode .inputRight {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .edit-mode .seperator {
+    display: none;
+  }
+  
+  .edit-mode .form-title,
+  .edit-mode .form-description,
+  .edit-mode .form-assigned-to,
+  .edit-mode .form-date,
+  .edit-mode .form-priority,
+  .edit-mode .form-category,
+  .edit-mode .form-subtask {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .edit-mode #priority {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .edit-mode .radio-container {
+    width: 100%;
+  }
 
 .contactUrgent {
     display: flex;
@@ -272,12 +300,12 @@ h1 {
     height: 8px;
 }
 
-.highUrgent{
+.highUrgent {
     width: 15px;
     height: 10px;
 }
 
-.lowUrgent{
+.lowUrgent {
     width: 15px;
     height: 10px;
 }
@@ -289,85 +317,120 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-.overlay-content {
-    background-color: white;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+  }
+  
+  .overlay-content {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    max-height: 80vh;
+    overflow-y: auto; /* Scrollbar aktivieren */
+    background: white;
     padding: 20px;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: block; /* Elemente untereinander */
 }
 
-form {
+.edit-mode input,
+.edit-mode textarea {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+}
+  
+  .overlay-header {
     display: flex;
-    flex-direction: column;
-}
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    line-height: 1;
+    transition: color 0.2s;
+  }
+  
+  .category-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    display: inline-block;
+  }
+  
+  /* Styling für die Textelemente im Overlay */
+#taskDetailOverlay .task-title {
+    font-size: 50px;
+    color: #2A3647;
+  }
+  
+  #taskDetailOverlay .task-description {
+    font-size: 20px;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  #taskDetailOverlay .task-due-date,
+  #taskDetailOverlay .task-priority {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0.5rem 0;
+  }
 
-.overlayInput, .textArea {
+  .overlay-footer {
+    margin-top: 2rem;
+    text-align: right;
+  }
+  
+  .overlay-footer button {
+    padding: 0.5rem 1rem;
+    margin-left: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .edit-title, .edit-description {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+  }
+  
+  fieldset {
+    border: 1px solid #ddd;
+    padding: 10px;
     margin: 10px 0;
-    padding: 10px;
+    border-radius: 4px;
+  }
+  
+  legend {
+    padding: 0 5px;
+    font-weight: 500;
+  }
+  
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+
+.task-category{
+    display: inline-block; 
+    padding: 5px 10px; 
     border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.saveButton {
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.cancelButton {
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.saveButton[type="submit"] {
-    background-color: #29ABE2;
-    color: white;
-    border: none;
-}
-
-.cancelButton[type="button"] {
-    background-color: #ccc;
-    color: white;
-    border: none;
-}
-
-#editButton, #saveButton, #cancelButton {
-    margin: 5px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#editButton {
-    background-color: #007BFF; /* Blau */
     color: white;
 }
 
-#saveButton {
-    background-color: #4CAF50; /* Grün */
-    color: white;
-}
-
-#cancelButton {
-    background-color: #f44336; /* Rot */
-    color: white;
-}
-
-.close-btn {
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-end;
-    font-size: 25px;
+.task-date{
+    margin-left: 20px;
 }
 
 #overlayTaskPriority {
@@ -393,7 +456,8 @@ form {
     margin-right: 10px;
 }
 
-#currentPriority, #prioritySelection {
+#currentPriority,
+#prioritySelection {
     margin: 10px 0;
 }
 
@@ -404,12 +468,197 @@ form {
 }
 
 #prioritySelection label {
-    display: flex;
-    align-items: center;
     margin: 5px 0;
     cursor: pointer;
 }
 
 #prioritySelection img {
     margin-right: 10px;
+}
+
+#categorySelection {
+    display: none;
+}
+
+#overlayTaskTitleInput,
+#overlayTaskDescriptionInput {
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Wenn der Bearbeitungsmodus aktiviert ist, wird die Schriftgröße in den Input-Feldern kleiner */
+.edit-mode input, .edit-mode textarea {
+    font-size: 14px; /* Kleinere Schriftgröße */
+}
+
+/* Optional: Auch der Platzhaltertext kann kleiner gemacht werden */
+.edit-mode input::placeholder, .edit-mode textarea::placeholder {
+    font-size: 12px; /* Kleinere Schriftgröße für Platzhalter */
+}
+
+.editPriority {
+    border: 1px solid white;
+    border-radius: 8px;
+    padding: 4px 20px;
+    display: inline-block;
+    box-shadow: 1px 1px 1px 1px rgb(0, 0, 0, 0.2);
+}
+
+.radio-custom {
+    background-color: white;
+    margin-top: 8px;
+    height: 56px;
+    box-shadow: 0px 0px 4px #D1D1D1;
+    border: none;
+    border-radius: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.radio-custom img {
+    width: 18px;
+    object-fit: cover;
+    padding-left: 12px;
+}
+
+
+input[type="radio"]:checked+.urgent-radio {
+    background-color: #FF3D00;
+    color: white;
+    font-weight: bold;
+}
+
+input[type="radio"]:checked+.urgent-radio img {
+    filter: grayscale(100%) brightness(300%) contrast(100%);
+}
+
+input[type="radio"]:checked+.medium-radio {
+    background-color: #FFA904;
+    color: white;
+    font-weight: bold;
+}
+
+input[type="radio"]:checked+.medium-radio img {
+    filter: grayscale(100%) brightness(200%) contrast(100%);
+}
+
+input[type="radio"]:checked+.low-radio {
+    background-color: #7BE22A;
+    color: white;
+    font-weight: bold;
+}
+
+input[type="radio"]:checked+.low-radio img {
+    filter: grayscale(100%) brightness(200%) contrast(100%);
+}
+
+.radio-container:hover .radio-custom {
+    box-shadow: 0px 6px 2px #D1D1D1;
+}
+
+.empty-placeholder {
+    text-align: center;
+    color: rgba(168, 168, 168, 0.77);
+    padding: 10px;
+    margin-top: 20px;
+    font-style: italic;
+    border: 1px dotted rgb(175, 175, 175);
+    border-radius: 8px;
+    background-color: rgba(223, 223, 223, 0.86);
+}
+
+.priority-option {
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.priority-option.active {
+    background-color: #e0e0e0;
+    border: 2px solid #007BFF;
+}
+
+.priority-option:hover {
+    background-color: #f0f0f0;
+}
+
+.priority-option input[type="radio"] {
+    display: none;
+}
+
+.priority-option label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.priority-option img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Grundstil für die Radio-Buttons */
+input[type="radio"] {
+    display: none; /* Versteckt die Standard-Radio-Schaltfläche */
+}
+
+/* Stil für die Labels, die die Radio-Buttons anzeigen */
+input[type="radio"] + label {
+    position: relative;
+    padding-left: 30px; /* Platz für die Radio-Schaltfläche */
+    font-size: 16px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+/* Erstellen des benutzerdefinierten Radio-Buttons */
+input[type="radio"] + label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid #007bff;
+    border-radius: 50%;
+    background-color: white;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Stil für den ausgewählten Radio-Button */
+input[type="radio"]:checked + label::before {
+    background-color: #007bff; /* Farbe für den aktiven Radio-Button */
+    border-color: #007bff;
+}
+
+/* Füge ein Häkchen hinzu, wenn der Radio-Button aktiv ist */
+input[type="radio"]:checked + label::after {
+    content: '✔';
+    position: absolute;
+    left: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    font-size: 12px;
+}
+
+/* Stil für das Label, wenn es angeklickt wird */
+input[type="radio"]:hover + label::before {
+    border-color: #0056b3;
+}
+
+/* Optional: Stil für das Textlabel */
+input[type="radio"] + label {
+    color: #333;
+    font-weight: normal;
+    padding-right: 10px;
 }
