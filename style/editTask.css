@@ -125,3 +125,20 @@
     z-index: auto !important;
     transform: none !important;
   }
+
+  .save-btn {
+    background-color: rgb(42, 54, 71) !important;
+    color: white;
+    cursor: pointer;
+    font-weight: 700;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    font-size: 16px;
+    border: 1px solid;
+  }
+
+  .save-btn:hover {
+    color: white !important;
+    background-color: #29ABE2 !important;
+  }

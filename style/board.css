@@ -190,6 +190,11 @@ h1 {
     cursor: pointer;
     width: auto;
     box-shadow: 1px 1px 8px 1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-out;
+}
+
+.task:active {
+    transform: rotate(5deg); /* Dreht das Element um 15 Grad */
 }
 
 .task-name {
@@ -419,15 +424,39 @@ h1 {
   }
 
   .overlay-footer {
+    display: flex;
+    justify-content: flex-end;
     margin-top: 2rem;
     text-align: right;
   }
   
   .overlay-footer button {
-    padding: 0.5rem 1rem;
-    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
     cursor: pointer;
-  }
+    border: none;
+    background: none;
+}
+
+.overlay-footer button:hover {
+    color: #29ABE2;
+}
+
+.delete-container, .edit-container{
+    display: flex;
+    align-items: center;
+}
+
+.delete-svg:hover, .edit-svg:hover{
+    color: #29ABE2;
+}
+
+.button-seperator{
+    border: 1px solid #bbbbbb;
+    margin-right: 10px;
+    height: 20px;
+    color: rgba(0, 0, 0, 0.704);
+}
   
   .edit-title, .edit-description {
     width: 100%;

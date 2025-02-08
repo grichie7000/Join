@@ -1,7 +1,7 @@
-// board.js
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
 import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
 // Firebase-Konfiguration
 const firebaseConfig = {
@@ -21,29 +21,33 @@ const db = getDatabase(app);
 // Hilfsfunktion: Schneller Zugriff auf Elemente per ID
 const $ = (id) => document.getElementById(id);
 
-/* --- Aufgaben laden und anzeigen --- */
 const loadTasks = () => {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(column => {
-        const container = $(column);
-        container.innerHTML = "";
-        const tasksRef = ref(db, `tasks/${column}`);
-        get(tasksRef)
-            .then(snapshot => {
-                if (snapshot.exists()) {
-                    snapshot.forEach(childSnapshot => {
-                        const task = childSnapshot.val();
-                        const taskId = childSnapshot.key;
-                        const taskElement = createTaskElement(task, taskId, column);
-                        container.appendChild(taskElement);
-                    });
-                } else {
-                    container.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
-                }
-            })
-            .catch(error => console.error("Fehler beim Laden der Tasks:", error));
+      const container = $(column);
+      const tasksRef = ref(db, `tasks/${column}`);
+  
+      // Echtzeit-Listener: Reagiert auf jede Änderung im jeweiligen Spaltenpfad
+      onValue(tasksRef, (snapshot) => {
+        container.innerHTML = ""; // Container leeren
+  
+        if (snapshot.exists()) {
+          snapshot.forEach(childSnapshot => {
+            const task = childSnapshot.val();
+            const taskId = childSnapshot.key;
+            const taskElement = createTaskElement(task, taskId, column);
+            container.appendChild(taskElement);
+          });
+        } else {
+          // Falls keine Tasks vorhanden sind, den Placeholder setzen
+          container.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
+        }
+  
+        // Falls durch die Änderungen ein Feld leer geworden ist, Platzhalter einfügen
+        updatePlaceholders();
+      });
     });
-};
+  };
 
 const createTaskElement = (task, taskId, columnId) => {
     const div = document.createElement("div");
@@ -67,7 +71,7 @@ const createTaskElement = (task, taskId, columnId) => {
         ? `<div class="task-subtasks"><ul>${task.subtasks.map(s => `<li>${s}</li>`).join("")}</ul></div>`
         : "";
 
-        const contactsHtml = task.contacts && task.contacts.length > 0
+    const contactsHtml = task.contacts && task.contacts.length > 0
         ? `<div class="task-contacts">${task.contacts.map((c, index) => {
             // Sicherstellen, dass der Name existiert
             const contactName = c?.name || 'Unknown';
@@ -119,6 +123,7 @@ window.moveTo = (event, columnId) => {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text");
     const task = $(taskId);
+    // Ermitteln des alten Containers anhand der aktuellen Eltern-ID
     const oldColumnElement = $(task.parentElement.id);
     const oldColumnId = oldColumnElement.id;
     const newColumnElement = $(columnId);
@@ -137,11 +142,26 @@ window.moveTo = (event, columnId) => {
             const newTaskRef = ref(db, `tasks/${columnId}/${taskId}`);
             set(newTaskRef, taskData).then(() => {
                 remove(oldTaskRef).then(() => {
+                    // Falls die alte Spalte nach dem Entfernen leer ist, Platzhalter einfügen
                     if (!oldColumnElement.querySelector(".task")) {
                         oldColumnElement.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
                     }
+                    // Alle Spalten überprüfen und ggf. Platzhalter hinzufügen
+                    updatePlaceholders();
                 });
             });
+        }
+    });
+};
+
+/* --- Funktion zum Aktualisieren der Platzhalter in allen Spalten --- */
+const updatePlaceholders = () => {
+    const columns = ["to-do", "in-progress", "await-feedback", "done"];
+    columns.forEach(columnId => {
+        const column = $(columnId);
+        // Falls weder ein Task noch ein Platzhalter vorhanden ist, füge den Platzhalter hinzu
+        if (!column.querySelector(".task") && !column.querySelector(".empty-placeholder")) {
+            column.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
         }
     });
 };
@@ -246,7 +266,7 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
     contactsList.innerHTML = task.contacts?.map(c => `
     <div class="contact-badge no-overlap" style="background: ${getContactColor(c.name)}" title="${c.name}">
       ${getInitials(c.name)}
-    </div>`).join('') || ''
+    </div>`).join('') || '';
     const subtasksList = overlay.querySelector('.subtasks-list');
     subtasksList.innerHTML = task.subtasks?.map(s => `<li>${s}</li>`).join('') || '';
 
@@ -269,6 +289,9 @@ const hideTaskDetailOverlay = () => {
     overlay.querySelector('.edit-btn').style.display = 'inline-block';
     overlay.querySelector('.delete-btn').style.display = 'inline-block';
     overlay.querySelector('.save-btn').style.display = 'none';
+    overlay.querySelector('.button-seperator').style.display = 'inline-block';
+    overlay.querySelector('.edit-svg').style.display = 'inline-block';
+    overlay.querySelector('.delete-svg').style.display = 'inline-block';
 };
 
 let currentTaskCategory = null; // globale Variable
@@ -283,8 +306,11 @@ const enableEditMode = () => {
         overlay.querySelector('.view-mode').style.display = 'none';
         overlay.querySelector('.edit-mode').style.display = 'block';
         // Optional: Edit- und Delete-Button ausblenden, Save-Button einblenden
+        overlay.querySelector('.edit-svg').style.display = 'none';
+        overlay.querySelector('.delete-svg').style.display = 'none';
         overlay.querySelector('.edit-btn').style.display = 'none';
         overlay.querySelector('.delete-btn').style.display = 'none';
+        overlay.querySelector('.button-seperator').style.display = 'none';
         overlay.querySelector('.save-btn').style.display = 'inline-block';
 
         // Speichere den aktuellen Kategorienwert in der globalen Variable
@@ -336,7 +362,7 @@ function getInitials(name) {
       .map(n => n[0]?.toUpperCase() || '')
       .join('')
       .substring(0, 2);
-  }
+}
 
 function getContactColor(name) {
   // Fallback für undefinierte oder ungültige Namen
@@ -428,7 +454,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-
 // --- Änderungen speichern ---
 const saveChanges = () => {
     const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
@@ -463,6 +488,9 @@ const saveChanges = () => {
         overlay.querySelector('.edit-btn').style.display = 'inline-block';
         overlay.querySelector('.delete-btn').style.display = 'inline-block';
         overlay.querySelector('.save-btn').style.display = 'none';
+        overlay.querySelector('.button-seperator').style.display = 'inline-block';
+        overlay.querySelector('.edit-svg').style.display = 'inline-block';
+        overlay.querySelector('.delete-svg').style.display = 'inline-block';
     });
 };
 
@@ -480,9 +508,6 @@ document.addEventListener('click', (e) => {
         document.querySelectorAll('.contacts-dropdown').forEach(d => d.classList.remove('active'));
     }
 });
-
-
-
 
 // --- Hilfsfunktionen ---
 const getCategoryColor = (category) => {
