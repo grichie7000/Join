@@ -126,6 +126,12 @@ window.moveTo = (event, columnId) => {
     // Ermitteln des alten Containers anhand der aktuellen Eltern-ID
     const oldColumnElement = $(task.parentElement.id);
     const oldColumnId = oldColumnElement.id;
+
+    // Falls der Task in dieselbe Spalte gezogen wird, beenden wir die Funktion.
+    if (oldColumnId === columnId) {
+        return;
+    }
+
     const newColumnElement = $(columnId);
 
     // Entferne ggf. vorhandene Platzhalter in der neuen Spalte
@@ -153,6 +159,7 @@ window.moveTo = (event, columnId) => {
         }
     });
 };
+
 
 /* --- Funktion zum Aktualisieren der Platzhalter in allen Spalten --- */
 const updatePlaceholders = () => {
