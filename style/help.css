@@ -1,0 +1,82 @@
+body {
+    display: flex;
+    overflow: hidden;
+}
+
+.mainContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #F6F7F8;
+}
+
+.helpSite {
+    padding-left: 180px;
+    padding-right: 220px;
+    overflow: scroll;
+}
+
+.helpSite h1 {
+    color: #2A3647;
+    font-size: 60px;
+    margin-top: 72px;
+    padding-bottom: 24px;
+}
+
+.helpSite h2 {
+    color: #2A3647;
+    font-size: 32px;
+    margin-top: 44px;
+    padding-bottom: 8px;
+}
+
+.helpSite h3 {
+    color: #2A3647;
+    font-size: 16px;
+}
+
+.helpSite p {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.helpSite span{
+    color: #29ABE2;
+}
+
+.helpSiteText {
+    padding: 8px;
+}
+
+.helpSiteSteps{
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 24px;
+    color: #2A3647;
+}
+
+.stepNumber{
+    font-size: 32px !important;
+    font-weight: bold;
+}
+
+.helpSiteStepsFive{
+    display: flex;
+    gap: 24px;
+    margin-top: 32px;
+}
+
+.paddingTop{
+    padding-top: 16px;
+}
+
+.helpSite footer {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: #777;
+}
+
