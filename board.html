@@ -137,124 +137,85 @@
 
             <form class="edit-mode" style="display: none;">
                 <div class="input-Section">
-                  <!-- Linke Spalte -->
-                  <div class="inputLeft">
-                    <!-- Title -->
-                    <div class="form-title">
-                      <label for="edit-title">Title <span class="required">*</span></label>
-                      <input type="text" id="edit-title" name="edit-title" placeholder="Enter a title" required>
-                      <p id="error-edit-title" class="error-message"></p>
-                    </div>
-              
-                    <!-- Description -->
-                    <div class="form-description">
-                      <label for="edit-description">Description</label>
-                      <textarea id="edit-description" name="edit-description" placeholder="Enter a Description" rows="4"></textarea>
-                      <img class="custom-resize" src="./assets/img/resize.png" alt="resize">
-                    </div>
-              
-                    <!-- Assigned to -->
-                    <div class="form-assigned-to">
-                      <label>Assigned to</label>
-                      <div id="edit-assigned-to">
-                        <div class="dropdown-trigger" onclick="toggleEditDropdown()">
-                          <span id="placeholderEditAssigned">Select contacts to assign</span>
-                          <img src="./assets/img/arrow_down.png" alt="arrow" class="custom-arrow" id="customArrowEditAssigned">
+                    <!-- Linke Spalte -->
+                    <div class="inputLeft">
+                        <!-- Title -->
+                        <div class="form-title">
+                            <label for="edit-title">Title</label>
+                            <input type="text" id="edit-title" name="edit-title" placeholder="Enter a title" required>
+                            <p id="error-edit-title" class="error-message"></p>
                         </div>
-                        <div class="contact-list" id="editContactList">
-                          <!-- Hier dynamisch Kontakte einfügen -->
+
+                        <!-- Description -->
+                        <div class="form-description">
+                            <label for="edit-description">Description</label>
+                            <textarea id="edit-description" name="edit-description" placeholder="Enter a Description"
+                                rows="4"></textarea>
                         </div>
-                      </div>
-                      <!-- Div zur Anzeige der ausgewählten Kontakte -->
-                      <div id="editSelectedContacts">
-                        <div id="editSelectedContactsList"></div>
-                      </div>
+
+                        <!-- Assigned to (Dropdown) -->
                     </div>
-                  </div>
-              
-                  <!-- Trennlinie -->
-                  <div class="seperator"></div>
-              
-                  <!-- Rechte Spalte -->
-                  <div class="inputRight">
-                    <!-- Due Date -->
-                    <div class="form-date">
-                      <label for="edit-due-date">Due Date <span class="required">*</span></label>
-                      <input type="date" id="edit-due-date" name="edit-due-date" required onchange="changeEditDateColor()">
-                      <span class="calendar-icon"><img src="./assets/img/date.png" alt="date"></span>
-                      <p id="error-edit-date" class="error-message"></p>
-                    </div>
-              
-                    <!-- Priority -->
-                    <div class="form-priority">
-                      <label for="edit-priority">Prio</label>
-                      <div id="edit-priority">
-                        <label class="radio-container">
-                          <input type="radio" id="edit-urgent" name="edit-priority" value="urgent">
-                          <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png" alt=""></span>
-                        </label>
-                        <label class="radio-container">
-                          <input type="radio" id="edit-medium" name="edit-priority" value="medium">
-                          <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png" alt=""></span>
-                        </label>
-                        <label class="radio-container">
-                          <input type="radio" id="edit-low" name="edit-priority" value="low">
-                          <span class="radio-custom low-radio">Low <img src="./assets/img/low.png" alt=""></span>
-                        </label>
-                      </div>
-                    </div>
-              
-                    <!-- Category -->
-                    <div class="form-category">
-                      <label for="edit-category">Category <span class="required">*</span></label>
-                      <select id="edit-category" name="edit-category" required>
-                        <option value="" disabled selected>Select task category</option>
-                        <option value="Technical Task">Technical Task</option>
-                        <option value="User Story">User Story</option>
-                      </select>
-                      <img id="customArrowEditCategory" class="custom-arrow-category" src="./assets/img/arrow_down.png" alt="arrow_standard">
-                      <p id="error-edit-category" class="error-message"></p>
-                    </div>
-              
-                    <!-- Subtasks -->
-                    <div class="form-subtask">
-                      <div>
-                        <label for="edit-subtask">Subtasks</label>
-                        <input type="text" id="edit-subtask" name="edit-subtask" placeholder="Add a new Subtask" onclick="subtaskEditStyling(this)">
-                      </div>
-                      <div id="symbolStylingEdit" class="symbol-container">
-                        <img src="./assets/img/plus_task.png" alt="plus">
-                      </div>
-                    </div>
-                    <ul id="addedEditSubtask">
-                      <li id="editSubtaskItem1" ondblclick="editItemOne(this)"></li>
-                      <div class="edit-position">
-                        <input type="text" name="editItemOne" id="editItemOne">
-                        <div id="editItemIconOne" class="edit-item-icon">
-                          <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemOne()">
-                          <span>|</span>
-                          <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
+
+
+                    <!-- Rechte Spalte -->
+                    <div class="inputRight">
+                        <!-- Due Date -->
+                        <div class="form-date">
+                            <label for="edit-due-date">Due Date</label>
+                            <input type="date" id="edit-due-date" name="edit-due-date" required>
+                            <p id="error-edit-date" class="error-message"></p>
                         </div>
-                      </div>
-                      <li id="editSubtaskItem2" ondblclick="editItemTwo(this)"></li>
-                      <div class="edit-position">
-                        <input type="text" name="editItemTwo" id="editItemTwo">
-                        <div id="editItemIconTwo" class="edit-item-icon">
-                          <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemTwo()">
-                          <span>|</span>
-                          <img src="./assets/img/check_task.png" alt="check" onclick="submitItemTwo()">
+
+                        <!-- Priority -->
+                        <div class="form-priority">
+                            <label for="edit-priority">Prio</label>
+                            <div id="edit-priority">
+                                <label class="radio-container">
+                                    <input type="radio" id="edit-urgent" name="edit-priority" value="urgent">
+                                    <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png"
+                                            alt=""></span>
+                                </label>
+                                <label class="radio-container">
+                                    <input type="radio" id="edit-medium" name="edit-priority" value="medium">
+                                    <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png"
+                                            alt=""></span>
+                                </label>
+                                <label class="radio-container">
+                                    <input type="radio" id="edit-low" name="edit-priority" value="low">
+                                    <span class="radio-custom low-radio">Low <img src="./assets/img/low.png"
+                                            alt=""></span>
+                                </label>
+                            </div>
                         </div>
-                      </div>
-                    </ul>
-                  </div>
+                        <div class="form-assigned-to">
+                            <label for="edit-assigned-to">Assigned to:</label>
+                            <select id="edit-assigned-to" name="edit-assigned-to" multiple>
+                                <option value="user1">User 1</option>
+                                <option value="user2">User 2</option>
+                                <option value="user3">User 3</option>
+                            </select>
+                            <div id="editSelectedContacts"></div>
+                        </div>
+
+                        <!-- Subtasks -->
+                        <div class="form-subtasks">
+                            <label for="edit-subtask">Subtasks</label>
+                            <div class="subtask-input-container">
+                                <input type="text" id="edit-subtask" name="edit-subtask" placeholder="Add new subtask">
+                                <button type="button" id="add-subtask-btn">+</button>
+                            </div>
+                            <ul id="subtask-list"></ul>
+                        </div>
+                    </div>
                 </div>
-              </form>
-              
+            </form>
+
             <div class="overlay-footer">
                 <button type="button" class="edit-btn">Edit</button>
                 <button type="button" class="delete-btn">Delete</button>
                 <button type="button" class="save-btn" style="display: none;">Save</button>
             </div>
+
         </div>
     </div>
 
@@ -285,132 +246,127 @@
                             </div>
 
                             <!-- Assigned to -->
+                            <!-- Assigned to (Dropdown) -->
                             <div class="form-assigned-to">
-                                <label>Assigned to</label>
-                                <div id="assigned-to">
-                                    <div class="dropdown-trigger" onclick="toggleDropdown()">
-                                        <span id="placeholderAssigned">Select contacts to assign</span>
-                                        <img src="./assets/img/arrow_down.png" alt="arrow" class="custom-arrow"
-                                            id="customArrowAssigned">
-                                    </div>
-                                    <div class="contact-list" id="contactListAssigned">
-                                    </div>
-                                </div>
-                                <!-- Div für die Anzeige der ausgewählten Kontakte -->
-                                <div id="selectedContacts">
-                                    <div id="selectedContactsList"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="seperator">
-                        </div>
-
-                        <div class="inputRight">
-                            <!-- Due date -->
-                            <div class="form-date">
-                                <label for="due-date">Due Date <span class="required">*</span></label>
-                                <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
-                                <span class="calendar-icon"><img src="./assets/img/date.png" alt="date">
-                                </span>
-                                <p id="error-date" class="error-message"></p>
-                            </div>
-
-                            <!-- Priority -->
-                            <div class="form-priority">
-                                <label for="priority">Prio</label>
-                                <div id="priority">
-                                    <label class="radio-container">
-                                        <input type="radio" id="urgent" name="priority" value="urgent">
-                                        <span class="radio-custom urgent-radio">Urgent <img
-                                                src="./assets/img/urgent.png" alt=""></span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" id="medium" name="priority" value="medium">
-                                        <span class="radio-custom medium-radio">Medium <img
-                                                src="./assets/img/medium.png" alt=""></span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" id="low" name="priority" value="low">
-                                        <span class="radio-custom low-radio">Low <img src="./assets/img/low.png"
-                                                alt=""></span>
-                                    </label>
-                                </div>
-                            </div>
-
-
-                            <!-- Category -->
-                            <div class="form-category">
-                                <label for="category">Category <span class="required">*</span></label>
-                                <select id="category" name="category" required>
-                                    <option value="" disabled selected>Select task category</option>
-                                    <option value="Technical Task">Technical Task</option>
-                                    <option value="User Story">User Story</option>
+                                <label for="edit-assigned-to">Assigned to:</label>
+                                <select id="edit-assigned-to" name="edit-assigned-to" multiple>
+                                    <option value="user1">User 1</option>
+                                    <option value="user2">User 2</option>
+                                    <option value="user3">User 3</option>
                                 </select>
-                                <img id="customArrowCategory" class="custom-arrow-category"
-                                    src="./assets/img/arrow_down.png" alt="arrow_standard">
-                                <p id="error-category" class="error-message"></p>
+                                <div id="editSelectedContacts"></div>
                             </div>
-
-                            <!-- Subtasks -->
-                            <div class="form-subtask">
-                                <div>
-                                    <label for="subtask">Subtasks</label>
-                                    <input type="text" id="subtask" name="subtask" placeholder="Add a new Subtask"
-                                        onclick="subtaskStyling(this)">
-                                </div>
-                                <div id="symbolStyling" class="symbol-container">
-                                    <img src="./assets/img/plus_task.png" alt="plus">
-                                </div>
+                            <!-- Div für die Anzeige der ausgewählten Kontakte -->
+                            <div id="selectedContacts">
+                                <div id="selectedContactsList"></div>
                             </div>
-                            <ul id="addedSubtask">
-                                <li id="subtaskItem1" ondblclick="editItemOne(this)"></li>
-                                <div class="edit-position">
-                                    <input type="text" name="itemOne" id="editItemOne">
-                                    <div id="editItemIconOne" class="edit-item-icon">
-                                        <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemOne()">
-                                        <span>|</span>
-                                        <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
-                                    </div>
-                                </div>
-                                <li id="subtaskItem2" ondblclick="editItemTwo(this)"></li>
-                                <div class="edit-position">
-                                    <input type="text" name="itemTwo" id="editItemTwo">
-                                    <div id="editItemIconTwo" class="edit-item-icon">
-                                        <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemTwo()">
-                                        <span>|</span>
-                                        <img src="./assets/img/check_task.png" alt="check" onclick="submitItemTwo()">
-                                    </div>
-                                </div>
-                            </ul>
                         </div>
                     </div>
 
-                    <!-- Buttons -->
-                    <div class="button-and-text">
-                        <div>
-                            <p id="required-text"><span class="required">*</span>This field is required</p>
+                    <div class="inputRight">
+                        <!-- Due date -->
+                        <div class="form-date">
+                            <label for="due-date">Due Date <span class="required">*</span></label>
+                            <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
+                            <span class="calendar-icon"><img src="./assets/img/date.png" alt="date">
+                            </span>
+                            <p id="error-date" class="error-message"></p>
                         </div>
-                        <div class="form-buttons">
-                            <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span>
-                            </button>
-                            <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png"
-                                    alt="">
-                            </button>
-                        </div>
-                    </div>
-                </form>
 
-                <div id="submit-card" class="submit-card">
-                    <p>Task added to Board</p>
-                    <img src="./assets/img/BoardLogo.png" alt="">
-                </div>
+                        <!-- Priority -->
+                        <div class="form-priority">
+                            <label for="priority">Prio</label>
+                            <div id="priority">
+                                <label class="radio-container">
+                                    <input type="radio" id="urgent" name="priority" value="urgent">
+                                    <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png"
+                                            alt=""></span>
+                                </label>
+                                <label class="radio-container">
+                                    <input type="radio" id="medium" name="priority" value="medium">
+                                    <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png"
+                                            alt=""></span>
+                                </label>
+                                <label class="radio-container">
+                                    <input type="radio" id="low" name="priority" value="low">
+                                    <span class="radio-custom low-radio">Low <img src="./assets/img/low.png"
+                                            alt=""></span>
+                                </label>
+                            </div>
+                        </div>
+
+
+                        <!-- Category -->
+                        <div class="form-category">
+                            <label for="category">Category <span class="required">*</span></label>
+                            <select id="category" name="category" required>
+                                <option value="" disabled selected>Select task category</option>
+                                <option value="Technical Task">Technical Task</option>
+                                <option value="User Story">User Story</option>
+                            </select>
+                            <img id="customArrowCategory" class="custom-arrow-category"
+                                src="./assets/img/arrow_down.png" alt="arrow_standard">
+                            <p id="error-category" class="error-message"></p>
+                        </div>
+
+                        <!-- Subtasks -->
+                        <div class="form-subtask">
+                            <div>
+                                <label for="subtask">Subtasks</label>
+                                <input type="text" id="subtask" name="subtask" placeholder="Add a new Subtask"
+                                    onclick="subtaskStyling(this)">
+                            </div>
+                            <div id="symbolStyling" class="symbol-container">
+                                <img src="./assets/img/plus_task.png" alt="plus">
+                            </div>
+                        </div>
+                        <ul id="addedSubtask">
+                            <li id="subtaskItem1" ondblclick="editItemOne(this)"></li>
+                            <div class="edit-position">
+                                <input type="text" name="itemOne" id="editItemOne">
+                                <div id="editItemIconOne" class="edit-item-icon">
+                                    <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemOne()">
+                                    <span>|</span>
+                                    <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
+                                </div>
+                            </div>
+                            <li id="subtaskItem2" ondblclick="editItemTwo(this)"></li>
+                            <div class="edit-position">
+                                <input type="text" name="itemTwo" id="editItemTwo">
+                                <div id="editItemIconTwo" class="edit-item-icon">
+                                    <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemTwo()">
+                                    <span>|</span>
+                                    <img src="./assets/img/check_task.png" alt="check" onclick="submitItemTwo()">
+                                </div>
+                            </div>
+                        </ul>
+                    </div>
             </div>
 
+            <!-- Buttons -->
+            <div class="button-and-text">
+                <div>
+                    <p id="required-text"><span class="required">*</span>This field is required</p>
+                </div>
+                <div class="form-buttons">
+                    <button type="reset" class="clear-btn" onclick="clearTask()">Clear <span>X</span>
+                    </button>
+                    <button type="submit" class="create-btn">Create Task<img src="./assets/img/check.png" alt="">
+                    </button>
+                </div>
+            </div>
+            </form>
+
+            <div id="submit-card" class="submit-card">
+                <p>Task added to Board</p>
+                <img src="./assets/img/BoardLogo.png" alt="">
+            </div>
         </div>
-        <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js" type="module"></script>
-        <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js" type="module"></script>
-        <script src="scripts/board.js" type="module"></script>
+
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js" type="module"></script>
+    <script src="scripts/board.js" type="module"></script>
 </body>
 
 </html>
