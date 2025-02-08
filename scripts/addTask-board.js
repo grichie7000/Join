@@ -70,3 +70,20 @@ function removeSubtask(index) {
   selectedSubtasks.splice(index, 1);
   updateSubtasksUI();
 }
+
+function toggleDropdown() {
+  const assignedToElement = document.getElementById('assigned-to');
+  const customArrowAssigned = document.getElementById('customArrowAssigned');
+  const placeholderAssigned = document.getElementById('placeholderAssigned');
+
+  // Umschalten der "open"-Klasse für das Dropdown-Menü und das Pfeilsymbol
+  assignedToElement.classList.toggle('open');
+
+  customArrowAssigned.classList.toggle('open');
+
+  if (assignedToElement.classList.contains('open')) {
+      placeholderAssigned.innerHTML = "An |"
+  } else {
+      placeholderAssigned.innerHTML = "Select contacts to assign"
+  }
+}
