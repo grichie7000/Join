@@ -257,17 +257,83 @@ display: flex;
     font-weight: bold;
 }
 
+/* --------------- taks in Progress------------------ */
+
+.tasksInProgress {
+    height: 160px;
+    width: 164px;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: #2A3647;
+    transition: transform 0.1s ease;
+}
+
+.tasksInProgress:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.inProgressPos {
+    font-size: 22px;
+    text-align: center;
+}
+
+#inProgress {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+/* --------------- awaiting Feedback------------------ */
+
+.feedbackTask {
+    height: 160px;
+    width: 164px;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: #2A3647;
+    transition: transform 0.1s ease;
+}
+
+.feedbackTask:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.feedbackTaskPos {
+    font-size: 22px;
+    text-align: center;
+}
+
+#awaitingFeedback {
+    font-size: 60px;
+    font-weight: bold;
+}
+
 
 /* --------------- greatings ------------------ */
 
-.greating{
+.greeting{
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: 82px;
 }
 
-#timeOfDay{
+#greetings{
 font-size: 48px;
 }
 
@@ -275,4 +341,11 @@ font-size: 48px;
 font-size: 60px;
 font-weight: bold;
 color: #29ABE2;
+}
+
+
+#allComplete{
+    margin-top: 32px;
+    font-weight: bold;
+
 }

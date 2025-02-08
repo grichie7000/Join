@@ -465,8 +465,6 @@ function submitForm(event) {
     event.preventDefault(); // Verhindert das Standard-Verhalten (Seiten-Neuladen)
     const dataToBoard = getAddTaskData();
 
-    console.log(dataToBoard);
-
     // Karte sichtbar machen und animieren
     const card = document.getElementById('submit-card');
     card.classList.add('visible'); // Karte sichtbar machen und animieren

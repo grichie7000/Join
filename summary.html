@@ -18,7 +18,7 @@
 
 </head>
 
-<body onload="loadInitals()">
+<body onload="loadInitals(), loadTasks()">
 
     <div class="sideBar">
         <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
@@ -79,29 +79,29 @@
                 <div>
                     <div class="taskCards">
                         <div class="toDoAndDone">
-                            <div class="toDoCard">
+                            <div class="toDoCard" onclick="goToBoardSite()">
                                 <div class="toDoImg"><img src="./assets/img/todoMarker.png" alt="marker"></div>
                                 <div class="toDoPos">
-                                    <p id="openToDos">1</p>
+                                    <p id="openToDos"></p>
                                     <p>To-do</p>
                                 </div>
                             </div>
 
-                            <div class="doneCard">
+                            <div class="doneCard" onclick="goToBoardSite()">
                                 <div class="doneImg"><img src="./assets/img/check_Done.png" alt="marker"></div>
                                 <div class="donePos">
-                                    <p id="openDones">1</p>
+                                    <p id="openDones"></p>
                                     <p>Done</p>
                                 </div>
                             </div>
                         </div>
 
                         <div class="urgentSection">
-                            <div class="urgentCard">
+                            <div class="urgentCard" onclick="goToBoardSite()">
                                 <div class="urgentLeft">
                                     <div class="urgentImg"><img src="./assets/img/urgentCard.png" alt="marker"></div>
                                     <div class="urgentPos">
-                                        <p id="openUrgents">1</p>
+                                        <p id="openUrgents"></p>
                                         <p>Urgent</p>
                                     </div>
                                     <div class="urgentSeperator"></div>
@@ -116,30 +116,31 @@
                     </div>
 
                     <div class="openTasks">
-                        <div class="totalTasks">
+                        <div class="totalTasks" onclick="goToBoardSite()">
                             <div class="totalTasksPos">
-                                <p id="openTotalTasks">5</p>
+                                <p id="openTotalTasks"></p>
                                 <p>Tasks in <br>Board</p>
                             </div>
                         </div>
-                        <div class="totalTasks">
-                            <div class="totalTasksPos">
-                                <p id="openTotalTasks">5</p>
+                        <div class="tasksInProgress" onclick="goToBoardSite()">
+                            <div class="inProgressPos">
+                                <p id="inProgress"></p>
                                 <p>Tasks in <br>Progress</p>
                             </div>
                         </div>
-                        <div class="totalTasks">
-                            <div class="totalTasksPos">
-                                <p id="openTotalTasks">5</p>
+                        <div class="feedbackTask" onclick="goToBoardSite()">
+                            <div class="feedbackTaskPos">
+                                <p id="awaitingFeedback"></p>
                                 <p>Awaiting <br>Feedback</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="greating">
-                    <p id="timeOfDay">Good Morning</p>
+                <div class="greeting">
+                    <p id="greetings">Good Morning,</p>
                     <p id="loggedInName">Guest</p>
+                    <p id="allComplete"></p>
                 </div>
             </div>
         </div>
