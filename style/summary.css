@@ -1,7 +1,3 @@
-* {
-    transition: all 0.2s ease-in-out;
-}
-
 body {
     display: flex;
     overflow: hidden;
@@ -15,231 +11,268 @@ body {
     background-color: #F6F7F8;
 }
 
-:root {
-    --bg: rgb(245, 247, 248);
-    --item-color: rgb(255, 255, 255);
-    --blue: #29abe2;
-    --border-grey: #cccccc;
-    --grey: #A8A8A8;
-    --darkgrey: rgb(43, 54, 71);
-    --orange: rgb(255, 61, 6);
-    --text: #42526e;
-}
-
-.container-summary {
-    padding: 40px 0 90px 0;
-    display: flex;
-    flex-direction: column;
-}
-
-.topBar h3 {
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.header-summary {
-    padding: 0;
-    flex-direction: row;
-    align-items: center;
-    gap: 15px;
-}
-
-.flex-row {
-    display: flex;
-    flex: 1;
-}
-
-.content-summary {
-    display: flex;
-    flex-direction: column;
-}
-
-.gap-15 {
-    gap: 15px;
-}
-
-.d-flex-sb-c {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-p {
-    margin-top: 0;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 19.2px;
-    text-align: left;
-    text-underline-position: from-font;
-    text-decoration-skip-ink: none;
-}
-
-.blue-vline {
-    background-color: var(--blue);
-    height: 3px;
-    width: 67px;
-}
-
-.blue-hline {
-    background-color: var(--blue);
-    width: 2px;
-    height: 60px;
-}
-
-.deskop-line {
-    display: none;
-}
-
-.grey-vline {
-    background-color: var(--grey);
-    width: 2px;
-    height: 65px;
-    margin: 0 15px 0 15px;
-}
-
 .summary {
-    padding: 100px 16px 90px 16px;
+    padding-left: 180px;
+    padding-right: 220px;
+    padding-top: 120px;
+    overflow: scroll;
 }
 
-.header-summary {
+.summaryContent{
+display: flex;
+}
+
+.summaryHeadline {
     display: flex;
-    flex-direction: column;
-}
-
-.header-summary p {
-    font-size: 20px;
-}
-
-.item-summary {
-    background-color: var(--item-color);
-    border: 0.5px solid var(--border-grey);
-    border-radius: 25px;
-    display: flex;
-    justify-content: center;
     align-items: center;
-    padding: 25px 10px 15px 10px;
-    flex: 1;
-    box-shadow: 0 0 4px 0 var(--border-grey);
-    cursor: pointer;
-    min-height: 123px;
+    gap: 32px;
+    height: 90px;
 }
 
-.item-summary:hover {
-    transform: scale(1.05);
-    background-color: var(--darkgrey);
+.summary h2 {
+    font-size: 60px;
 }
 
-.item-summary:hover p {
-    color: white;
+.seperatorHeadline {
+    padding-top: 12px;
+    height: 72px;
+    width: 4px;
+    background-color: #29ABE2;
+    border-radius: 6px;
 }
 
-.item-summary:hover span {
-    color: white;
+.headlineText {
+    font-size: 28px;
+    color: #2A3647;
 }
 
-.item-summary:hover .icon-item-to-done {
+.taskCards {
+    padding-top: 72px;
+}
+
+/* --------------- To Do and Done ------------------ */
+
+.toDoAndDone {
+    height: 180px;
+    width: 550px;
+    display: flex;
+    gap: 52px;
+}
+
+/*To Do */
+.toDoCard {
+    height: 160px;
+    width: 244px;
+    border-radius: 16px;
     background-color: white;
-}
-
-.item-summary:hover .icon-item-to-done img {
-    filter: invert(19%) sepia(13%) saturate(1304%) hue-rotate(176deg) brightness(18%) contrast(90%);
-    transform: scale(1.02);
-}
-
-.urgent-container {
-    padding: 15px 10px 15px 10px;
-    min-height: 103px !important;
-}
-
-.urgent-container div span {
-    align-self: start;
-}
-
-.icon-item {
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
-    border-radius: 50%;
-    height: 35px;
-    width: 35px;
-    margin-right: 10px;
+    gap: 24px;
+    color: #2A3647;
+    transition: transform 0.1s ease;
 }
 
-.icon-item-to-done {
-    background-color: var(--darkgrey);
-    align-self: center;
+.toDoCard:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
 }
 
-.item-to-done {
-    padding-top: 10px;
+.toDoCard:hover .toDoImg img {
+    filter: invert(1) brightness(200%)
 }
 
-.icon-item-urgent {
-    background-color: var(--orange);
-    align-self: center;
-}
 
-.num-style {
-    font-size: 47px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.date-style {
-    font-weight: 700;
-    margin: 0;
-    align-self: flex-start;
-}
-
-span {
-    font-size: 14px;
+.toDoPos {
+    font-size: 22px;
     text-align: center;
 }
 
-.greeting {
-    background-color: var(--bg);
+.toDoImg img {
+    height: 60px;
+}
+
+#openToDos {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+/*Done */
+.doneCard {
+    height: 160px;
+    width: 244px;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: #2A3647;
+    transition: transform 0.1s ease;
+}
+
+.doneCard:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.doneCard:hover .doneImg img {
+    filter: invert(1) brightness(200%)
+}
+
+.donePos {
+    font-size: 22px;
+    text-align: center;
+}
+
+.doneImg img {
+    height: 60px;
+}
+
+#openDones {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+/* --------------- Urgent Card ------------------ */
+
+.urgentSection {
+    height: 180px;
+    width: 550px;
+    margin-top: 8px;
+}
+
+.urgentCard {
+    height: 160px;
+    width: 540px;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    color: #2A3647;
+    transition: transform 0.1s ease;
+}
+
+.urgentCard:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.urgentCard:hover .urgentLeft {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.urgentLeft {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: #2A3647;
+    margin-left: 54px;
+}
+
+.urgentPos {
+    font-size: 22px;
+    text-align: center;
+    margin-right: 22px;
+}
+
+.urgentImg img {
+    height: 60px;
+}
+
+#openUrgents {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.urgentSeperator {
+    height: 72px;
+    width: 2px;
+    background-color: #D1D1D1;
+    border-radius: 6px;
+}
+
+#deadline{
+    font-weight: bold;
+    font-size: 22px;
+    margin-bottom: 16px;
+}
+
+.urgentRight{
+    margin-right: 24px;
+    margin-left: 32px;
+}
+
+/* --------------- open Tasks------------------ */
+
+.openTasks {
+    height: 180px;
+    width: 550px;
+    display: flex;
+    gap: 24px;
+}
+
+.totalTasks {
+    height: 160px;
+    width: 164px;
+    border-radius: 16px;
+    background-color: white;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    color: #2A3647;
+    transition: transform 0.1s ease;
+}
+
+.totalTasks:hover {
+    background-color: #2A3647;
+    color: white;
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.totalTasksPos {
+    font-size: 22px;
+    text-align: center;
+}
+
+#openTotalTasks {
+    font-size: 60px;
+    font-weight: bold;
+}
+
+
+/* --------------- greatings ------------------ */
+
+.greating{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    animation: fadeOut 1.5s ease-in-out 0.5s forwards;
+    margin-left: 82px;
 }
 
-.greeting p {
-    font-size: 36px;
+#timeOfDay{
+font-size: 48px;
 }
 
-.name-summary {
-    font-size: 47px !important;
-    color: var(--blue);
-    text-transform: capitalize;
-}
-
-@keyframes fadeOut {
-    0% {
-        display: flex;
-        background-color: var(--bg);
-    }
-
-    100% {
-        display: none;
-        background-color: transparent;
-        color: transparent;
-    }
-}
-
-@media (min-width: 827px) {
-
-    .header-summary {
-        padding: 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 15px;
-    }
+#loggedInName{
+font-size: 60px;
+font-weight: bold;
+color: #29ABE2;
 }
