@@ -5,7 +5,8 @@ const now = new Date();
 const hour = now.getHours();
 
 function loadTasks() {
-    loadTasksFromFirebase("tasks")
+    loadTasksFromFirebase("tasks", 1)
+    loadTasksFromFirebase("initals", 2)
     displayGreetings()
 }
 
@@ -25,21 +26,34 @@ function displayGreetings() {
     document.getElementById('greetings').innerText = greeting;
 }
 
-async function loadTasksFromFirebase(path = "") {
+async function loadTasksFromFirebase(path = "", tasksTodisplay) {
     let response = await fetch(BASE_URL_SUMMARY + path + ".json");
     let responseToJson = await response.json();
 
     openTasks = responseToJson;
 
-    if (openTasks === null) {
-        document.getElementById('allComplete').innerHTML = ""
-        document.getElementById('allComplete').innerHTML = "Currently, there are no tasks to complete. (:";
-    } else {
-        document.getElementById('allComplete').innerHTML = ""
-        displayTasks(openTasks);
+    if (tasksTodisplay === 1) {
+        if (openTasks === null) {
+            document.getElementById('allComplete').innerHTML = "";
+            document.getElementById('allComplete').innerHTML = "Currently, there are no tasks to complete. (:";
+        } else {
+            document.getElementById('allComplete').innerHTML = "";
+            displayTasks(openTasks);
+        }
     }
 
+    if (tasksTodisplay === 2) {
+        if (openTasks === null) {
+            document.getElementById('loggedInName').innerHTML = "";
+            document.getElementById('loggedInName').innerHTML = "Guest";
+        } else {
+            document.getElementById('loggedInName').innerHTML = "";
+            document.getElementById('loggedInName').innerHTML = openTasks.name;
+        }
+    }
 }
+
+
 
 function displayTasks(taskList) {
     tasksInBoard(taskList);
