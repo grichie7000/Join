@@ -22,6 +22,12 @@
   .contacts-checkbox-container {
     padding: 8px;
   }
+
+  .contacts-checkbox{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+  }
   
   .contact-badge {
     display: inline-flex;

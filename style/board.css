@@ -214,14 +214,84 @@ h1 {
 }
 
 .task-subtasks ul {
-    padding-left: 20px;
-    margin: 0 0 10px 0;
+    padding-top: 10px;
+    padding-left: 30px;
 }
 
 .task-subtasks li {
+    font-size: 16px;
+    color: #000000;
+}
+
+/* Füge dies in dein CSS ein */
+.subtask-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .subtask-item{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .subtask-input-container {
+    position: relative;         
+    width: 100%;                
+    max-width: 400px;           
+  }
+  
+  .subtask-input-container input {
+    width: 100%;
+    padding-right: 50px;        
+    box-sizing: border-box;     
+    font-size: 16px;           
+  }
+  
+  .subtask-input-container button {
+    position: absolute;         
+    right: 5px;                 /* Abstand von rechts, hier 5px – anpassen nach Bedarf */
+    top: 50%;
+    transform: translateY(-50%);/* Vertikal zentrieren */
+    background: transparent;    /* Transparent oder gewünschter Hintergrund */
+    border: none;               /* Kein Rahmen */
+    cursor: pointer;            /* Zeigt den Mauszeiger als Pointer */
+    padding: 0;                 /* Kein zusätzliches Padding */
+  }
+  
+  .subtask-input-container button img {
+    display: block;             /* Damit das Bild keine zusätzlichen Abstände hat */
+    width: 20px;                /* Beispielgröße, anpassen */
+    height: 20px;
+  }
+
+  .subtask-input-container button img:hover{
+    background-color: #bebebe;
+    border-radius: 80%;
+  }
+  
+
+  .progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background: #007bff;
+    transition: width 0.3s ease;
+  }
+  
+  .progress-text {
     font-size: 12px;
     color: #666;
-}
+  }
 
 .task-footer {
     display: flex;
@@ -396,12 +466,10 @@ h1 {
   }
   
   .category-badge {
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
     display: inline-block;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
   }
   
   /* Styling für die Textelemente im Overlay */
