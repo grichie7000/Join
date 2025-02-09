@@ -1,4 +1,4 @@
-/**
+-/**
  * Validates the form fields before creating a new contact.
  * @function validateForm
  * @returns {void}

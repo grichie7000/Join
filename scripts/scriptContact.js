@@ -1,5 +1,4 @@
 const BASE_URL = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
-let UsersAmountViaId = 0;
 let currentTime = new Date()
 let currentDraggedId;
 let toDoTaskCount = 0;
@@ -10,7 +9,7 @@ let urgentAmount = 0;
 let urgentAmountDeadlines = [];
 let nextDeadline = "";
 let mailIsUsed = false;
-let isGuestAccount = false;
+let isGuestAccount = true;
 accountExists = false;
 let newAssigned = "";
 let newAssignedBgColor = "";
@@ -144,7 +143,7 @@ function createContactObject(name, email, phone, bgColor) {
 }
 
 async function fetchContacts() {
-    const response = await fetch(BASE_URL + "Contacts.json");
+    const response = await fetch(BASE_URL + "contacts.json");
     const contacts = await response.json();
     return contacts || {};
 }
@@ -155,7 +154,7 @@ async function saveContact(firstLetter, contacts, contact) {
     }
     contacts[firstLetter].push(contact);
 
-    await fetch(BASE_URL + "Contacts.json", {
+    await fetch(BASE_URL + "contacts.json", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(contacts),
@@ -246,7 +245,7 @@ function closeContactInfo() {
  * @returns {Promise<Object>} The contacts object from the server.
  */
 async function fetchContacts() {
-    const response = await fetch(BASE_URL + "Contacts.json");
+    const response = await fetch(BASE_URL + "contacts.json");
     const contacts = await response.json();
     if (!contacts) {
         return null;
@@ -317,7 +316,7 @@ function addToNewGroup(contacts, newLetter, updatedContact) {
  * @returns {Promise<void>}
  */
 async function deleteContact(contactEmail) {
-    const response = await fetch(BASE_URL + "Contacts.json");
+    const response = await fetch(BASE_URL + "contacts.json");
     const contacts = await response.json();
     const letters = Object.keys(contacts);
     for (let i = 0; i < letters.length; i++) {

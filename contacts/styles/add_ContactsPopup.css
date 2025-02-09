@@ -1,0 +1,135 @@
+.center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-overlay {
+    width: 100%;
+    height: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup {
+    display: flex;
+    width: 800px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
+    overflow: hidden;
+}
+
+.icon-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: 40px;
+    margin-bottom: 40px;
+}
+
+.add-contact-icon {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255); 
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.add-contact-icon img {
+    height: 50px;
+}
+
+.add-contact-initials {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: 3px solid rgb(255, 255, 255); 
+    color: white;
+    font-weight: 500;
+    font-size: 20px;
+    margin-right: 10px;
+    font-size: 40px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.popup-left {
+    background: #2A3647;
+    color: #fff;
+    padding: 30px;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.popup-left .logo {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.logo img{
+    height: 50px;
+    width: 50px;
+}
+
+.divider-add-contact {
+    width: 20%;
+    height: 2px;
+    background: #29ABE2;
+    margin: 8px 0px;
+}
+
+.popup-left h1 {
+    margin: 0 0 10px;
+}
+
+.popup-left p {
+    margin: 0;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.popup-right {
+    padding-right: 20px;
+    padding-left: 20px;
+    width: 60%;
+    position: relative;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.popup-form .form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.popup-form .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #b4b4b4;
+    border-radius: 8px;
+}
+
+.showAddContact {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #33333353;
+}

@@ -1,0 +1,293 @@
+/*Popup*/
+.btn-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+    margin-bottom: 40px;
+}
+
+.close-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.close-btn-wrapper button {
+    border: none;
+    background-color: transparent;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.close-btn-wrapper:hover button {
+    transition: all 0.3s ease;
+    transform: scale(1.2); 
+}
+
+.close-btn-wrapper img{
+    height: 20px;
+    width: 20px;
+}
+
+.cancel-btn, .create-btn {
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 5px 12px;
+}
+
+.gap {
+    gap: 12px;
+}
+
+.cancel-btn {
+    background-color: white;
+    color: #2A3647;
+    border: 1px solid #2A3647;
+}
+
+.create-btn {
+    background-color: #2A3647;
+    border: 1px solid #2A3647;
+    color: white;
+}
+
+.cancel-btn:hover {
+    transform: translateY(-1px);
+    color: #29ABE2 ;
+    border-color: #29ABE2;
+}
+
+.create-btn:hover {
+    transform: translateY(-1px);
+    background-color: #29ABE2;
+    border-color: #29ABE2;
+}
+
+.cancel-btn img {
+   height: 25px;
+   width: 25px;
+}
+
+.cancel-btn:hover img {
+    filter: invert(64%) sepia(75%) saturate(483%) hue-rotate(175deg) brightness(96%) contrast(92%);
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    outline: none;
+    cursor: pointer;
+}
+
+.input-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon input:focus {
+    transform: translateY(-1px);
+    color: #29ABE2 ;
+    border-color: #29ABE2;
+}
+
+.input-icon img {
+    position: absolute;
+    right: 10px;
+    width: 15px;
+    height: 15px;
+}
+
+.delete-btn, .save-btn {
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 10px 12px;
+}
+
+.delete-btn {
+    background-color: white;
+    color: #2A3647;
+    border: 1px solid #2A3647;
+}
+
+.save-btn {
+    background-color: #2A3647;
+    border: 1px solid #2A3647;
+    color: white;
+}
+
+.delete-btn:hover {
+    transform: translateY(-1px);
+    color: #29ABE2 ;
+    border-color: #29ABE2;
+}
+
+.save-btn:hover {
+    transform: translateY(-1px);
+    background-color: #29ABE2;
+    border-color: #29ABE2;
+}
+
+.save-btn img {
+    height: 12px;
+    width: 12px;
+}
+
+.close-btn-mobile {
+    display: none;
+}
+
+.close-btn-mobile button {
+    border: none;
+    background-color: transparent;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.close-btn-mobile:hover button {
+    transition: all 0.3s ease;
+    transform: scale(1.1);
+}
+
+.btn-mobile-div {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 15px 15px 0 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.btn-mobile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    border: none;
+    background-color: transparent;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-mobile:hover {
+    background-color: #f0f0f0;
+}
+
+.btn-mobile svg {
+    width: 20px;
+    height: 20px;
+    fill: #333;
+}
+
+.btn-addcontact-mobil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    background-color: #2A3647; 
+    border: none; 
+    border-radius: 50%; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
+    cursor: pointer;
+    outline: none; 
+    transition: box-shadow 0.3s ease; 
+}
+
+.btn-addcontact-mobil:hover {
+    transform: translateY(-1px);
+    background-color: #29ABE2;
+}
+
+.btn-container-mobile {
+    display: none;
+}
+
+.top-right-button {
+    display: none;
+}
+
+.arrow-button {
+    border: none;
+    cursor: pointer;
+    width: 50px; 
+    height: 50px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%; 
+    background-color: transparent; 
+}
+
+.arrow-button img {
+    width: 30px; 
+    height: 30px;
+}
+
+.arrow-button:hover {
+    transform: translateY(-2px);
+}
+
+/* Contact Main */
+.add-contact-button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: #2A3647;
+    color: #FFFFFF;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.add-contact-button:hover {
+    transform: translateY(-1px);
+    background-color: #29ABE2;
+}
+
+.add-contact img {
+    width: 20px;
+    height: 2opx;
+}
+
+/* overlay */
+.success-wrapper {
+    background-color: #2A3647;
+    color: #ffffff;
+    height: 50px;
+    width: 260px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    border-radius: 8px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.success-wrapper img{
+    margin-left: 10px;
+}

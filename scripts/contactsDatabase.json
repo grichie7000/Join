@@ -2,7 +2,7 @@
   "contactsDatabase": [
     {
       "id": 2,
-      "name": "Asterix",
+      "name": "Asterix aus DB",
       "email": "Asterix@gallier.fr",
       "phone": "012345678",
       "initials": "AG",

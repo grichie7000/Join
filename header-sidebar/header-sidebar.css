@@ -1,0 +1,270 @@
+* {
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Inter";
+    font-size: 16px;
+    position: relative;
+}
+
+header {
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px 20px 348px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+}
+
+header .h1 {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 100%;
+    margin: 0;
+}
+
+.header-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    height: 56px;
+}
+
+#profile {
+    height: 56px;
+    width: 56px;
+    border: 3px solid #2A3647;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #29ABE2;
+    font-weight: bold;
+}
+
+.mobile-logo {
+    display: none;
+}
+
+#profile:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.info:hover {
+    scale: 1.2;
+    cursor: pointer;
+}
+
+#profile-pop-up {
+    margin: 0;
+    list-style: none;
+    padding: 10px;
+    position: absolute;
+    top: 96px;
+    left: 100vw;
+    background-color: #2A3647;
+    border-radius: 20px 0 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 150px;
+    z-index: 1001;
+    transition: all 0.25s ease-in-out;
+}
+
+.overlay-container {
+    position: fixed;
+    color: #121212;
+    height: 100vh;
+    width: 100vw;
+    right: -100vw;
+    z-index: 1000;
+    padding: 0;
+    margin: 0;
+    transition: all 0.25s ease-in-out;
+}
+
+.into-view {
+    left: calc(100vw - 166px) !important;
+}
+
+#profile-pop-up a {
+    color: #CDCDCD !important;
+    text-decoration: none;
+}
+
+#profile-pop-up li {
+    padding: 8px;
+}
+
+#profile-pop-up li:hover {
+    opacity: 0.9;
+    cursor: pointer;
+    background-color: #2A3D59;
+    padding-left: 10px;
+}
+
+#help-li {
+    display: none;
+}
+
+@media screen and (min-width: 0px) and (max-width: 827px) {
+
+    header .h1,
+    .info {
+        display: none;
+    }
+
+    .mobile-logo, #help-li {
+        display: block;
+    }
+
+    header {
+        box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+        padding: 20px 16px;
+    }
+
+    #profile-pop-up {
+        top: 84px;
+    }
+
+    #profile {
+        height: 40px;
+        width: 40px;
+        font-size: 14px;
+    }
+
+    .into-view {
+        left: calc(100vw - 158px) !important;
+    }
+}
+
+.active {
+    background: #091931 !important;
+    padding-left: 56px !important;
+}
+
+aside {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #2A3647;
+    color: #ffffff;
+    width: 232px;
+    height: 100vh;
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.aside-logo {
+    margin-top: 64px;
+}
+
+.aside-nav {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.aside-nav a {
+    display: flex;
+    align-items: center;
+    height: 46px;
+    color: #ffffff;
+    text-decoration: none;
+    gap: 8px;
+    padding: 16px 56px;
+}
+
+.aside-nav a:hover {
+    background: #2a3d59;
+    padding-left: 60px;
+}
+
+.aside-imprint {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 64px;
+}
+
+.aside-imprint a {
+    color: #A8A8A8;
+    text-decoration: none;
+    padding: 8px;
+}
+
+.aside-imprint a:hover {
+    color: #29ABE2;
+}
+
+@media screen and (min-width: 0px) and (max-width: 827px) {
+
+    .aside-logo,
+    .aside-imprint {
+        display: none;
+    }
+
+    .active {
+        padding: 0 !important;
+
+    }
+
+    aside {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 80px;
+        z-index: 1000;
+        top: auto;
+        left: 0;
+        bottom: 0;
+        padding: 0;
+    }
+
+    .aside-nav {
+        width: 100%;
+        padding: 0;
+        flex-direction: row;
+        justify-content: space-evenly;
+        gap: 0px;
+    }
+
+    .aside-nav a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        height: 76px;
+        min-width: 66px;
+        max-width: 76px;
+        color: #ffffff;
+        text-decoration: none;
+        gap: 8px;
+        padding: 0 2px !important;
+        font-size: 14px;
+        flex: 0 0 calc(100% / 5);
+        border-radius: 16px;
+    }
+
+    .aside-nav svg {
+        width: 24px;
+        height: 24px;
+    }
+}

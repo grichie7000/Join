@@ -1,0 +1,178 @@
+:root {
+    --bg: rgb(245, 247, 248);
+    --item-color: rgb(255, 255, 255);
+    --blue: #29abe2;
+    --border-grey: #cccccc; 
+    --grey: #A8A8A8;
+    --darkgrey: rgb(43,54,71);
+    --orange: rgb(255,61,6);
+    --text: #42526e;
+}
+
+* {
+    scroll-behavior: smooth;
+}
+
+body {
+    position: relative;
+    height: 100%;
+    margin: 0;
+    background-color: var(--bg);
+    font-family: Inter;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--grey);
+    border-radius: 25px;
+}
+
+.btn {
+    cursor: pointer;
+}
+
+h1 {
+    margin-top: 20px;
+}
+
+.d-flex-c-c {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-flex-start-c {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.d-flex-sb-c {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.d-flex-col-sb-c {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.d-flex-col-c-c {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-flex-end-c {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.d-flex-col-e-c {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.no-login-none {
+    display: none !important;
+}
+
+.no-login-sidebar-none {
+    display: none !important;
+}
+
+.pos-r {
+    position: relative;
+}
+
+.m-0 {
+    margin: 0;
+}
+
+.mh-2 {
+    margin: 2px 0;
+}
+
+.mh-5 {
+    margin: 5px 0;
+}
+
+.mh-15 {
+    margin: 15px 0;
+}
+
+.mh-auto {
+    margin: auto 0;
+}
+
+.mb-5 {
+    margin-bottom: 5px;
+}
+
+.mt-5 {
+    margin-top: 5px;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.ml-20 {
+    margin-left: 20px;
+}
+
+.w-100 {
+    width: 100px;
+}
+
+.gap-2 {
+    gap: 2px;
+}
+
+.gap-5 {
+    gap: 5px;
+}
+
+.gap-10 {
+    gap: 10px;
+}
+
+.gap-15 {
+    gap: 15px;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+@media (min-width: 827px) {
+    .no-login-sidebar-none {
+        display: flex !important;
+    }
+}
