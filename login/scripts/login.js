@@ -56,7 +56,7 @@ function checkPager(sessionUser) {
  */
 function guestLogin() {
     sessionStorage.setItem('username', 'Guest');
-    window.location.href = '../contacts/contacts.html';
+    window.location.href = '../contacts.html';
 }
 
 

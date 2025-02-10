@@ -50,11 +50,11 @@ function renderContactDetails(user) {
             <h2 class="contact-name">${capitalizedUserName}</h2>
             <div class="contact-buttons" id="contact-buttons">
                 <button class="contact-btn" onclick="editContact('${userArray.indexOf(user)}')">
-                    <img src="../assets/img/edit.png">
+                    <img src="./assets/img/edit.png">
                     <p>Edit</p>
                 </button>
                 <button class="contact-btn" onclick="deleteUser('${user.firebaseId}')">
-                    <img src="../assets/img/delete.png">
+                    <img src="./assets/img/delete.png">
                     <p>Delete</p>
                 </button>
             </div>
@@ -87,13 +87,13 @@ function renderEditContact(user) {
         <!-- MOBIEL -->
         <div class="close-btn-mobile">
             <button onclick="closeContactForm()">
-                <img src="../assets/img/close-white.png" alt="">
+                <img src="./assets/img/close-white.png" alt="">
             </button>
         </div>
         <!-- MOBIEL -->
 
         <div class="logo">
-            <img src="../assets/img/join-logo.png">
+            <img src="./assets/img/join-logo.png">
         </div>
         <h1>Edit contact</h1>
     </div>
@@ -105,28 +105,28 @@ function renderEditContact(user) {
     <div class="popup-right">
         <div class="close-btn-wrapper">
             <button onclick="closeContactForm()">
-                <img src="../assets/img/x_symbol.png" alt="">
+                <img src="./assets/img/x_symbol.png" alt="">
             </button>
         </div>
         <form class="popup-form" onsubmit="event.preventDefault(); updateUser(${user}); showSaveAlert();">
             <div class="form-group">
                 <div class="input-icon">
                     <input type="text" id="name" placeholder="Name" required value="${userArray[user].name}" onchange="validateContactForm()">
-                    <img src="../assets/img/person.png">
+                    <img src="./assets/img/person.png">
                 </div>
                 <div class="error-message" id="error-div-name"> </div>
             </div>
             <div class="form-group">
                 <div class="input-icon">
                     <input type="email" id="email" placeholder="Email" required value="${userArray[user].email}" onchange="validateContactForm()">
-                    <img src="../assets/img/mail.svg">
+                    <img src="./assets/img/mail.svg">
                 </div>
                 <div class="error-message" id="error-div-email"> </div>
             </div>
             <div class="form-group">
                 <div class="input-icon">
                     <input type="tel" id="phone" placeholder="Phone" required value="${userArray[user].phone}" onchange="validateContactForm()">
-                    <img src="../assets/img/call.png">
+                    <img src="./assets/img/call.png">
                 </div>
                 <div class="error-message" id="error-div-phone"> </div>
             </div>
@@ -134,7 +134,7 @@ function renderEditContact(user) {
                 <button type="button" class="delete-btn btn-center" onclick="deleteUser('${userArray[user].firebaseId}')">Delete</button>
                 <button type="submit" class="save-btn gap btn-center">
                     Save
-                    <img src="../assets/img/check.png">
+                    <img src="./assets/img/check.png">
                 </button>
             </div> 
         </form>
@@ -159,13 +159,13 @@ function renderNewContact() {
                 <!-- MOBIEL -->
                 <div class="close-btn-mobile">
                     <button onclick="closeContactForm()">
-                        <img src="../assets/img/close-white.png" alt="">
+                        <img src="./assets/img/close-white.png" alt="">
                     </button>
                 </div>
                 <!-- MOBIEL -->
 
                 <div class="logo">
-                    <img src="../assets/img/join-logo.png">
+                    <img src="./assets/img/join-logo.png">
                 </div>
                 <h1>Add contact</h1>
                 <p class="text-color">Tasks are better with a team!</p>
@@ -174,45 +174,45 @@ function renderNewContact() {
 
             <div class="icon-wrapper">
                 <span class="add-contact-icon center" style="background-color: #747474;"><img
-                        src="../assets/img/person-white.svg"></span>
+                        src="./assets/img/person-white.svg"></span>
             </div>
 
             <div class="popup-right">
                 <div class="close-btn-wrapper">
                     <button onclick="closeContactForm()">
-                        <img src="../assets/img/close-white.png" alt="">
+                        <img src="./assets/img/close-white.png" alt="">
                     </button>
                 </div>
                 <form class="popup-form" onsubmit="event.preventDefault(); createUserContact();">
                     <div class="form-group">
                         <div class="input-icon">
                             <input type="text" id="name" placeholder="Name" required onchange="validateContactForm()">
-                            <img src="../assets/img/person.png">
+                            <img src="./assets/img/person.png">
                         </div>
                         <div class="error-message" id="error-div-name"> </div>
                     </div>
                     <div class="form-group">
                         <div class="input-icon">
                             <input type="email" id="email" placeholder="Email" required onchange="validateContactForm()">
-                            <img src="../assets/img/mail.svg">
+                            <img src="./assets/img/mail.svg">
                         </div>
                         <div class="error-message" id="error-div-email"> </div>
                     </div>
                     <div class="form-group">
                         <div class="input-icon">
                             <input type="tel" id="phone" placeholder="Phone" required onchange="validateContactForm()">
-                            <img src="../assets/img/call.png">
+                            <img src="./assets/img/call.png">
                         </div>
                         <div class="error-message" id="error-div-phone"> </div>
                     </div>
                     <div class="btn">
                         <button type="button" class="cancel-btn btn-center" onclick="clearContactForm()">
                             Cancel
-                            <img src="../assets/img/close-white.png">
+                            <img src="./assets/img/close-white.png">
                         </button>
                         <button type="submit" class="create-btn btn-center gap">
                             Create contact
-                            <img src="../assets/img/check-white.svg">
+                            <img src="./assets/img/check-white.svg">
                         </button>
                     </div>
                 </form>
@@ -228,13 +228,13 @@ function renderNewContact() {
  */
 function renderEditDeletePopup(user) {
     return `<li><button class="contact-btn" onclick="editContact('${userArray.indexOf(user)}', removeEditDel())">
-                <img src="../assets/img/edit.png">
+                <img src="./assets/img/edit.png">
                 <p>Edit</p>
             </button>
             </li>
             <li>
             <button class="contact-btn" onclick="deleteUser('${user.firebaseId}', removeEditDel())">
-                <img src="../assets/img/delete.png">
+                <img src="./assets/img/delete.png">
                 <p>Delete</p>
             </button>
             </li>`
