@@ -19,7 +19,7 @@ const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebased
 
 function initAddTask() {
     getElementsByIds()
-    loadFirebaseData("contactsDatabase");
+    loadFirebaseData("contatcsFirebase");
 }
 
 
@@ -45,7 +45,7 @@ async function postDatatoBoard(path = "", data = {}) {
 
 function displayContacts() {
     const contactList = document.getElementById('contactListAssigned'); // Das HTML-Element für die Kontaktliste
-
+    console.log(firebaseData);
     // Leere die Liste, bevor du sie mit neuen Daten füllst
     contactList.innerHTML = '';
 
@@ -53,10 +53,10 @@ function displayContacts() {
     firebaseData.forEach(contact => {
         const contactItem = document.createElement('div');
         contactItem.classList.add('contact-item');
-
+        
         // Setze den OnClick-Handler im HTML direkt
         contactItem.innerHTML = `
-            <p class="dropdown-initials" id="contactNumber${contact.id}">${contact.initials}</p>
+            <p class="dropdown-initials" id="contactNumber${contact.id}">${contact.initals}</p>
             <span class="select-position">${contact.name}</span>
             <img src="./assets/img/checkbox_empty.png" alt="empty checkbox" />
         `;
@@ -155,6 +155,8 @@ function clearTask() {
     const addedSubtaskOne = document.getElementById('subtaskItem1');
     addedSubtaskOne.innerHTML = '';
     addedSubtaskOne.style.display = 'none'
+    console.log("teste");
+    
     const addedSubtaskTwo = document.getElementById('subtaskItem2');
     addedSubtaskTwo.innerHTML = '';
     addedSubtaskTwo.style.display = 'none'
