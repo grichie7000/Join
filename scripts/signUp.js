@@ -1,165 +1,121 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-import { getDatabase, ref, get, set, child } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
 // Firebase-Konfiguration
-const app = initializeApp({
-    apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
-    authDomain: "join-d3707.firebaseapp.com",
-    databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-d3707",
-    storageBucket: "join-d3707.firebasestorage.app",
-    messagingSenderId: "961213557325",
-    appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
-});
+const firebaseConfig = {
+  apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
+  authDomain: "join-d3707.firebaseapp.com",
+  databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "join-d3707",
+  storageBucket: "join-d3707.firebasestorage.app",
+  messagingSenderId: "961213557325",
+  appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
+};
+
+const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Validierungsfunktionen
-function validateInput(email, password, repeatPassword) {
-    const emailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
-    const passwordValid = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
-    if (!emailValid) return "Bitte eine gültige E-Mail-Adresse eingeben!";
-    if (!passwordValid) return "Das Passwort muss mindestens 8 Zeichen, einen Großbuchstaben und eine Zahl enthalten!";
-    if (password !== repeatPassword) return "Passwörter stimmen nicht überein!";
-    return "";
-}
+// Berechnet Initialen aus dem Namen
+const getInitials = (name) => {
+  return name.replace(/\s+/g, ' ')
+             .trim()
+             .split(' ')
+             .slice(0, 2)
+             .map(part => part.charAt(0).toUpperCase())
+             .join('');
+};
 
-function saveUser(name, email, password) {
-    const userId = Date.now();
-    return set(ref(db, "users/" + userId), { name, email, password });
-}
+// Validierung der Eingaben
+const validateInput = (email, password, repeatPassword) => {
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const passwordValid = /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+  
+  if (!emailValid) return "Ungültige E-Mail-Adresse!";
+  if (!passwordValid) return "Passwort benötigt 8 Zeichen, einen Großbuchstaben und eine Zahl!";
+  if (password !== repeatPassword) return "Passwörter stimmen nicht überein!";
+  return "";
+};
 
-function checkAndRegister(name, email, password, errorMessage) {
-    get(child(ref(db), "users")).then(snapshot => {
-        const emailExists = snapshot.exists() && Object.values(snapshot.val()).some(user => user.email === email);
-        if (emailExists) throw new Error("Diese E-Mail ist bereits registriert!");
+// Speichert den neuen Benutzer in der Datenbank
+const saveUser = async (name, email, password) => {
+  const userId = Date.now();
+  const userData = {
+    name: name.trim(),
+    email: email.trim(),
+    password, // ⚠️ Nur zu Demo-Zwecken – niemals im Klartext speichern!
+    initials: getInitials(name)
+  };
+  await set(ref(db, `users/${userId}`), userData);
+  return userData;
+};
 
-        return saveUser(name, email, password);
-    }).then(() => {
-        const overlay = document.getElementById("successOverlay");
-        const overlay_content = document.getElementById('overlay-content');
-            overlay.style.display = "flex";
-            overlay_content.style.display = 'flex';
-            setTimeout(() => {
-                overlay.style.display = "none";
-                overlay_content.style.display = 'none';
-                window.location.href = "relogin.html";
-            }, 1000);
-    }).catch(error => errorMessage.textContent = error.message);
-}
+// Überprüft, ob die E-Mail bereits registriert ist, und registriert ansonsten den Benutzer
+const checkAndRegister = async (name, email, password, errorMessage) => {
+  try {
+    const snapshot = await get(ref(db, 'users'));
+    const users = snapshot.val() || {};
+    
+    if (Object.values(users).some(user => user.email === email)) {
+      throw new Error("E-Mail bereits registriert!");
+    }
 
+    const user = await saveUser(name, email, password);
 
+    // Speichere den tempUser in localStorage (damit die Initialen überall verfügbar sind)
+    localStorage.setItem('tempUser', JSON.stringify({
+      email: user.email,
+      initials: user.initials,
+      name: user.name
+    }));
 
-document.getElementById("form").addEventListener("submit", function (event) {
-    event.preventDefault();
+    // Optional: Zeige ein Erfolgsoverlay an und leite weiter
+    window.location.href = "relogin.html";
+  } catch (error) {
+    errorMessage.textContent = error.message;
+    errorMessage.style.display = 'block';
+  }
+};
 
+// Passwort-Sichtbarkeit (Beispiel)
+const setupPasswordToggle = (inputId) => {
+  const input = document.getElementById(inputId);
+  const toggle = () => {
+    input.type = input.type === 'password' ? 'text' : 'password';
+    input.classList.toggle('input-with-eye-icon-clicked');
+  };
+  
+  input.addEventListener('click', (e) => {
+    if (e.offsetX > input.offsetWidth - 40) toggle();
+  });
+  
+  input.addEventListener('input', () => {
+    input.classList.toggle('input-with-eye-icon-active', input.value.length > 0);
+  });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById("form");
+  const errorMessage = document.getElementById("error-message");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
     const name = document.getElementById("name").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const repeatPassword = document.getElementById("repeat-password").value.trim();
-    const errorMessage = document.getElementById("error-message");
 
     const validationError = validateInput(email, password, repeatPassword);
     if (validationError) {
-        errorMessage.textContent = validationError;
-    } else {
-        checkAndRegister(name, email, password, errorMessage);
+      errorMessage.textContent = validationError;
+      errorMessage.style.display = 'block';
+      return;
     }
-});
+    
+    await checkAndRegister(name, email, password, errorMessage);
+  });
 
-const passwordInput = document.getElementById('password');
-
-function setActiveIcon() {
-    passwordInput.classList.remove('input-with-eye-icon');
-    passwordInput.classList.add('input-with-eye-icon-active');
-}
-
-function resetIcon() {
-    passwordInput.classList.remove('input-with-eye-icon-active');
-    passwordInput.classList.remove('input-with-eye-icon-clicked');
-    passwordInput.classList.add('input-with-eye-icon');
-}
-
-passwordInput.addEventListener('input', () => {
-    if (passwordInput.value) {
-        setActiveIcon();
-    } else {
-        resetIcon(); 
-    }
-});
-
-function togglePassword() {
-    const isActive = passwordInput.classList.contains('input-with-eye-icon-active');
-
-    if (isActive) {
-        passwordInput.type = 'text'; // Passwort sichtbar machen
-        passwordInput.classList.remove('input-with-eye-icon-active');
-        passwordInput.classList.add('input-with-eye-icon-clicked');
-    } else {
-        passwordInput.type = 'password'; // Passwort unsichtbar machen
-        passwordInput.classList.remove('input-with-eye-icon-clicked');
-        passwordInput.classList.add('input-with-eye-icon-active');
-    }
-}
-
-// Funktion zur Überprüfung, ob der Klick im Icon-Bereich des Passwortfelds war
-function clickOnIconArea(event) {
-    const inputWidth = passwordInput.offsetWidth;
-    const clickX = event.offsetX;
-
-    return clickX >= inputWidth - 40 && passwordInput.value;
-}
-
-passwordInput.addEventListener('click', (event) => {
-    if (clickOnIconArea(event)) {
-        togglePassword();
-    }
-});
-
-const repeatPasswordInput = document.getElementById('repeat-password');
-
-function repeatPasswordIcon() {
-    repeatPasswordInput.classList.remove('input-with-eye-icon');
-    repeatPasswordInput.classList.add('input-with-eye-icon-active');
-}
-
-function resetRepeatPasswordIcon() {
-    repeatPasswordInput.classList.remove('input-with-eye-icon-active');
-    repeatPasswordInput.classList.remove('input-with-eye-icon-clicked');
-    repeatPasswordInput.classList.add('input-with-eye-icon');
-}
-
-repeatPasswordInput.addEventListener('input', () => {
-    if (repeatPasswordInput.value) {
-        repeatPasswordIcon();
-    } else {
-        resetRepeatPasswordIcon(); 
-    }
-});
-
-function toggleRepeatPassword() {
-    const isActive = repeatPasswordInput.classList.contains('input-with-eye-icon-active');
-
-    if (isActive) {
-        repeatPasswordInput.type = 'text'; // Passwort sichtbar machen
-        repeatPasswordInput.classList.remove('input-with-eye-icon-active');
-        repeatPasswordInput.classList.add('input-with-eye-icon-clicked');
-    } else {
-        repeatPasswordInput.type = 'password'; // Passwort unsichtbar machen
-        repeatPasswordInput.classList.remove('input-with-eye-icon-clicked');
-        repeatPasswordInput.classList.add('input-with-eye-icon-active');
-    }
-}
-
-// Funktion zur Überprüfung, ob der Klick im Icon-Bereich des Passwortfelds war
-function clickOnRepeatPasswordIconArea(event) {
-    const inputWidth = repeatPasswordInput.offsetWidth;
-    const clickX = event.offsetX;
-
-    return clickX >= inputWidth - 40 && repeatPasswordInput.value;
-}
-
-repeatPasswordInput.addEventListener('click', (event) => {
-    if (clickOnRepeatPasswordIconArea(event)) {
-        toggleRepeatPassword();
-    }
+  // Setup für die Passwort-Icon-Umschaltung
+  setupPasswordToggle('password');
+  setupPasswordToggle('repeat-password');
 });

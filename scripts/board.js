@@ -17,7 +17,6 @@ const db = getDatabase(app);
 
 // Hilfsfunktion: Schneller Zugriff auf Elemente per ID
 const $ = (id) => document.getElementById(id);
-
 // --------------------
 // Helper Functions
 // --------------------
@@ -192,25 +191,88 @@ window.moveTo = (event, columnId) => {
     });
 };
 
-window.getColumnPlaceholderText = function (columnId) {
+  // Gibt den Platzhaltertext anhand der Spalten-ID zurück
+  window.getColumnPlaceholderText = function (columnId) {
     const columnNames = {
-        "to-do": "To Do",
-        "in-progress": "In Progress",
-        "await-feedback": "Await Feedback",
-        "done": "Done"
+      "to-do": "To Do",
+      "in-progress": "In Progress",
+      "await-feedback": "Await Feedback",
+      "done": "Done"
     };
     return `No tasks ${columnNames[columnId]}`;
-}
+  }
 
-const updatePlaceholders = () => {
+  // Aktualisiert die Placeholder in allen Spalten
+  const updatePlaceholders = () => {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(columnId => {
-        const column = $(columnId);
-        if (!column.querySelector(".task") && !column.querySelector(".empty-placeholder")) {
-            column.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(columnId)}</div>`;
+      const column = $(columnId);
+      if (!column) return; // Falls die Spalte nicht existiert
+
+      // Hole alle Task-Elemente in der Spalte
+      const tasks = column.querySelectorAll('.task');
+      // Filtere die sichtbaren Tasks (solche, bei denen display NICHT "none" ist)
+      const visibleTasks = Array.from(tasks).filter(task => task.style.display !== 'none');
+
+      // Falls keine sichtbaren Tasks vorhanden sind und noch kein Placeholder existiert,
+      // füge einen Placeholder als zusätzliches Element ein.
+      if (visibleTasks.length === 0 && !column.querySelector('.empty-placeholder')) {
+        const placeholder = document.createElement('div');
+        placeholder.className = 'empty-placeholder';
+        placeholder.textContent = getColumnPlaceholderText(columnId);
+        column.appendChild(placeholder);
+      } else if (visibleTasks.length > 0) {
+        // Entferne den Placeholder, falls er vorhanden ist.
+        const existingPlaceholder = column.querySelector('.empty-placeholder');
+        if (existingPlaceholder) {
+          existingPlaceholder.remove();
         }
+      }
     });
-};
+  };
+
+  // Suchfunktion, die durch Tasks im DOM iteriert
+  window.searchTasks = function(searchTerm) {
+    const tasks = document.querySelectorAll('.task');
+    const searchText = searchTerm.toLowerCase().trim();
+
+    tasks.forEach(task => {
+      // Es kann sinnvoll sein, zuerst zu prüfen, ob die Elemente existieren:
+      const titleElem = task.querySelector('.task-title');
+      const descElem = task.querySelector('.task-description');
+      if (!titleElem || !descElem) return;
+
+      const title = titleElem.textContent.toLowerCase();
+      const description = descElem.textContent.toLowerCase();
+
+      // Wenn der Suchtext leer ist oder wenn er in Titel oder Beschreibung enthalten ist:
+      if (searchText === '' || title.includes(searchText) || description.includes(searchText)) {
+        task.style.display = 'block';
+      } else {
+        task.style.display = 'none';
+      }
+    });
+
+    // Nach der Filterung den Placeholder aktualisieren
+    updatePlaceholders();
+  };
+
+  // Event-Listener für den Suchinput
+  document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.querySelector('.findTaskInput');
+    searchInput.addEventListener('input', (e) => {
+      // Optional: Ab 3 Zeichen filtern, sonst alle Tasks anzeigen
+      if (e.target.value.trim().length < 3) {
+        // Setze alle Tasks wieder sichtbar
+        document.querySelectorAll('.task').forEach(task => task.style.display = 'block');
+        updatePlaceholders();
+      } else {
+        searchTasks(e.target.value);
+      }
+    });
+  });
+
+
 
 // --------------------
 // Overlay zum Erstellen eines neuen Tasks
@@ -291,15 +353,12 @@ let currentTaskId = null;
 let currentColumnId = null;
 let currentSubtasks = []; // Aktueller Zustand der Subtasks (nur für den Editiermodus)
 
-// --------------------
-// Task-Detail-Overlay (View-Modus)
-// --------------------
+// Im Task-Detail-Overlay (View-Modus) – showTaskDetailOverlay:
 const showTaskDetailOverlay = (task, taskId, columnId) => {
     currentTaskId = taskId;
     currentColumnId = columnId;
     const overlay = $("taskDetailOverlay");
 
-    // Fülle die Task-Daten in das Overlay ein
     overlay.querySelector('.category-badge').textContent = task.category;
     overlay.querySelector('.category-badge').style.backgroundColor = getCategoryColor(task.category);
     overlay.querySelector('.task-title').textContent = task.title;
@@ -307,17 +366,23 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
     $("overlay-task-title").textContent = task.title;
     $("overlay-task-description").textContent = task.description;
     overlay.querySelector('.task-due-date').textContent = `Due Date: ${task.dueDate}`;
-    overlay.querySelector('.task-priority').textContent = `Priority: ${task.priority}`;
 
-    // Kontakte rendern
+    // Priorität als Bild anzeigen:
+    const iconMap = {
+        urgent: "assets/img/urgent.png",
+        medium: "assets/img/medium.png",
+        low: "assets/img/low.png"
+    };
+    overlay.querySelector('.task-priority').innerHTML = `Priority: <img src="${iconMap[task.priority]}" alt="${task.priority}" class="task-priority-icon">`;
+
+    // Kontakte und Subtasks rendern
     const contactsList = overlay.querySelector('.contacts-list');
     contactsList.innerHTML = task.contacts?.map(c => `
         <div class="contact-badge no-overlap" style="background: ${getContactColor(c.name)}" title="${c.name}">
           ${getInitials(c.name)}
         </div>
     `).join('') || '';
-
-    // Im Overlay werden nur die Subtasks als Liste mit Checkboxen angezeigt
+    
     renderSubtasksView(task);
 
     // Button-Konfiguration
@@ -550,6 +615,7 @@ document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
     }
 });
 
+// In der saveChanges-Funktion:
 const saveChanges = () => {
     const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
     const overlay = $("taskDetailOverlay");
@@ -557,21 +623,28 @@ const saveChanges = () => {
     const updatedTask = {
         title: overlay.querySelector('#edit-title').value,
         description: overlay.querySelector('#edit-description').value,
-        category: overlay.querySelector('.category-badge').textContent, // Kategorie unverändert
+        category: overlay.querySelector('.category-badge').textContent, // Unverändert
         dueDate: overlay.querySelector('#edit-due-date').value,
         priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
         contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
-            .map(c => ({ name: c.value })),
+                    .map(c => ({ name: c.value })),
         subtasks: currentSubtasks,
         status: currentColumnId
     };
 
     set(taskRef, updatedTask).then(() => {
-        // Update der Anzeige im Overlay
         overlay.querySelector('.task-title').textContent = updatedTask.title;
         overlay.querySelector('.task-description').textContent = updatedTask.description;
         overlay.querySelector('.task-due-date').textContent = `Due Date: ${updatedTask.dueDate}`;
-        overlay.querySelector('.task-priority').textContent = `Priority: ${updatedTask.priority}`;
+
+        // Priorität als Bild aktualisieren:
+        const iconMap = {
+            urgent: "assets/img/urgent.png",
+            medium: "assets/img/medium.png",
+            low: "assets/img/low.png"
+        };
+        overlay.querySelector('.task-priority').innerHTML = `Priority: <img src="${iconMap[updatedTask.priority]}" alt="${updatedTask.priority}" class="task-priority-icon">`;
+
         overlay.querySelector('.category-badge').textContent = updatedTask.category;
         overlay.querySelector('.category-badge').style.backgroundColor = getCategoryColor(updatedTask.category);
         loadTasks();

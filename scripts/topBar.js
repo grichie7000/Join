@@ -1,6 +1,12 @@
 const BASE_URL_INITALS = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 let logedIn;
 
+document.addEventListener("DOMContentLoaded", function () {
+    const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+    if (loggedInUser && loggedInUser.initials) {
+        document.getElementById("profile-toggle").textContent = loggedInUser.initials;
+    }
+});
 
 
 // Varibalen werden  nach dem Laden des Dokuments gespeichert
