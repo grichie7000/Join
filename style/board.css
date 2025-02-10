@@ -273,6 +273,59 @@ h1 {
     border-radius: 80%;
   }
   
+  /* Container für die Subtasks im Edit-Modus */
+#subtask-list {
+    list-style: none;  /* Keine Standard-Aufzählungszeichen */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Stil für jedes Subtask-Element */
+  #subtask-list .subtask-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    margin-bottom: 4px;
+    border-radius: 4px;
+  }
+  
+  /* Der statische Text, der den Subtask-Titel anzeigt */
+  #subtask-list .subtask-item span {
+    flex: 1;
+    font-size: 15px;
+    color: #333;
+  }
+
+  #subtask-list  label {
+    padding-bottom: 1px !important;
+  }
+  
+  /* Buttons für Edit und Delete */
+  #subtask-list .subtask-edit-btn,
+  #subtask-list .subtask-delete-btn {
+    padding: 4px 8px;
+    border: none;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  #subtask-list .subtask-edit-btn:hover,
+  #subtask-list .subtask-delete-btn:hover {
+    color: #29ABE2;
+  }
+  
+  /* Stil für das Input-Feld im Editiermodus */
+  #subtask-list .subtask-edit-input {
+    flex: 1;
+    padding: 4px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
 
   .progress-bar {
     flex-grow: 1;
@@ -292,6 +345,70 @@ h1 {
     font-size: 12px;
     color: #666;
   }
+
+  /* Container für jedes Subtask im Editiermodus */
+#subtask-list .subtask-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+  
+  /* Stil für den Subtask-Titel */
+  #subtask-list .subtask-item span {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Delete-Container */
+  .delete-container {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+  }
+  
+  .delete-container .delete-svg {
+    margin-right: 4px;
+  }
+  
+  .delete-container .delete-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .delete-container, .edit-container {
+    display: flex !important; /* Falls ein anderes CSS sie versteckt */
+    visibility: visible !important;
+}
+
+  
+  /* Button-Seperator */
+  .button-seperator {
+    width: 1px;
+    background-color: #ccc;
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  /* Edit-Container */
+  .edit-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .edit-container .edit-svg {
+    margin-right: 4px;
+  }
+  
+  .edit-container .edit-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
 
 .task-footer {
     display: flex;
@@ -430,7 +547,7 @@ h1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
+    width: 430px;
     max-height: 80vh;
     overflow-y: auto; /* Scrollbar aktivieren */
     background: white;
@@ -693,7 +810,7 @@ input[type="radio"]:checked+.low-radio img {
     padding: 10px;
     margin-top: 20px;
     font-style: italic;
-    border: 1px dotted rgb(175, 175, 175);
+    border: 2px dotted rgb(200, 200, 200);
     border-radius: 8px;
     background-color: rgba(223, 223, 223, 0.86);
 }

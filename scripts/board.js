@@ -1,8 +1,8 @@
+// Firebase-Module importieren
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-import { getDatabase, ref, set, get, remove } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
-import { onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
-// Firebase-Konfiguration
+// Firebase-Konfiguration und Initialisierung
 const firebaseConfig = {
     apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
     authDomain: "join-d3707.firebaseapp.com",
@@ -12,19 +12,15 @@ const firebaseConfig = {
     messagingSenderId: "961213557325",
     appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
 };
-
-// Firebase initialisieren
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
 // Hilfsfunktion: Schneller Zugriff auf Elemente per ID
 const $ = (id) => document.getElementById(id);
 
-//
-// --- HELPER-FUNKTIONEN ---
-//
-
-// Funktionserklärung (wird hoisted) – so steht sie in allen nachfolgenden Codezeilen zur Verfügung
+// --------------------
+// Helper Functions
+// --------------------
 function getCategoryColor(category) {
     return category === 'Technical Task' ? '#23D8C2' : '#1500ff';
 }
@@ -38,7 +34,6 @@ function getInitials(name) {
 }
 
 function getContactColor(name) {
-    // Fallback für undefinierte oder ungültige Namen
     const safeName = typeof name === 'string' ? name : 'Unknown';
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#33FFF8', '#F8FF33'];
     const hash = Array.from(safeName).reduce((acc, char) => char.charCodeAt(0) + acc, 0);
@@ -54,10 +49,9 @@ function createContactBadge(contact) {
     return badge;
 }
 
-//
-// --- TASK-LOADING & -DARSTELLUNG ---
-//
-
+// --------------------
+// Task-Board: Laden & Darstellung
+// --------------------
 const loadTasks = () => {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(column => {
@@ -76,11 +70,9 @@ const loadTasks = () => {
                     container.appendChild(taskElement);
                 });
             } else {
-                // Falls keine Tasks vorhanden sind, den Placeholder setzen
-                container.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
+                // Im onValue-Listener:
+                container.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(column)}</div>`;
             }
-
-            // Falls durch die Änderungen ein Feld leer geworden ist, Platzhalter einfügen
             updatePlaceholders();
         });
     });
@@ -103,7 +95,7 @@ const createTaskElement = (task, taskId, columnId) => {
         categoryBgColor = "#1500ff";
     }
 
-    // Subtasks mit Progress-Bar
+    // Fortschrittsanzeige (nur im Task-Board)
     const subtasksHtml = task.subtasks && task.subtasks.length > 0 ? `
         <div class="subtask-progress">
             <div class="progress-bar">
@@ -144,12 +136,12 @@ const createTaskElement = (task, taskId, columnId) => {
 
     // Zusammenbau des Task-HTMLs
     div.innerHTML = `
-    <div class="task-category" style="background: ${categoryBgColor}">${categoryText}</div>
-    <h3 class="task-title" style="padding-top: 10px">${task.title}</h3>
-    <div class="task-description">${task.description}</div>
-    ${subtasksHtml}
-    ${(contactsHtml || priorityHtml) ? `<div class="task-footer">${contactsHtml}${priorityHtml}</div>` : ''}
-  `;
+      <div class="task-category" style="background: ${categoryBgColor}">${categoryText}</div>
+      <h3 class="task-title" style="padding-top: 10px">${task.title}</h3>
+      <div class="task-description">${task.description}</div>
+      ${subtasksHtml}
+      ${(contactsHtml || priorityHtml) ? `<div class="task-footer">${contactsHtml}${priorityHtml}</div>` : ''}
+    `;
 
     // Event-Listener: Beim Klick wird das Detail-Overlay geöffnet; Drag & Drop aktivieren
     div.addEventListener("click", () => showTaskDetailOverlay(task, taskId, columnId));
@@ -158,7 +150,9 @@ const createTaskElement = (task, taskId, columnId) => {
     return div;
 };
 
-/* --- Drag & Drop Funktionen --- */
+// --------------------
+// Drag & Drop Funktionen
+// --------------------
 const drag = (event) => {
     event.dataTransfer.setData("text", event.target.id);
 };
@@ -169,23 +163,16 @@ window.moveTo = (event, columnId) => {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text");
     const task = $(taskId);
-    // Ermitteln des alten Containers anhand der aktuellen Eltern-ID
     const oldColumnElement = $(task.parentElement.id);
     const oldColumnId = oldColumnElement.id;
 
-    // Falls der Task in dieselbe Spalte gezogen wird, beenden wir die Funktion.
-    if (oldColumnId === columnId) {
-        return;
-    }
+    if (oldColumnId === columnId) return;
 
     const newColumnElement = $(columnId);
-
-    // Entferne ggf. vorhandene Platzhalter in der neuen Spalte
     const newPlaceholder = newColumnElement.querySelector(".empty-placeholder");
     if (newPlaceholder) newColumnElement.removeChild(newPlaceholder);
     newColumnElement.appendChild(task);
 
-    // In Firebase den Task in die neue Spalte verschieben
     const oldTaskRef = ref(db, `tasks/${oldColumnId}/${taskId}`);
     get(oldTaskRef).then(snapshot => {
         if (snapshot.exists()) {
@@ -195,7 +182,8 @@ window.moveTo = (event, columnId) => {
             set(newTaskRef, taskData).then(() => {
                 remove(oldTaskRef).then(() => {
                     if (!oldColumnElement.querySelector(".task")) {
-                        oldColumnElement.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
+                        // In der moveTo-Funktion:
+                        oldColumnElement.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(oldColumnId)}</div>`;
                     }
                     updatePlaceholders();
                 });
@@ -204,18 +192,29 @@ window.moveTo = (event, columnId) => {
     });
 };
 
-/* --- Funktion zum Aktualisieren der Platzhalter in allen Spalten --- */
+window.getColumnPlaceholderText = function (columnId) {
+    const columnNames = {
+        "to-do": "To Do",
+        "in-progress": "In Progress",
+        "await-feedback": "Await Feedback",
+        "done": "Done"
+    };
+    return `No tasks ${columnNames[columnId]}`;
+}
+
 const updatePlaceholders = () => {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(columnId => {
         const column = $(columnId);
         if (!column.querySelector(".task") && !column.querySelector(".empty-placeholder")) {
-            column.innerHTML = `<div class="empty-placeholder">No tasks To do</div>`;
+            column.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(columnId)}</div>`;
         }
     });
 };
 
-/* --- Overlay zum Erstellen eines neuen Tasks --- */
+// --------------------
+// Overlay zum Erstellen eines neuen Tasks
+// --------------------
 const showOverlay = (columnId) => {
     const overlay = $("taskOverlay");
     overlay.style.display = "flex";
@@ -226,22 +225,16 @@ const hideOverlay = () => {
     $("taskOverlay").style.display = "none";
 };
 
-// Event-Listener für die Schaltflächen, die das Overlay öffnen
 document.querySelector(".addTaskButton").addEventListener("click", () => showOverlay("to-do"));
 document.querySelector(".toDoButton").addEventListener("click", () => showOverlay("to-do"));
 document.querySelector(".inProgressButton").addEventListener("click", () => showOverlay("in-progress"));
 document.querySelector(".awaitButton").addEventListener("click", () => showOverlay("await-feedback"));
 
-// Schließt das Overlay, wenn außerhalb des Inhalts geklickt wird
 $("taskOverlay").addEventListener("click", (event) => {
     if (event.target === $("taskOverlay")) {
         hideOverlay();
     }
 });
-
-// Falls die globalen Arrays nicht definiert sind, verwende leere Arrays
-const selectedContacts = window.selectedContacts || [];
-const selectedSubtasks = window.selectedSubtasks || [];
 
 // Neuen Task erstellen
 document.querySelector(".create-btn").addEventListener("click", (event) => {
@@ -277,7 +270,9 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
         .catch((error) => console.error("Fehler beim Speichern des Tasks:", error));
 });
 
-/* --- Benutzerinitialen im Profil anzeigen --- */
+// --------------------
+// Benutzerinitialen im Profil anzeigen
+// --------------------
 const displayUserInitials = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser && loggedInUser.initials) {
@@ -286,50 +281,51 @@ const displayUserInitials = () => {
 };
 document.addEventListener("DOMContentLoaded", displayUserInitials);
 
-/* --- Initiale Aufgaben laden --- */
+// Initiale Tasks laden
 loadTasks();
 
-//
-// --- TASK-DETAIL-OVERLAY (Anzeigen, Editieren, Speichern, Löschen) ---
-//
-
+// --------------------
+// Globale Variablen für das Task-Detail-Overlay
+// --------------------
 let currentTaskId = null;
 let currentColumnId = null;
-let currentSubtasks = []; // Globale Variable für den aktuellen Subtask-Zustand
+let currentSubtasks = []; // Aktueller Zustand der Subtasks (nur für den Editiermodus)
 
+// --------------------
+// Task-Detail-Overlay (View-Modus)
+// --------------------
 const showTaskDetailOverlay = (task, taskId, columnId) => {
     currentTaskId = taskId;
     currentColumnId = columnId;
-    const overlay = document.getElementById("taskDetailOverlay");
-  
-    // Fülle die Felder im Overlay mit den Task-Daten:
+    const overlay = $("taskDetailOverlay");
+
+    // Fülle die Task-Daten in das Overlay ein
     overlay.querySelector('.category-badge').textContent = task.category;
     overlay.querySelector('.category-badge').style.backgroundColor = getCategoryColor(task.category);
     overlay.querySelector('.task-title').textContent = task.title;
     overlay.querySelector('.task-description').textContent = task.description;
-    document.getElementById("overlay-task-title").textContent = task.title;
-    document.getElementById("overlay-task-description").textContent = task.description;
+    $("overlay-task-title").textContent = task.title;
+    $("overlay-task-description").textContent = task.description;
     overlay.querySelector('.task-due-date').textContent = `Due Date: ${task.dueDate}`;
     overlay.querySelector('.task-priority').textContent = `Priority: ${task.priority}`;
-  
-    // Kontakte anzeigen (wie gewohnt)
+
+    // Kontakte rendern
     const contactsList = overlay.querySelector('.contacts-list');
     contactsList.innerHTML = task.contacts?.map(c => `
         <div class="contact-badge no-overlap" style="background: ${getContactColor(c.name)}" title="${c.name}">
           ${getInitials(c.name)}
         </div>
     `).join('') || '';
-  
-    // Subtasks rendern – hier wird nur der aktuell geklickte Task berücksichtigt
+
+    // Im Overlay werden nur die Subtasks als Liste mit Checkboxen angezeigt
     renderSubtasksView(task);
-  
-    // Button-Konfigurationen (Close, Edit, Delete, Save) wie gewohnt:
+
+    // Button-Konfiguration
     overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
     overlay.querySelector('.delete-btn').onclick = deleteTask;
     overlay.querySelector('.edit-btn').onclick = enableEditMode;
     overlay.querySelector('.save-btn').onclick = saveChanges;
-  
-    // Overlay anzeigen
+
     overlay.style.display = 'block';
 };
 
@@ -348,163 +344,132 @@ const hideTaskDetailOverlay = () => {
     overlay.querySelector('.delete-svg').style.display = 'inline-block';
 };
 
-//
-// --- EDIT-MODUS & SUBTASKS ---
-//
+/**
+ * Rendert im Overlay (View-Modus) die Subtasks als Liste mit Checkboxen und Labels.
+ * Hier erfolgt _keine_ Fortschrittsanzeige – diese ist nur im Task-Board sichtbar.
+ */
+function renderSubtasksView(task) {
+    const overlay = $("taskDetailOverlay");
+    const subtasksList = overlay.querySelector('.subtasks-list');
+    if (!subtasksList) return;
+
+    subtasksList.innerHTML = '';
+
+    if (task.subtasks && task.subtasks.length > 0) {
+        task.subtasks.forEach((subtask, index) => {
+            const li = document.createElement('li');
+            li.className = 'subtask-item';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.id = `subtask-${index}`;
+            checkbox.checked = subtask.completed;
+            checkbox.dataset.index = index;
+            checkbox.addEventListener('change', () => {
+                // Aktualisiere den Status im Task-Objekt
+                task.subtasks[index].completed = checkbox.checked;
+                // Schreibe die aktualisierten Subtasks in Firebase,
+                // sodass der Fortschrittsbalken im Task-Board aktualisiert wird.
+                updateTaskSubtasksInFirebase(task.subtasks);
+            });
+            li.appendChild(checkbox);
+
+            const label = document.createElement('label');
+            label.htmlFor = `subtask-${index}`;
+            label.textContent = subtask.title;
+            li.appendChild(label);
+
+            subtasksList.appendChild(li);
+        });
+    } else {
+        subtasksList.innerHTML = '<li>Keine Subtasks vorhanden</li>';
+    }
+}
 
 /**
- * Rendert die Subtasks im Editiermodus.
- * Es werden keine Checkboxen angezeigt – nur der Subtask-Titel mit einem Edit- und einem Delete-Button.
+ * Schreibt den aktuellen Subtasks-Status in Firebase.
+ * Dadurch wird der Task-Datensatz aktualisiert und der Fortschrittsbalken im Task-Board neu berechnet.
+ */
+function updateTaskSubtasksInFirebase(subtasks) {
+    const taskSubtasksRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}/subtasks`);
+    set(taskSubtasksRef, subtasks)
+        .catch(err => console.error("Error updating subtasks:", err));
+}
+
+// --------------------
+// Edit-Modus & Subtasks im Overlay
+// --------------------
+/**
+ * Rendert im Editiermodus die Subtasks als Liste mit Edit- und Delete-Buttons (ohne Checkboxen).
  */
 function renderSubtasksEditMode() {
-    const subtasksList = document.getElementById("subtask-list");
+    const subtasksList = $("subtask-list"); // Container im Editbereich
     if (!subtasksList) return;
-  
-    // Liste leeren
-    subtasksList.innerHTML = "";
-  
-    // Für jeden Subtask wird ein Listenelement erzeugt
+
+    subtasksList.innerHTML = '';
+
     currentSubtasks.forEach((subtask, index) => {
-      const li = document.createElement("li");
-      li.classList.add("subtask-item");
-  
-      // Anzeige des Subtask-Titels als statischer Text
-      const titleSpan = document.createElement("span");
-      titleSpan.textContent = subtask.title;
-      li.appendChild(titleSpan);
-  
-      // --- Edit-Button ---
-      const editButton = document.createElement("button");
-      editButton.type = "button"; // verhindert z. B. ein versehentliches Form-Submit
-      editButton.textContent = "Edit";
-      editButton.classList.add("subtask-edit-btn");
-      editButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        // Den Subtask-Titel editierbar machen
-        turnSubtaskIntoEditInput(li, titleSpan, index);
-      });
-      li.appendChild(editButton);
-  
-      // --- Delete-Button ---
-      const deleteButton = document.createElement("button");
-      deleteButton.type = "button";
-      deleteButton.textContent = "Delete";
-      deleteButton.classList.add("subtask-delete-btn");
-      deleteButton.addEventListener("click", (e) => {
-        e.stopPropagation();
-        // Den entsprechenden Subtask aus dem Array entfernen
-        currentSubtasks.splice(index, 1);
-        // Neu rendern, um die Änderung anzuzeigen
-        renderSubtasksEditMode();
-      });
-      li.appendChild(deleteButton);
-  
-      subtasksList.appendChild(li);
+        const li = document.createElement("li");
+        li.classList.add("subtask-item");
+
+        const titleSpan = document.createElement("span");
+        titleSpan.textContent = subtask.title;
+        li.appendChild(titleSpan);
+
+        // Edit-Button: Macht den Subtask editierbar
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.textContent = "Edit";
+        editButton.classList.add("subtask-edit-btn");
+        editButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            turnSubtaskIntoEditInput(li, titleSpan, index);
+        });
+        li.appendChild(editButton);
+
+        // Delete-Button: Löscht den Subtask
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.textContent = "Delete";
+        deleteButton.classList.add("subtask-delete-btn");
+        deleteButton.addEventListener("click", (e) => {
+            e.stopPropagation();
+            currentSubtasks.splice(index, 1);
+            renderSubtasksEditMode();
+        });
+        li.appendChild(deleteButton);
+
+        subtasksList.appendChild(li);
     });
-  }
-  
-  /**
-   * Ersetzt das statische Element (titleSpan) eines Subtasks durch ein Input-Feld,
-   * um den Titel direkt editieren zu können.
-   * Nach dem Verlassen des Input-Feldes (blur) oder beim Drücken der Enter-Taste wird der neue Titel gespeichert.
-   */
-  function turnSubtaskIntoEditInput(li, titleSpan, index) {
+}
+
+/**
+ * Ersetzt im Editiermodus den statischen Text eines Subtasks durch ein Input-Feld,
+ * um den Titel direkt bearbeiten zu können.
+ */
+function turnSubtaskIntoEditInput(li, titleSpan, index) {
     const input = document.createElement("input");
     input.type = "text";
     input.value = currentSubtasks[index].title;
     input.classList.add("subtask-edit-input");
-  
-    // Beim Verlassen des Input-Feldes den neuen Wert übernehmen
+
     input.addEventListener("blur", () => {
-      if (input.value.trim() !== "") {
-        currentSubtasks[index].title = input.value.trim();
-      }
-      renderSubtasksEditMode();
+        if (input.value.trim() !== "") {
+            currentSubtasks[index].title = input.value.trim();
+        }
+        renderSubtasksEditMode();
     });
-  
-    // Speichern, wenn die Enter-Taste gedrückt wird
+
     input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") {
-        input.blur();
-      }
+        if (e.key === "Enter") {
+            input.blur();
+        }
     });
-  
-    // Ersetze das statische Text-Element durch das Input-Feld
+
     li.replaceChild(input, titleSpan);
     input.focus();
-  }
+}
 
-  function renderSubtasksView(task) {
-    const subtasksList = document.querySelector('.subtasks-list');
-    if (!subtasksList) return;
-    
-    subtasksList.innerHTML = '';
-  
-    let progressContainer = document.querySelector('.subtask-progress');
-    if (!progressContainer) {
-      progressContainer = document.createElement('div');
-      progressContainer.className = 'subtask-progress';
-      progressContainer.innerHTML = `
-        <div class="progress-bar">
-           <div class="progress-fill" style="width: 0%;"></div>
-        </div>
-        <span class="progress-text">0/0 Subtasks</span>
-      `;
-      subtasksList.parentNode.insertBefore(progressContainer, subtasksList);
-    }
-    
-    if (task.subtasks && task.subtasks.length > 0) {
-      task.subtasks.forEach((subtask, index) => {
-        const li = document.createElement('li');
-        li.className = 'subtask-item';
-        
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.id = `subtask-${index}`;
-        checkbox.checked = subtask.completed;
-        checkbox.dataset.index = index;
-        checkbox.addEventListener('change', () => {
-          task.subtasks[index].completed = checkbox.checked;
-          updateSubtaskProgress(task);
-        });
-        li.appendChild(checkbox);
-        
-        const label = document.createElement('label');
-        label.htmlFor = `subtask-${index}`;
-        label.textContent = subtask.title;
-        li.appendChild(label);
-        
-        subtasksList.appendChild(li);
-      });
-      updateSubtaskProgress(task);
-    } else {
-      subtasksList.innerHTML = '<li>Keine Subtasks vorhanden</li>';
-      updateSubtaskProgress(task);
-    }
-}
-  
-function updateSubtaskProgress(task) {
-    const progressContainer = document.querySelector('.subtask-progress');
-    if (!progressContainer) return;
-    
-    const progressFill = progressContainer.querySelector('.progress-fill');
-    const progressText = progressContainer.querySelector('.progress-text');
-    
-    if (!task.subtasks || task.subtasks.length === 0) {
-      progressFill.style.width = '0%';
-      progressText.textContent = '0/0 Subtasks';
-      return;
-    }
-    
-    const total = task.subtasks.length;
-    const completed = task.subtasks.filter(subtask => subtask.completed).length;
-    const percentage = (completed / total) * 100;
-    
-    progressFill.style.width = `${percentage}%`;
-    progressText.textContent = `${completed}/${total} Subtasks`;
-}
-  
-  
 const enableEditMode = () => {
     const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
     get(taskRef).then(snapshot => {
@@ -527,37 +492,36 @@ const enableEditMode = () => {
         overlay.querySelector('#edit-due-date').value = task.dueDate;
         overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
 
-   // Kontakte laden und Checkboxen generieren:
-const contactsRef = ref(db, 'contactsDatabase');
-get(contactsRef).then(snapshot => {
-    const allContacts = [];
-    if (snapshot.exists()) {
-        snapshot.forEach(childSnapshot => {
-            allContacts.push(childSnapshot.val());
+        // Kontakte laden und Checkboxen generieren:
+        const contactsRef = ref(db, 'contactsDatabase');
+        get(contactsRef).then(snapshot => {
+            const allContacts = [];
+            if (snapshot.exists()) {
+                snapshot.forEach(childSnapshot => {
+                    allContacts.push(childSnapshot.val());
+                });
+            }
+            const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
+            checkboxContainer.innerHTML = allContacts.map(contact => `
+                <label class="contact-checkbox">
+                    <input type="checkbox" name="edit-contact" value="${contact.name}" 
+                           ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
+                    ${contact.name}
+                </label>
+            `).join('');
+
+            updateSelectedContactsDisplay(overlay);
+
+            checkboxContainer.addEventListener('change', () => {
+                updateSelectedContactsDisplay(overlay);
+            });
         });
-    }
-    const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
-    checkboxContainer.innerHTML = allContacts.map(contact => `
-        <label class="contact-checkbox">
-            <input type="checkbox" name="edit-contact" value="${contact.name}" 
-                   ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
-            ${contact.name}
-        </label>
-    `).join('');
-    
-    // Initial einmalige Anzeige aktualisieren
-    updateSelectedContactsDisplay(overlay);
-    
-    // Füge einen "change"-Listener direkt auf den Checkbox-Container hinzu:
-    checkboxContainer.addEventListener('change', () => {
-        updateSelectedContactsDisplay(overlay);
-    });
-});
-         // Vorhandene Subtasks in die globale Variable laden
-    currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
-    
-    // Subtasks im Editiermodus rendern (ohne Checkbox)
-    renderSubtasksEditMode();
+
+        // Vorhandene Subtasks in die globale Variable laden
+        currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
+
+        // Subtasks im Editiermodus rendern (ohne Checkbox)
+        renderSubtasksEditMode();
     });
 };
 
@@ -598,7 +562,7 @@ const saveChanges = () => {
         priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
         contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
             .map(c => ({ name: c.value })),
-        subtasks: currentSubtasks, // Aktueller Subtask-Zustand
+        subtasks: currentSubtasks,
         status: currentColumnId
     };
 
@@ -633,14 +597,13 @@ const deleteTask = () => {
 };
 
 window.toggleContactsDropdown = function () {
-    const dropdown = document.getElementById("contactsDropdown");
+    const dropdown = $("contactsDropdown");
     if (dropdown.style.display === "block") {
         dropdown.style.display = "none";
     } else {
         dropdown.style.display = "block";
     }
 };
-
 
 document.addEventListener('click', (e) => {
     if (!e.target.closest('.contact-selection-wrapper')) {

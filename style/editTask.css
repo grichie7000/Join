@@ -1,150 +1,151 @@
 /* CSS für das Dropdown-Menü */
 .contact-selection-wrapper {
-    position: relative;
-    margin-top: 8px;
-  }
-  
-  .contacts-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    z-index: 1000;
-    max-height: 200px;
-    overflow-y: auto;
-  }
-  
-  .contacts-checkbox-container {
-    padding: 8px;
-  }
+  position: relative;
+  margin-top: 8px;
+}
 
-  .contacts-checkbox{
-    display: flex;
-    flex-direction: row-reverse;
-    align-items: center;
-  }
-  
-  .contact-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    color: white;
-    font-size: 12px;
-    font-weight: bold;
-    margin: 2px;
-    cursor: default;
-  }
-  
-  .selected-contacts-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: 10px;
-  }
-  
-  .selected-contacts-display {
-    position: relative;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+.contacts-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
 
-  /* Der Pfeil */
-  .dropdown-arrow {
-    font-size: 15px;
-    margin-left: auto;
-  }
-  
-  /* Dropdown-Container (ausgeblendet, bis er aktiviert wird) */
-  .contacts-dropdown {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #fff;
-    border: 1px solid #ccc;
-    z-index: 100;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .contacts-dropdown.active {
-    display: block;
-  }
-  
-  
-  /* Optional: Styling für die Kontakt-Checkboxen innerhalb des Dropdowns */
-  .contacts-checkbox-container label {
-    display: block;
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-  }
-  
-  .contacts-checkbox-container label:hover {
-    background-color: #f5f5f5;
-  }
-  
-  /* Nur in Task-Karten überlappend */
+.contacts-checkbox-container {
+  padding: 8px;
+}
+
+.contacts-checkbox {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+.contact-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 2px;
+  cursor: default;
+}
+
+.selected-contacts-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.selected-contacts-display {
+  position: relative;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Der Pfeil */
+.dropdown-arrow {
+  font-size: 15px;
+  margin-left: auto;
+}
+
+/* Dropdown-Container (ausgeblendet, bis er aktiviert wird) */
+.contacts-dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ccc;
+  z-index: 100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contacts-dropdown.active {
+  display: block;
+}
+
+
+/* Optional: Styling für die Kontakt-Checkboxen innerhalb des Dropdowns */
+.contacts-checkbox-container label {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.contacts-checkbox-container label:hover {
+  background-color: #f5f5f5;
+}
+
+/* Nur in Task-Karten überlappend */
 .task-contacts .contact-badge {
-    margin-left: -12px;
-    position: relative;
-    transition: transform 0.2s;
-    z-index: 1;
-  }
-  
-  .task-contacts .contact-badge:first-child {
-    margin-left: 0;
-  }
-  
-  .task-contacts .contact-badge:hover {
-    transform: translateY(-2px);
-    z-index: 2 !important;
-  }
-  
-  /* Overlay & Edit-Modus - normale Darstellung */
-  .selected-contacts-list .contact-badge,
-  .contacts-list .contact-badge {
-    margin-left: 5px !important;
-    z-index: auto !important;
-  }
-  
-  .selected-contacts-list .contact-badge:first-child,
-  .contacts-list .contact-badge:first-child {
-    margin-left: 0 !important;
-  }
+  margin-left: -12px;
+  position: relative;
+  transition: transform 0.2s;
+  z-index: 1;
+}
 
-  .contact-badge.no-overlap {
-    margin-left: 0 !important;
-    z-index: auto !important;
-    transform: none !important;
-  }
+.task-contacts .contact-badge:first-child {
+  margin-left: 0;
+}
 
-  .save-btn {
-    background-color: rgb(42, 54, 71) !important;
-    color: white;
-    cursor: pointer;
-    font-weight: 700;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    font-size: 16px;
-    border: 1px solid;
-  }
+.task-contacts .contact-badge:hover {
+  transform: translateY(-2px);
+  z-index: 2 !important;
+}
 
-  .save-btn:hover {
-    color: white !important;
-    background-color: #29ABE2 !important;
-  }
+/* Overlay & Edit-Modus - normale Darstellung */
+.selected-contacts-list .contact-badge,
+.contacts-list .contact-badge {
+  margin-left: 5px !important;
+  z-index: auto !important;
+}
+
+.selected-contacts-list .contact-badge:first-child,
+.contacts-list .contact-badge:first-child {
+  margin-left: 0 !important;
+}
+
+.contact-badge.no-overlap {
+  margin-left: 0 !important;
+  z-index: auto !important;
+  transform: none !important;
+}
+
+.save-btn {
+  background-color: rgb(42, 54, 71) !important;
+  color: white;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-size: 16px;
+  border: 1px solid;
+}
+
+.save-btn:hover {
+  color: white !important;
+  background-color: #29ABE2 !important;
+}
