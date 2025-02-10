@@ -108,7 +108,7 @@ function renderEditContact(user) {
                 <img src="../assets/img/x_symbol.png" alt="">
             </button>
         </div>
-        <form class="popup-form" onsubmit="event.preventDefault(); updateUser(${user});">
+        <form class="popup-form" onsubmit="event.preventDefault(); updateUser(${user}); showSaveAlert();">
             <div class="form-group">
                 <div class="input-icon">
                     <input type="text" id="name" placeholder="Name" required value="${userArray[user].name}" onchange="validateContactForm()">
@@ -140,6 +140,11 @@ function renderEditContact(user) {
         </form>
     </div>
 </div>`
+}
+
+function showSaveAlert() {
+    alert("Your contact has been saved! Please refresh page!");
+    // Hier kannst du den Update-Prozess aufrufen, nachdem der Alert angezeigt wurde
 }
 
 
