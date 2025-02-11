@@ -576,7 +576,7 @@ const enableEditMode = () => {
         overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
 
         // Kontakte laden und Checkboxen generieren:
-        const contactsRef = ref(db, 'contactsDatabase');
+        const contactsRef = ref(db, 'contatcsFirebase');
         get(contactsRef).then(snapshot => {
             const allContacts = [];
             if (snapshot.exists()) {
