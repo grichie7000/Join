@@ -8,9 +8,7 @@ let userArray = [];
  */
 function initContacts() {
     checkLogin();
-    includeHTML();
     checkLink();
-    generateInitials();
     loadingUsers();
 }
 
