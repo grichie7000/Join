@@ -2,6 +2,10 @@ p {
     margin: 0;
 }
 
+.body {
+	display: flex;
+	}
+
 .center {
     display: flex;
     align-items: center;
@@ -9,13 +13,11 @@ p {
 }
 
 .main-content {
-    margin-top: 0px;
-    margin-left: 233px;
-    padding: 97px 0 0 0;
     flex: 1;
     display: flex;
-    align-items: center;
     flex-direction: column;
+    height: 100vh;
+    background-color: #F6F7F8;
 }
 
 .container {

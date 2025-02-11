@@ -1,6 +1,7 @@
 * {
     transition: all 0.2s ease-in-out;
     box-sizing: border-box;
+	max-width: 1900px;
 }
 
 body {
@@ -9,6 +10,8 @@ body {
     font-family: "Inter";
     font-size: 16px;
     position: relative;
+	display: flex;
+	max-width: 1900px;
 }
 
 header {
@@ -18,10 +21,7 @@ header {
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: relative;
     z-index: 999;
 }
 
@@ -31,6 +31,7 @@ header .h1 {
     line-height: 100%;
     margin: 0;
 }
+
 
 .header-info {
     display: flex;
@@ -156,33 +157,40 @@ header .h1 {
 }
 
 aside {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    background: #2A3647;
-    color: #ffffff;
-    width: 232px;
     height: 100vh;
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
+    min-width: 240px;
+    background-color: #2A3647;
+    position: relative;
+}
+
+.joinLogo {
+    padding-top: 50px;
+    padding-bottom: 146px;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .aside-logo {
-    margin-top: 64px;
+    padding-top: 50px;
+    padding-bottom: 146px;
+    height: 316px;
+    width: 100.33px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.aside-nav {
-    width: 100%;
+.menuPos {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 16px;
 }
 
-.aside-nav a {
+.menuPos a {
     display: flex;
     align-items: center;
     height: 46px;
@@ -198,19 +206,101 @@ aside {
 }
 
 .aside-imprint {
+    position: absolute;
+    bottom: 56px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 64px;
+    font-size: 14px;
+    width: 100%;
 }
 
 .aside-imprint a {
     color: #A8A8A8;
-    text-decoration: none;
-    padding: 8px;
+    padding-left: 66px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+	text-decoration: none;
 }
 
 .aside-imprint a:hover {
     color: #29ABE2;
+}
+
+.sideBar {
+    height: 100vh;
+    min-width: 240px;
+    background-color: #2A3647;
+    position: relative;
+}
+
+.joinLogo {
+    padding-top: 50px;
+    padding-bottom: 146px;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.active {
+    background-color: #091931;
+}
+
+.menuPos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.navMenu {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.navMenu:hover {
+    cursor: pointer;
+    background-color: #2A3D59;
+}
+
+.navMenu img {
+    padding-left: 56px;
+}
+
+.menuPos a {
+    color: #CDCDCD;
+}
+
+.navMenu img {
+    height: 28px;
+    width: 28px;
+}
+
+.lawSection {
+    position: absolute;
+    bottom: 56px;
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    width: 100%;
+}
+
+.lawSection a {
+    color: #A8A8A8;
+    padding-left: 66px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+}
+
+.lawSection a:hover {
+    color: #29ABE2;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 @media screen and (min-width: 0px) and (max-width: 827px) {
@@ -264,7 +354,9 @@ aside {
     }
 
     .aside-nav svg {
-        width: 24px;
-        height: 24px;
+       display: flex;
+	   align-items: center;
+	   height: 316px;
+	   width: 100px;
     }
 }

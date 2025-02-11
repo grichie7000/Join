@@ -37,15 +37,5 @@ function doNotClose(event) {
 function logOut() {
     localStorage.clear();
     sessionStorage.clear();
-    location.href='../login/login.html';
-}
-
-
-/**
- * load the profile
- */
-function loadProfile() {
-    let profile = document.getElementById('profile');
-    let userName = sessionStorage.getItem("username");
-    
+    location.href='./login.html';
 }

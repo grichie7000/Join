@@ -23,7 +23,7 @@ function includeHTML() {
  * check the login status
  */
 function checkLogin() {
-  const isLoginPage = window.location.pathname.includes("join/login/login.html");
+  const isLoginPage = window.location.pathname.includes("join/login.html");
   const sessionUser = sessionStorage.getItem("username");
   const localUser = localStorage.getItem("username");
 

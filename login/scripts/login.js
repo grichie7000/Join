@@ -15,7 +15,7 @@ function initLogin() {
  * go to the sign up page
  */
 function goToSignUp() {
-    window.location.assign("../sign-up/sign-up.html")
+    window.location.assign("./sign-up.html")
 }
 
 
@@ -45,7 +45,7 @@ function loadingPasswordIcons() {
  */
 function checkPager(sessionUser) {
     if ((sessionUser)) {
-        window.location.href = "../summary/summary.html";
+        window.location.href = "./summary.html";
         return;
     }
 }
@@ -56,7 +56,7 @@ function checkPager(sessionUser) {
  */
 function guestLogin() {
     sessionStorage.setItem('username', 'Guest');
-    window.location.href = '../contacts.html';
+    window.location.href = './summary.html';
 }
 
 
@@ -127,7 +127,7 @@ async function validateUser(foundUser, users, resultDiv,emailInput,passwordInput
 
 
 /**
- * save the current user in sessionSorage
+ * save the current user in sessionStorage
  * @param {*} resultDiv 
  * @param {*} foundUser 
  */
@@ -138,9 +138,9 @@ function saveCurrentUser(resultDiv, foundUser) {
         if (rememberMeValue) {
             localStorage.setItem('username', foundUser.name);
             localStorage.setItem('email', foundUser.email);
-            window.location.href = '../contacts/contacts.html';
+            window.location.href = './summary.html';
         } else {
-            window.location.href = '../contacts/contacts.html';
+            window.location.href = './summary.html';
         }
         
     } else {

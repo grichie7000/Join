@@ -37,7 +37,7 @@ function toggleDropdown() {
  */
 function checkPager(sessionUser) {
     if (!sessionUser) {
-        window.location.href = "../login/login.html";
+        window.location.href = "./login.html";
         return;
     }
 }
@@ -446,10 +446,6 @@ function goBack() {
  * load nav and header
  */
 function includeHTML() {
-  let navigation = document.getElementById("navigation-container");
-  navigation.innerHTML = initNav();
-  let header = document.getElementById("header-container");
-  header.innerHTML = initHeader();
   let popUp = document.getElementById("overlay-container");
   popUp.innerHTML = initProfilePopUp();
 }
@@ -459,7 +455,7 @@ function includeHTML() {
  * check the login status
  */
 function checkLogin() {
-  const isLoginPage = window.location.pathname.includes("join/login/login.html");
+  const isLoginPage = window.location.pathname.includes("join/login.html");
   const sessionUser = sessionStorage.getItem("username");
   const localUser = localStorage.getItem("username");
 
@@ -511,7 +507,7 @@ function getRandomColor() {
  */
 function checkLink() {
   const currentPath = window.location.pathname;
-  const sidebarLinks = document.querySelectorAll('#navigation-container .aside-nav a');
+  const sidebarLinks = document.querySelectorAll('#navigation-container .menuPos a');
   sidebarLinks.forEach(link => {
     link.classList.remove('active');
     let href = link.getAttribute('href').replace('../', '');
@@ -531,7 +527,7 @@ function notLogin() {
   let sidebar = document.getElementById('navigation-container');
   let profile = document.getElementById('profile');
   let info = document.getElementById('info');
-  let asideNav = document.getElementById('aside-nav');
+  let menuPos = document.getElementById('menuPos');
   if (sessionStorage.getItem("username") == null) {
     sidebar.classList.add('no-login-sidebar-none');
     profile.classList.add('no-login-none');

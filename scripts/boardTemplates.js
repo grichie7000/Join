@@ -265,7 +265,7 @@ function generateTaskEditHTML(task) {
             </div>
         </form>
         <div class="form-actions">
-            <button class="add-task" type="button" onclick="saveTaskChanges()">
+            <button class="addTask" type="button" onclick="saveTaskChanges()">
             Ok
             <img src="./assets/icons/contact_create.png"></img>
             </button>
