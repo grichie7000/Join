@@ -39,6 +39,7 @@ async function getFirebaseInitals(path = "") {
     let responseToJson = await response.json();
     logedIn = responseToJson;
 
+
     displayInitals(logedIn);
 }
 
