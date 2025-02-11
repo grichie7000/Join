@@ -49,32 +49,41 @@ const saveUser = async (name, email, password) => {
   return userData;
 };
 
-// Überprüft, ob die E-Mail bereits registriert ist, und registriert ansonsten den Benutzer
 const checkAndRegister = async (name, email, password, errorMessage) => {
   try {
     const snapshot = await get(ref(db, 'users'));
     const users = snapshot.val() || {};
-    
+
     if (Object.values(users).some(user => user.email === email)) {
       throw new Error("E-Mail bereits registriert!");
     }
 
     const user = await saveUser(name, email, password);
 
-    // Speichere den tempUser in localStorage (damit die Initialen überall verfügbar sind)
-    localStorage.setItem('tempUser', JSON.stringify({
+    // Speichere den aktuell eingeloggten Benutzer in localStorage unter "loggedInUser"
+    localStorage.setItem('loggedInUser', JSON.stringify({
       email: user.email,
       initials: user.initials,
       name: user.name
     }));
 
-    // Optional: Zeige ein Erfolgsoverlay an und leite weiter
-    window.location.href = "relogin.html";
+    // Zeige den Erfolgsoverlay an
+    const overlay = document.getElementById("successOverlay");
+    const overlayContent = document.getElementById('overlay-content');
+    overlay.style.display = "flex";
+    overlayContent.style.display = 'flex';
+
+    // Nach 1 Sekunde Overlay ausblenden und dann umleiten
+    setTimeout(() => {
+      overlay.style.display = "none";
+      overlayContent.style.display = 'none';
+      window.location.href = "relogin.html"; // Hier ggf. die Zielseite anpassen
+    }, 1000);
+    
   } catch (error) {
     errorMessage.textContent = error.message;
-    errorMessage.style.display = 'block';
   }
-};
+}
 
 // Passwort-Sichtbarkeit (Beispiel)
 const setupPasswordToggle = (inputId) => {

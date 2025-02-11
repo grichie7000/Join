@@ -332,16 +332,16 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
         .catch((error) => console.error("Fehler beim Speichern des Tasks:", error));
 });
 
-// --------------------
-// Benutzerinitialen im Profil anzeigen
-// --------------------
+/// Benutzerinitialen im Profil anzeigen
 const displayUserInitials = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
     if (loggedInUser && loggedInUser.initials) {
-        $("profile-toggle").textContent = loggedInUser.initials;
+      document.getElementById("profile-toggle").textContent = loggedInUser.initials;
     }
-};
-document.addEventListener("DOMContentLoaded", displayUserInitials);
+  };
+  
+  document.addEventListener("DOMContentLoaded", displayUserInitials);
+  
 
 // Initiale Tasks laden
 loadTasks();
