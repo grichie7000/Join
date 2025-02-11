@@ -17,6 +17,7 @@ const db = getDatabase(app);
 
 // Hilfsfunktion: Schneller Zugriff auf Elemente per ID
 const $ = (id) => document.getElementById(id);
+
 // --------------------
 // Helper Functions
 // --------------------
@@ -69,7 +70,6 @@ const loadTasks = () => {
                     container.appendChild(taskElement);
                 });
             } else {
-                // Im onValue-Listener:
                 container.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(column)}</div>`;
             }
             updatePlaceholders();
@@ -181,7 +181,6 @@ window.moveTo = (event, columnId) => {
             set(newTaskRef, taskData).then(() => {
                 remove(oldTaskRef).then(() => {
                     if (!oldColumnElement.querySelector(".task")) {
-                        // In der moveTo-Funktion:
                         oldColumnElement.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(oldColumnId)}</div>`;
                     }
                     updatePlaceholders();
@@ -191,8 +190,8 @@ window.moveTo = (event, columnId) => {
     });
 };
 
-  // Gibt den Platzhaltertext anhand der Spalten-ID zurück
-  window.getColumnPlaceholderText = function (columnId) {
+// Gibt den Platzhaltertext anhand der Spalten-ID zurück
+window.getColumnPlaceholderText = function (columnId) {
     const columnNames = {
       "to-do": "To Do",
       "in-progress": "In Progress",
@@ -200,44 +199,38 @@ window.moveTo = (event, columnId) => {
       "done": "Done"
     };
     return `No tasks ${columnNames[columnId]}`;
-  }
+};
 
-  // Aktualisiert die Placeholder in allen Spalten
-  const updatePlaceholders = () => {
+// Aktualisiert die Placeholder in allen Spalten
+const updatePlaceholders = () => {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
     columns.forEach(columnId => {
       const column = $(columnId);
-      if (!column) return; // Falls die Spalte nicht existiert
+      if (!column) return;
 
-      // Hole alle Task-Elemente in der Spalte
       const tasks = column.querySelectorAll('.task');
-      // Filtere die sichtbaren Tasks (solche, bei denen display NICHT "none" ist)
       const visibleTasks = Array.from(tasks).filter(task => task.style.display !== 'none');
 
-      // Falls keine sichtbaren Tasks vorhanden sind und noch kein Placeholder existiert,
-      // füge einen Placeholder als zusätzliches Element ein.
       if (visibleTasks.length === 0 && !column.querySelector('.empty-placeholder')) {
         const placeholder = document.createElement('div');
         placeholder.className = 'empty-placeholder';
         placeholder.textContent = getColumnPlaceholderText(columnId);
         column.appendChild(placeholder);
       } else if (visibleTasks.length > 0) {
-        // Entferne den Placeholder, falls er vorhanden ist.
         const existingPlaceholder = column.querySelector('.empty-placeholder');
         if (existingPlaceholder) {
           existingPlaceholder.remove();
         }
       }
     });
-  };
+};
 
-  // Suchfunktion, die durch Tasks im DOM iteriert
-  window.searchTasks = function(searchTerm) {
+// Suchfunktion, die durch Tasks im DOM iteriert
+window.searchTasks = function(searchTerm) {
     const tasks = document.querySelectorAll('.task');
     const searchText = searchTerm.toLowerCase().trim();
 
     tasks.forEach(task => {
-      // Es kann sinnvoll sein, zuerst zu prüfen, ob die Elemente existieren:
       const titleElem = task.querySelector('.task-title');
       const descElem = task.querySelector('.task-description');
       if (!titleElem || !descElem) return;
@@ -245,34 +238,26 @@ window.moveTo = (event, columnId) => {
       const title = titleElem.textContent.toLowerCase();
       const description = descElem.textContent.toLowerCase();
 
-      // Wenn der Suchtext leer ist oder wenn er in Titel oder Beschreibung enthalten ist:
       if (searchText === '' || title.includes(searchText) || description.includes(searchText)) {
         task.style.display = 'block';
       } else {
         task.style.display = 'none';
       }
     });
-
-    // Nach der Filterung den Placeholder aktualisieren
     updatePlaceholders();
-  };
+};
 
-  // Event-Listener für den Suchinput
-  document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.findTaskInput');
     searchInput.addEventListener('input', (e) => {
-      // Optional: Ab 3 Zeichen filtern, sonst alle Tasks anzeigen
       if (e.target.value.trim().length < 3) {
-        // Setze alle Tasks wieder sichtbar
         document.querySelectorAll('.task').forEach(task => task.style.display = 'block');
         updatePlaceholders();
       } else {
         searchTasks(e.target.value);
       }
     });
-  });
-
-
+});
 
 // --------------------
 // Overlay zum Erstellen eines neuen Tasks
@@ -338,10 +323,9 @@ const displayUserInitials = () => {
     if (loggedInUser && loggedInUser.initials) {
       document.getElementById("profile-toggle").textContent = loggedInUser.initials;
     }
-  };
-  
-  document.addEventListener("DOMContentLoaded", displayUserInitials);
-  
+};
+
+document.addEventListener("DOMContentLoaded", displayUserInitials);
 
 // Initiale Tasks laden
 loadTasks();
@@ -353,7 +337,27 @@ let currentTaskId = null;
 let currentColumnId = null;
 let currentSubtasks = []; // Aktueller Zustand der Subtasks (nur für den Editiermodus)
 
-// Im Task-Detail-Overlay (View-Modus) – showTaskDetailOverlay:
+// Neue Funktion: Aktualisiert die View-Ansicht der Subtasks im Overlay
+function updateSubtasksViewInOverlay() {
+    const overlay = $("taskDetailOverlay");
+    const subtasksList = overlay.querySelector('.subtasks-list');
+    if (!subtasksList) return;
+    
+    subtasksList.innerHTML = '';
+    
+    if (currentSubtasks.length > 0) {
+        currentSubtasks.forEach(subtask => {
+            const li = document.createElement('li');
+            li.className = 'subtask-item';
+            li.textContent = subtask.title;
+            subtasksList.appendChild(li);
+        });
+    } else {
+        subtasksList.innerHTML = '<li>Keine Subtasks vorhanden</li>';
+    }
+}
+
+// Im Task-Detail-Overlay (View-Modus)
 const showTaskDetailOverlay = (task, taskId, columnId) => {
     currentTaskId = taskId;
     currentColumnId = columnId;
@@ -409,10 +413,6 @@ const hideTaskDetailOverlay = () => {
     overlay.querySelector('.delete-svg').style.display = 'inline-block';
 };
 
-/**
- * Rendert im Overlay (View-Modus) die Subtasks als Liste mit Checkboxen und Labels.
- * Hier erfolgt _keine_ Fortschrittsanzeige – diese ist nur im Task-Board sichtbar.
- */
 function renderSubtasksView(task) {
     const overlay = $("taskDetailOverlay");
     const subtasksList = overlay.querySelector('.subtasks-list');
@@ -430,13 +430,16 @@ function renderSubtasksView(task) {
             checkbox.id = `subtask-${index}`;
             checkbox.checked = subtask.completed;
             checkbox.dataset.index = index;
+
+            // Event-Listener für sofortige UI-Aktualisierung
             checkbox.addEventListener('change', () => {
-                // Aktualisiere den Status im Task-Objekt
-                task.subtasks[index].completed = checkbox.checked;
-                // Schreibe die aktualisierten Subtasks in Firebase,
-                // sodass der Fortschrittsbalken im Task-Board aktualisiert wird.
-                updateTaskSubtasksInFirebase(task.subtasks);
+                task.subtasks[index].completed = checkbox.checked; // Lokale Daten aktualisieren
+                updateTaskSubtasksInFirebase(task.subtasks); // Firebase aktualisieren
+
+                // Optional: Fortschrittsbalken im Board aktualisieren
+                updateProgressBar(task);
             });
+
             li.appendChild(checkbox);
 
             const label = document.createElement('label');
@@ -451,21 +454,35 @@ function renderSubtasksView(task) {
     }
 }
 
-/**
- * Schreibt den aktuellen Subtasks-Status in Firebase.
- * Dadurch wird der Task-Datensatz aktualisiert und der Fortschrittsbalken im Task-Board neu berechnet.
- */
 function updateTaskSubtasksInFirebase(subtasks) {
     const taskSubtasksRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}/subtasks`);
     set(taskSubtasksRef, subtasks)
-        .catch(err => console.error("Error updating subtasks:", err));
+        .then(() => console.log("Subtasks aktualisiert"))
+        .catch(err => console.error("Fehler beim Aktualisieren der Subtasks:", err));
+}
+
+function updateProgressBar(task) {
+    const taskElement = document.getElementById(currentTaskId);
+    if (!taskElement) return;
+
+    const progressFill = taskElement.querySelector('.progress-fill');
+    const progressText = taskElement.querySelector('.progress-text');
+
+    if (progressFill && progressText) {
+        const completedSubtasks = task.subtasks.filter(s => s.completed).length;
+        const totalSubtasks = task.subtasks.length;
+        const progressPercentage = (completedSubtasks / totalSubtasks) * 100;
+
+        progressFill.style.width = `${progressPercentage}%`;
+        progressText.textContent = `${completedSubtasks}/${totalSubtasks} Subtasks`;
+    }
 }
 
 // --------------------
 // Edit-Modus & Subtasks im Overlay
 // --------------------
 /**
- * Rendert im Editiermodus die Subtasks als Liste mit Edit- und Delete-Buttons (ohne Checkboxen).
+ * Rendert im Editiermodus die Subtasks als Liste mit Edit- und Delete-Buttons.
  */
 function renderSubtasksEditMode() {
     const subtasksList = $("subtask-list"); // Container im Editbereich
@@ -501,6 +518,7 @@ function renderSubtasksEditMode() {
             e.stopPropagation();
             currentSubtasks.splice(index, 1);
             renderSubtasksEditMode();
+            updateSubtasksViewInOverlay(); // Sofort in der View-Ansicht aktualisieren
         });
         li.appendChild(deleteButton);
 
@@ -509,8 +527,7 @@ function renderSubtasksEditMode() {
 }
 
 /**
- * Ersetzt im Editiermodus den statischen Text eines Subtasks durch ein Input-Feld,
- * um den Titel direkt bearbeiten zu können.
+ * Ersetzt im Editiermodus den statischen Text eines Subtasks durch ein Input-Feld.
  */
 function turnSubtaskIntoEditInput(li, titleSpan, index) {
     const input = document.createElement("input");
@@ -523,6 +540,7 @@ function turnSubtaskIntoEditInput(li, titleSpan, index) {
             currentSubtasks[index].title = input.value.trim();
         }
         renderSubtasksEditMode();
+        updateSubtasksViewInOverlay(); // Aktualisieren der View-Ansicht
     });
 
     input.addEventListener("keydown", (e) => {
@@ -582,11 +600,10 @@ const enableEditMode = () => {
             });
         });
 
-        // Vorhandene Subtasks in die globale Variable laden
+        // Vorhandene Subtasks in die globale Variable laden und beide Bereiche aktualisieren
         currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
-
-        // Subtasks im Editiermodus rendern (ohne Checkbox)
         renderSubtasksEditMode();
+        updateSubtasksViewInOverlay();
     });
 };
 
@@ -611,11 +628,12 @@ document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
     if (title !== "") {
         currentSubtasks.push({ title: title, completed: false });
         renderSubtasksEditMode();
+        updateSubtasksViewInOverlay(); // Direkt aktualisieren
         subtaskInput.value = "";
     }
 });
 
-// In der saveChanges-Funktion:
+// In der saveChanges-Funktion: Speichert die Änderungen und schließt anschließend den Overlay
 const saveChanges = () => {
     const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
     const overlay = $("taskDetailOverlay");
@@ -623,7 +641,7 @@ const saveChanges = () => {
     const updatedTask = {
         title: overlay.querySelector('#edit-title').value,
         description: overlay.querySelector('#edit-description').value,
-        category: overlay.querySelector('.category-badge').textContent, // Unverändert
+        category: overlay.querySelector('.category-badge').textContent,
         dueDate: overlay.querySelector('#edit-due-date').value,
         priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
         contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
@@ -632,33 +650,13 @@ const saveChanges = () => {
         status: currentColumnId
     };
 
-    set(taskRef, updatedTask).then(() => {
-        overlay.querySelector('.task-title').textContent = updatedTask.title;
-        overlay.querySelector('.task-description').textContent = updatedTask.description;
-        overlay.querySelector('.task-due-date').textContent = `Due Date: ${updatedTask.dueDate}`;
-
-        // Priorität als Bild aktualisieren:
-        const iconMap = {
-            urgent: "assets/img/urgent.png",
-            medium: "assets/img/medium.png",
-            low: "assets/img/low.png"
-        };
-        overlay.querySelector('.task-priority').innerHTML = `Priority: <img src="${iconMap[updatedTask.priority]}" alt="${updatedTask.priority}" class="task-priority-icon">`;
-
-        overlay.querySelector('.category-badge').textContent = updatedTask.category;
-        overlay.querySelector('.category-badge').style.backgroundColor = getCategoryColor(updatedTask.category);
-        loadTasks();
-
-        // Wechsel zurück in den View-Modus
-        overlay.querySelector('.view-mode').style.display = 'block';
-        overlay.querySelector('.edit-mode').style.display = 'none';
-        overlay.querySelector('.edit-btn').style.display = 'inline-block';
-        overlay.querySelector('.delete-btn').style.display = 'inline-block';
-        overlay.querySelector('.save-btn').style.display = 'none';
-        overlay.querySelector('.button-seperator').style.display = 'inline-block';
-        overlay.querySelector('.edit-svg').style.display = 'inline-block';
-        overlay.querySelector('.delete-svg').style.display = 'inline-block';
-    });
+    set(taskRef, updatedTask)
+      .then(() => {
+          loadTasks();
+          // Nach erfolgreichem Speichern den Overlay schließen
+          hideTaskDetailOverlay();
+      })
+      .catch(error => console.error("Fehler beim Speichern der Änderungen:", error));
 };
 
 const deleteTask = () => {
