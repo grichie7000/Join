@@ -12,7 +12,9 @@ body {
     background-color: #F6F7F8;
 }
 
-.contact-container {}
+.contact-container {
+    display: flex;
+}
 
 .contact-list {
     background-color: white;
@@ -112,4 +114,28 @@ body {
 
 .contact-email {
     color: #007CEE;
+}
+
+.singleContact{
+    display: flex;
+}
+
+.contact-headline{
+    padding-left: 56px;
+    margin-top: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.singleContactSeperator{
+    height: 60px;
+    width: 4px;
+    background-color: #29ABE2;
+    border-radius: 16px;
+}
+
+.singleContact h2{
+    font-size: 60px;
 }
