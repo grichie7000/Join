@@ -17,7 +17,7 @@ function selectContact(name) {
     selectedContacts.push(name);
     updateContactsUI();
   }
-  toggleContactDropdown();
+  toggleDropdown();
 }
 
 // Aktualisiert die Anzeige der ausgewählten Kontakte

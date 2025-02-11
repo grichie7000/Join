@@ -20,7 +20,7 @@
     <script src="scripts/topBar.js" defer></script>
     <script src="scripts/addTask.js" defer></script>
     <script src="scripts/sideBar.js" defer></script>
-    <script src="scripts/addTask-board.js" defer></script>
+    <!-- <script src="scripts/addTask-board.js" defer></script> -->
 </head>
 
 <body onload="initAddTask()">
@@ -299,14 +299,15 @@
                             <div class="form-assigned-to">
                                 <label>Assigned to</label>
                                 <div id="assigned-to">
-                                    <div class="dropdown-trigger" onclick="toggleContactsDropdown()">
+                                    <div class="dropdown-trigger" onclick="toggleDropdown()">
                                         <span id="placeholderAssigned">Select contacts to assign</span>
                                         <img src="./assets/img/arrow_down.png" alt="arrow" class="custom-arrow"
                                             id="customArrowAssigned">
                                     </div>
-                                    <div class="contact-list" id="contactListAssigned"></div>
+                                    <div class="contact-list" id="contactListAssigned">
+                                    </div>
                                 </div>
-                                <!-- Anzeige der ausgewählten Kontakte -->
+                                <!-- Div für die Anzeige der ausgewählten Kontakte -->
                                 <div id="selectedContacts">
                                     <div id="selectedContactsList"></div>
                                 </div>

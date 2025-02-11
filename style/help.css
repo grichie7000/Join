@@ -17,6 +17,20 @@ body {
     overflow: scroll;
 }
 
+.helpSite img {
+    height: 32px;
+    position: absolute;
+    right: 320px;
+    top: 180px;
+    transition: transform 0.1s;
+}
+
+.helpSite img:hover {
+    background-color: #d1d1d17c;
+    border-radius: 50%;
+    transform: scaleY(1.05);
+}
+
 .helpSite h1 {
     color: #2A3647;
     font-size: 60px;
@@ -41,7 +55,7 @@ body {
     margin-bottom: 4px;
 }
 
-.helpSite span{
+.helpSite span {
     color: #29ABE2;
 }
 
@@ -49,7 +63,7 @@ body {
     padding: 8px;
 }
 
-.helpSiteSteps{
+.helpSiteSteps {
     display: flex;
     align-items: center;
     gap: 24px;
@@ -57,18 +71,18 @@ body {
     color: #2A3647;
 }
 
-.stepNumber{
+.stepNumber {
     font-size: 32px !important;
     font-weight: bold;
 }
 
-.helpSiteStepsFive{
+.helpSiteStepsFive {
     display: flex;
     gap: 24px;
     margin-top: 32px;
 }
 
-.paddingTop{
+.paddingTop {
     padding-top: 16px;
 }
 
@@ -79,4 +93,3 @@ body {
     font-size: 14px;
     color: #777;
 }
-
