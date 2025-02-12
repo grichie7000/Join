@@ -7,7 +7,6 @@ let userArray = [];
  * initializes the contacts page.
  */
 function initContacts() {
-    checkLogin();
     checkLink();
     loadingUsers();
 }
@@ -24,19 +23,6 @@ function toggleDropdown() {
         dropdownArrow.innerHTML = `<img src="img/assets/icons/arrow-up-dropdown.svg">`;
     } else {
         dropdownArrow.innerHTML = `<img src="img/assets/icons/arrow-dropdown.svg">`;
-    }
-}
-
-
-/**
- * check login status
- * @param {*} sessionUser 
- * @returns 
- */
-function checkPager(sessionUser) {
-    if (!sessionUser) {
-        window.location.href = "./login.html";
-        return;
     }
 }
 
@@ -446,24 +432,6 @@ function goBack() {
 function includeHTML() {
   let popUp = document.getElementById("overlay-container");
   popUp.innerHTML = initProfilePopUp();
-}
-
-
-/**
- * check the login status
- */
-function checkLogin() {
-  const isLoginPage = window.location.pathname.includes("join/login.html");
-  const sessionUser = sessionStorage.getItem("username");
-  const localUser = localStorage.getItem("username");
-
-  // Wenn Remember-Me aktiv (localUser vorhanden)
-  if (localUser && !sessionUser) {
-    sessionStorage.setItem("username", localUser);
-    sessionStorage.setItem("email", localStorage.getItem("email"));
-  }
-
-  checkPager(sessionUser);
 }
 
 
