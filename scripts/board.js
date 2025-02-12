@@ -19,6 +19,14 @@ function getCategoryColor(category) {
     return category === 'Technical Task' ? '#23D8C2' : '#1500ff';
 }
 
+function getInitials(name) {
+    if (!name || typeof name !== 'string') return '??';
+    return name.split(' ')
+        .map(n => n[0]?.toUpperCase() || '')
+        .join('')
+        .substring(0, 2);
+}
+
 function getContactColor(name) {
     const safeName = typeof name === 'string' ? name : 'Unknown';
     const colors = ['#004d40', '#1a237e', '#b71c1c', '#FFC452', '#00FE00', '#DE3FD9'];
