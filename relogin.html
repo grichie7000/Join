@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="icon" type="image/x-icon" href="./assets/img/Join-logo.png">
+    <script src="scripts/pushInitals.js"></script>
     <title>Login</title>
 </head>
 
@@ -43,7 +44,7 @@
             <input id="password" type="password" placeholder="Password" class="input-with-eye-icon" required>
         </div>
         <div class="login-buttons">
-            <button type="submit" class="login-button">Log in</button>
+            <button type="submit" class="login-button" onclick="loadInitials()">Log in</button>
             <a href="./summary.html" class="guestLogin-button">Guest Log in</a>
         </div>
         <script type="module" src="scripts/reLogin.js"></script>
