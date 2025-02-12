@@ -1,3 +1,7 @@
+.container {
+		overflow-y: hidden;
+	}
+
 /* Popup */
 @media screen and (min-width: 0px) and (max-width: 827px) {
     .main-content {
@@ -16,7 +20,7 @@
         padding-bottom: 70px;
 
     }
-
+	
     .popup-right {
         width: auto;
         padding-right: 20px;
@@ -27,12 +31,9 @@
         display: none;
     }
 
-    .cancel-btn {
-        display: none;
-    }
-
     .close-btn-wrapper {
-        display: none;
+        display: auto;
+		transform: translatey(-10vh); 
     }
 
     .btn {
@@ -66,6 +67,13 @@
         position: fixed;
         right: 30px;
     }
+	
+	body {
+		display: flex !important;
+		flex-direction: column-reverse !important;
+		overflow-y: default;
+	}
+	
 }
 
 /* Contact Main */
@@ -92,8 +100,16 @@
         flex: 1;
     } 
 
+.sideBar {
+	width: 100%;
+    padding: 0;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 0px;
+}
+
     .details {
-        display: none;
+        display: none !important;
         margin: 0;
         position: absolute;
     }

@@ -4,6 +4,7 @@ p {
 
 html {
 	overflow-y: hidden;
+	max-width: 1920px;
 }
 
 .body {
@@ -339,7 +340,7 @@ body {
     padding: 32px 44px;
     min-width: 360px;
     width: 360px;
-    height: 100vh;
+    height: 80vh;
     overflow: scroll;
     position: relative;
     margin-top: 1px;
