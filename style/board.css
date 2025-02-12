@@ -124,6 +124,11 @@ h1 {
     padding: 40px 64px;
 }
 
+.kanban-board::-webkit-scrollbar { width: 7px; height: 2px; }
+.kanban-board::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 20px; }
+.kanban-board::-webkit-scrollbar-thumb { background: #888; border-radius: 20px; }
+.kanban-board::-webkit-scrollbar-thumb:hover { background: #898989; }
+
 .kanban-column {
     display: flex;
     flex-direction: column;
@@ -221,6 +226,7 @@ h1 {
 .task-subtasks li {
     font-size: 16px;
     color: #000000;
+    margin-top: 10px;
 }
 
 /* Füge dies in dein CSS ein */
@@ -246,25 +252,26 @@ h1 {
   
   .subtask-input-container input {
     width: 100%;
-    padding-right: 50px;        
+    padding: 10px;      
     box-sizing: border-box;     
-    font-size: 16px;           
+    font-size: 16px;     
+    border-radius: 10px;
+    border-width: 1px;      
   }
   
   .subtask-input-container button {
     position: absolute;         
-    right: 5px;                 /* Abstand von rechts, hier 5px – anpassen nach Bedarf */
+    right: 5px;     
     top: 50%;
-    transform: translateY(-50%);/* Vertikal zentrieren */
-    background: transparent;    /* Transparent oder gewünschter Hintergrund */
-    border: none;               /* Kein Rahmen */
-    cursor: pointer;            /* Zeigt den Mauszeiger als Pointer */
-    padding: 0;                 /* Kein zusätzliches Padding */
+    transform: translateY(-50%);
+    background: transparent;    
+    border: none;              
+    cursor: pointer;         
   }
   
   .subtask-input-container button img {
-    display: block;             /* Damit das Bild keine zusätzlichen Abstände hat */
-    width: 20px;                /* Beispielgröße, anpassen */
+    display: block;            
+    width: 20px;                
     height: 20px;
   }
 
@@ -546,20 +553,26 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 430px;
-    max-height: 80vh;
+    max-height: 90vh;
     overflow-y: auto; /* Scrollbar aktivieren */
     background: white;
-    padding: 20px;
+    padding: 20px 30px 20px 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     display: block; /* Elemente untereinander */
 }
+
+.overlay-content::-webkit-scrollbar { width: 7px; height: 2px; }
+.overlay-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 20px; }
+.overlay-content::-webkit-scrollbar-thumb { background: #888; border-radius: 20px; }
+.overlay-content::-webkit-scrollbar-thumb:hover { background: #898989; }
 
 .edit-mode input,
 .edit-mode textarea {
     display: block;
     width: 100%;
     margin-bottom: 10px;
+    
 }
   
   .overlay-header {
@@ -572,13 +585,21 @@ h1 {
   .close-btn {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 30px;
     cursor: pointer;
     color: #666;
     padding: 0;
-    line-height: 1;
-    transition: color 0.2s;
-  }
+    line-height: 0.9;
+    transition: background-color 0.2s, color 0.2s;
+    width: 26px; /* Feste Breite */
+    height: 26px; /* Feste Höhe */
+    border-radius: 100%; /* Kreisform */
+}
+
+.close-btn:hover {
+    background-color: #a4a4a470;
+}
+
   
   .category-badge {
     display: inline-block;
@@ -730,15 +751,26 @@ h1 {
     border-radius: 5px;
 }
 
-/* Wenn der Bearbeitungsmodus aktiviert ist, wird die Schriftgröße in den Input-Feldern kleiner */
 .edit-mode input, .edit-mode textarea {
-    font-size: 14px; /* Kleinere Schriftgröße */
+  font-size: 14px; /* Kleinere Schriftgröße */
+  padding: 6px 8px; /* Mehr Padding für besseren Look */
+  margin-top: 5px;
+  border: 1px solid #d2d2d2;
+  border-radius: 5px;
+  transition: border-color 0.2s; /* Sanfter Übergang */
 }
 
 /* Optional: Auch der Platzhaltertext kann kleiner gemacht werden */
 .edit-mode input::placeholder, .edit-mode textarea::placeholder {
-    font-size: 12px; /* Kleinere Schriftgröße für Platzhalter */
+  font-size: 12px; /* Kleinere Schriftgröße für Platzhalter */
+  color: #999; /* Leicht grauer Platzhaltertext */
 }
+
+.edit-mode input:focus, .edit-mode textarea:focus {
+  border: 2px solid #29ABE2;
+  outline: none; /* Entfernt den Standard-Fokus-Rahmen */
+}
+
 
 .editPriority {
     border: 1px solid white;

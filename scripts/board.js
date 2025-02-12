@@ -357,21 +357,19 @@ function updateSubtasksViewInOverlay() {
     }
 }
 
-// Im Task-Detail-Overlay (View-Modus)
 const showTaskDetailOverlay = (task, taskId, columnId) => {
     currentTaskId = taskId;
     currentColumnId = columnId;
-    const overlay = $("taskDetailOverlay");
+    const overlay = document.getElementById("taskDetailOverlay");
 
     overlay.querySelector('.category-badge').textContent = task.category;
     overlay.querySelector('.category-badge').style.backgroundColor = getCategoryColor(task.category);
     overlay.querySelector('.task-title').textContent = task.title;
     overlay.querySelector('.task-description').textContent = task.description;
-    $("overlay-task-title").textContent = task.title;
-    $("overlay-task-description").textContent = task.description;
+    document.getElementById("overlay-task-title").textContent = task.title;
+    document.getElementById("overlay-task-description").textContent = task.description;
     overlay.querySelector('.task-due-date').textContent = `Due Date: ${task.dueDate}`;
 
-    // Priorität als Bild anzeigen:
     const iconMap = {
         urgent: "assets/img/urgent.png",
         medium: "assets/img/medium.png",
@@ -379,7 +377,6 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
     };
     overlay.querySelector('.task-priority').innerHTML = `Priority: <img src="${iconMap[task.priority]}" alt="${task.priority}" class="task-priority-icon">`;
 
-    // Kontakte und Subtasks rendern
     const contactsList = overlay.querySelector('.contacts-list');
     contactsList.innerHTML = task.contacts?.map(c => `
         <div class="contact-badge no-overlap" style="background: ${getContactColor(c.name)}" title="${c.name}">
@@ -389,20 +386,21 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
     
     renderSubtasksView(task);
 
-    // Button-Konfiguration
     overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
     overlay.querySelector('.delete-btn').onclick = deleteTask;
     overlay.querySelector('.edit-btn').onclick = enableEditMode;
     overlay.querySelector('.save-btn').onclick = saveChanges;
 
     overlay.style.display = 'block';
+
+    // Event-Listener direkt auf das Overlay setzen:
+    overlay.addEventListener("click", hideTaskOverlayOutside);
 };
 
 const hideTaskDetailOverlay = () => {
-    const overlay = $("taskDetailOverlay");
+    const overlay = document.getElementById("taskDetailOverlay");
     overlay.style.display = 'none';
 
-    // Zurücksetzen in den View-Modus
     overlay.querySelector('.view-mode').style.display = 'block';
     overlay.querySelector('.edit-mode').style.display = 'none';
     overlay.querySelector('.edit-btn').style.display = 'inline-block';
@@ -411,7 +409,20 @@ const hideTaskDetailOverlay = () => {
     overlay.querySelector('.button-seperator').style.display = 'inline-block';
     overlay.querySelector('.edit-svg').style.display = 'inline-block';
     overlay.querySelector('.delete-svg').style.display = 'inline-block';
+
+    // Event-Listener wieder entfernen:
+    overlay.removeEventListener("click", hideTaskOverlayOutside);
 };
+
+// Funktion zum Schließen bei Klick auf den Overlay-Hintergrund
+const hideTaskOverlayOutside = (event) => {
+    const overlay = document.getElementById("taskDetailOverlay");
+    // Wenn der Klick direkt auf das Overlay selbst (Hintergrund) erfolgt:
+    if (event.target === overlay) {
+        hideTaskDetailOverlay();
+    }
+};
+
 
 function renderSubtasksView(task) {
     const overlay = $("taskDetailOverlay");
@@ -560,6 +571,7 @@ const enableEditMode = () => {
         const overlay = $("taskDetailOverlay");
 
         // Umschalten in den Edit-Modus
+        overlay.querySelector('.close-btn').style.display = 'inline-block';
         overlay.querySelector('.view-mode').style.display = 'none';
         overlay.querySelector('.edit-mode').style.display = 'block';
         overlay.querySelector('.edit-svg').style.display = 'none';
