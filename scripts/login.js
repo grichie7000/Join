@@ -65,7 +65,7 @@ localStorage.setItem('loggedInUser', JSON.stringify({
     console.log("loggedInUser wurde überschrieben:", localStorage.getItem('loggedInUser'));
 
     // Seite neu laden
-    window.location.href = 'board.html';
+    window.location.href = 'summary.html';
   } catch (error) {
     console.error("Login-Fehler:", error);
     errorElement.textContent = error.message;
