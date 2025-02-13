@@ -96,7 +96,7 @@ const createTaskElement = (task, taskId, columnId) => {
             const contactName = c?.name || 'Unknown';
             return `
             <div class="contact-badge" 
-                 style="background: ${getContactColor(contactName)}" 
+                 style="background: ${getContactColor(contactName)};" 
                  title="${contactName}">
               ${getInitials(contactName)}
             </div>`;
@@ -359,10 +359,14 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
     overlay.querySelector('.task-priority').innerHTML = `Priority: <img src="${iconMap[task.priority]}" alt="${task.priority}" class="task-priority-icon">`;
     const contactsList = overlay.querySelector('.contacts-list');
     contactsList.innerHTML = task.contacts?.map(c => `
-        <div class="contact-badge no-overlap" style="background: ${getContactColor(c.name)}" title="${c.name}">
+      <div style="background: none" class="contact-item">
+        <div class="contact-badge" style="background: ${getContactColor(c.name)}" title="${c.name}">
           ${getInitials(c.name)}
         </div>
+        <span class="contact-name">${c.name}</span>
+      </div>
     `).join('') || '';
+    
     renderSubtasksView(task);
     overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
     overlay.querySelector('.delete-btn').onclick = deleteTask;
@@ -452,21 +456,35 @@ function renderSubtasksEditMode() {
     currentSubtasks.forEach((subtask, index) => {
         const li = document.createElement("li");
         li.classList.add("subtask-item");
+        
         const titleSpan = document.createElement("span");
         titleSpan.textContent = subtask.title;
         li.appendChild(titleSpan);
+        
+        // Container für beide Buttons und den Separator
+        const buttonContainer = document.createElement("div");
+        buttonContainer.classList.add("subtask-button-container");
+        
+        // Edit-Button
         const editButton = document.createElement("button");
         editButton.type = "button";
-        editButton.textContent = "Edit";
+        editButton.innerHTML = '<img src="assets/img/edit.png" alt="Edit Icon">';
         editButton.classList.add("subtask-edit-btn");
         editButton.addEventListener("click", (e) => {
             e.stopPropagation();
             turnSubtaskIntoEditInput(li, titleSpan, index);
         });
-        li.appendChild(editButton);
+        buttonContainer.appendChild(editButton);
+        
+        // Separator
+        const separator = document.createElement("span");
+        separator.classList.add("separator");
+        buttonContainer.appendChild(separator);
+        
+        // Delete-Button
         const deleteButton = document.createElement("button");
         deleteButton.type = "button";
-        deleteButton.textContent = "Delete";
+        deleteButton.innerHTML = '<img src="assets/img/delete.png" alt="Delete Icon">';
         deleteButton.classList.add("subtask-delete-btn");
         deleteButton.addEventListener("click", (e) => {
             e.stopPropagation();
@@ -474,10 +492,13 @@ function renderSubtasksEditMode() {
             renderSubtasksEditMode();
             updateSubtasksViewInOverlay();
         });
-        li.appendChild(deleteButton);
+        buttonContainer.appendChild(deleteButton);
+        
+        li.appendChild(buttonContainer);
         subtasksList.appendChild(li);
     });
 }
+
 
 function turnSubtaskIntoEditInput(li, titleSpan, index) {
     const input = document.createElement("input");
@@ -518,7 +539,7 @@ const enableEditMode = () => {
         overlay.querySelector('#edit-description').value = task.description;
         overlay.querySelector('#edit-due-date').value = task.dueDate;
         overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
-        const contactsRef = ref(db, 'contatcsFirebase');
+        const contactsRef = ref(db, 'contactsDatabase');
         get(contactsRef).then(snapshot => {
             const allContacts = [];
             if (snapshot.exists()) {

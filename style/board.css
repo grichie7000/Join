@@ -121,7 +121,7 @@ h1 {
     align-items: flex-start;
     justify-content: space-around;
     gap: 50px;
-    padding: 40px 64px;
+    padding: 20px 64px;
 }
 
 .kanban-board::-webkit-scrollbar { width: 7px; height: 2px; }
@@ -246,8 +246,7 @@ h1 {
   
   .subtask-input-container {
     position: relative;         
-    width: 100%;                
-    max-width: 400px;           
+    width: 100%;                         
   }
   
   .subtask-input-container input {
@@ -292,9 +291,9 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 12px;
     margin-bottom: 4px;
     border-radius: 4px;
+    width: 100%;
   }
   
   /* Der statische Text, der den Subtask-Titel anzeigt */
@@ -311,7 +310,7 @@ h1 {
   /* Buttons für Edit und Delete */
   #subtask-list .subtask-edit-btn,
   #subtask-list .subtask-delete-btn {
-    padding: 4px 8px;
+    /* padding: 4px 8px; */
     border: none;
     border-radius: 3px;
     font-size: 0.9rem;
@@ -357,7 +356,7 @@ h1 {
 #subtask-list .subtask-item {
     display: flex;
     align-items: center;
-    padding: 8px;
+    width: 100%;
   }
   
   /* Stil für den Subtask-Titel */
@@ -371,11 +370,11 @@ h1 {
   .delete-container {
     display: flex;
     align-items: center;
-    margin-right: 8px;
+    /* margin-right: 8px; */
   }
   
   .delete-container .delete-svg {
-    margin-right: 4px;
+    /* margin-right: 4px; */
   }
   
   .delete-container .delete-btn {
@@ -422,10 +421,6 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-}
-
-.task-contacts ul {
-   margin-top: 10px;
 }
 
 .task-contacts li {
@@ -553,7 +548,7 @@ h1 {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 430px;
-    max-height: 90vh;
+    max-height: 80vh;
     overflow-y: auto; /* Scrollbar aktivieren */
     background: white;
     padding: 20px 30px 20px 20px;

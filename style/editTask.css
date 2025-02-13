@@ -48,6 +48,7 @@
   flex-wrap: wrap;
   gap: 5px;
   margin-top: 10px;
+  padding-left: 10px;
 }
 
 .selected-contacts-display {

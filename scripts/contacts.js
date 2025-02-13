@@ -178,6 +178,37 @@ async function loadUserCounter() {
  * create the new contact
  * @returns 
  */
+// async function createUserContact() {
+//     try {
+//         if (!validateContactForm()) {
+//             return;
+//         } else {
+//             await loadUserCounter();
+//             let name = document.getElementById("name").value;
+//             let email = document.getElementById("email").value;
+//             let phone = document.getElementById("phone").value;
+//             const response = await postUser(`contactsDatabase/`, {
+//                 "name": name,
+//                 "email": email,
+//                 "password": "",
+//                 "id": usercount + 1,
+//                 "phone": phone,
+//                 "color": getRandomColor(),
+//             });
+//             if (response.name) {
+//                 usercount++;
+//                 await putUsercount(`usercount/`, usercount);
+//                 await loadingUsers();
+//                 closeContactForm();
+//                 await showSuccessMsgTasks();
+//                 await setTimeout(() => {hiddenSuccessMsgTasks()}, 800)
+//             }
+//         }
+//     } catch (error) {
+//         console.error('Fehler:', error);
+//     }
+// }
+
 async function createUserContact() {
     try {
         if (!validateContactForm()) {
@@ -187,8 +218,15 @@ async function createUserContact() {
             let name = document.getElementById("name").value;
             let email = document.getElementById("email").value;
             let phone = document.getElementById("phone").value;
+            // Berechne die Initialen aus dem Namen:
+            let initials = name
+              .split(" ")
+              .map(word => word.charAt(0).toUpperCase())
+              .join("");
+
             const response = await postUser(`contactsDatabase/`, {
                 "name": name,
+                "initials": initials,  // Hier wird das neue Feld hinzugefügt
                 "email": email,
                 "password": "",
                 "id": usercount + 1,
@@ -201,7 +239,43 @@ async function createUserContact() {
                 await loadingUsers();
                 closeContactForm();
                 await showSuccessMsgTasks();
-                await setTimeout(() => {hiddenSuccessMsgTasks()}, 800)
+                setTimeout(() => { hiddenSuccessMsgTasks() }, 800);
+            }
+        }
+    } catch (error) {
+        console.error('Fehler:', error);
+    }
+}
+
+async function updateUser(user) {
+    try {
+        if (!validateContactForm()) {
+            return;
+        } else {
+            let newName = document.getElementById("name").value;
+            let initials = newName
+              .split(" ")
+              .map(word => word.charAt(0).toUpperCase())
+              .join("");
+            const updatedData = {
+                name: newName,
+                initials: initials, // Aktualisierte Initialen
+                email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
+                color: userArray[user].color,
+                id: userArray[user].id,
+                password: userArray[user].password
+            };
+            let response = await fetch(BASE_URL + "contactsDatabase/" + userArray[user].firebaseId + ".json", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(updatedData)
+            });
+            if (response.ok) {
+                const index = userArray.findIndex(u => u.id === updatedData.id);
+                updatedData.firebaseId = userArray[user].firebaseId;
+                if (index !== -1) userArray[index] = updatedData;
+                await reUpdateUser();
             }
         }
     } catch (error) {
