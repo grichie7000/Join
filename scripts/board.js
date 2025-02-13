@@ -27,17 +27,22 @@ function getInitials(name) {
         .substring(0, 2);
 }
 
-function getContactColor(name) {
-    const safeName = typeof name === 'string' ? name : 'Unknown';
+function getContactColor(contact) {
+    // Falls der Kontakt bereits eine Farbe besitzt, nutze diese:
+    if (typeof contact === 'object' && contact.color) {
+      return contact.color;
+    }
+    // Falls als String oder ohne color übergeben, bestimme die Farbe anhand des Namens:
+    const safeName = typeof contact === 'string' ? contact : (contact?.name || 'Unknown');
     const colors = ['#004d40', '#1a237e', '#b71c1c', '#FFC452', '#00FE00', '#DE3FD9'];
     const hash = Array.from(safeName).reduce((acc, char) => char.charCodeAt(0) + acc, 0);
     return colors[hash % colors.length];
 }
-
+  
 function createContactBadge(contact) {
     const badge = document.createElement('div');
     badge.className = 'contact-badge';
-    badge.style.backgroundColor = getContactColor(contact.name);
+    badge.style.backgroundColor = getContactColor(contact);
     badge.title = contact.name;
     badge.textContent = getInitials(contact.name);
     return badge;
@@ -92,17 +97,16 @@ const createTaskElement = (task, taskId, columnId) => {
         </div>
     ` : "";
     const contactsHtml = task.contacts && task.contacts.length > 0
-        ? `<div class="task-contacts">${task.contacts.map(c => {
-            const contactName = c?.name || 'Unknown';
-            return `
+      ? `<div class="task-contacts">${task.contacts.map(c => {
+          return `
             <div class="contact-badge" 
-                 style="background: ${getContactColor(contactName)};" 
-                 title="${contactName}">
-              ${getInitials(contactName)}
+                 style="background: ${getContactColor(c)};" 
+                 title="${c.name}">
+              ${getInitials(c.name)}
             </div>`;
-        }).join("")}
-          </div>`
-        : "";
+      }).join("")}</div>`
+      : "";
+  
     let priorityHtml = "";
     if (task.priority) {
         const iconMap = {
@@ -306,8 +310,7 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
         loadTasks();
       })
       .catch(error => console.error("Fehler beim Speichern des Tasks:", error));
-  });
-  
+});
 
 const displayUserInitials = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
@@ -360,13 +363,13 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
     const contactsList = overlay.querySelector('.contacts-list');
     contactsList.innerHTML = task.contacts?.map(c => `
       <div style="background: none" class="contact-item">
-        <div class="contact-badge" style="background: ${getContactColor(c.name)}" title="${c.name}">
+        <div class="contact-badge" style="background: ${getContactColor(c)}" title="${c.name}">
           ${getInitials(c.name)}
         </div>
         <span class="contact-name">${c.name}</span>
       </div>
     `).join('') || '';
-    
+
     renderSubtasksView(task);
     overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
     overlay.querySelector('.delete-btn').onclick = deleteTask;
@@ -493,7 +496,6 @@ function renderSubtasksEditMode() {
     });
 }
 
-
 function turnSubtaskIntoEditInput(li, titleSpan, index) {
     const input = document.createElement("input");
     input.type = "text";
@@ -518,45 +520,57 @@ function turnSubtaskIntoEditInput(li, titleSpan, index) {
 const enableEditMode = () => {
     const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
     get(taskRef).then(snapshot => {
-        const task = snapshot.val();
-        const overlay = $("taskDetailOverlay");
-        overlay.querySelector('.close-btn').style.display = 'inline-block';
-        overlay.querySelector('.view-mode').style.display = 'none';
-        overlay.querySelector('.edit-mode').style.display = 'block';
-        overlay.querySelector('.edit-svg').style.display = 'none';
-        overlay.querySelector('.delete-svg').style.display = 'none';
-        overlay.querySelector('.edit-btn').style.display = 'none';
-        overlay.querySelector('.delete-btn').style.display = 'none';
-        overlay.querySelector('.button-seperator').style.display = 'none';
-        overlay.querySelector('.save-btn').style.display = 'inline-block';
-        overlay.querySelector('#edit-title').value = task.title;
-        overlay.querySelector('#edit-description').value = task.description;
-        overlay.querySelector('#edit-due-date').value = task.dueDate;
-        overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
-        const contactsRef = ref(db, 'contactsDatabase');
-        get(contactsRef).then(snapshot => {
-            const allContacts = [];
-            if (snapshot.exists()) {
-                snapshot.forEach(childSnapshot => {
-                    allContacts.push(childSnapshot.val());
-                });
-            }
-            const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
-            checkboxContainer.innerHTML = allContacts.map(contact => `
-                <label class="contact-checkbox">
-                    <input type="checkbox" name="edit-contact" value="${contact.name}" 
-                           ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
-                    ${contact.name}
-                </label>
-            `).join('');
-            updateSelectedContactsDisplay(overlay);
-            checkboxContainer.addEventListener('change', () => {
-                updateSelectedContactsDisplay(overlay);
-            });
+      const task = snapshot.val();
+      const overlay = $("taskDetailOverlay");
+      
+      // Umschalten in den Edit-Modus
+      overlay.querySelector('.close-btn').style.display = 'inline-block';
+      overlay.querySelector('.view-mode').style.display = 'none';
+      overlay.querySelector('.edit-mode').style.display = 'block';
+      overlay.querySelector('.edit-svg').style.display = 'none';
+      overlay.querySelector('.delete-svg').style.display = 'none';
+      overlay.querySelector('.edit-btn').style.display = 'none';
+      overlay.querySelector('.delete-btn').style.display = 'none';
+      overlay.querySelector('.button-seperator').style.display = 'none';
+      overlay.querySelector('.save-btn').style.display = 'inline-block';
+  
+      // Befüllen der Felder
+      overlay.querySelector('#edit-title').value = task.title;
+      overlay.querySelector('#edit-description').value = task.description;
+      overlay.querySelector('#edit-due-date').value = task.dueDate;
+      overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
+      
+      // Kontakte laden und Checkboxen rendern
+      const contactsRef = ref(db, 'contactsDatabase');
+      get(contactsRef).then(snapshot => {
+        const allContacts = [];
+        if (snapshot.exists()) {
+          snapshot.forEach(childSnapshot => {
+            allContacts.push(childSnapshot.val());
+          });
+        }
+        const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
+        checkboxContainer.innerHTML = allContacts.map(contact => `
+          <label class="contact-checkbox">
+            <input 
+              type="checkbox" 
+              name="edit-contact" 
+              value="${contact.name}" 
+              data-color="${contact.color}" 
+              ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
+            ${contact.name}
+          </label>
+        `).join('');
+        updateSelectedContactsDisplay(overlay);
+        checkboxContainer.addEventListener('change', () => {
+          updateSelectedContactsDisplay(overlay);
         });
-        currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
-        renderSubtasksEditMode();
-        updateSubtasksViewInOverlay();
+      });
+      
+      // Falls du auch Subtasks im Edit-Modus bearbeitest:
+      currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
+      renderSubtasksEditMode();
+      updateSubtasksViewInOverlay();
     });
 };
 
@@ -565,11 +579,14 @@ function updateSelectedContactsDisplay(overlay) {
     const selectedContainer = overlay.querySelector('.selected-contacts-list');
     selectedContainer.innerHTML = '';
     Array.from(checkboxes)
-        .filter(checkbox => checkbox.checked)
-        .forEach(checkbox => {
-            const contact = { name: checkbox.value };
-            selectedContainer.appendChild(createContactBadge(contact));
-        });
+      .filter(checkbox => checkbox.checked)
+      .forEach(checkbox => {
+          const contact = { 
+              name: checkbox.value, 
+              color: checkbox.dataset.color // Farbe aus dem Attribut
+          };
+          selectedContainer.appendChild(createContactBadge(contact));
+      });
 }
 
 document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
@@ -593,8 +610,9 @@ const saveChanges = () => {
         category: overlay.querySelector('.category-badge').textContent,
         dueDate: overlay.querySelector('#edit-due-date').value,
         priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
+        // Hier wird neben dem Namen auch der Farbwert übernommen:
         contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
-                    .map(c => ({ name: c.value })),
+                    .map(c => ({ name: c.value, color: c.dataset.color })),
         subtasks: currentSubtasks,
         status: currentColumnId
     };
