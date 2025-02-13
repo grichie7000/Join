@@ -1,13 +1,44 @@
+
 .container {
 		overflow-y: hidden;
 	}
+ .mobile-logo {
+	padding-left: 16px; 
+ }
+
+
+@media screen and (min-width: 0px) and (max-width: 970px) {
+
+	.details-wrapper {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+	}
+
+	.details-wrapper .divider {
+	height: 2px;
+    width: 40px;
+	}
+
+}
+
+@media (min-width: 901px) {
+  .mobile-logo {
+    display: none;
+  }
+}
 
 /* Popup */
-@media screen and (min-width: 0px) and (max-width: 827px) {
+@media screen and (min-width: 0px) and (max-width: 900px) {
     .main-content {
         margin-left: 0 !important;
         height: 100%;
     }
+
+	.mobile-logo {
+	display: auto !important;
+	}
 
     .popup {
         width: 300px;
@@ -27,8 +58,8 @@
         padding-left: 20px;
     }
 
-    .logo {
-        display: none;
+    .joinLogo {
+        display: none !important;
     }
 
     .close-btn-wrapper {
@@ -77,13 +108,13 @@
 }
 
 /* Contact Main */
-@media screen and (min-width: 0px) and (max-width: 827px) {
+@media screen and (min-width: 0px) and (max-width: 900px) {
     .btn-container-mobile {
         display: block;
         position: fixed; 
         right: 20px;
         bottom: 95px;
-        z-index: 3;
+        z-index: 1000;
     }
 
     .top-right-button {
@@ -100,20 +131,81 @@
         flex: 1;
     } 
 
-.sideBar {
+	.sideBar {
 	width: 100%;
     padding: 0;
-    flex-direction: row;
-    justify-content: space-evenly;
-    gap: 0px;
+	padding-bottom: 4px;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-evenly !important;
+    gap: 4px;
+	position: absolute !important;
+	bottom: 0 !important;
+	height: 70px !important;
+	z-index: 999
+	}
+
+	.topBar {
+    height: 84px;
+    min-height: 84px;
+    width: 100%;
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 12px grey;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
 }
 
-    .details {
+	.topBar h3 {
+		display: none !important;
+	}
+
+	.menuPos {
+	display: flex;
+	flex-direction: row !important;
+	justify-content: space-evenly;
+	}
+    
+	.navMenu {
+	flex-direction: column;
+	}
+	
+	.menuDesc {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	}
+	
+	.navMenu img {
+	display: flex;
+	align-items: center;
+	align-content: center;	
+	padding-left: 0 !important;
+	}
+	
+	.contact-list {
+    background-color: white;
+    padding: 32px 44px!important;
+    min-width: 320px!important;
+    height: 75vh!important;
+	width: 75vw!important;
+    overflow: scroll;
+    position: relative;
+    margin-top: 1px;
+    box-shadow: 4px -2px 12px #d1d1d1;
+	}
+	
+	.details {
         display: none !important;
         margin: 0;
         position: absolute;
     }
-
+	
+	.lawSection {
+		display: none !important;
+	}
+	
     .contact-info-div {
         flex: 1;
     }
@@ -170,6 +262,20 @@
     }
 }
 
+@media (max-width: 480px) {
+	
+	.contact-list {
+    background-color: white;
+    padding: 32px 16px!important;
+    min-width: 240px!important;
+    width: 75vw!important;
+    height: 70vh!important;
+    overflow: scroll;
+    position: relative;
+    margin-top: 1px;
+    box-shadow: 4px -2px 12px #d1d1d1;
+	}
+	
 @media (max-width: 420px) {
     .details-title {
         font-size: 20px;
@@ -181,9 +287,18 @@
     }
 
     .contact-name {
-        font-size: 20px;
+        font-size: 16px !important;
         font-weight: bold;
         color: #333;
         margin: 0;
     }
+	
+	.cancel-btn {
+    display: none;
+	}
+
+	.sideBar {
+	height: 80px !important;
+	}
+
 }
