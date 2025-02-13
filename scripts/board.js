@@ -468,23 +468,17 @@ function renderSubtasksEditMode() {
         // Edit-Button
         const editButton = document.createElement("button");
         editButton.type = "button";
-        editButton.innerHTML = '<img src="assets/img/edit.png" alt="Edit Icon">';
+        editButton.innerHTML = '<img class="delete-edit-png" src="assets/img/edit.png" alt="Edit Icon">';
         editButton.classList.add("subtask-edit-btn");
         editButton.addEventListener("click", (e) => {
             e.stopPropagation();
             turnSubtaskIntoEditInput(li, titleSpan, index);
         });
         buttonContainer.appendChild(editButton);
-        
-        // Separator
-        const separator = document.createElement("span");
-        separator.classList.add("separator");
-        buttonContainer.appendChild(separator);
-        
         // Delete-Button
         const deleteButton = document.createElement("button");
         deleteButton.type = "button";
-        deleteButton.innerHTML = '<img src="assets/img/delete.png" alt="Delete Icon">';
+        deleteButton.innerHTML = '<img class="delete-edit-png" src="assets/img/delete.png" alt="Delete Icon">';
         deleteButton.classList.add("subtask-delete-btn");
         deleteButton.addEventListener("click", (e) => {
             e.stopPropagation();

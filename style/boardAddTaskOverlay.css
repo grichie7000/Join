@@ -230,7 +230,7 @@ label {
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: red;
+    color: white;
 }
 
 .contact-item:hover {
@@ -275,7 +275,7 @@ label {
     padding: 4px 6px;
     border: 2px solid white;
     color: white;
-    width: 28px;
+    width: 26px;
     height: 28px;
     display: flex;
     align-items: center;

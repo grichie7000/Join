@@ -120,28 +120,31 @@ function selectContact(contactElement, id) {
   updateAssignedContactsDisplay();
 }
 
-// Aktualisiert das globale Array anhand aller .contact-item.selected
 function updateGlobalSelectedContacts() {
   const selectedElements = document.querySelectorAll(".contact-item.selected");
   window.selectedContacts = [];
   selectedElements.forEach(el => {
     const name = el.querySelector(".select-position").textContent.trim();
-    window.selectedContacts.push({ name: name });
+    const initialsEl = el.querySelector(".dropdown-initials");
+    const initials = initialsEl ? initialsEl.textContent.trim() : "";
+    const color = initialsEl ? initialsEl.style.backgroundColor : "#000";
+    window.selectedContacts.push({ name, initials, color });
   });
 }
 
-// Zeigt die ausgewählten Kontakte (z. B. als Badge) im Bereich "selectedContactsList" an
+
 function updateAssignedContactsDisplay() {
   const selectedContactsList = document.getElementById("selectedContactsList");
   selectedContactsList.innerHTML = "";
   window.selectedContacts.forEach(contact => {
     const badge = document.createElement("div");
     badge.classList.add("selected-contact-item");
-    // Hier wird z. B. der erste Buchstabe als Initialen angezeigt
-    badge.textContent = contact.name.charAt(0).toUpperCase();
+    badge.style.backgroundColor = contact.color;
+    badge.textContent = contact.initials; // oder bei Bedarf auch den Namen ergänzen
     selectedContactsList.appendChild(badge);
   });
 }
+
 
 // ------------------------
 // Validierung des Formulars

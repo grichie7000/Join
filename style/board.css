@@ -291,7 +291,7 @@ h1 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
     border-radius: 4px;
     width: 100%;
   }
@@ -317,6 +317,8 @@ h1 {
     cursor: pointer;
     background: none;
     transition: background-color 0.3s ease;
+    padding-block: 0px;
+    padding-inline: 4px;
   }
   
   #subtask-list .subtask-edit-btn:hover,
@@ -357,6 +359,7 @@ h1 {
     display: flex;
     align-items: center;
     width: 100%;
+    padding-left: 5px;
   }
   
   /* Stil für den Subtask-Titel */
@@ -370,11 +373,6 @@ h1 {
   .delete-container {
     display: flex;
     align-items: center;
-    /* margin-right: 8px; */
-  }
-  
-  .delete-container .delete-svg {
-    /* margin-right: 4px; */
   }
   
   .delete-container .delete-btn {
@@ -387,6 +385,18 @@ h1 {
   .delete-container, .edit-container {
     display: flex !important; /* Falls ein anderes CSS sie versteckt */
     visibility: visible !important;
+}
+
+.delete-edit-png{
+  width: 20px;
+  height: 20px;
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+}
+
+.delete-edit-png:hover{
+  background-color: #d7d7d7;
+  border-radius: 50%;
 }
 
   
@@ -625,7 +635,7 @@ h1 {
   .overlay-footer {
     display: flex;
     justify-content: flex-end;
-    margin-top: 2rem;
+    margin-top: 15px;
     text-align: right;
   }
   
