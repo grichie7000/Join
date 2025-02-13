@@ -273,33 +273,41 @@ $("taskOverlay").addEventListener("click", (event) => {
 
 document.querySelector(".create-btn").addEventListener("click", (event) => {
     event.preventDefault();
-    const title = $("title").value;
-    const description = $("description").value;
-    const dueDate = $("due-date").value;
-    const priority = document.querySelector('input[name="priority"]:checked').value;
-    const category = $("category").value;
+    
+    const titleValue = $("title").value;
+    const descriptionValue = $("description").value;
+    const dueDateValue = $("due-date").value;
+    const priorityValue = document.querySelector('input[name="priority"]:checked')?.value;
+    const categoryValue = $("category").value;
     const columnId = $("taskOverlay").dataset.columnId;
+    
+    const subtasksMapped = window.selectedSubtasks.map(subtask => {
+      return { 
+        title: typeof subtask === "object" ? subtask.title : subtask, 
+        completed: false 
+      };
+    });
+    
     const taskData = {
-        title,
-        description,
-        dueDate,
-        priority,
-        category,
-        status: columnId,
-        contacts: selectedContacts,
-        subtasks: selectedSubtasks.map(subtask => ({
-            title: subtask,
-            completed: false
-        }))
+      title: titleValue,
+      description: descriptionValue,
+      dueDate: dueDateValue,
+      priority: priorityValue,
+      category: categoryValue,
+      status: columnId,
+      contacts: window.selectedContacts,
+      subtasks: subtasksMapped
     };
+    
     const newTaskId = Date.now().toString();
     set(ref(db, `tasks/${columnId}/${newTaskId}`), taskData)
-        .then(() => {
-            hideOverlay();
-            loadTasks();
-        })
-        .catch((error) => console.error("Fehler beim Speichern des Tasks:", error));
-});
+      .then(() => {
+        hideOverlay();
+        loadTasks();
+      })
+      .catch(error => console.error("Fehler beim Speichern des Tasks:", error));
+  });
+  
 
 const displayUserInitials = () => {
     const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
