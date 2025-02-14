@@ -211,25 +211,23 @@
                             </div>
                         </div>
 
-                        <!-- Interaktives Dropdown für Assigned Contacts -->
                         <div class="form-assigned-to">
                             <label>Assign Contacts:</label>
                             <div class="contact-selection-wrapper">
-                                <div class="selected-contacts-display" onclick="toggleContactsDropdown()">
-                                    <span class="placeholder-text" style="font-size: 15px;">Select
-                                        Contacts</span>
-                                    <!-- Pfeil rechts hinzufügen -->
-                                    <span class="dropdown-arrow">&#9662;</span>
-                                </div>
-                                <div class="selected-contacts-list"></div>
-                                <!-- Dropdown-Container, der standardmäßig ausgeblendet ist -->
+                              <div class="selected-contacts-display">
+                                <span class="placeholder-text" style="font-size: 15px;">Select Contacts</span>
+                                <!-- Pfeil rechts mit eigenem Click-Handler -->
+                                <span class="dropdown-arrow" onclick="toggleContactsDropdown(event)">&#9662;</span>
                                 <div id="contactsDropdown" class="contacts-dropdown">
-                                    <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
-                                        <!-- Hier werden per JavaScript die Kontakt-Checkboxen eingefügt -->
-                                    </div>
+                                  <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
+                                    <!-- Hier werden per JavaScript die Kontakt-Checkboxen eingefügt -->
+                                  </div>
                                 </div>
+                              </div>
+                              <div class="selected-contacts-list"></div>
                             </div>
-                        </div>
+                          </div>
+                          
 
 
                         <!-- Subtasks -->

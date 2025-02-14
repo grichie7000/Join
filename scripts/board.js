@@ -550,22 +550,34 @@ const enableEditMode = () => {
           });
         }
         const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
-        checkboxContainer.innerHTML = allContacts.map(contact => `
-          <label class="contact-checkbox">
-            <input 
-              type="checkbox" 
-              name="edit-contact" 
-              value="${contact.name}" 
-              data-color="${contact.color}" 
-              ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
-            ${contact.name}
-          </label>
-        `).join('');
+        // Beispiel: In deinem Code, wo die Checkboxen generiert werden:
+checkboxContainer.innerHTML = allContacts.map(contact => `
+  <label class="contact-checkbox">
+    <input 
+      type="checkbox" 
+      name="edit-contact" 
+      value="${contact.name}" 
+      data-color="${contact.color}"
+      onclick="event.stopPropagation()"
+      ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
+    <span class="contact-name-selection">${contact.name}</span>
+    <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">
+      ${getInitials(contact.name)}
+    </span>
+  </label>
+`).join('');
+
+        
+        
+        // Aktualisiere den Bereich mit den bereits ausgewählten Kontakten
         updateSelectedContactsDisplay(overlay);
+        
+        // Bei jeder Änderung (Auswahl/Deselektion) das Badge-Display updaten
         checkboxContainer.addEventListener('change', () => {
           updateSelectedContactsDisplay(overlay);
         });
       });
+      
       
       // Falls du auch Subtasks im Edit-Modus bearbeitest:
       currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
@@ -632,17 +644,38 @@ const deleteTask = () => {
     });
 };
 
-window.toggleContactsDropdown = function () {
-    const dropdown = $("contactsDropdown");
-    if (dropdown.style.display === "block") {
-        dropdown.style.display = "none";
-    } else {
-        dropdown.style.display = "block";
-    }
+window.toggleContactsDropdown = function (event) {
+  // Verhindern, dass der Klick bis zum globalen Listener wandert
+  event.stopPropagation();
+
+  const dropdown = document.getElementById("contactsDropdown");
+  const arrow = document.querySelector(".dropdown-arrow");
+
+  // Wenn Dropdown bereits offen ist, schließe es und setze den Pfeil auf "geschlossen" (Pfeil zeigt nach oben)
+  if (dropdown.style.display === "block") {
+    dropdown.style.display = "none";
+    // Pfeil zeigt dann nach oben (d.h. anzeigen, dass sich die Auswahl schließen lässt)
+    arrow.innerHTML = "&#9652;"; // Beispiel: ▲
+  } else {
+    // Dropdown öffnen und Pfeil entsprechend anpassen
+    dropdown.style.display = "block";
+    // Pfeil zeigt dann nach unten (d.h. anzeigen, dass sich die Auswahl öffnen ließ)
+    arrow.innerHTML = "&#9662;"; // Beispiel: ▼
+  }
 };
 
 document.addEventListener('click', (e) => {
-    if (!e.target.closest('.contact-selection-wrapper')) {
-        document.querySelectorAll('.contacts-dropdown').forEach(d => d.classList.remove('active'));
+  if (!e.target.closest('.contact-selection-wrapper')) {
+    const dropdown = document.getElementById("contactsDropdown");
+    if (dropdown) {
+      dropdown.style.display = "none";
     }
+    // Optional: Setze auch den Pfeil zurück (z. B. Pfeil zeigt nach oben, wenn Dropdown geschlossen ist)
+    const arrow = document.querySelector(".dropdown-arrow");
+    if (arrow) {
+      arrow.innerHTML = "&#9652;"; // Pfeil zeigt nach oben
+    }
+  }
 });
+
+

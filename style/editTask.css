@@ -20,7 +20,11 @@
 }
 
 .contacts-checkbox-container {
-  padding: 8px;
+  padding: 5px;
+}
+
+.checkbox-container{
+  display: inline-flex;
 }
 
 .contacts-checkbox {
