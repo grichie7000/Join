@@ -5,6 +5,8 @@ body {
     padding: 0;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(246, 247, 248);
     font-family: 'Figtree', serif;
 }
@@ -16,26 +18,34 @@ header {
     padding: 0 20px
 }
 
-
 .header-right-content {
+    position: absolute;
+    top: 50px;
+    right: 50px;
     display: flex;
     align-items: center;
-    padding-top: 20px;
-    padding-right: 20px;
     gap: 35px;
-    opacity: 0; 
-    transition: opacity 1s ease-in-out; 
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.header-bottom-content {
+    display: none;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    gap: 35px;
 }
 
 .login-container {
     width: 652px;
-    height: 449px;
+    height: auto;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
     margin: 80px auto 0px;
     border-radius: 30px;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out; 
+    transition: opacity 0.5s ease-in-out;
 }
 
 .headline-container {
@@ -94,7 +104,7 @@ input:focus {
     background-size: 20px;
     font-size: 15px;
 }
-  
+
 .input-with-eye-icon {
     background: url('../assets/img/lock-password.png') no-repeat right 16px center;
     background-size: 20px;
@@ -134,7 +144,8 @@ input:focus {
 .login-buttons {
     display: flex;
     justify-content: center;
-    margin-top: 60px;
+    margin-top: 40px;
+    margin-bottom: 40px;
     gap: 50px;
 }
 
@@ -226,12 +237,12 @@ input:focus {
     transform: scale(1.01) translateZ(10px);
 }
 
-.accept-policy{
+.accept-policy {
     text-decoration: none;
     color: #29aae28e;
 }
 
-.accept-policy:hover{
+.accept-policy:hover {
     text-decoration: underline;
     color: #29ABE2;
 }
@@ -246,7 +257,7 @@ input:focus {
     margin-block-end: 0;
 }
 
-.logo-header-container{
+.logo-header-container {
     margin-top: 30px;
     margin-left: 20px;
 }
@@ -256,7 +267,7 @@ input:focus {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(4);
-    animation: LogoAnimate 0.5s 0.2s forwards ease-in-out; 
+    animation: LogoAnimate 0.5s 0.2s forwards ease-in-out;
     height: auto;
     z-index: 1;
 }
@@ -267,37 +278,38 @@ input:focus {
         left: 50%;
         transform: translate(-50%, -50%) scale(4);
     }
+
     100% {
         top: 0;
         left: 0;
-        transform: translate(0, 0) scale(1); 
+        transform: translate(0, 0) scale(1);
     }
 }
 
-footer{
+footer {
     display: flex;
     justify-content: center;
     margin-top: 70px;
     gap: 35px;
     cursor: pointer;
-    opacity: 0; 
+    opacity: 0;
     transition: opacity 1s ease-in-out;
 }
 
-.footer-content{
+.footer-content {
     color: #A8A8A8;
     text-decoration: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.footer-content:hover{
-   color: #29ABE2;
-   transform: scale(1.01) translateZ(10px);
+.footer-content:hover {
+    color: #29ABE2;
+    transform: scale(1.01) translateZ(10px);
 }
 
 
 .show-content {
-    opacity: 1; 
+    opacity: 1;
 }
 
 @media (max-width: 980px) {
@@ -316,7 +328,7 @@ footer{
         width: 88px;
     }
 
-    h1{
+    h1 {
         font-size: 51px;
     }
 
@@ -328,50 +340,58 @@ footer{
     body {
         height: auto;
         overflow: visible;
-      }
-    
-      /* Falls dein Header mehrere Elemente enthält, können wir diesen in eine Spaltenrichtung bringen */
-      header {
+    }
+
+    /* Falls dein Header mehrere Elemente enthält, können wir diesen in eine Spaltenrichtung bringen */
+    header {
         flex-direction: column;
         align-items: center;
-      }
-    
-      .header-right-content {
-        position: relative;
-        top: 570px;
-        left: 0;
-        right: 0;
-        padding-right: 0;
-        text-align: center;
     }
-    
-      /* Falls nötig: Abstand unten am Login-Container hinzufügen */
-      .login-container {
-        margin: 60px auto 0;
+
+    .header-right-content {
+        display: none;
+    }
+
+    .header-bottom-content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        /* Startzustand: unsichtbar */
+        animation: fadeIn 1s ease-in-out 0.3s forwards;
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+        }
+    }
+
+    .login-container {
+        margin: 80px auto 0;
         width: 350px;
-        margin-bottom: 20px;
-      }
+    }
 
     footer {
-        margin-top: 60px;
+        margin-top: 10px;
         gap: 35px;
     }
 
     .login-buttons {
         margin-top: 30px;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         gap: 5px;
         align-items: center;
         flex-direction: column;
     }
 
     .login-button {
-       width: 181px;
-       height: 50px;
-       padding: 0px;
+        width: 181px;
+        height: 50px;
+        padding: 0px;
     }
 
-    .guestLogin-button{
+    .guestLogin-button {
         width: 181px;
         height: 50px;
         padding: 0px;
@@ -386,7 +406,7 @@ footer{
     }
 
     input {
-       width: 90%;
+        width: 90%;
     }
 
     .input-with-letter-icon {
