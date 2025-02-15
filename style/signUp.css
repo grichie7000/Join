@@ -303,6 +303,10 @@ footer {
      input {
        width: 90%;
     }
+
+    .overlay-content {
+       font-size: 17px;
+    }
 }
 
 @media (max-width: 600px) {
@@ -314,6 +318,10 @@ footer {
         width: 70px;
         height: 70px;
     }
+
+    .overlay-content {
+        font-size: 15px;
+     }
 }
 
 @media (max-width: 400px) {
@@ -326,4 +334,13 @@ footer {
         width: 25px;
         height: 25px;
      }
+
+     .logo-header-container{
+       margin-top: 20px;
+       margin-left: 10px;
+    }
+
+    .checkbox{
+        gap: 0px;
+    }
 }
