@@ -288,10 +288,259 @@ label {
     width: 100%;
 }
 
+.contact-name-selection {
+    font-size: 13px;
+    margin-left: 10px;
+  }
+
+  .edit-mode {
+    display: none;
+    display: flex;
+    flex-direction: column;
+}
+
+
+  /* Board.css */
+.edit-mode .input-Section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .edit-mode .inputLeft, 
+  .edit-mode .inputRight {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  
+  .edit-mode .seperator {
+    display: none;
+  }
+  
+  .edit-mode .form-title,
+  .edit-mode .form-description,
+  .edit-mode .form-assigned-to,
+  .edit-mode .form-date,
+  .edit-mode .form-priority,
+  .edit-mode .form-category,
+  .edit-mode .form-subtask {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .edit-form-subtask {
+    font-size: 16px;
+}
+  
+  .edit-mode #priority {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .edit-mode .radio-container {
+    width: 100%;
+  }
+
+.contactUrgent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-checkbox {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.contact-checkbox input {
+  margin-right: 5px;
+}
+
+.contact-badge-selection {
+  width: 45px;
+  height: 34px;
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding: 0;
+  margin: 0;
+  line-height: 24px; /* passt zur Höhe */
+  box-sizing: border-box; /* bezieht Padding/Borders in den Abmessungen mit ein */
+}
+
 .contact-item.selected img:hover {
     transform: scale(1.1);
     transition: transform 0.3s ease;
 }
+
+.subtask-input-container {
+    position: relative;         
+    width: 100%;                         
+  }
+  
+  .subtask-input-container input {
+    width: 100%;
+    padding: 10px;      
+    box-sizing: border-box;     
+    font-size: 16px;     
+    border-radius: 10px;
+    border-width: 1px;      
+  }
+  
+  .subtask-input-container button {
+    position: absolute;         
+    right: 5px;     
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;    
+    border: none;              
+    cursor: pointer;         
+  }
+  
+  .subtask-input-container button img {
+    display: block;            
+    width: 20px;                
+    height: 20px;
+  }
+
+  .subtask-input-container button img:hover{
+    background-color: #bebebe;
+    border-radius: 80%;
+  }
+  
+  /* Container für die Subtasks im Edit-Modus */
+#subtask-list {
+    list-style: none;  /* Keine Standard-Aufzählungszeichen */
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Stil für jedes Subtask-Element */
+  #subtask-list .subtask-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    width: 100%;
+  }
+  
+  /* Der statische Text, der den Subtask-Titel anzeigt */
+  #subtask-list .subtask-item span {
+    flex: 1;
+    font-size: 15px;
+    color: #333;
+  }
+
+  #subtask-list  label {
+    padding-bottom: 1px !important;
+  }
+  
+  /* Buttons für Edit und Delete */
+  #subtask-list .subtask-edit-btn,
+  #subtask-list .subtask-delete-btn {
+    /* padding: 4px 8px; */
+    border: none;
+    border-radius: 3px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background: none;
+    transition: background-color 0.3s ease;
+    padding-block: 0px;
+    padding-inline: 4px;
+  }
+  
+  #subtask-list .subtask-edit-btn:hover,
+  #subtask-list .subtask-delete-btn:hover {
+    color: #29ABE2;
+  }
+  
+  /* Stil für das Input-Feld im Editiermodus */
+  #subtask-list .subtask-edit-input {
+    flex: 1;
+    padding: 4px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+
+   /* Container für jedes Subtask im Editiermodus */
+#subtask-list .subtask-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 5px;
+  }
+  
+  /* Stil für den Subtask-Titel */
+  #subtask-list .subtask-item span {
+    flex: 1;
+    font-size: 1rem;
+    color: #333;
+  }
+  
+  /* Delete-Container */
+  .delete-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .delete-container .delete-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .delete-container, .edit-container {
+    display: flex !important; /* Falls ein anderes CSS sie versteckt */
+    visibility: visible !important;
+}
+
+.delete-edit-png{
+  width: 20px;
+  height: 20px;
+  transition: background-color 0.3s ease;
+  border-radius: 50%;
+}
+
+.delete-edit-png:hover{
+  background-color: #d7d7d7;
+  border-radius: 50%;
+}
+
+  
+  /* Button-Seperator */
+  .button-seperator {
+    width: 1px;
+    background-color: #ccc;
+    height: 20px;
+    margin-right: 8px;
+  }
+  
+  /* Edit-Container */
+  .edit-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .edit-container .edit-svg {
+    margin-right: 4px;
+  }
+  
+  .edit-container .edit-btn {
+    background: none;
+    border: none;
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+  
 
 /*----------------- seperator  ----------------- */
 .seperator {
