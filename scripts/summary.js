@@ -46,9 +46,9 @@ async function loadTasksFromFirebase(path = "", tasksTodisplay) {
         if (openTasks === null) {
             document.getElementById('loggedInName').innerHTML = "";
             document.getElementById('loggedInName').innerHTML = "Guest";
-        } else {
+        } else {            
             document.getElementById('loggedInName').innerHTML = "";
-            document.getElementById('loggedInName').innerHTML = openTasks.name;
+            document.getElementById('loggedInName').innerHTML = openTasks[1].name;
         }
     }
 }
