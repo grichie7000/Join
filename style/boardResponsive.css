@@ -3,6 +3,10 @@
         width: 100%;
     }
 
+    .firstContent {
+        padding-top: 40px;
+    }
+
     .sidebarcontact {
         flex: 1;
     }
@@ -120,7 +124,6 @@
         display: flex;
         gap: 50px;
         padding: 20px 64px;
-        max-height: calc(100vh - 389px);
         height: 100vh;
         overflow: auto;
         flex-wrap: nowrap;
@@ -131,7 +134,7 @@
     .task-container {
         flex-direction: row;
         gap: 40px;
-        padding-bottom: 30px;
+        padding-bottom: 0px;
     }
 
     .kanban-column {
@@ -154,7 +157,7 @@
     .kanban-board {
         flex-wrap: wrap;
         padding-left: 24px;
-        padding-bottom: 60px;
+        margin-bottom: 74px;
     }
 }
 
@@ -167,6 +170,6 @@
 
 @media (max-width: 350px) {
     .navMenu {
-        font-size: 16px;
+        font-size: 13px;
     }
 }

@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="style/standard.css">
     <link rel="stylesheet" href="style/sideBar.css">
     <link rel="stylesheet" href="style/topBar.css">
@@ -16,14 +14,11 @@
 
     <link rel="icon" type="image/x-icon" href="assets/img/Join-logo.png">
     <title>Board</title>
-
-    <!-- Nicht-modulare Skripte per defer laden -->
     <script src="scripts/topBar.js" defer></script>
     <script src="scripts/addTask.js" defer></script>
     <script src="scripts/sideBar.js" defer></script>
     <script src="scripts/addTask-board.js"></script>
     <script src="scripts/contacts.js"></script>
-    <!-- <script src="scripts/addTask-board.js" defer></script> -->
 </head>
 
 <body onload="initAddTask(), loadInitals()">
@@ -135,7 +130,6 @@
         </section>
     </div>
 
-    <!-- Task Detail Overlay -->
     <div id="taskDetailOverlay" class="overlay">
         <div class="overlay-content">
             <div class="view-mode">
@@ -162,9 +156,7 @@
 
             <form class="edit-mode" style="display: none;">
                 <div class="input-Section">
-                    <!-- Linke Spalte -->
                     <div class="inputLeft">
-                        <!-- Title -->
                         <div class="overlay-header">
                             <span display="none" class="category-badge"></span>
                             <button class="close-btn">&times;</button>
@@ -175,27 +167,19 @@
                                 placeholder="Enter a title" required>
                             <p id="error-edit-title" class="error-message"></p>
                         </div>
-
-                        <!-- Description -->
                         <div class="form-description">
                             <label for="edit-description">Description</label>
                             <textarea id="edit-description" class="edit-description" name="edit-description"
                                 placeholder="Enter a Description" rows="4"></textarea>
                         </div>
-
-                        <!-- Assigned to (Dropdown) -->
                     </div>
 
-                    <!-- Rechte Spalte -->
                     <div class="inputRight">
-                        <!-- Due Date -->
                         <div class="form-date">
                             <label for="edit-due-date">Due Date</label>
                             <input type="date" id="edit-due-date" class="edit-due-date" name="edit-due-date" required>
                             <p id="error-edit-date" class="error-message"></p>
                         </div>
-
-                        <!-- Priority -->
                         <div class="form-priority">
                             <label for="edit-priority">Priority</label>
                             <div style="display: flex; gap: 10px;" id="edit-priority">
@@ -225,11 +209,9 @@
                             <div class="contact-selection-wrapper">
                               <div class="selected-contacts-display">
                                 <span class="placeholder-text" style="font-size: 15px;">Select Contacts</span>
-                                <!-- Pfeil rechts mit eigenem Click-Handler -->
                                 <span class="dropdown-arrow" onclick="toggleContactsDropdown(event)">&#9662;</span>
                                 <div id="contactsDropdown" class="contacts-dropdown">
                                   <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
-                                    <!-- Hier werden per JavaScript die Kontakt-Checkboxen eingefügt -->
                                   </div>
                                 </div>
                               </div>
@@ -237,9 +219,6 @@
                             </div>
                           </div>
                           
-
-
-                        <!-- Subtasks -->
                         <div class="form-subtasks">
                             <label for="edit-subtask">Subtasks</label>
                             <div class="subtask-input-container">
@@ -282,7 +261,6 @@
         </div>
     </div>
 
-    <!-- Task Creation Overlay -->
     <div id="taskOverlay" class="overlay-board-addTask">
         <div class="overlay-board-addTask-content">
             <div class="addTask">
@@ -293,14 +271,12 @@
                 <form id="addtaskForm" novalidate onsubmit="validateFormular(event)">
                     <div class="input-Section">
                         <div class="inputLeft">
-                            <!-- Title -->
                             <div class="form-title">
                                 <label for="title">Title <span class="required">*</span></label>
                                 <input type="text" id="title" name="title" placeholder="Enter a title" required>
                                 <p id="error-title" class="error-message"></p>
                             </div>
 
-                            <!-- Description -->
                             <div class="form-description">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Enter a Description"
@@ -308,7 +284,6 @@
                                 <img class="custom-resize" src="./assets/img/resize.png" alt="resize">
                             </div>
 
-                            <!-- Assigned to -->
                             <div class="form-assigned-to">
                                 <label>Assigned to</label>
                                 <div id="assigned-to">
@@ -320,7 +295,6 @@
                                     <div class="contact-list" id="contactListAssigned">
                                     </div>
                                 </div>
-                                <!-- Div für die Anzeige der ausgewählten Kontakte -->
                                 <div id="selectedContacts">
                                     <div id="selectedContactsList"></div>
                                 </div>
@@ -330,15 +304,12 @@
                         <div class="seperator"></div>
 
                         <div class="inputRight">
-                            <!-- Due Date -->
                             <div class="form-date">
                                 <label for="due-date">Due Date <span class="required">*</span></label>
                                 <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
                                 <span class="calendar-icon"><img src="./assets/img/date.png" alt="date"></span>
                                 <p id="error-date" class="error-message"></p>
                             </div>
-
-                            <!-- Priority -->
                             <div class="form-priority">
                                 <label for="priority">Priority</label>
                                 <div id="priority">
@@ -359,8 +330,6 @@
                                     </label>
                                 </div>
                             </div>
-
-                            <!-- Category -->
                             <div class="form-category">
                                 <label for="category">Category <span class="required">*</span></label>
                                 <select id="category" name="category" required>
@@ -372,8 +341,6 @@
                                     src="./assets/img/arrow_down.png" alt="arrow_standard">
                                 <p id="error-category" class="error-message"></p>
                             </div>
-
-                            <!-- Subtasks -->
                             <div class="form-subtask">
                                 <div>
                                     <label for="subtask">Subtasks</label>
@@ -406,7 +373,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- Buttons -->
                     <div class="button-and-text">
                         <div>
                             <p id="required-text"><span class="required">*</span>This field is required</p>
@@ -426,9 +392,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Board.js als Modul laden -->
     <script src="scripts/board.js" type="module"></script>
 </body>
-
 </html>
