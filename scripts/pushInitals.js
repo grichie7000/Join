@@ -4,10 +4,17 @@ let firebaseDataInitals = [];
 let loggedInEmail;
 let firebaseUserData;
 let finalyData;
+let guestLogInData;
 
-function loadInitials() {
-    getLoginName();
-    getContactsFromFiresBase("users");
+function loadInitialsFirebase(user) {
+
+    if (user === 1) {
+        getLoginName();
+        getContactsFromFiresBase("users");
+    } else {
+        guestLogIn()
+    }
+
 }
 
 function getLoginName() {
@@ -43,4 +50,16 @@ async function postInitals(path = "", data = {}) {
         },
         body: JSON.stringify(data)
     });
+    
+}
+
+async function guestLogIn() {
+    guestLogInData = [
+        { "logedIn": "" },
+        { "name": "" }
+    ]
+    postInitals("/initals", guestLogInData)
+    setTimeout(function () {
+        window.location.href = "./summary.html";
+      }, 200);
 }
