@@ -1,6 +1,8 @@
 body {
     display: flex;
+    overflow-x: hidden;
     overflow-y: hidden;
+    height: 100vh;
 }
 
 .mainContent {
@@ -26,6 +28,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     padding-left: 64px;
+    padding-bottom: 20px;
 }
 
 .header-right {
@@ -114,24 +117,46 @@ h1 {
     padding: 20px 64px;
 }
 
+.logo-header-container{
+    display: none;
+}
+
 .kanban-board {
-  display: flex;
-  gap: 50px;
-  padding: 20px 64px;
-  max-height: calc(100vh - 200px); /* Maximale Höhe, an die der Scrollbalken angepasst wird */
-  overflow: auto;                /* Scrollbalken für X- und Y-Achse */
-  flex-wrap: nowrap;             /* Spalten bleiben in einer Zeile */
+    display: flex;
+    gap: 50px;
+    padding: 20px 64px;
+    max-height: calc(100vh - 200px);
+    /* Maximale Höhe, an die der Scrollbalken angepasst wird */
+    overflow: auto;
+    /* Scrollbalken für X- und Y-Achse */
+    flex-wrap: nowrap;
+    /* Spalten bleiben in einer Zeile */
 }
 
 .kanban-column {
-  width: 250px;         /* Feste Breite für jede Spalte */
-  box-sizing: border-box;
+    width: 250px;
+    /* Feste Breite für jede Spalte */
+    box-sizing: border-box;
 }
 
-.kanban-board::-webkit-scrollbar { width: 7px; height: 2px; }
-.kanban-board::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 20px; }
-.kanban-board::-webkit-scrollbar-thumb { background: #888; border-radius: 20px; }
-.kanban-board::-webkit-scrollbar-thumb:hover { background: #898989; }
+.kanban-board::-webkit-scrollbar {
+    width: 7px;
+    height: 2px;
+}
+
+.kanban-board::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 20px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 20px;
+}
+
+.kanban-board::-webkit-scrollbar-thumb:hover {
+    background: #898989;
+}
 
 .titles {
     color: #2A3647;
@@ -177,6 +202,7 @@ h1 {
 .task-container {
     display: flex;
     flex-direction: column;
+    padding-bottom: 50px;
 }
 
 .task {
@@ -191,7 +217,8 @@ h1 {
 }
 
 .task:active {
-    transform: rotate(5deg); /* Dreht das Element um 15 Grad */
+    transform: rotate(5deg);
+    /* Dreht das Element um 15 Grad */
 }
 
 .task-name {
@@ -228,32 +255,32 @@ h1 {
     gap: 10px;
     margin-top: 20px;
     margin-bottom: 20px;
-  }
+}
 
-  .subtask-item{
+.subtask-item {
     display: flex;
     align-items: center;
     gap: 20px;
-  }
+}
 
-  .progress-bar {
+.progress-bar {
     flex-grow: 1;
     height: 8px;
     background: #f0f0f0;
     border-radius: 4px;
     overflow: hidden;
-  }
-  
-  .progress-fill {
+}
+
+.progress-fill {
     height: 100%;
     background: #007bff;
     transition: width 0.3s ease;
-  }
-  
-  .progress-text {
+}
+
+.progress-text {
     font-size: 12px;
     color: #666;
-  }
+}
 
 .task-footer {
     display: flex;
@@ -323,46 +350,62 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 1000;
-  }
-  
-  .overlay-content {
+}
+
+.overlay-content {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 430px;
     max-height: 80vh;
-    overflow-y: auto; /* Scrollbar aktivieren */
+    overflow-y: auto;
+    /* Scrollbar aktivieren */
     background: white;
     padding: 20px 30px 20px 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    display: block; /* Elemente untereinander */
+    display: block;
+    /* Elemente untereinander */
 }
 
-.overlay-content::-webkit-scrollbar { width: 7px; height: 2px; }
-.overlay-content::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 20px; }
-.overlay-content::-webkit-scrollbar-thumb { background: #888; border-radius: 20px; }
-.overlay-content::-webkit-scrollbar-thumb:hover { background: #898989; }
+.overlay-content::-webkit-scrollbar {
+    width: 7px;
+    height: 2px;
+}
+
+.overlay-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 20px;
+}
+
+.overlay-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 20px;
+}
+
+.overlay-content::-webkit-scrollbar-thumb:hover {
+    background: #898989;
+}
 
 .edit-mode input,
 .edit-mode textarea {
     display: block;
     width: 100%;
     margin-bottom: 10px;
-    
+
 }
-  
-  .overlay-header {
+
+.overlay-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
-  }
-  
-  .close-btn {
+}
+
+.close-btn {
     background: none;
     border: none;
     font-size: 30px;
@@ -371,50 +414,53 @@ h1 {
     padding: 0;
     line-height: 0.9;
     transition: background-color 0.2s, color 0.2s;
-    width: 26px; /* Feste Breite */
-    height: 26px; /* Feste Höhe */
-    border-radius: 100%; /* Kreisform */
+    width: 26px;
+    /* Feste Breite */
+    height: 26px;
+    /* Feste Höhe */
+    border-radius: 100%;
+    /* Kreisform */
 }
 
 .close-btn:hover {
     background-color: #a4a4a470;
 }
 
-  
-  .category-badge {
+
+.category-badge {
     display: inline-block;
     padding: 5px 10px;
     border-radius: 5px;
     color: white;
-  }
-  
-  /* Styling für die Textelemente im Overlay */
+}
+
+/* Styling für die Textelemente im Overlay */
 #taskDetailOverlay .task-title {
     font-size: 50px;
     color: #2A3647;
-  }
-  
-  #taskDetailOverlay .task-description {
+}
+
+#taskDetailOverlay .task-description {
     font-size: 20px;
     color: #666;
     line-height: 1.5;
-  }
-  
-  #taskDetailOverlay .task-due-date,
-  #taskDetailOverlay .task-priority {
+}
+
+#taskDetailOverlay .task-due-date,
+#taskDetailOverlay .task-priority {
     font-size: 0.9rem;
     color: #666;
     margin: 0.5rem 0;
-  }
+}
 
-  .overlay-footer {
+.overlay-footer {
     display: flex;
     justify-content: flex-end;
     margin-top: 15px;
     text-align: right;
-  }
-  
-  .overlay-footer button {
+}
+
+.overlay-footer button {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -426,52 +472,55 @@ h1 {
     color: #29ABE2;
 }
 
-.delete-container, .edit-container{
+.delete-container,
+.edit-container {
     display: flex;
     align-items: center;
 }
 
-.delete-svg:hover, .edit-svg:hover{
+.delete-svg:hover,
+.edit-svg:hover {
     color: #29ABE2;
 }
 
-.button-seperator{
+.button-seperator {
     border: 1px solid #bbbbbb;
     margin-right: 10px;
     height: 20px;
     color: rgba(0, 0, 0, 0.704);
 }
-  
-  .edit-title, .edit-description {
+
+.edit-title,
+.edit-description {
     width: 100%;
     margin-bottom: 1rem;
     padding: 0.5rem;
-  }
-  
-  fieldset {
+}
+
+fieldset {
     border: 1px solid #ddd;
     padding: 10px;
     margin: 10px 0;
     border-radius: 4px;
-  }
-  
-  legend {
+}
+
+legend {
     padding: 0 5px;
     font-weight: 500;
-  }
-  
-  input[type="radio"] {
-    margin-right: 8px;
-  }
+}
 
-.task-category{
-    display: inline-block; 
-    padding: 5px 10px; 
+input[type="radio"] {
+    margin-right: 8px;
+}
+
+.task-category {
+    display: inline-block;
+    padding: 5px 10px;
     border-radius: 5px;
     color: white;
 }
 
-.task-date{
+.task-date {
     margin-left: 20px;
 }
 
@@ -531,24 +580,33 @@ h1 {
     border-radius: 5px;
 }
 
-.edit-mode input, .edit-mode textarea {
-  font-size: 14px; /* Kleinere Schriftgröße */
-  padding: 6px 8px; /* Mehr Padding für besseren Look */
-  margin-top: 5px;
-  border: 1px solid #d2d2d2;
-  border-radius: 5px;
-  transition: border-color 0.2s; /* Sanfter Übergang */
+.edit-mode input,
+.edit-mode textarea {
+    font-size: 14px;
+    /* Kleinere Schriftgröße */
+    padding: 6px 8px;
+    /* Mehr Padding für besseren Look */
+    margin-top: 5px;
+    border: 1px solid #d2d2d2;
+    border-radius: 5px;
+    transition: border-color 0.2s;
+    /* Sanfter Übergang */
 }
 
 /* Optional: Auch der Platzhaltertext kann kleiner gemacht werden */
-.edit-mode input::placeholder, .edit-mode textarea::placeholder {
-  font-size: 12px; /* Kleinere Schriftgröße für Platzhalter */
-  color: #999; /* Leicht grauer Platzhaltertext */
+.edit-mode input::placeholder,
+.edit-mode textarea::placeholder {
+    font-size: 12px;
+    /* Kleinere Schriftgröße für Platzhalter */
+    color: #999;
+    /* Leicht grauer Platzhaltertext */
 }
 
-.edit-mode input:focus, .edit-mode textarea:focus {
-  border: 2px solid #29ABE2;
-  outline: none; /* Entfernt den Standard-Fokus-Rahmen */
+.edit-mode input:focus,
+.edit-mode textarea:focus {
+    border: 2px solid #29ABE2;
+    outline: none;
+    /* Entfernt den Standard-Fokus-Rahmen */
 }
 
 
@@ -660,20 +718,22 @@ input[type="radio"]:checked+.low-radio img {
 
 /* Grundstil für die Radio-Buttons */
 input[type="radio"] {
-    display: none; /* Versteckt die Standard-Radio-Schaltfläche */
+    display: none;
+    /* Versteckt die Standard-Radio-Schaltfläche */
 }
 
 /* Stil für die Labels, die die Radio-Buttons anzeigen */
-input[type="radio"] + label {
+input[type="radio"]+label {
     position: relative;
-    padding-left: 30px; /* Platz für die Radio-Schaltfläche */
+    padding-left: 30px;
+    /* Platz für die Radio-Schaltfläche */
     font-size: 16px;
     cursor: pointer;
     display: inline-block;
 }
 
 /* Erstellen des benutzerdefinierten Radio-Buttons */
-input[type="radio"] + label::before {
+input[type="radio"]+label::before {
     content: '';
     position: absolute;
     left: 0;
@@ -688,13 +748,14 @@ input[type="radio"] + label::before {
 }
 
 /* Stil für den ausgewählten Radio-Button */
-input[type="radio"]:checked + label::before {
-    background-color: #007bff; /* Farbe für den aktiven Radio-Button */
+input[type="radio"]:checked+label::before {
+    background-color: #007bff;
+    /* Farbe für den aktiven Radio-Button */
     border-color: #007bff;
 }
 
 /* Füge ein Häkchen hinzu, wenn der Radio-Button aktiv ist */
-input[type="radio"]:checked + label::after {
+input[type="radio"]:checked+label::after {
     content: '✔';
     position: absolute;
     left: 4px;
@@ -705,12 +766,12 @@ input[type="radio"]:checked + label::after {
 }
 
 /* Stil für das Label, wenn es angeklickt wird */
-input[type="radio"]:hover + label::before {
+input[type="radio"]:hover+label::before {
     border-color: #0056b3;
 }
 
 /* Optional: Stil für das Textlabel */
-input[type="radio"] + label {
+input[type="radio"]+label {
     color: #333;
     font-weight: normal;
     padding-right: 10px;
