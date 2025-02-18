@@ -1,5 +1,6 @@
 body {
     display: flex;
+    overflow-x: hidden;
     overflow-y: hidden;
     height: 100vh;
 }
@@ -140,7 +141,7 @@ h1 {
 
 .kanban-board::-webkit-scrollbar {
     width: 7px;
-    height: 2px;
+    height: 7px;
 }
 
 .kanban-board::-webkit-scrollbar-track {

@@ -4,16 +4,13 @@ body {
 
 .overlay-board-addTask {
     display: none;
-    /* Standardmäßig ausgeblendet */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    /* Halbtransparenter Hintergrund */
     z-index: 1000;
-    /* Über anderen Elementen */
     justify-content: center;
     align-items: center;
     overflow: hidden;

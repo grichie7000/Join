@@ -127,6 +127,7 @@
         height: 100vh;
         overflow: auto;
         flex-wrap: nowrap;
+        margin-bottom: 74px;
     }
 }
 
