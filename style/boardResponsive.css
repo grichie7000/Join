@@ -132,6 +132,14 @@
 }
 
 @media (max-width: 650px) {
+    .awaitButton, .inProgressButton, .toDoButton {
+        font-size: 18px;
+    }
+
+    .titles {
+        font-size: 23px;
+    }
+
     .task-container {
         flex-direction: row;
         gap: 40px;
@@ -147,7 +155,7 @@
         display: none;
     }
 
-    .addTaskButton:hover{
+    .addTaskButton:hover {
         padding-right: 16px;
     }
 
@@ -163,9 +171,36 @@
 }
 
 @media (max-width: 400px) {
-    .header-right {
-        align-items: flex-start;
-        flex-direction: column;
+    h1 {
+        padding-bottom: 0px;
+    }
+
+    .addTaskButton {
+        display: none;
+    }
+
+    .header-right-mobile {
+        display: flex;
+        align-items: center;
+        gap: 110px;
+        padding-bottom: 15px;
+    }
+
+    .addTaskButtonMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: #2A3647;
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        border: none;
+        padding: 4px 10px;
+        cursor: pointer;
+        height: 40px;
+        width: auto;
+        transition: background-color 0.2sease -in, transform 0.2sease -in;
     }
 }
 

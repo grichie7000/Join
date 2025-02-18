@@ -37,6 +37,29 @@ h1 {
     padding-right: 80px;
 }
 
+.addTaskButtonMobile{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #2A3647;
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    height: 40px;
+    width: auto;
+    transition: background-color 0.2sease -in, transform 0.2sease -in;
+}
+
+.addTaskButtonMobile:hover {
+    transform: 0.2s ease-in;
+    background-color: #29ABE2;
+    color: white;
+}
+
 .input-wrapper {
     display: flex;
     align-items: center;
@@ -121,6 +144,10 @@ h1 {
     display: none;
 }
 
+.board-wrapper {
+    overflow-x: auto; 
+  }
+ 
 .kanban-board {
     display: flex;
     gap: 50px;

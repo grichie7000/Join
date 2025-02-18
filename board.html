@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="style/boardAddTaskOverlay.css">
     <link rel="stylesheet" href="style/boardResponsive.css">
     <link rel="stylesheet" href="style/editTask.css">
+    <link rel="stylesheet" href="style/boardAddTaskResponsive.css">
 
     <link rel="icon" type="image/x-icon" href="assets/img/Join-logo.png">
     <title>Board</title>
@@ -53,14 +54,21 @@
     <div class="mainContent">
         <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
-            <svg class="logo-header-container" id="svg" width="124" height="105" viewBox="0 0 274 335" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="logo-header-container" id="svg" width="124" height="105" viewBox="0 0 274 335" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
                 <path d="M196.314 0H135.623V69.8251H196.314V0Z" fill="#2A3647" />
-                <path d="M135.623 126.614H196.315V225.091C196.592 248.787 189.848 272.031 176.94 291.868C164.195 311.141 139.591 334.072 94.0723 334.072C44.4917 334.072 15.5931 310.626 0 297.777L38.2825 250.554C53.5021 262.981 68.1615 273.204 94.3057 273.204C114.101 273.204 121.99 265.138 126.612 258.104C132.896 248.334 136.146 236.908 135.95 225.279L135.623 126.614Z"fill="#2A3647" />
+                <path
+                    d="M135.623 126.614H196.315V225.091C196.592 248.787 189.848 272.031 176.94 291.868C164.195 311.141 139.591 334.072 94.0723 334.072C44.4917 334.072 15.5931 310.626 0 297.777L38.2825 250.554C53.5021 262.981 68.1615 273.204 94.3057 273.204C114.101 273.204 121.99 265.138 126.612 258.104C132.896 248.334 136.146 236.908 135.95 225.279L135.623 126.614Z"
+                    fill="#2A3647" />
                 <path d="M104.67 82.5332H43.9781V143.495H104.67V82.5332Z" fill="#29ABE2" />
-                <path d="M228.108 305.467C228.108 318.456 221.525 325.444 212.328 325.444C203.131 325.444 197.108 317.143 197.108 306.123C197.108 295.103 203.318 286.381 212.842 286.381C222.366 286.381 228.108 294.962 228.108 305.467ZM204.158 305.983C204.158 313.814 207.286 319.582 212.655 319.582C218.024 319.582 221.058 313.486 221.058 305.514C221.058 298.526 218.257 291.961 212.655 291.961C207.053 291.961 204.158 298.292 204.158 305.983Z"fill="#2A3647" />
+                <path
+                    d="M228.108 305.467C228.108 318.456 221.525 325.444 212.328 325.444C203.131 325.444 197.108 317.143 197.108 306.123C197.108 295.103 203.318 286.381 212.842 286.381C222.366 286.381 228.108 294.962 228.108 305.467ZM204.158 305.983C204.158 313.814 207.286 319.582 212.655 319.582C218.024 319.582 221.058 313.486 221.058 305.514C221.058 298.526 218.257 291.961 212.655 291.961C207.053 291.961 204.158 298.292 204.158 305.983Z"
+                    fill="#2A3647" />
                 <path d="M240.153 286.944V324.834H233.43V286.944H240.153Z" fill="#2A3647" />
-                <path d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"fill="#2A3647" />
-               </svg>
+                <path
+                    d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"
+                    fill="#2A3647" />
+            </svg>
             <div style="padding-right: 20px !important;" class="profile">
                 <a href="help.html" class="help">?</a>
                 <p class="initials" id="profile-toggle"></p>
@@ -76,7 +84,17 @@
 
         <section class="firstContent">
             <div class="board-header">
-                <h1>Board</h1>
+                <div class="header-right-mobile">
+                    <h1>Board</h1>
+                    <button class="addTaskButtonMobile">
+                        <div class="buttonFont">Add task</div>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
+                                fill="white" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="header-right">
                     <div class="input-wrapper">
                         <input class="findTaskInput" type="text" placeholder="Find Task">
@@ -98,21 +116,21 @@
         <section class="kanban-board">
             <div class="kanban-column">
                 <div class="titles">
-                    To Do <div class="toDoButton">+</div>
+                    To do <div class="toDoButton">+</div>
                 </div>
                 <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)">
                 </div>
             </div>
             <div class="kanban-column">
                 <div class="titles">
-                    In Progress <div class="inProgressButton">+</div>
+                    In progress <div class="inProgressButton">+</div>
                 </div>
                 <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"
                     ondragover="allowDrop(event)"></div>
             </div>
             <div class="kanban-column">
                 <div class="titles">
-                    Await Feedback <div class="awaitButton">+</div>
+                    Await feedback <div class="awaitButton">+</div>
                 </div>
                 <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
                     ondragover="allowDrop(event)"></div>
@@ -207,18 +225,18 @@
                         <div class="form-assigned-to">
                             <label>Assign Contacts:</label>
                             <div class="contact-selection-wrapper">
-                              <div class="selected-contacts-display">
-                                <span class="placeholder-text" style="font-size: 15px;">Select Contacts</span>
-                                <span class="dropdown-arrow" onclick="toggleContactsDropdown(event)">&#9662;</span>
-                                <div id="contactsDropdown" class="contacts-dropdown">
-                                  <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
-                                  </div>
+                                <div class="selected-contacts-display">
+                                    <span class="placeholder-text" style="font-size: 15px;">Select Contacts</span>
+                                    <span class="dropdown-arrow" onclick="toggleContactsDropdown(event)">&#9662;</span>
+                                    <div id="contactsDropdown" class="contacts-dropdown">
+                                        <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="selected-contacts-list"></div>
+                                <div class="selected-contacts-list"></div>
                             </div>
-                          </div>
-                          
+                        </div>
+
                         <div class="form-subtasks">
                             <label for="edit-subtask">Subtasks</label>
                             <div class="subtask-input-container">
@@ -394,4 +412,5 @@
     </div>
     <script src="scripts/board.js" type="module"></script>
 </body>
+
 </html>
