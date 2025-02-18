@@ -4,25 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="style/standard.css">
     <link rel="stylesheet" href="style/sideBar.css">
     <link rel="stylesheet" href="style/topBar.css">
     <link rel="stylesheet" href="style/board.css">
     <link rel="stylesheet" href="style/boardAddTaskOverlay.css">
+    <link rel="stylesheet" href="style/boardResponsive.css">
     <link rel="stylesheet" href="style/editTask.css">
+    <link rel="stylesheet" href="style/boardAddTaskResponsive.css">
 
     <link rel="icon" type="image/x-icon" href="assets/img/Join-logo.png">
     <title>Board</title>
-
-    <!-- Nicht-modulare Skripte per defer laden -->
     <script src="scripts/topBar.js" defer></script>
     <script src="scripts/addTask.js" defer></script>
     <script src="scripts/sideBar.js" defer></script>
     <script src="scripts/addTask-board.js"></script>
     <script src="scripts/contacts.js"></script>
-    <!-- <script src="scripts/addTask-board.js" defer></script> -->
 </head>
 
 <body onload="initAddTask(), loadInitals()">
@@ -57,6 +54,21 @@
     <div class="mainContent">
         <div class="topBar">
             <h3>Kanban Project Management Tool</h3>
+            <svg class="logo-header-container" id="svg" width="124" height="105" viewBox="0 0 274 335" fill="none"
+                xmlns="http://www.w3.org/2000/svg">
+                <path d="M196.314 0H135.623V69.8251H196.314V0Z" fill="#2A3647" />
+                <path
+                    d="M135.623 126.614H196.315V225.091C196.592 248.787 189.848 272.031 176.94 291.868C164.195 311.141 139.591 334.072 94.0723 334.072C44.4917 334.072 15.5931 310.626 0 297.777L38.2825 250.554C53.5021 262.981 68.1615 273.204 94.3057 273.204C114.101 273.204 121.99 265.138 126.612 258.104C132.896 248.334 136.146 236.908 135.95 225.279L135.623 126.614Z"
+                    fill="#2A3647" />
+                <path d="M104.67 82.5332H43.9781V143.495H104.67V82.5332Z" fill="#29ABE2" />
+                <path
+                    d="M228.108 305.467C228.108 318.456 221.525 325.444 212.328 325.444C203.131 325.444 197.108 317.143 197.108 306.123C197.108 295.103 203.318 286.381 212.842 286.381C222.366 286.381 228.108 294.962 228.108 305.467ZM204.158 305.983C204.158 313.814 207.286 319.582 212.655 319.582C218.024 319.582 221.058 313.486 221.058 305.514C221.058 298.526 218.257 291.961 212.655 291.961C207.053 291.961 204.158 298.292 204.158 305.983Z"
+                    fill="#2A3647" />
+                <path d="M240.153 286.944V324.834H233.43V286.944H240.153Z" fill="#2A3647" />
+                <path
+                    d="M247.436 324.834V286.944H254.905L262.935 302.56C265.002 306.643 266.842 310.838 268.444 315.127C268.024 310.438 267.837 305.045 267.837 299.042V286.944H274V324.834H267.044L258.92 308.89C256.77 304.702 254.853 300.397 253.178 295.994C253.178 300.684 253.505 305.983 253.505 312.501V324.787L247.436 324.834Z"
+                    fill="#2A3647" />
+            </svg>
             <div style="padding-right: 20px !important;" class="profile">
                 <a href="help.html" class="help">?</a>
                 <p class="initials" id="profile-toggle"></p>
@@ -72,7 +84,17 @@
 
         <section class="firstContent">
             <div class="board-header">
-                <h1>Board</h1>
+                <div class="header-right-mobile">
+                    <h1>Board</h1>
+                    <button class="addTaskButtonMobile">
+                        <div class="buttonFont">Add task</div>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
+                                fill="white" />
+                        </svg>
+                    </button>
+                </div>
                 <div class="header-right">
                     <div class="input-wrapper">
                         <input class="findTaskInput" type="text" placeholder="Find Task">
@@ -80,7 +102,7 @@
                         <img class="search-icon" src="assets/img/search.svg" alt="Search">
                     </div>
                     <button class="addTaskButton">
-                        Add task
+                        <div class="buttonFont">Add task</div>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
@@ -94,21 +116,21 @@
         <section class="kanban-board">
             <div class="kanban-column">
                 <div class="titles">
-                    To Do <div class="toDoButton">+</div>
+                    To do <div class="toDoButton">+</div>
                 </div>
                 <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)">
                 </div>
             </div>
             <div class="kanban-column">
                 <div class="titles">
-                    In Progress <div class="inProgressButton">+</div>
+                    In progress <div class="inProgressButton">+</div>
                 </div>
                 <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"
                     ondragover="allowDrop(event)"></div>
             </div>
             <div class="kanban-column">
                 <div class="titles">
-                    Await Feedback <div class="awaitButton">+</div>
+                    Await feedback <div class="awaitButton">+</div>
                 </div>
                 <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
                     ondragover="allowDrop(event)"></div>
@@ -126,7 +148,6 @@
         </section>
     </div>
 
-    <!-- Task Detail Overlay -->
     <div id="taskDetailOverlay" class="overlay">
         <div class="overlay-content">
             <div class="view-mode">
@@ -153,9 +174,7 @@
 
             <form class="edit-mode" style="display: none;">
                 <div class="input-Section">
-                    <!-- Linke Spalte -->
                     <div class="inputLeft">
-                        <!-- Title -->
                         <div class="overlay-header">
                             <span display="none" class="category-badge"></span>
                             <button class="close-btn">&times;</button>
@@ -166,27 +185,19 @@
                                 placeholder="Enter a title" required>
                             <p id="error-edit-title" class="error-message"></p>
                         </div>
-
-                        <!-- Description -->
                         <div class="form-description">
                             <label for="edit-description">Description</label>
                             <textarea id="edit-description" class="edit-description" name="edit-description"
                                 placeholder="Enter a Description" rows="4"></textarea>
                         </div>
-
-                        <!-- Assigned to (Dropdown) -->
                     </div>
 
-                    <!-- Rechte Spalte -->
                     <div class="inputRight">
-                        <!-- Due Date -->
                         <div class="form-date">
                             <label for="edit-due-date">Due Date</label>
                             <input type="date" id="edit-due-date" class="edit-due-date" name="edit-due-date" required>
                             <p id="error-edit-date" class="error-message"></p>
                         </div>
-
-                        <!-- Priority -->
                         <div class="form-priority">
                             <label for="edit-priority">Priority</label>
                             <div style="display: flex; gap: 10px;" id="edit-priority">
@@ -214,23 +225,18 @@
                         <div class="form-assigned-to">
                             <label>Assign Contacts:</label>
                             <div class="contact-selection-wrapper">
-                              <div class="selected-contacts-display">
-                                <span class="placeholder-text" style="font-size: 15px;">Select Contacts</span>
-                                <!-- Pfeil rechts mit eigenem Click-Handler -->
-                                <span class="dropdown-arrow" onclick="toggleContactsDropdown(event)">&#9662;</span>
-                                <div id="contactsDropdown" class="contacts-dropdown">
-                                  <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
-                                    <!-- Hier werden per JavaScript die Kontakt-Checkboxen eingefügt -->
-                                  </div>
+                                <div class="selected-contacts-display">
+                                    <span class="placeholder-text" style="font-size: 15px;">Select Contacts</span>
+                                    <span class="dropdown-arrow" onclick="toggleContactsDropdown(event)">&#9662;</span>
+                                    <div id="contactsDropdown" class="contacts-dropdown">
+                                        <div id="editContactsCheckboxContainer" class="contacts-checkbox-container">
+                                        </div>
+                                    </div>
                                 </div>
-                              </div>
-                              <div class="selected-contacts-list"></div>
+                                <div class="selected-contacts-list"></div>
                             </div>
-                          </div>
-                          
+                        </div>
 
-
-                        <!-- Subtasks -->
                         <div class="form-subtasks">
                             <label for="edit-subtask">Subtasks</label>
                             <div class="subtask-input-container">
@@ -273,7 +279,6 @@
         </div>
     </div>
 
-    <!-- Task Creation Overlay -->
     <div id="taskOverlay" class="overlay-board-addTask">
         <div class="overlay-board-addTask-content">
             <div class="addTask">
@@ -284,14 +289,12 @@
                 <form id="addtaskForm" novalidate onsubmit="validateFormular(event)">
                     <div class="input-Section">
                         <div class="inputLeft">
-                            <!-- Title -->
                             <div class="form-title">
                                 <label for="title">Title <span class="required">*</span></label>
                                 <input type="text" id="title" name="title" placeholder="Enter a title" required>
                                 <p id="error-title" class="error-message"></p>
                             </div>
 
-                            <!-- Description -->
                             <div class="form-description">
                                 <label for="description">Description</label>
                                 <textarea id="description" name="description" placeholder="Enter a Description"
@@ -299,7 +302,6 @@
                                 <img class="custom-resize" src="./assets/img/resize.png" alt="resize">
                             </div>
 
-                            <!-- Assigned to -->
                             <div class="form-assigned-to">
                                 <label>Assigned to</label>
                                 <div id="assigned-to">
@@ -311,7 +313,6 @@
                                     <div class="contact-list" id="contactListAssigned">
                                     </div>
                                 </div>
-                                <!-- Div für die Anzeige der ausgewählten Kontakte -->
                                 <div id="selectedContacts">
                                     <div id="selectedContactsList"></div>
                                 </div>
@@ -321,15 +322,12 @@
                         <div class="seperator"></div>
 
                         <div class="inputRight">
-                            <!-- Due Date -->
                             <div class="form-date">
                                 <label for="due-date">Due Date <span class="required">*</span></label>
                                 <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
                                 <span class="calendar-icon"><img src="./assets/img/date.png" alt="date"></span>
                                 <p id="error-date" class="error-message"></p>
                             </div>
-
-                            <!-- Priority -->
                             <div class="form-priority">
                                 <label for="priority">Priority</label>
                                 <div id="priority">
@@ -350,8 +348,6 @@
                                     </label>
                                 </div>
                             </div>
-
-                            <!-- Category -->
                             <div class="form-category">
                                 <label for="category">Category <span class="required">*</span></label>
                                 <select id="category" name="category" required>
@@ -363,8 +359,6 @@
                                     src="./assets/img/arrow_down.png" alt="arrow_standard">
                                 <p id="error-category" class="error-message"></p>
                             </div>
-
-                            <!-- Subtasks -->
                             <div class="form-subtask">
                                 <div>
                                     <label for="subtask">Subtasks</label>
@@ -397,7 +391,6 @@
                             </ul>
                         </div>
                     </div>
-                    <!-- Buttons -->
                     <div class="button-and-text">
                         <div>
                             <p id="required-text"><span class="required">*</span>This field is required</p>
@@ -417,8 +410,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Board.js als Modul laden -->
     <script src="scripts/board.js" type="module"></script>
 </body>
 

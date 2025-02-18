@@ -2,6 +2,10 @@
 window.selectedContacts = []; // z. B. [{ name: "Max Mustermann" }, …]
 window.selectedSubtasks = []; // z. B. [{ title: "Subtask 1", completed: false }, …]
 
+// Falls benötigt: Globale Variablen für Subtask-Editierung (optional)
+let subTaskOne = false;
+let subtaskTwo = false;
+
 // Weitere globale Variablen für die Validierung und Formularfelder
 let validateIsOk = [false, false, false];
 let title, errorTitle, date, errorDate, category, errorCategory;
@@ -16,58 +20,67 @@ function initAddTask() {
 
 // Funktion zum Zurücksetzen der Auswahl
 function clearSelection() {
-    // Entferne die 'selected' Klasse von allen Kontakt-Elementen
-    const allContacts = document.querySelectorAll('.contact-item');
-    allContacts.forEach(contact => {
-        contact.classList.remove('selected');
+  // Entferne die 'selected'-Klasse von allen Kontakt-Elementen
+  const allContacts = document.querySelectorAll('.contact-item');
+  allContacts.forEach(contact => {
+    contact.classList.remove('selected');
 
-        // Bild zurücksetzen auf das leere Kästchen
-        const checkboxImage = contact.querySelector('img');
-        checkboxImage.src = "./assets/img/checkbox_empty.png";  // Setzt das Bild auf das leere Kästchen zurück
-    });
+    // Bild zurücksetzen auf das leere Kästchen
+    const checkboxImage = contact.querySelector('img');
+    checkboxImage.src = "./assets/img/checkbox_empty.png";
+  });
 
-    // Leeren des Bereichs für die ausgewählten Kontakte
-    const selectedContactsList = document.getElementById('selectedContactsList');
-    selectedContactsList.innerHTML = '';  // Alle ausgewählten Kontakte entfernen
+  // Leeren des Bereichs für die ausgewählten Kontakte
+  const selectedContactsList = document.getElementById('selectedContactsList');
+  selectedContactsList.innerHTML = '';
 }
 
 function clearTask() {
-    errorTitle.innerHTML = '';
-    title.style.border = ""
+  // Reset der Fehleranzeigen und Input-Stile
+  errorTitle.innerHTML = '';
+  title.style.border = "";
 
-    errorDate.innerHTML = '';
-    date.style.border = ""
-    date.style.color = "#D1D1D1"
+  errorDate.innerHTML = '';
+  date.style.border = "";
+  date.style.color = "#D1D1D1";
 
-    errorCategory.innerHTML = '';
-    category.style.border = ""
+  errorCategory.innerHTML = '';
+  category.style.border = "";
 
-    const allContacts = document.querySelectorAll('.contact-item');
+  clearSelection();
 
-    clearSelection();
+  // Falls globale Variablen für Subtask-Editierung verwendet werden, zurücksetzen
+  subTaskOne = false;
+  subtaskTwo = false;
 
-    subTaskOne = false;
-    subtaskTwo = false;
+  // Ausblenden der Editier-Icons (sofern vorhanden)
+  const editItemOne = document.getElementById('editItemOne');
+  const editItemIconOne = document.getElementById('editItemIconOne');
+  const editItemTwo = document.getElementById('editItemTwo');
+  const editItemIconTwo = document.getElementById('editItemIconTwo');
+  if (editItemOne) editItemOne.style.display = 'none';
+  if (editItemIconOne) editItemIconOne.style.display = 'none';
+  if (editItemTwo) editItemTwo.style.display = 'none';
+  if (editItemIconTwo) editItemIconTwo.style.display = 'none';
 
-    document.getElementById('editItemOne').style.display = 'none';
-    document.getElementById('editItemIconOne').style.display = 'none';
-    document.getElementById('editItemTwo').style.display = 'none';
-    document.getElementById('editItemIconTwo').style.display = 'none';
-
-    const addedSubtaskOne = document.getElementById('subtaskItem1');
+  // Löschen und Ausblenden der angezeigten Subtasks
+  const addedSubtaskOne = document.getElementById('subtaskItem1');
+  if (addedSubtaskOne) {
     addedSubtaskOne.innerHTML = '';
-    addedSubtaskOne.style.display = 'none'
-    console.log("teste");
-    
-    const addedSubtaskTwo = document.getElementById('subtaskItem2');
+    addedSubtaskOne.style.display = 'none';
+  }
+  const addedSubtaskTwo = document.getElementById('subtaskItem2');
+  if (addedSubtaskTwo) {
     addedSubtaskTwo.innerHTML = '';
-    addedSubtaskTwo.style.display = 'none'
+    addedSubtaskTwo.style.display = 'none';
+  }
 
+  // Globalen Subtask-Array leeren, damit danach wieder neue Subtasks hinzugefügt werden können
+  window.selectedSubtasks = [];
 
-
-    const selectedContactsList = document.getElementById('selectedContactsList');
-    selectedContactsList.innerHTML = '';
-
+  // Leeren der ausgewählten Kontakte-Anzeige
+  const selectedContactsList = document.getElementById('selectedContactsList');
+  selectedContactsList.innerHTML = '';
 }
 
 // Hole Formularelemente per ID
@@ -132,7 +145,6 @@ function updateGlobalSelectedContacts() {
   });
 }
 
-
 function updateAssignedContactsDisplay() {
   const selectedContactsList = document.getElementById("selectedContactsList");
   selectedContactsList.innerHTML = "";
@@ -140,11 +152,10 @@ function updateAssignedContactsDisplay() {
     const badge = document.createElement("div");
     badge.classList.add("selected-contact-item");
     badge.style.backgroundColor = contact.color;
-    badge.textContent = contact.initials; // oder bei Bedarf auch den Namen ergänzen
+    badge.textContent = contact.initials; // oder auch den Namen ergänzen
     selectedContactsList.appendChild(badge);
   });
 }
-
 
 // ------------------------
 // Validierung des Formulars
@@ -196,9 +207,9 @@ function validateCategory(event) {
 }
 
 // ------------------------
-// Subtasks bearbeiten
+// Subtasks bearbeiten und editieren
 // ------------------------
-// Beim Klicken in den Subtask-Input wird der Rahmen farblich hervorgehoben und ein alternatives Symbol (z. B. Löschen/Check) angezeigt.
+// Beim Fokussieren des Subtask-Inputs wird der Rahmen farblich hervorgehoben und ein alternatives Symbol (z. B. Löschen/Check) angezeigt.
 function subtaskStyling(inputElement) {
   const symbolStyling = document.getElementById("symbolStyling");
   inputElement.style.border = "2px solid #29ABE2";
@@ -228,26 +239,67 @@ function subtaskStyling(inputElement) {
 }
 
 function subtaskAppend() {
-  const subtaskInputValue = document.getElementById("subtask").value.trim();
-  // Wir verwenden hier zwei Listenelemente für Subtask 1 und 2.
+  const subtaskInput = document.getElementById("subtask");
+  const subtaskInputValue = subtaskInput.value.trim();
+  if (!subtaskInputValue) return; // Leere Subtasks nicht zulassen
+  
+  // Verwende hier zwei Elemente für Subtask 1 und 2.
   const addedSubtaskOne = document.getElementById("subtaskItem1");
   const addedSubtaskTwo = document.getElementById("subtaskItem2");
   
-  // Wenn noch kein Subtask vorhanden, speichere ihn an Position 0
+  // Falls noch kein Subtask vorhanden, speichere ihn an Position 0
   if (!window.selectedSubtasks[0]) {
     addedSubtaskOne.innerHTML = subtaskInputValue;
     addedSubtaskOne.style.display = "inline";
+    // Doppelklick zum Editieren
+    addedSubtaskOne.ondblclick = () => editSubtask(0);
     window.selectedSubtasks[0] = { title: subtaskInputValue, completed: false };
   } else if (!window.selectedSubtasks[1]) {
-    // Ansonsten an Position 1
+    // Andernfalls an Position 1
     addedSubtaskTwo.innerHTML = subtaskInputValue;
     addedSubtaskTwo.style.display = "inline";
+    addedSubtaskTwo.ondblclick = () => editSubtask(1);
     window.selectedSubtasks[1] = { title: subtaskInputValue, completed: false };
   }
+  
+  // Subtask-Input zurücksetzen
+  subtaskInput.value = "";
+  resetAddtaskInput();
+}
+
+function editSubtask(index) {
+  // Ermittle das entsprechende Subtask-Element und den aktuellen Wert
+  const subtaskContainer = index === 0 ? document.getElementById("subtaskItem1") : document.getElementById("subtaskItem2");
+  const currentValue = window.selectedSubtasks[index].title;
+  
+  // Erstelle ein Input-Feld für die Bearbeitung
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = currentValue;
+  input.onblur = function() {
+    const newValue = input.value.trim();
+    if (newValue) {
+      window.selectedSubtasks[index].title = newValue;
+      subtaskContainer.textContent = newValue;
+      // Doppelklick-Event wieder hinzufügen
+      subtaskContainer.ondblclick = () => editSubtask(index);
+    } else {
+      // Falls leer: Subtask entfernen
+      subtaskContainer.innerHTML = "";
+      subtaskContainer.style.display = "none";
+      window.selectedSubtasks[index] = undefined;
+    }
+  };
+  
+  // Ersetze den Inhalt durch das Input-Feld und setze den Fokus
+  subtaskContainer.innerHTML = "";
+  subtaskContainer.appendChild(input);
+  input.focus();
 }
 
 function subtaskInputDelete() {
-  document.getElementById("subtask").value = "";
+  const subtaskInput = document.getElementById("subtask");
+  subtaskInput.value = "";
 }
 
 function resetAddtaskInput() {
@@ -258,12 +310,12 @@ function resetAddtaskInput() {
   
   const subtaskInput = document.getElementById("subtask");
   subtaskInput.style.border = "2px solid #D1D1D1";
-  subtaskInput.value = "";
   
+  // Füge das Plus-Icon wieder hinzu
   const plusImg = document.createElement("img");
   plusImg.src = "./assets/img/plus_task.png";
   plusImg.alt = "plus";
-  plusImg.id = "checkImg";
+  plusImg.id = "plusImg";
   symbolStyling.appendChild(plusImg);
 }
 
@@ -292,11 +344,11 @@ document.addEventListener("click", function (event) {
   const placeholderAssigned = document.getElementById("placeholderAssigned");
   const formSubtask = document.querySelector(".form-subtask");
   
-  if (!formSubtask.contains(event.target)) {
+  if (formSubtask && !formSubtask.contains(event.target)) {
     resetAddtaskInput();
   }
   
-  if (!assignedToElement.contains(event.target)) {
+  if (assignedToElement && !assignedToElement.contains(event.target)) {
     assignedToElement.classList.remove("open");
     customArrowAssigned.classList.remove("open");
     placeholderAssigned.innerHTML = "Select contacts to assign";
@@ -311,8 +363,6 @@ function getAddTaskData() {
   const priorityElement = document.querySelector('input[name="priority"]:checked');
   const priorityValue = priorityElement ? priorityElement.value : "medium";
   
-  // Verwende das globale Array selectedContacts (z. B. [{ name: "Max Mustermann" }, …])
-  // Und selectedSubtasks (als Array von Objekten)
   return {
     title: title.value.trim(),
     description: document.getElementById("description").value.trim(),
@@ -328,7 +378,7 @@ function submitForm(event) {
   event.preventDefault();
   const dataToBoard = getAddTaskData();
   
-  // Mache eine kleine Bestätigungskarte sichtbar
+  // Zeige eine Bestätigungskarte an
   const card = document.getElementById("submit-card");
   card.classList.add("visible");
   
@@ -351,5 +401,5 @@ async function postDatatoBoard(path = "", data = {}) {
   });
 }
 
-// Exponiere initAddTask, damit es im Body- onload genutzt werden kann
+// Exponiere initAddTask, damit es im Body-onload genutzt werden kann
 window.initAddTask = initAddTask;

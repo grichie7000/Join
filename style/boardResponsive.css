@@ -1,0 +1,211 @@
+@media (max-width: 900px) {
+    .mainContent {
+        width: 100%;
+    }
+
+    .firstContent {
+        padding-top: 40px;
+    }
+
+    .sidebarcontact {
+        flex: 1;
+    }
+
+    .sideBar {
+        width: 100%;
+        padding: 0;
+        padding-bottom: 4px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly !important;
+        gap: 4px;
+        position: absolute !important;
+        bottom: 0 !important;
+        height: 70px !important;
+        z-index: 999
+    }
+
+    .topBar {
+        height: 84px;
+        min-height: 84px;
+        width: 100%;
+        background-color: #FFFFFF;
+        box-shadow: 0px 0px 12px grey;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+    }
+
+    .topBar h3 {
+        display: none !important;
+    }
+
+    .menuPos {
+        display: flex;
+        flex-direction: row !important;
+        justify-content: space-evenly;
+        gap: 0px !important;
+    }
+
+    .navMenu {
+        flex-direction: column;
+    }
+
+    .menuDesc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navMenu img {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        padding-left: 0 !important;
+    }
+
+    .lawSection {
+        display: none !important;
+    }
+
+    .joinLogo {
+        display: none;
+    }
+
+    .logo-header-container {
+        display: flex;
+        width: 50px;
+        height: 50px;
+        padding-left: 20px;
+    }
+
+    .board-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .header-right {
+        align-items: center;
+    }
+
+    .task {
+        width: 220px;
+    }
+
+    .task-container {
+        padding-bottom: 100px;
+    }
+
+    h1 {
+        font-size: 41px;
+        font-weight: 700;
+        color: black;
+        padding-bottom: 15px;
+    }
+
+    .input-wrapper {
+        padding: 4px 12px;
+        width: 250px;
+    }
+
+    .addTaskButton {
+        font-size: 15px;
+        height: 43px;
+        width: auto;
+        padding-right: 16px;
+    }
+
+    .findTaskInput {
+        font-size: 15px;
+    }
+
+    .kanban-board {
+        display: flex;
+        gap: 50px;
+        padding: 20px 64px;
+        height: 100vh;
+        overflow: auto;
+        flex-wrap: nowrap;
+        margin-bottom: 74px;
+    }
+}
+
+@media (max-width: 650px) {
+    .awaitButton, .inProgressButton, .toDoButton {
+        font-size: 18px;
+    }
+
+    .titles {
+        font-size: 23px;
+    }
+
+    .task-container {
+        flex-direction: row;
+        gap: 40px;
+        padding-bottom: 0px;
+    }
+
+    .kanban-column {
+        width: auto;
+        box-sizing: border-box;
+    }
+
+    .buttonFont {
+        display: none;
+    }
+
+    .addTaskButton:hover {
+        padding-right: 16px;
+    }
+
+    .board-header {
+        padding-left: 24px;
+    }
+
+    .kanban-board {
+        flex-wrap: wrap;
+        padding-left: 24px;
+        margin-bottom: 74px;
+    }
+}
+
+@media (max-width: 400px) {
+    h1 {
+        padding-bottom: 0px;
+    }
+
+    .addTaskButton {
+        display: none;
+    }
+
+    .header-right-mobile {
+        display: flex;
+        align-items: center;
+        gap: 110px;
+        padding-bottom: 15px;
+    }
+
+    .addTaskButtonMobile {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: #2A3647;
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        border: none;
+        padding: 4px 10px;
+        cursor: pointer;
+        height: 40px;
+        width: auto;
+        transition: background-color 0.2sease -in, transform 0.2sease -in;
+    }
+}
+
+@media (max-width: 350px) {
+    .navMenu {
+        font-size: 13px;
+    }
+}
