@@ -114,7 +114,7 @@ function showContactDetails(userId) {
         let btnMobilePopup = document.getElementById("btn-mobile-popup");
         contactDetails.innerHTML = "";
         let selectedUser = userArray.find(user => user.id == userId);
-        if (window.innerWidth <= 826) {
+        if (window.innerWidth <= 950) {
             contactDetails.parentElement.classList.add('mobile-popup');
             btnMobilePopup.classList.remove('d-none');
             document.body.style.overflow = 'hidden';

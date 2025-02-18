@@ -159,14 +159,14 @@
 
 }
 
-@media (min-width: 901px) {
+@media (min-width: 951px) {
   .mobile-logo {
     display: none;
   }
 }
 
 /* Popup */
-@media screen and (min-width: 0px) and (max-width: 900px) {
+@media screen and (min-width: 0px) and (max-width: 950px) {
     .main-content {
         margin-left: 0 !important;
         height: 100%;
@@ -244,7 +244,7 @@
 }
 
 /* Contact Main */
-@media (max-width: 900px) {
+@media (max-width: 950px) {
     .btn-container-mobile {
         display: block;
         position: fixed; 
@@ -402,7 +402,7 @@
     }
 
     .contact-buttons {
-        display: none !important;
+        display: auto;
     }
 }
 
