@@ -116,6 +116,16 @@
         padding-right: 16px;
     }
 
+    .addTaskButton:hover {
+        transform: 0.2s ease-in;
+        background-color: #29ABE2;
+        color: white;
+        font-size: 15px;
+        height: 43px;
+        width: auto;
+        padding-right: 16px;
+    }
+
     .findTaskInput {
         font-size: 15px;
     }
