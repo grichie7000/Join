@@ -2,6 +2,7 @@ html, body {
     display: flex;
     overflow-y: hidden;
     height: 100%;
+    width: 100%;
 }
 
 .mainContent {
@@ -26,7 +27,7 @@ h1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 64px;
+    padding-left: 180px;
     padding-bottom: 20px;
 }
 
@@ -142,15 +143,13 @@ h1 {
 .logo-header-container{
     display: none;
 }
-
-.board-wrapper {
-    overflow-x: auto; 
-  }
  
 .kanban-board {
     display: flex;
     gap: 50px;
-    padding: 20px 64px;
+    padding-top: 20px;
+    padding-left: 180px;
+    padding-right: 20px;
     max-height: calc(100vh - 200px);
     /* Maximale Höhe, an die der Scrollbalken angepasst wird */
     overflow: auto;

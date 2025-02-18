@@ -20,18 +20,17 @@ function selectContact(name) {
   toggleDropdown();
 }
 
-// Aktualisiert die Anzeige der ausgewählten Kontakte
 function updateContactsUI() {
-  const contactsUl = document.getElementById('overlayTaskContacts');
+  const contactsUl = document.getElementById('selectedContactsList'); // statt 'overlayTaskContacts'
   contactsUl.innerHTML = "";
   selectedContacts.forEach(contact => {
     const li = document.createElement("li");
     li.textContent = contact;
-    // Optional: Durch Klicken kann ein Kontakt entfernt werden
     li.addEventListener("click", () => removeContact(contact));
     contactsUl.appendChild(li);
   });
 }
+
 
 // Entfernt einen Kontakt aus der Auswahl
 function removeContact(name) {

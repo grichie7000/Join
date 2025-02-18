@@ -1,5 +1,68 @@
 @media (max-width: 1150px) {
-    .addTask{
+    .addTask {
         padding-right: 0px;
+    }
+
+    .seperator {
+        display: none;
+    }
+
+    .input-Section {
+        flex-direction: column;
+    }
+
+    .inputLeft {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .inputRight {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        margin-right: 40px;
+    }
+
+    .button-and-text {
+        padding-right: 40px;
+        width: 450px;
+    }
+
+    .overlay-board-addTask-content {
+        background-color: white;
+        padding: 10px;
+        border-radius: 10px;
+        width: auto;
+        height: 820px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+    }
+
+    .overlay-board-addTask-content::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    .overlay-board-addTask-content::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 3px;
+    }
+    
+    .overlay-board-addTask-content::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    
+    
+
+    #addedSubtask {
+        font-size: 16px;
+        height: 48px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 8px;
+        padding-right: 250px;
+        padding-left: 0px;
+
     }
 }

@@ -275,41 +275,137 @@ $("taskOverlay").addEventListener("click", (event) => {
     }
 });
 
+// Globale Arrays initialisieren
+window.selectedContacts = window.selectedContacts || [];
+window.selectedSubtasks = window.selectedSubtasks || [];
+
+// --------------------
+// Task zurücksetzen
+// --------------------
+window.clearTask = function() {
+  const form = $("addtaskForm");
+  form.reset();
+
+  // Fehlermeldungen leeren
+  const errorTitleEl = $("error-title");
+  const errorDueDateEl = $("error-date");
+  const errorCategoryEl = $("error-category");
+  const selectedContactsList = $("selectedContactsList");
+  const subtasksOne = $("subtaskItem1");
+  const subtasksTwo = $("subtaskItem2");
+
+  if (subtasksOne) subtasksOne.innerHTML = "";
+  if (subtasksTwo) subtasksTwo.innerHTML = "";
+  if (selectedContactsList) selectedContactsList.innerHTML = "";
+  if (errorTitleEl) errorTitleEl.textContent = "";
+  if (errorDueDateEl) errorDueDateEl.textContent = "";
+  if (errorCategoryEl) errorCategoryEl.textContent = "";
+
+  // Rote Rahmen entfernen
+  $("title").style.borderColor = "";
+  $("due-date").style.borderColor = "";
+  $("category").style.borderColor = "";
+
+  // Globale Arrays zurücksetzen
+  window.selectedSubtasks = [];
+  window.selectedContacts = [];
+};
+
+// --------------------
+// Input-Listener einmalig anhängen
+// --------------------
+$("title").addEventListener("input", () => {
+  const errorTitleEl = $("error-title");
+  errorTitleEl.textContent = "";
+  $("title").style.borderColor = "";
+});
+
+$("due-date").addEventListener("input", () => {
+  const errorDueDateEl = $("error-date");
+  errorDueDateEl.textContent = "";
+  $("due-date").style.borderColor = "";
+});
+
+$("category").addEventListener("input", () => {
+  const errorCategoryEl = $("error-category");
+  errorCategoryEl.textContent = "";
+  $("category").style.borderColor = "";
+});
+
+// --------------------
+// Create-Button Click-Event
+// --------------------
 document.querySelector(".create-btn").addEventListener("click", (event) => {
-    event.preventDefault();
-    
-    const titleValue = $("title").value;
-    const descriptionValue = $("description").value;
-    const dueDateValue = $("due-date").value;
-    const priorityValue = document.querySelector('input[name="priority"]:checked')?.value;
-    const categoryValue = $("category").value;
-    const columnId = $("taskOverlay").dataset.columnId;
-    
-    const subtasksMapped = window.selectedSubtasks.map(subtask => {
-      return { 
-        title: typeof subtask === "object" ? subtask.title : subtask, 
-        completed: false 
-      };
-    });
-    
-    const taskData = {
-      title: titleValue,
-      description: descriptionValue,
-      dueDate: dueDateValue,
-      priority: priorityValue,
-      category: categoryValue,
-      status: columnId,
-      contacts: window.selectedContacts,
-      subtasks: subtasksMapped
-    };
-    
-    const newTaskId = Date.now().toString();
-    set(ref(db, `tasks/${columnId}/${newTaskId}`), taskData)
-      .then(() => {
-        hideOverlay();
-        loadTasks();
-      })
-      .catch(error => console.error("Fehler beim Speichern des Tasks:", error));
+  event.preventDefault();
+
+  // Eingabefelder abrufen
+  const titleInput = $("title");
+  const dueDateInput = $("due-date");
+  const categoryInput = $("category");
+  const descriptionInput = $("description"); // optional
+
+  // Werte holen und trimmen
+  const titleValue = titleInput.value.trim();
+  const descriptionValue = descriptionInput.value.trim();
+  const dueDateValue = dueDateInput.value;
+  const categoryValue = categoryInput.value;
+
+  // Fehler-Elemente abrufen und zurücksetzen
+  const errorTitleEl = $("error-title");
+  const errorDueDateEl = $("error-date");
+  const errorCategoryEl = $("error-category");
+
+  errorTitleEl.textContent = "";
+  errorDueDateEl.textContent = "";
+  errorCategoryEl.textContent = "";
+
+  titleInput.style.borderColor = "";
+  dueDateInput.style.borderColor = "";
+  categoryInput.style.borderColor = "";
+
+  let isValid = true;
+
+  if (!titleValue) {
+    errorTitleEl.textContent = "This field is required";
+    titleInput.style.borderColor = "red";
+    isValid = false;
+  }
+  if (!dueDateValue) {
+    errorDueDateEl.textContent = "This field is required";
+    dueDateInput.style.borderColor = "red";
+    isValid = false;
+  }
+  if (!categoryValue) {
+    errorCategoryEl.textContent = "This field is required";
+    categoryInput.style.borderColor = "red";
+    isValid = false;
+  }
+
+  if (!isValid) return;
+
+  // Task-Daten zusammenstellen (weitere Felder optional)
+  const taskData = {
+    title: titleValue,
+    description: descriptionValue,
+    dueDate: dueDateValue,
+    priority: document.querySelector('input[name="priority"]:checked')?.value || null,
+    category: categoryValue,
+    status: $("taskOverlay").dataset.columnId || "",
+    contacts: window.selectedContacts || [],
+    subtasks: (window.selectedSubtasks || []).map(subtask => ({
+      title: typeof subtask === "object" ? subtask.title : subtask,
+      completed: false,
+    })),
+  };
+
+  const newTaskId = Date.now().toString();
+  set(ref(db, `tasks/${taskData.status}/${newTaskId}`), taskData)
+    .then(() => {
+      hideOverlay();
+      loadTasks();
+    })
+    .catch(error => console.error("Fehler beim Speichern des Tasks:", error));
+    clearTask();
 });
 
 const displayUserInitials = () => {
