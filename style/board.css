@@ -133,6 +133,62 @@ h1 {
     font-size: 21px;
 }
 
+.addTaskButtonOne {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #2A3647;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+    width: 160px;
+    height: 48px;
+    border-radius: 10px;
+    border: none;
+    padding: 8px 16px;
+    padding-right: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in, transform 0.2s ease-in;
+}
+
+.addTaskButton:hover {
+    transform: 0.2s ease-in;
+    background-color: #29ABE2;
+    color: white;
+    padding: 8px 16px;
+    padding-right: 25px;
+    font-size: 21px;
+}
+
+.addTaskButtonTwo {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #2A3647;
+    color: white;
+    font-size: 21px;
+    font-weight: 700;
+    width: 160px;
+    height: 48px;
+    border-radius: 10px;
+    border: none;
+    padding: 8px 16px;
+    padding-right: 25px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in, transform 0.2s ease-in;
+}
+
+.addTaskButton:hover {
+    transform: 0.2s ease-in;
+    background-color: #29ABE2;
+    color: white;
+    padding: 8px 16px;
+    padding-right: 25px;
+    font-size: 21px;
+}
+
 .title-container {
     margin-top: 20px;
     display: flex;
@@ -223,6 +279,24 @@ h1 {
     align-items: center;
 }
 
+.toDoMobileButton, .progressMobileButton, .awaitMobileButton{
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #2A3647;
+    border-radius: 8px;
+    color: #2A3647;
+}
+
+.awaitMobileButton:hover,
+.progressMobileButton:hover,
+.toDoMobileButton:hover {
+    border-color: #29ABE2;
+    color: #29ABE2;
+}
 
 .task-container {
     display: flex;
@@ -431,6 +505,8 @@ h1 {
 }
 
 .close-btn {
+    position: absolute;
+    right: 10px;
     background: none;
     border: none;
     font-size: 30px;

@@ -90,6 +90,22 @@
         align-items: center;
     }
 
+    .toDoButton{
+        display: none;
+    }
+
+    .inProgressButton{
+        display: none;
+    }
+
+    .awaitButton{
+        display: none;
+    }
+
+    .toDoMobileButton, .progressMobileButton, .awaitMobileButton{
+        display: flex;
+    }
+
     .task {
         width: 220px;
     }
@@ -111,20 +127,35 @@
     }
 
     .addTaskButton {
-        font-size: 15px;
-        height: 43px;
-        width: auto;
-        padding-right: 16px;
+       display: none;
     }
 
-    .addTaskButton:hover {
+    .addTaskButtonOne {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background-color: #2A3647;
+        color: white;
+        font-weight: 700;
+        border-radius: 10px;
+        border: none;
+        padding: 4px 10px;
+        cursor: pointer;
+        height: 40px;
+        width: auto;
+        transition: background-color 0.2sease -in, transform 0.2sease -in;
+    }
+    .buttonFont{
+        font-size: 18px;
+    }
+
+    .addTaskButtonOne:hover {
         transform: 0.2s ease-in;
         background-color: #29ABE2;
         color: white;
-        font-size: 15px;
-        height: 43px;
-        width: auto;
-        padding-right: 16px;
+        padding: 4px 10px;
+        font-size: 21px;
     }
 
     .findTaskInput {
@@ -181,6 +212,31 @@
     }
 }
 
+@media (max-width: 500px) {
+    .overlay-content{
+        width: 380px;
+    }
+
+}
+
+@media (max-width: 450px) {
+    .overlay-content{
+        width: 300px;
+    }
+
+    .priority-container{
+        flex-direction: column;
+    }
+
+    #taskDetailOverlay .task-title {
+        font-size: 30px;
+    }
+
+    #taskDetailOverlay .task-description {
+        font-size: 17px;
+    }
+}
+
 @media (max-width: 400px) {
     h1 {
         padding-bottom: 0px;
@@ -197,7 +253,11 @@
         padding-bottom: 15px;
     }
 
-    .addTaskButtonMobile {
+    .addTaskButtonOne {
+        display: none;
+    }
+
+    .addTaskButtonTwo {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -212,6 +272,24 @@
         height: 40px;
         width: auto;
         transition: background-color 0.2sease -in, transform 0.2sease -in;
+    }
+
+    .addTaskButtonTwo:hover {
+        transform: 0.2s ease-in;
+        background-color: #29ABE2;
+        color: white;
+        padding: 4px 10px;
+        font-size: 21px;
+    }
+
+    .buttonFont{
+        display: none;
+    }
+}
+
+@media (max-width: 365px) {
+    .overlay-content{
+        width: 250px;
     }
 }
 

@@ -86,7 +86,7 @@
             <div class="board-header">
                 <div class="header-right-mobile">
                     <h1>Board</h1>
-                    <button class="addTaskButtonMobile">
+                    <button class="addTaskButtonTwo" id="addTaskMobile">
                         <div class="buttonFont">Add task</div>
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -109,6 +109,14 @@
                                 fill="white" />
                         </svg>
                     </button>
+                    <button class="addTaskButtonOne" id="addTaskMobile2">
+                        <div class="buttonFont">Add task</div>
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.66602 11.3327H0.666016V8.66602H8.66602V0.666016H11.3327V8.66602H19.3327V11.3327H11.3327V19.3327H8.66602V11.3327Z"
+                                fill="white" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </section>
@@ -116,21 +124,27 @@
         <section class="kanban-board">
             <div class="kanban-column">
                 <div class="titles">
-                    To do <div class="toDoButton">+</div>
+                    To do 
+                    <div id="addTaskMobile3" class="toDoMobileButton">+</div>
+                    <div class="toDoButton">+</div>
                 </div>
                 <div id="to-do" class="task-container" ondrop="moveTo(event, 'to-do')" ondragover="allowDrop(event)">
                 </div>
             </div>
             <div class="kanban-column">
                 <div class="titles">
-                    In progress <div class="inProgressButton">+</div>
+                    In progress 
+                    <div class="inProgressButton">+</div>
+                    <div id="addTaskMobile4" class="progressMobileButton">+</div>
                 </div>
                 <div id="in-progress" class="task-container" ondrop="moveTo(event, 'in-progress')"
                     ondragover="allowDrop(event)"></div>
             </div>
             <div class="kanban-column">
                 <div class="titles">
-                    Await feedback <div class="awaitButton">+</div>
+                    Await feedback 
+                    <div class="awaitButton">+</div>
+                    <div id="addTaskMobile5" class="awaitMobileButton">+</div>
                 </div>
                 <div id="await-feedback" class="task-container" ondrop="moveTo(event, 'await-feedback')"
                     ondragover="allowDrop(event)"></div>
@@ -200,7 +214,7 @@
                         </div>
                         <div class="form-priority">
                             <label for="edit-priority">Priority</label>
-                            <div style="display: flex; gap: 10px;" id="edit-priority">
+                            <div class="priority-container" style="display: flex; gap: 10px;" id="edit-priority">
                                 <label class="radio-container">
                                     <input type="radio" id="edit-urgent" name="edit-priority" value="urgent">
                                     <span class="radio-custom urgent-radio">
@@ -237,7 +251,7 @@
                             </div>
                         </div>
 
-                        <div class="form-subtasks">
+                        <div style="width: 100%;" class="form-subtasks">
                             <label for="edit-subtask">Subtasks</label>
                             <div class="subtask-input-container">
                                 <input type="text" id="edit-subtask" name="edit-subtask" placeholder="Add new subtask">

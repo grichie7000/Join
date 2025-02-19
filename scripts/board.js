@@ -415,6 +415,26 @@ const displayUserInitials = () => {
     }
 };
 
+document.getElementById('addTaskMobile').addEventListener('click', function() {
+  window.location.href = 'addtask.html';
+});
+
+document.getElementById('addTaskMobile2').addEventListener('click', function() {
+  window.location.href = 'addtask.html';
+});
+
+document.getElementById('addTaskMobile3').addEventListener('click', function() {
+  window.location.href = 'addtask.html';
+});
+
+document.getElementById('addTaskMobile4').addEventListener('click', function() {
+  window.location.href = 'addtask.html';
+});
+
+document.getElementById('addTaskMobile5').addEventListener('click', function() {
+  window.location.href = 'addtask.html';
+});
+
 document.addEventListener("DOMContentLoaded", displayUserInitials);
 loadTasks();
 
