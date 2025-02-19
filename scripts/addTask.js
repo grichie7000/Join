@@ -439,11 +439,11 @@ function getAddTaskData() {
     formDataArray.push(document.getElementById('title').value)
     formDataArray.push(document.getElementById('description').value)
     let contacts = [];
-    document.querySelectorAll('#selectedContactsList .selected-contact-item').forEach(item => {
+    document.querySelectorAll('#contactListAssigned .selected .select-position').forEach(item => {
         let contact = {
-            color: item.style.backgroundColor,
             name: item.innerText
         };
+
         contacts.push(contact);
     });
     formDataArray.push(document.getElementById('due-date').value)
