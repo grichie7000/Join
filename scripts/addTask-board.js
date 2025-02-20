@@ -1,9 +1,9 @@
 const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 
-// Wird beim Laden der Seite aufgerufen (im Body- onload)
 function initAddTask() {
   getElementsByIds();
-  loadFirebaseData("contactsDatabase"); // Kontakte laden (Pfad ggf. anpassen)
+  loadFirebaseData("contactsDatabase");
+  window.selectedSubtasks = []; // Hinzufügen
 }
 
 // Funktion zum Zurücksetzen der Auswahl
@@ -162,11 +162,16 @@ function deleteItemOne() {
   const addedSubtaskOne = document.getElementById('subtaskItem1');
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
-  subTaskOne = false;
-
-  editIcons.style.display = 'none'
-  editItem.style.display = 'none'
+  
+  editIcons.style.display = 'none';
+  editItem.style.display = 'none';
   addedSubtaskOne.innerHTML = '';
+  addedSubtaskOne.style.display = 'none'; // Element ausblenden
+
+  // Daten aus dem Array entfernen
+  if (window.selectedSubtasks.length > 0) {
+    window.selectedSubtasks.splice(0, 1);
+  }
 }
 
 function submitItemOne() {
@@ -197,11 +202,16 @@ function deleteItemTwo() {
   const addedSubtaskTwo = document.getElementById('subtaskItem2');
   const editItem = document.getElementById('editItemTwo');
   const editIcons = document.getElementById('editItemIconTwo');
-  subtaskTwo = false;
-
-  editIcons.style.display = 'none'
-  editItem.style.display = 'none'
+  
+  editIcons.style.display = 'none';
+  editItem.style.display = 'none';
   addedSubtaskTwo.innerHTML = '';
+  addedSubtaskTwo.style.display = 'none'; // Element ausblenden
+
+  // Daten aus dem Array entfernen
+  if (window.selectedSubtasks.length > 1) {
+    window.selectedSubtasks.splice(1, 1);
+  }
 }
 
 function submitItemTwo() {
@@ -324,21 +334,28 @@ function subtaskStyling(inputElement) {
 
 function subtaskAppend() {
   const subtaskInputValue = document.getElementById("subtask").value.trim();
-  // Wir verwenden hier zwei Listenelemente für Subtask 1 und 2.
   const addedSubtaskOne = document.getElementById("subtaskItem1");
   const addedSubtaskTwo = document.getElementById("subtaskItem2");
-  
-  // Wenn noch kein Subtask vorhanden, speichere ihn an Position 0
-  if (!window.selectedSubtasks[0]) {
-    addedSubtaskOne.innerHTML = subtaskInputValue;
-    addedSubtaskOne.style.display = "inline";
-    window.selectedSubtasks[0] = { title: subtaskInputValue, completed: false };
-  } else if (!window.selectedSubtasks[1]) {
-    // Ansonsten an Position 1
-    addedSubtaskTwo.innerHTML = subtaskInputValue;
-    addedSubtaskTwo.style.display = "inline";
-    window.selectedSubtasks[1] = { title: subtaskInputValue, completed: false };
+
+  if (!subtaskInputValue) return; // Leere Eingabe ignorieren
+
+  // Füge Subtask nur hinzu, wenn Platz im Array ist
+  if (window.selectedSubtasks.length < 2) {
+    window.selectedSubtasks.push({
+      title: subtaskInputValue,
+      completed: false
+    });
+
+    // Aktualisiere die Anzeige
+    if (window.selectedSubtasks.length === 1) {
+      addedSubtaskOne.innerHTML = subtaskInputValue;
+      addedSubtaskOne.style.display = "inline";
+    } else {
+      addedSubtaskTwo.innerHTML = subtaskInputValue;
+      addedSubtaskTwo.style.display = "inline";
+    }
   }
+  resetAddtaskInput();
 }
 
 function subtaskInputDelete() {
