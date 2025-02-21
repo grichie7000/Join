@@ -1,0 +1,54 @@
+@media (max-width: 1510px) and (min-width:1315px) {
+
+    .sideBar {
+        min-width: 220px;
+    }
+
+    .addTask {
+        padding-left: 92px;
+    }
+
+}
+
+@media (max-width: 1314px) and (min-width:951px) {
+
+    .sideBar {
+        min-width: 220px;
+    }
+
+    .addTask {
+        padding-left: 92px;
+    }
+
+    .seperator {
+        display: none;
+    }
+
+    .input-Section {
+        display: block;
+    }
+
+    .form-date {
+        margin-top: 16px;
+    }
+
+    .addTask {
+        overflow-y: scroll;
+    }
+
+    .button-and-text {
+        padding-top: 22px;
+        margin-bottom: 32px;
+        width: 436px;
+        align-items: center;
+    }
+
+    .form-buttons {
+        padding-top: 0;
+    }
+
+    #required-text {
+        padding-top: 0px;
+    }
+
+}

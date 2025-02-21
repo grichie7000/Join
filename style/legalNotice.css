@@ -15,7 +15,7 @@ body {
 .legalNotice {
     padding-left: 180px;
     padding-right: 220px;
-    overflow: scroll;
+    overflow-y: scroll;
 }
 
 .legalNotice h1 {
@@ -54,4 +54,11 @@ body {
     margin-bottom: 16px;
     font-size: 14px;
     color: #777;
+}
+
+@media (max-width: 1510px) and (min-width:951px) {
+    .legalNotice {
+        padding-left: 92px;
+        padding-right: 92px;
+      }
 }

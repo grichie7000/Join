@@ -13,8 +13,6 @@ body {
 
 .addTask {
     padding-left: 180px;
-    padding-right: 220px;
-    overflow: scroll;
 }
 
 .addTask h2 {
@@ -587,7 +585,6 @@ select:focus+#customArrowCategory {
 .button-and-text {
     display: flex;
     justify-content: space-between;
-    padding-right: 310px;
     padding-top: 32px;
     width: 960px;
 }

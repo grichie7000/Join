@@ -93,3 +93,14 @@ body {
     font-size: 14px;
     color: #777;
 }
+
+@media (max-width: 1510px) and (min-width:951px) {
+    .helpSite {
+        padding-left: 92px;
+        padding-right: 92px;
+      }
+
+      .helpSite img {
+        right: 60px;
+      }
+}

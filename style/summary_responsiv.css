@@ -1,0 +1,23 @@
+@media (max-width: 1510px) and (min-width:951px) {
+    .summaryContent {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .summary {
+        padding-left: 92px;
+    }
+
+    .sideBar {
+        min-width: 220px;
+    }
+    
+    .taskCards {
+        padding-top: 82px;
+    }
+
+    .greeting {
+        margin-bottom: 32px;
+        margin-top: 48px;
+    }
+}
