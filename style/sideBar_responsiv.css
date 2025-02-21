@@ -1,0 +1,53 @@
+@media (max-width: 950px) {
+
+    .joinLogo {
+        display: none;
+    }
+
+    .sideBar {
+        height: 100%;
+        background-color: #2A3647;
+        position: relative;
+        min-width: unset;
+    }
+
+    .lawSection {
+        display: none;
+    }
+
+    .menuPos {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 8px;
+        gap:0;
+    }
+
+    .navMenu {
+        flex-direction: column;
+        width: 85px;
+    }
+
+    .navMenu img {
+        padding-left: 0px;
+      }
+
+      .active {
+        border-radius: 18px;
+      }
+}
+
+@media (max-width: 400px) {
+
+    .navMenu {
+        flex-direction: column;
+        width: 62px;
+        font-size: 15px;
+    }
+
+    .navMenu img {
+        height: 22px;
+        width: 22px;
+      }
+
+}

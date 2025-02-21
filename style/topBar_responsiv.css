@@ -5,3 +5,24 @@
     }
 
 }
+
+@media (max-width: 950px) {
+
+    .topBar h3 {
+        display: none;
+    }
+
+    .help {
+        display: none;
+    }
+
+    .topBar img {
+        margin-left: 16px;
+        display: block;
+    }
+
+    #helpDropdown{
+        display: block;
+    }
+
+}

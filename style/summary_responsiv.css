@@ -1,4 +1,5 @@
 @media (max-width: 1510px) and (min-width:951px) {
+
     .summaryContent {
         display: flex;
         flex-direction: column;
@@ -11,7 +12,7 @@
     .sideBar {
         min-width: 220px;
     }
-    
+
     .taskCards {
         padding-top: 82px;
     }
@@ -19,5 +20,17 @@
     .greeting {
         margin-bottom: 32px;
         margin-top: 48px;
+    }
+}
+
+@media (max-width: 950px) {
+
+    body {
+        flex-direction: column-reverse;
+        overflow: unset;
+    }
+
+    .greeting {
+        display: none;
     }
 }
