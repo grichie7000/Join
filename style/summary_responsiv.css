@@ -18,8 +18,7 @@
     }
 
     .greeting {
-        margin-bottom: 32px;
-        margin-top: 48px;
+       display: none;
     }
 }
 
@@ -28,9 +27,150 @@
     body {
         flex-direction: column-reverse;
         overflow: unset;
+        height: 100vh;
+    }
+
+    .mainContent {
+        overflow-y: scroll;
     }
 
     .greeting {
         display: none;
+    }
+
+    .summary {
+        padding-right: 8px;
+        padding-left: 8px;
+        padding-top: 36px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .seperatorHeadline {
+        display: none;
+    }
+
+    .seperatorHeadlineRespo {
+        display: block;
+        height: 4px;
+        width: 136px;
+        background-color: #29ABE2;
+        border-radius: 6px;
+    }
+
+    .summaryHeadline {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 6px;
+        height: 124px;
+        margin-top: 124px;
+    }
+}
+
+
+@media (max-width: 575px) {
+    .toDoAndDone {
+        height: unset;
+        width: unset;
+        display: block;
+        gap: 0px;
+    }
+
+    .toDoCard {
+        height: 160px;
+        width: 430px;
+        margin-bottom: 8px;
+    }
+
+    .doneCard {
+        height: 160px;
+        width: 430px;
+        margin-bottom: 8px;
+    }
+
+    .urgentSection {
+        height: unset;
+        width: unset;
+        margin-top: 8px;
+    }
+
+    .urgentCard {
+        height: unset;
+        width: 430px;
+        border-radius: 16px;
+        display: block;
+        padding-top: 16px;
+        padding-bottom: 16px;
+        margin-bottom: 8px;
+    }
+
+    .urgentSeperator {
+        display: none;
+    }
+
+    .urgentLeft {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        margin-left: 0px;
+        margin-bottom: 16px;
+    }
+
+    .urgentRight {
+        text-align: center;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    .openTasks {
+        height: unset;
+        width: unset;
+        display: block;
+        gap: 0;
+    }
+
+    .totalTasks {
+        width: 430px;
+        margin-bottom: 8px;
+    }
+
+    .tasksInProgress {
+        width: 430px;
+        margin-bottom: 8px;
+    }
+
+    .feedbackTask {
+        width: 430px;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 455px) {
+
+
+    .toDoCard {
+        width: 300px;
+    }
+
+    .doneCard {
+        width: 300px;
+    }
+
+    .urgentCard {
+        width: 300px;
+    }
+
+    .totalTasks {
+        width: 300px;
+    }
+
+    .tasksInProgress {
+        width: 300px;
+    }
+
+    .feedbackTask {
+        width: 300px;
     }
 }

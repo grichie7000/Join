@@ -1,6 +1,8 @@
+::-webkit-scrollbar { display: none; }
+
 body {
     display: flex;
-    overflow: hidden;
+    overflow: scroll;
 }
 
 .mainContent {
@@ -14,10 +16,13 @@ body {
 .summary {
     padding-left: 180px;
     padding-top: 72px;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .summaryContent{
 display: flex;
+
 }
 
 .summaryHeadline {
@@ -37,6 +42,10 @@ display: flex;
     width: 4px;
     background-color: #29ABE2;
     border-radius: 6px;
+}
+
+.seperatorHeadlineRespo{
+    display: none;
 }
 
 .headlineText {
