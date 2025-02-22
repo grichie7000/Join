@@ -1,3 +1,26 @@
+/* sidebar */
+@media (max-width: 1510px) and (min-width:951px) {
+
+    .sideBar {
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 950px) {
+
+    body {
+        flex-direction: column-reverse;
+        overflow: unset;
+        height: 100vh;
+    }
+
+    .mainContent {
+        overflow-y: scroll;
+    }
+}
+
+
+/* main content */
 @media (max-width: 1510px) and (min-width:1315px) {
 
     .sideBar {
@@ -11,13 +34,9 @@
 }
 
 @media (max-width: 1314px) and (min-width:951px) {
-
-    .sideBar {
-        min-width: 220px;
-    }
-
     .addTask {
-        padding-left: 92px;
+        padding-left: 120px;
+        overflow-y: scroll;
     }
 
     .seperator {
@@ -30,10 +49,6 @@
 
     .form-date {
         margin-top: 16px;
-    }
-
-    .addTask {
-        overflow-y: scroll;
     }
 
     .button-and-text {
@@ -51,4 +66,99 @@
         padding-top: 0px;
     }
 
+}
+
+@media (max-width: 950px) {
+
+    .sideBar {
+        min-width: 220px;
+    }
+
+    .addTask {
+        padding-left: 0px;
+        padding-right: 0px;
+        overflow-y: scroll;
+    }
+
+    .addTask h2 {
+        margin-top: 114px;
+    }
+
+    .seperator {
+        display: none;
+    }
+
+    .input-Section {
+        display: block;
+    }
+
+    label {
+        align-self: start;
+        margin-left: 18px;
+    }
+
+    .inputLeft {
+        margin: 0;
+    }
+
+    /* title */
+    .form-title {
+        align-items: center;
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #title {
+        width: 260px;
+    }
+
+    /* description */
+    .form-description {
+        width: 305px;
+    }
+
+    #description {
+        width: 280px;
+    }
+
+    /* contacts */
+    .form-assigned-to {
+        width: 305px;
+    }
+
+    #assigned-to {
+        width: 280px;
+    }
+
+    .contact-list {
+        width: 312px;
+    }
+
+    /* date */
+    .form-date {
+        margin-top: 16px;
+    }
+
+    /* prio */
+
+    /* category */
+
+    /* subtasks */
+
+    /* buttons */
+    .button-and-text {
+        padding-top: 22px;
+        margin-bottom: 32px;
+        width: 436px;
+        align-items: center;
+    }
+
+    .form-buttons {
+        padding-top: 0;
+    }
+
+    #required-text {
+        padding-top: 0px;
+    }
 }
