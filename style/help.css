@@ -94,13 +94,51 @@ body {
     color: #777;
 }
 
+/* sidebar */
+@media (max-width: 1510px) and (min-width:951px) {
+
+    .sideBar {
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 950px) {
+
+    body {
+        flex-direction: column-reverse;
+        overflow: unset;
+        height: 100vh;
+    }
+
+    .mainContent {
+        overflow-y: scroll;
+    }
+}
+
+
+/* main content */
 @media (max-width: 1510px) and (min-width:951px) {
     .helpSite {
         padding-left: 92px;
         padding-right: 92px;
-      }
+    }
 
-      .helpSite img {
-        right: 60px;
+    .helpSite img {
+        right: 115px;
+      }
+}
+
+@media (max-width: 950px) {
+
+    .helpSite {
+        padding-left: 16px;
+        padding-right: 16px;
+        overflow-y: scroll;
+        margin-top: 54px;
+    }
+
+    .helpSite img {
+        right: 46px;
+        top: 320px;
       }
 }

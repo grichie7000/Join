@@ -48,9 +48,42 @@ body {
     color: #777;
 }
 
+/* sidebar */
+@media (max-width: 1510px) and (min-width:951px) {
+
+    .sideBar {
+        min-width: 220px;
+    }
+}
+
+@media (max-width: 950px) {
+
+    body {
+        flex-direction: column-reverse;
+        overflow: unset;
+        height: 100vh;
+    }
+
+    .mainContent {
+        overflow-y: scroll;
+    }
+}
+
+
+/* main content */
 @media (max-width: 1510px) and (min-width:951px) {
     .privacyPolicy {
         padding-left: 92px;
         padding-right: 92px;
+    }
+}
+
+@media (max-width: 950px) {
+
+    .privacyPolicy {
+        padding-left: 16px;
+        padding-right: 16px;
+        overflow-y: scroll;
+        margin-top: 54px;
     }
 }
