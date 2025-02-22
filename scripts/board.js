@@ -1,18 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-import { getDatabase, ref, set, get, remove, onValue } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+const dbUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
-    authDomain: "join-d3707.firebaseapp.com",
-    databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-d3707",
-    storageBucket: "join-d3707.firebasestorage.app",
-    messagingSenderId: "961213557325",
-    appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
-};
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-
+// Hilfsfunktionen
 const $ = (id) => document.getElementById(id);
 
 function getCategoryColor(category) {
@@ -28,11 +16,9 @@ function getInitials(name) {
 }
 
 function getContactColor(contact) {
-    // Falls der Kontakt bereits eine Farbe besitzt, nutze diese:
     if (typeof contact === 'object' && contact.color) {
       return contact.color;
     }
-    // Falls als String oder ohne color übergeben, bestimme die Farbe anhand des Namens:
     const safeName = typeof contact === 'string' ? contact : (contact?.name || 'Unknown');
     const colors = ['#004d40', '#1a237e', '#b71c1c', '#FFC452', '#00FE00', '#DE3FD9'];
     const hash = Array.from(safeName).reduce((acc, char) => char.charCodeAt(0) + acc, 0);
@@ -48,17 +34,16 @@ function createContactBadge(contact) {
     return badge;
 }
 
-const loadTasks = () => {
+async function loadTasks() {
     const columns = ["to-do", "in-progress", "await-feedback", "done"];
-    columns.forEach(column => {
+    for (const column of columns) {
         const container = $(column);
-        const tasksRef = ref(db, `tasks/${column}`);
-        onValue(tasksRef, (snapshot) => {
+        try {
+            const response = await fetch(`${dbUrl}/tasks/${column}.json`);
+            const data = await response.json();
             container.innerHTML = "";
-            if (snapshot.exists()) {
-                snapshot.forEach(childSnapshot => {
-                    const task = childSnapshot.val();
-                    const taskId = childSnapshot.key;
+            if (data) {
+                Object.entries(data).forEach(([taskId, task]) => {
                     const taskElement = createTaskElement(task, taskId, column);
                     container.appendChild(taskElement);
                 });
@@ -66,9 +51,11 @@ const loadTasks = () => {
                 container.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(column)}</div>`;
             }
             updatePlaceholders();
-        });
-    });
-};
+        } catch (error) {
+            console.error("Fehler beim Abrufen der Tasks:", error);
+        }
+    }
+}
 
 const createTaskElement = (task, taskId, columnId) => {
     const div = document.createElement("div");
@@ -134,7 +121,7 @@ const drag = (event) => {
 
 window.allowDrop = (event) => event.preventDefault();
 
-window.moveTo = (event, columnId) => {
+window.moveTo = async (event, columnId) => {
     event.preventDefault();
     const taskId = event.dataTransfer.getData("text");
     const task = $(taskId);
@@ -155,42 +142,45 @@ window.moveTo = (event, columnId) => {
         newColumnElement.appendChild(task);
       }
       const tasks = Array.from(newColumnElement.querySelectorAll('.task'));
-      tasks.forEach((taskElem, index) => {
-        const currentTaskId = taskElem.id;
-        const taskRef = ref(db, `tasks/${columnId}/${currentTaskId}`);
-        get(taskRef).then(snapshot => {
-          if (snapshot.exists()) {
-            const taskData = snapshot.val();
-            taskData.order = index;
-            set(taskRef, taskData).catch(err =>
-              console.error("Fehler beim Aktualisieren der Reihenfolge:", err)
-            );
-          }
-        });
-      });
+      for (const [index, taskElem] of tasks.entries()) {
+        try {
+          await fetch(`${dbUrl}/tasks/${columnId}/${taskElem.id}.json`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ order: index })
+          });
+        } catch (err) {
+          console.error("Fehler beim Aktualisieren der Reihenfolge:", err);
+        }
+      }
       updatePlaceholders();
       return;
     }
     const newPlaceholder = newColumnElement.querySelector(".empty-placeholder");
     if (newPlaceholder) newColumnElement.removeChild(newPlaceholder);
     newColumnElement.appendChild(task);
-    const oldTaskRef = ref(db, `tasks/${oldColumnId}/${taskId}`);
-    get(oldTaskRef).then(snapshot => {
-      if (snapshot.exists()) {
-        const taskData = snapshot.val();
-        taskData.status = columnId;
-        taskData.order = newColumnElement.querySelectorAll('.task').length - 1;
-        const newTaskRef = ref(db, `tasks/${columnId}/${taskId}`);
-        set(newTaskRef, taskData).then(() => {
-          remove(oldTaskRef).then(() => {
-            if (!oldColumnElement.querySelector(".task")) {
-              oldColumnElement.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(oldColumnId)}</div>`;
-            }
-            updatePlaceholders();
+    try {
+      const oldTaskResponse = await fetch(`${dbUrl}/tasks/${oldColumnId}/${taskId}.json`);
+      const taskData = await oldTaskResponse.json();
+      if (taskData) {
+          taskData.status = columnId;
+          taskData.order = newColumnElement.querySelectorAll('.task').length - 1;
+          await fetch(`${dbUrl}/tasks/${columnId}/${taskId}.json`, {
+              method: 'PUT',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(taskData)
           });
-        });
+          await fetch(`${dbUrl}/tasks/${oldColumnId}/${taskId}.json`, {
+              method: 'DELETE'
+          });
+          if (!oldColumnElement.querySelector(".task")) {
+              oldColumnElement.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(oldColumnId)}</div>`;
+          }
+          updatePlaceholders();
       }
-    });
+    } catch (error) {
+      console.error("Fehler beim Verschieben des Tasks:", error);
+    }
 };
 
 window.getColumnPlaceholderText = function (columnId) {
@@ -254,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Overlay-Funktionen
 const showOverlay = (columnId) => {
     const overlay = $("taskOverlay");
     overlay.style.display = "flex";
@@ -275,45 +266,31 @@ $("taskOverlay").addEventListener("click", (event) => {
     }
 });
 
-// Globale Arrays initialisieren
 window.selectedContacts = window.selectedContacts || [];
 window.selectedSubtasks = window.selectedSubtasks || [];
 
-// --------------------
-// Task zurücksetzen
-// --------------------
 window.clearTask = function() {
   const form = $("addtaskForm");
   form.reset();
-
-  // Fehlermeldungen leeren
   const errorTitleEl = $("error-title");
   const errorDueDateEl = $("error-date");
   const errorCategoryEl = $("error-category");
   const selectedContactsList = $("selectedContactsList");
   const subtasksOne = $("subtaskItem1");
   const subtasksTwo = $("subtaskItem2");
-
   if (subtasksOne) subtasksOne.innerHTML = "";
   if (subtasksTwo) subtasksTwo.innerHTML = "";
   if (selectedContactsList) selectedContactsList.innerHTML = "";
   if (errorTitleEl) errorTitleEl.textContent = "";
   if (errorDueDateEl) errorDueDateEl.textContent = "";
   if (errorCategoryEl) errorCategoryEl.textContent = "";
-
-  // Rote Rahmen entfernen
   $("title").style.borderColor = "";
   $("due-date").style.borderColor = "";
   $("category").style.borderColor = "";
-
-  // Globale Arrays zurücksetzen
   window.selectedSubtasks = [];
   window.selectedContacts = [];
 };
 
-// --------------------
-// Input-Listener einmalig anhängen
-// --------------------
 $("title").addEventListener("input", () => {
   const errorTitleEl = $("error-title");
   errorTitleEl.textContent = "";
@@ -332,39 +309,45 @@ $("category").addEventListener("input", () => {
   $("category").style.borderColor = "";
 });
 
-// --------------------
-// Create-Button Click-Event
-// --------------------
-document.querySelector(".create-btn").addEventListener("click", (event) => {
-  event.preventDefault();
+// Hinzufügen eines neuen Tasks via fetch (anstelle von Firebase set) mit async/await
+async function addTaskWithFetch(taskData) {
+  const newTaskId = Date.now().toString();
+  try {
+    const response = await fetch(`${dbUrl}/tasks/${taskData.status}/${newTaskId}.json`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(taskData)
+    });
+    await response.json();
+    hideOverlay();
+    await loadTasks();
+  } catch (error) {
+    console.error("Fehler beim Erstellen des Tasks:", error);
+  }
+}
 
-  // Eingabefelder abrufen
+document.querySelector(".create-btn").addEventListener("click", async (event) => {
+  event.preventDefault();
   const titleInput = $("title");
   const dueDateInput = $("due-date");
   const categoryInput = $("category");
-  const descriptionInput = $("description"); // optional
-
-  // Werte holen und trimmen
+  const descriptionInput = $("description");
   const titleValue = titleInput.value.trim();
   const descriptionValue = descriptionInput.value.trim();
   const dueDateValue = dueDateInput.value;
   const categoryValue = categoryInput.value;
-
-  // Fehler-Elemente abrufen und zurücksetzen
   const errorTitleEl = $("error-title");
   const errorDueDateEl = $("error-date");
   const errorCategoryEl = $("error-category");
-
   errorTitleEl.textContent = "";
   errorDueDateEl.textContent = "";
   errorCategoryEl.textContent = "";
-
   titleInput.style.borderColor = "";
   dueDateInput.style.borderColor = "";
   categoryInput.style.borderColor = "";
-
   let isValid = true;
-
   if (!titleValue) {
     errorTitleEl.textContent = "This field is required";
     titleInput.style.borderColor = "red";
@@ -380,10 +363,7 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
     categoryInput.style.borderColor = "red";
     isValid = false;
   }
-
   if (!isValid) return;
-
-  // Task-Daten zusammenstellen (weitere Felder optional)
   const taskData = {
     title: titleValue,
     description: descriptionValue,
@@ -397,15 +377,8 @@ document.querySelector(".create-btn").addEventListener("click", (event) => {
       completed: false,
     })),
   };
-
-  const newTaskId = Date.now().toString();
-  set(ref(db, `tasks/${taskData.status}/${newTaskId}`), taskData)
-    .then(() => {
-      hideOverlay();
-      loadTasks();
-    })
-    .catch(error => console.error("Fehler beim Speichern des Tasks:", error));
-    clearTask();
+  await addTaskWithFetch(taskData);
+  clearTask();
 });
 
 const displayUserInitials = () => {
@@ -485,7 +458,6 @@ const showTaskDetailOverlay = (task, taskId, columnId) => {
         <span class="contact-name">${c.name}</span>
       </div>
     `).join('') || '';
-
     renderSubtasksView(task);
     overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
     overlay.querySelector('.delete-btn').onclick = deleteTask;
@@ -547,11 +519,18 @@ function renderSubtasksView(task) {
     }
 }
 
-function updateTaskSubtasksInFirebase(subtasks) {
-    const taskSubtasksRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}/subtasks`);
-    set(taskSubtasksRef, subtasks)
-        .then(() => console.log("Subtasks aktualisiert"))
-        .catch(err => console.error("Fehler beim Aktualisieren der Subtasks:", err));
+async function updateTaskSubtasksInFirebase(subtasks) {
+    try {
+      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}/subtasks.json`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(subtasks)
+      });
+      await response.json();
+      console.log("Subtasks aktualisiert");
+    } catch (err) {
+      console.error("Fehler beim Aktualisieren der Subtasks:", err);
+    }
 }
 
 function updateProgressBar(task) {
@@ -575,16 +554,11 @@ function renderSubtasksEditMode() {
     currentSubtasks.forEach((subtask, index) => {
         const li = document.createElement("li");
         li.classList.add("subtask-item");
-        
         const titleSpan = document.createElement("span");
         titleSpan.textContent = subtask.title;
         li.appendChild(titleSpan);
-        
-        // Container für beide Buttons und den Separator
         const buttonContainer = document.createElement("div");
         buttonContainer.classList.add("subtask-button-container");
-        
-        // Edit-Button
         const editButton = document.createElement("button");
         editButton.type = "button";
         editButton.innerHTML = '<img class="delete-edit-png" src="assets/img/edit.png" alt="Edit Icon">';
@@ -594,7 +568,6 @@ function renderSubtasksEditMode() {
             turnSubtaskIntoEditInput(li, titleSpan, index);
         });
         buttonContainer.appendChild(editButton);
-        // Delete-Button
         const deleteButton = document.createElement("button");
         deleteButton.type = "button";
         deleteButton.innerHTML = '<img class="delete-edit-png" src="assets/img/delete.png" alt="Delete Icon">';
@@ -606,7 +579,6 @@ function renderSubtasksEditMode() {
             updateSubtasksViewInOverlay();
         });
         buttonContainer.appendChild(deleteButton);
-        
         li.appendChild(buttonContainer);
         subtasksList.appendChild(li);
     });
@@ -633,13 +605,11 @@ function turnSubtaskIntoEditInput(li, titleSpan, index) {
     input.focus();
 }
 
-const enableEditMode = () => {
-    const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
-    get(taskRef).then(snapshot => {
-      const task = snapshot.val();
+const enableEditMode = async () => {
+    try {
+      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`);
+      const task = await response.json();
       const overlay = $("taskDetailOverlay");
-      
-      // Umschalten in den Edit-Modus
       overlay.querySelector('.close-btn').style.display = 'inline-block';
       overlay.querySelector('.view-mode').style.display = 'none';
       overlay.querySelector('.edit-mode').style.display = 'block';
@@ -649,25 +619,15 @@ const enableEditMode = () => {
       overlay.querySelector('.delete-btn').style.display = 'none';
       overlay.querySelector('.button-seperator').style.display = 'none';
       overlay.querySelector('.save-btn').style.display = 'inline-block';
-  
-      // Befüllen der Felder
       overlay.querySelector('#edit-title').value = task.title;
       overlay.querySelector('#edit-description').value = task.description;
       overlay.querySelector('#edit-due-date').value = task.dueDate;
       overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
-      
-      // Kontakte laden und Checkboxen rendern
-      const contactsRef = ref(db, 'contactsDatabase');
-      get(contactsRef).then(snapshot => {
-        const allContacts = [];
-        if (snapshot.exists()) {
-          snapshot.forEach(childSnapshot => {
-            allContacts.push(childSnapshot.val());
-          });
-        }
-        const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
-        // Beispiel: In deinem Code, wo die Checkboxen generiert werden:
-checkboxContainer.innerHTML = allContacts.map(contact => `
+      const contactsResponse = await fetch(`${dbUrl}/contactsDatabase.json`);
+      const contactsData = await contactsResponse.json();
+      const allContacts = contactsData ? Object.values(contactsData) : [];
+      const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
+      checkboxContainer.innerHTML = allContacts.map(contact => `
   <label class="contact-checkbox">
     <input 
       type="checkbox" 
@@ -682,24 +642,16 @@ checkboxContainer.innerHTML = allContacts.map(contact => `
     </span>
   </label>
 `).join('');
-
-        
-        
-        // Aktualisiere den Bereich mit den bereits ausgewählten Kontakten
+      updateSelectedContactsDisplay(overlay);
+      checkboxContainer.addEventListener('change', () => {
         updateSelectedContactsDisplay(overlay);
-        
-        // Bei jeder Änderung (Auswahl/Deselektion) das Badge-Display updaten
-        checkboxContainer.addEventListener('change', () => {
-          updateSelectedContactsDisplay(overlay);
-        });
       });
-      
-      
-      // Falls du auch Subtasks im Edit-Modus bearbeitest:
       currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
       renderSubtasksEditMode();
       updateSubtasksViewInOverlay();
-    });
+    } catch (error) {
+      console.error("Fehler beim Aktivieren des Edit-Modus:", error);
+    }
 };
 
 function updateSelectedContactsDisplay(overlay) {
@@ -711,7 +663,7 @@ function updateSelectedContactsDisplay(overlay) {
       .forEach(checkbox => {
           const contact = { 
               name: checkbox.value, 
-              color: checkbox.dataset.color // Farbe aus dem Attribut
+              color: checkbox.dataset.color
           };
           selectedContainer.appendChild(createContactBadge(contact));
       });
@@ -729,8 +681,7 @@ document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
     }
 });
 
-const saveChanges = () => {
-    const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
+const saveChanges = async () => {
     const overlay = $("taskDetailOverlay");
     const updatedTask = {
         title: overlay.querySelector('#edit-title').value,
@@ -738,45 +689,48 @@ const saveChanges = () => {
         category: overlay.querySelector('.category-badge').textContent,
         dueDate: overlay.querySelector('#edit-due-date').value,
         priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
-        // Hier wird neben dem Namen auch der Farbwert übernommen:
         contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
                     .map(c => ({ name: c.value, color: c.dataset.color })),
         subtasks: currentSubtasks,
         status: currentColumnId
     };
-    set(taskRef, updatedTask)
-      .then(() => {
-          loadTasks();
-          hideTaskDetailOverlay();
-      })
-      .catch(error => console.error("Fehler beim Speichern der Änderungen:", error));
+    try {
+      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`, {
+         method: 'PUT',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(updatedTask)
+      });
+      await response.json();
+      await loadTasks();
+      hideTaskDetailOverlay();
+    } catch (error) {
+      console.error("Fehler beim Speichern der Änderungen:", error);
+    }
 };
 
-const deleteTask = () => {
-    const taskRef = ref(db, `tasks/${currentColumnId}/${currentTaskId}`);
-    remove(taskRef).then(() => {
-        hideTaskDetailOverlay();
-        loadTasks();
-    });
+const deleteTask = async () => {
+    try {
+      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`, {
+         method: 'DELETE'
+      });
+      await response.json();
+      hideTaskDetailOverlay();
+      await loadTasks();
+    } catch (error) {
+      console.error("Fehler beim Löschen des Tasks:", error);
+    }
 };
 
 window.toggleContactsDropdown = function (event) {
-  // Verhindern, dass der Klick bis zum globalen Listener wandert
   event.stopPropagation();
-
   const dropdown = document.getElementById("contactsDropdown");
   const arrow = document.querySelector(".dropdown-arrow");
-
-  // Wenn Dropdown bereits offen ist, schließe es und setze den Pfeil auf "geschlossen" (Pfeil zeigt nach oben)
   if (dropdown.style.display === "block") {
     dropdown.style.display = "none";
-    // Pfeil zeigt dann nach oben (d.h. anzeigen, dass sich die Auswahl schließen lässt)
-    arrow.innerHTML = "&#9652;"; // Beispiel: ▲
+    arrow.innerHTML = "&#9652;";
   } else {
-    // Dropdown öffnen und Pfeil entsprechend anpassen
     dropdown.style.display = "block";
-    // Pfeil zeigt dann nach unten (d.h. anzeigen, dass sich die Auswahl öffnen ließ)
-    arrow.innerHTML = "&#9662;"; // Beispiel: ▼
+    arrow.innerHTML = "&#9662;";
   }
 };
 
@@ -786,12 +740,9 @@ document.addEventListener('click', (e) => {
     if (dropdown) {
       dropdown.style.display = "none";
     }
-    // Optional: Setze auch den Pfeil zurück (z. B. Pfeil zeigt nach oben, wenn Dropdown geschlossen ist)
     const arrow = document.querySelector(".dropdown-arrow");
     if (arrow) {
-      arrow.innerHTML = "&#9652;"; // Pfeil zeigt nach oben
+      arrow.innerHTML = "&#9652;";
     }
   }
 });
-
-

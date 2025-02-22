@@ -14,7 +14,7 @@
     .sideBar {
         width: 100%;
         padding: 0;
-        padding-bottom: 4px;
+        padding-bottom: 0px;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly !important;
@@ -41,6 +41,18 @@
         display: none !important;
     }
 
+    .help {
+        display: none;
+    }
+
+    .menuPos {
+        display: flex;
+        flex-direction: row !important;
+        justify-content: space-evenly;
+        gap: 0px !important;
+    }
+
+
     .menuPos {
         display: flex;
         flex-direction: row !important;
@@ -50,6 +62,12 @@
 
     .navMenu {
         flex-direction: column;
+    }
+
+    .active {
+        background-color: #091931;
+        width: 60px;
+        border-radius: 15px;
     }
 
     .menuDesc {
@@ -90,19 +108,21 @@
         align-items: center;
     }
 
-    .toDoButton{
+    .toDoButton {
         display: none;
     }
 
-    .inProgressButton{
+    .inProgressButton {
         display: none;
     }
 
-    .awaitButton{
+    .awaitButton {
         display: none;
     }
 
-    .toDoMobileButton, .progressMobileButton, .awaitMobileButton{
+    .toDoMobileButton,
+    .progressMobileButton,
+    .awaitMobileButton {
         display: flex;
     }
 
@@ -127,7 +147,7 @@
     }
 
     .addTaskButton {
-       display: none;
+        display: none;
     }
 
     .addTaskButtonOne {
@@ -146,7 +166,8 @@
         width: auto;
         transition: background-color 0.2sease -in, transform 0.2sease -in;
     }
-    .buttonFont{
+
+    .buttonFont {
         font-size: 18px;
     }
 
@@ -174,7 +195,10 @@
 }
 
 @media (max-width: 650px) {
-    .awaitButton, .inProgressButton, .toDoButton {
+
+    .awaitButton,
+    .inProgressButton,
+    .toDoButton {
         font-size: 18px;
     }
 
@@ -213,18 +237,18 @@
 }
 
 @media (max-width: 500px) {
-    .overlay-content{
+    .overlay-content {
         width: 380px;
     }
 
 }
 
 @media (max-width: 450px) {
-    .overlay-content{
+    .overlay-content {
         width: 300px;
     }
 
-    .priority-container{
+    .priority-container {
         flex-direction: column;
     }
 
@@ -282,13 +306,13 @@
         font-size: 21px;
     }
 
-    .buttonFont{
+    .buttonFont {
         display: none;
     }
 }
 
 @media (max-width: 365px) {
-    .overlay-content{
+    .overlay-content {
         width: 250px;
     }
 }

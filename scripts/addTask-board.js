@@ -3,66 +3,47 @@ const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebased
 function initAddTask() {
   getElementsByIds();
   loadFirebaseData("contactsDatabase");
-  window.selectedSubtasks = []; // Hinzufügen
+  window.selectedSubtasks = [];
 }
 
-// Funktion zum Zurücksetzen der Auswahl
 function clearSelection() {
-    // Entferne die 'selected' Klasse von allen Kontakt-Elementen
-    const allContacts = document.querySelectorAll('.contact-item');
-    allContacts.forEach(contact => {
-        contact.classList.remove('selected');
-
-        // Bild zurücksetzen auf das leere Kästchen
-        const checkboxImage = contact.querySelector('img');
-        checkboxImage.src = "./assets/img/checkbox_empty.png";  // Setzt das Bild auf das leere Kästchen zurück
-    });
-
-    // Leeren des Bereichs für die ausgewählten Kontakte
-    const selectedContactsList = document.getElementById('selectedContactsList');
-    selectedContactsList.innerHTML = '';  // Alle ausgewählten Kontakte entfernen
+  const allContacts = document.querySelectorAll('.contact-item');
+  allContacts.forEach(contact => {
+    contact.classList.remove('selected');
+    const checkboxImage = contact.querySelector('img');
+    checkboxImage.src = "./assets/img/checkbox_empty.png";
+  });
+  const selectedContactsList = document.getElementById('selectedContactsList');
+  selectedContactsList.innerHTML = '';
 }
 
 function clearTask() {
-    errorTitle.innerHTML = '';
-    title.style.border = ""
-
-    errorDate.innerHTML = '';
-    date.style.border = ""
-    date.style.color = "#D1D1D1"
-
-    errorCategory.innerHTML = '';
-    category.style.border = ""
-
-    const allContacts = document.querySelectorAll('.contact-item');
-
-    clearSelection();
-
-    subTaskOne = false;
-    subtaskTwo = false;
-
-    document.getElementById('editItemOne').style.display = 'none';
-    document.getElementById('editItemIconOne').style.display = 'none';
-    document.getElementById('editItemTwo').style.display = 'none';
-    document.getElementById('editItemIconTwo').style.display = 'none';
-
-    const addedSubtaskOne = document.getElementById('subtaskItem1');
-    addedSubtaskOne.innerHTML = '';
-    addedSubtaskOne.style.display = 'none'
-    console.log("teste");
-    
-    const addedSubtaskTwo = document.getElementById('subtaskItem2');
-    addedSubtaskTwo.innerHTML = '';
-    addedSubtaskTwo.style.display = 'none'
-
-
-
-    const selectedContactsList = document.getElementById('selectedContactsList');
-    selectedContactsList.innerHTML = '';
-
+  errorTitle.innerHTML = '';
+  title.style.border = "";
+  errorDate.innerHTML = '';
+  date.style.border = "";
+  date.style.color = "#D1D1D1";
+  errorCategory.innerHTML = '';
+  category.style.border = "";
+  const allContacts = document.querySelectorAll('.contact-item');
+  clearSelection();
+  subTaskOne = false;
+  subtaskTwo = false;
+  document.getElementById('editItemOne').style.display = 'none';
+  document.getElementById('editItemIconOne').style.display = 'none';
+  document.getElementById('editItemTwo').style.display = 'none';
+  document.getElementById('editItemIconTwo').style.display = 'none';
+  const addedSubtaskOne = document.getElementById('subtaskItem1');
+  addedSubtaskOne.innerHTML = '';
+  addedSubtaskOne.style.display = 'none';
+  console.log("teste");
+  const addedSubtaskTwo = document.getElementById('subtaskItem2');
+  addedSubtaskTwo.innerHTML = '';
+  addedSubtaskTwo.style.display = 'none';
+  const selectedContactsList = document.getElementById('selectedContactsList');
+  selectedContactsList.innerHTML = '';
 }
 
-// Hole Formularelemente per ID
 function getElementsByIds() {
   title = document.getElementById("title");
   errorTitle = document.getElementById("error-title");
@@ -74,19 +55,16 @@ function getElementsByIds() {
 
 function changeDateColor() {
   date = document.getElementById('due-date');
-
   if (date.value) {
-      date.style.color = 'black';
+    date.style.color = 'black';
   } else {
-      date.style.color = '';
+    date.style.color = '';
   }
 }
 
-// Kontakte aus Firebase laden und im Dropdown anzeigen
 async function loadFirebaseData(path = "") {
   let response = await fetch(BASE_URL_ADDTASK + path + ".json");
   let data = await response.json();
-  // Falls Firebase-Daten als Objekt kommen, in ein Array umwandeln:
   firebaseData = data ? Object.values(data) : [];
   displayContacts();
 }
@@ -95,7 +73,6 @@ function displayContacts() {
   const contactList = document.getElementById("contactListAssigned");
   contactList.innerHTML = "";
   firebaseData.forEach(contact => {
-    // Erstelle ein Kontaktitem, das sowohl Initialen als auch den Namen enthält
     const contactItem = document.createElement("div");
     contactItem.classList.add("contact-item");
     contactItem.innerHTML = `
@@ -103,13 +80,11 @@ function displayContacts() {
       <span class="select-position">${contact.name}</span>
       <img src="./assets/img/checkbox_empty.png" alt="empty checkbox" />
     `;
-    // Beim Klick wird die Auswahl getoggelt und global aktualisiert
     contactItem.setAttribute("onclick", `selectContact(this, ${contact.id})`);
     contactList.appendChild(contactItem);
   });
 }
 
-// Beim Klick auf einen Kontakt wird er ausgewählt oder abgewählt
 function selectContact(contactElement, id) {
   contactElement.classList.toggle("selected");
   const checkboxImage = contactElement.querySelector("img");
@@ -134,7 +109,6 @@ function updateGlobalSelectedContacts() {
   });
 }
 
-
 function updateAssignedContactsDisplay() {
   const selectedContactsList = document.getElementById("selectedContactsList");
   selectedContactsList.innerHTML = "";
@@ -142,7 +116,7 @@ function updateAssignedContactsDisplay() {
     const badge = document.createElement("div");
     badge.classList.add("selected-contact-item");
     badge.style.backgroundColor = contact.color;
-    badge.textContent = contact.initials; // oder bei Bedarf auch den Namen ergänzen
+    badge.textContent = contact.initials;
     selectedContactsList.appendChild(badge);
   });
 }
@@ -150,9 +124,7 @@ function updateAssignedContactsDisplay() {
 function editItemOne(element) {
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
-
   element.style.display = 'none';
-
   editIcons.style.display = 'flex';
   editItem.style.display = 'block';
   editItem.value = element.innerHTML;
@@ -162,37 +134,30 @@ function deleteItemOne() {
   const addedSubtaskOne = document.getElementById('subtaskItem1');
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
-  
   editIcons.style.display = 'none';
   editItem.style.display = 'none';
   addedSubtaskOne.innerHTML = '';
-  addedSubtaskOne.style.display = 'none'; // Element ausblenden
-
-  // Daten aus dem Array entfernen
+  addedSubtaskOne.style.display = 'none';
   if (window.selectedSubtasks.length > 0) {
     window.selectedSubtasks.splice(0, 1);
   }
 }
 
 function submitItemOne() {
-  const changesItemOne = document.getElementById('editItemOne')
+  const changesItemOne = document.getElementById('editItemOne');
   const subtaskItemOne = document.getElementById('subtaskItem1');
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
-
-  subtaskItemOne.innerHTML = changesItemOne.value
+  subtaskItemOne.innerHTML = changesItemOne.value;
   subtaskItemOne.style.display = "inline list-item";
   editIcons.style.display = 'none';
   editItem.style.display = 'none';
 }
 
-
 function editItemTwo(element) {
   const editItem = document.getElementById('editItemTwo');
   const editIcons = document.getElementById('editItemIconTwo');
-
   element.style.display = 'none';
-
   editIcons.style.display = 'flex';
   editItem.style.display = 'block';
   editItem.value = element.innerHTML;
@@ -202,58 +167,45 @@ function deleteItemTwo() {
   const addedSubtaskTwo = document.getElementById('subtaskItem2');
   const editItem = document.getElementById('editItemTwo');
   const editIcons = document.getElementById('editItemIconTwo');
-  
   editIcons.style.display = 'none';
   editItem.style.display = 'none';
   addedSubtaskTwo.innerHTML = '';
-  addedSubtaskTwo.style.display = 'none'; // Element ausblenden
-
-  // Daten aus dem Array entfernen
+  addedSubtaskTwo.style.display = 'none';
   if (window.selectedSubtasks.length > 1) {
     window.selectedSubtasks.splice(1, 1);
   }
 }
 
 function submitItemTwo() {
-  const changesItemTwo = document.getElementById('editItemTwo')
+  const changesItemTwo = document.getElementById('editItemTwo');
   const subtaskItemTwo = document.getElementById('subtaskItem2');
   const editItem = document.getElementById('editItemTwo');
   const editIcons = document.getElementById('editItemIconTwo');
-
-  subtaskItemTwo.innerHTML = changesItemTwo.value
+  subtaskItemTwo.innerHTML = changesItemTwo.value;
   subtaskItemTwo.style.display = "inline list-item";
   editIcons.style.display = 'none';
   editItem.style.display = 'none';
 }
-
-
 
 function subtaskInputDelete() {
   document.getElementById('subtask').value = "";
 }
 
 function resetAddtaskInput() {
-
-  const symbolStyling = document.getElementById('symbolStyling')
+  const symbolStyling = document.getElementById('symbolStyling');
   const plusImg = document.createElement('img');
-  const subtaskInput = document.getElementById('subtask')
-
-  symbolStyling.style.border = "2px solid #D1D1D1"
-  symbolStyling.innerHTML = '';
-  symbolStyling.style.borderLeft = "none"
-
-  subtaskInput.style.border = "2px solid #D1D1D1"
+  const subtaskInput = document.getElementById('subtask');
+  symbolStyling.style.border = "2px solid #D1D1D1";
+  symbolStyling.innerHTML = "";
+  symbolStyling.style.borderLeft = "none";
+  subtaskInput.style.border = "2px solid #D1D1D1";
   subtaskInput.value = "";
-
-  plusImg.src = './assets/img/plus_task.png'; // Pfad zum zweiten Bild
+  plusImg.src = './assets/img/plus_task.png';
   plusImg.alt = 'checked';
   plusImg.id = 'checkImg';
   symbolStyling.appendChild(plusImg);
 }
 
-// ------------------------
-// Validierung des Formulars
-// ------------------------
 function validateFormular(event) {
   event.preventDefault();
   validateTitle(event);
@@ -300,32 +252,23 @@ function validateCategory(event) {
   validateIsOk[2] = true;
 }
 
-// ------------------------
-// Subtasks bearbeiten
-// ------------------------
-// Beim Klicken in den Subtask-Input wird der Rahmen farblich hervorgehoben und ein alternatives Symbol (z. B. Löschen/Check) angezeigt.
 function subtaskStyling(inputElement) {
   const symbolStyling = document.getElementById("symbolStyling");
   inputElement.style.border = "2px solid #29ABE2";
   symbolStyling.style.border = "2px solid #29ABE2";
   symbolStyling.style.borderLeft = "none";
-  
-  // Erstelle die beiden Icons (Löschen & Check)
   const deleteImg = document.createElement("img");
   deleteImg.src = "./assets/img/x_task.png";
   deleteImg.alt = "delete";
   deleteImg.id = "deleteImg";
   deleteImg.onclick = subtaskInputDelete;
-  
   const checkImg = document.createElement("img");
   checkImg.src = "./assets/img/check_task.png";
   checkImg.alt = "checked";
   checkImg.id = "checkImg";
   checkImg.onclick = subtaskAppend;
-  
   const symbolTask = document.createElement("span");
   symbolTask.textContent = "|";
-  
   symbolStyling.innerHTML = "";
   symbolStyling.appendChild(deleteImg);
   symbolStyling.appendChild(symbolTask);
@@ -336,17 +279,12 @@ function subtaskAppend() {
   const subtaskInputValue = document.getElementById("subtask").value.trim();
   const addedSubtaskOne = document.getElementById("subtaskItem1");
   const addedSubtaskTwo = document.getElementById("subtaskItem2");
-
-  if (!subtaskInputValue) return; // Leere Eingabe ignorieren
-
-  // Füge Subtask nur hinzu, wenn Platz im Array ist
+  if (!subtaskInputValue) return;
   if (window.selectedSubtasks.length < 2) {
     window.selectedSubtasks.push({
       title: subtaskInputValue,
       completed: false
     });
-
-    // Aktualisiere die Anzeige
     if (window.selectedSubtasks.length === 1) {
       addedSubtaskOne.innerHTML = subtaskInputValue;
       addedSubtaskOne.style.display = "inline";
@@ -367,11 +305,9 @@ function resetAddtaskInput() {
   symbolStyling.style.border = "2px solid #D1D1D1";
   symbolStyling.innerHTML = "";
   symbolStyling.style.borderLeft = "none";
-  
   const subtaskInput = document.getElementById("subtask");
   subtaskInput.style.border = "2px solid #D1D1D1";
   subtaskInput.value = "";
-  
   const plusImg = document.createElement("img");
   plusImg.src = "./assets/img/plus_task.png";
   plusImg.alt = "plus";
@@ -379,17 +315,12 @@ function resetAddtaskInput() {
   symbolStyling.appendChild(plusImg);
 }
 
-// ------------------------
-// Dropdown für Kontakte
-// ------------------------
 function toggleDropdown() {
   const assignedToElement = document.getElementById("assigned-to");
   const customArrowAssigned = document.getElementById("customArrowAssigned");
   const placeholderAssigned = document.getElementById("placeholderAssigned");
-  
   assignedToElement.classList.toggle("open");
   customArrowAssigned.classList.toggle("open");
-  
   if (assignedToElement.classList.contains("open")) {
     placeholderAssigned.innerHTML = "An |";
   } else {
@@ -397,17 +328,14 @@ function toggleDropdown() {
   }
 }
 
-// Schließt das Dropdown, wenn außerhalb geklickt wird
 document.addEventListener("click", function (event) {
   const assignedToElement = document.getElementById("assigned-to");
   const customArrowAssigned = document.getElementById("customArrowAssigned");
   const placeholderAssigned = document.getElementById("placeholderAssigned");
   const formSubtask = document.querySelector(".form-subtask");
-  
   if (!formSubtask.contains(event.target)) {
     resetAddtaskInput();
   }
-  
   if (!assignedToElement.contains(event.target)) {
     assignedToElement.classList.remove("open");
     customArrowAssigned.classList.remove("open");
@@ -415,44 +343,31 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// ------------------------
-// Zusammenstellen der Task-Daten und Senden an Firebase
-// ------------------------
 function getAddTaskData() {
-  // Bestimme die ausgewählte Priorität oder setze "medium" als Standard
   const priorityElement = document.querySelector('input[name="priority"]:checked');
   const priorityValue = priorityElement ? priorityElement.value : "medium";
-  
-  // Verwende das globale Array selectedContacts (z. B. [{ name: "Max Mustermann" }, …])
-  // Und selectedSubtasks (als Array von Objekten)
   return {
     title: title.value.trim(),
     description: document.getElementById("description").value.trim(),
-    contacts: window.selectedContacts, // z. B. [{ name: "Max Mustermann" }, { name: "Erika Musterfrau" }]
+    contacts: window.selectedContacts,
     dueDate: date.value,
     priority: priorityValue,
     category: category.value,
-    subtasks: window.selectedSubtasks.filter(st => st) // nur vorhandene Subtasks übernehmen
+    subtasks: window.selectedSubtasks.filter(st => st)
   };
 }
 
 function submitForm(event) {
   event.preventDefault();
   const dataToBoard = getAddTaskData();
-  
-  // Mache eine kleine Bestätigungskarte sichtbar
   const card = document.getElementById("submit-card");
   card.classList.add("visible");
-  
   postDatatoBoard("/tasks/to-do", dataToBoard);
-  
-  // Nach ca. 1,5 s zur Board-Seite wechseln
   setTimeout(function () {
     window.location.href = "./board.html";
   }, 1500);
 }
 
-// POST-Daten an Firebase senden (mit fetch)
 async function postDatatoBoard(path = "", data = {}) {
   await fetch(BASE_URL_ADDTASK + path + ".json", {
     method: "POST",
@@ -463,5 +378,4 @@ async function postDatatoBoard(path = "", data = {}) {
   });
 }
 
-// Exponiere initAddTask, damit es im Body- onload genutzt werden kann
 window.initAddTask = initAddTask;

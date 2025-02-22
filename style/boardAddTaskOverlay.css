@@ -208,9 +208,9 @@ label {
     gap: 10px;
 }
 
-.contact-badge{
+.contact-badge {
     border: 2px #fff;
-  }
+}
 
 .select-position {
     width: 100%;
@@ -288,55 +288,53 @@ label {
 .contact-name-selection {
     font-size: 13px;
     margin-left: 10px;
-  }
+}
 
-  .edit-mode {
+.edit-mode {
     display: none;
     display: flex;
     flex-direction: column;
 }
 
-
-  /* Board.css */
 .edit-mode .input-Section {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
-  
-  .edit-mode .inputLeft, 
-  .edit-mode .inputRight {
+}
+
+.edit-mode .inputLeft,
+.edit-mode .inputRight {
     width: 100% !important;
     max-width: none !important;
-  }
-  
-  .edit-mode .seperator {
+}
+
+.edit-mode .seperator {
     display: none;
-  }
-  
-  .edit-mode .form-title,
-  .edit-mode .form-description,
-  .edit-mode .form-assigned-to,
-  .edit-mode .form-date,
-  .edit-mode .form-priority,
-  .edit-mode .form-category,
-  .edit-mode .form-subtask {
+}
+
+.edit-mode .form-title,
+.edit-mode .form-description,
+.edit-mode .form-assigned-to,
+.edit-mode .form-date,
+.edit-mode .form-priority,
+.edit-mode .form-category,
+.edit-mode .form-subtask {
     width: 100%;
     margin-bottom: 1rem;
-  }
+}
 
-  .edit-form-subtask {
+.edit-form-subtask {
     font-size: 16px;
 }
-  
-  .edit-mode #priority {
+
+.edit-mode #priority {
     flex-direction: column;
     gap: 0.5rem;
-  }
-  
-  .edit-mode .radio-container {
+}
+
+.edit-mode .radio-container {
     width: 100%;
-  }
+}
 
 .contactUrgent {
     display: flex;
@@ -345,30 +343,30 @@ label {
 }
 
 .contact-checkbox {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
 }
 
 .contact-checkbox input {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 
 .contact-badge-selection {
-  width: 45px;
-  height: 34px;
-  color: white;
-  font-size: 13px;
-  font-weight: bold;
-  cursor: default;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  padding: 0;
-  margin: 0;
-  line-height: 24px; /* passt zur Höhe */
-  box-sizing: border-box; /* bezieht Padding/Borders in den Abmessungen mit ein */
+    width: 45px;
+    height: 34px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: default;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0;
+    margin: 0;
+    line-height: 24px;
+    box-sizing: border-box;
 }
 
 .contact-item.selected img:hover {
@@ -377,72 +375,67 @@ label {
 }
 
 .subtask-input-container {
-    position: relative;         
-    width: 100%;                         
-  }
-  
-  .subtask-input-container input {
+    position: relative;
     width: 100%;
-    padding: 10px;      
-    box-sizing: border-box;     
-    font-size: 16px;     
+}
+
+.subtask-input-container input {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    font-size: 16px;
     border-radius: 10px;
-    border-width: 1px;      
-  }
-  
-  .subtask-input-container button {
-    position: absolute;         
-    right: 5px;     
+    border-width: 1px;
+}
+
+.subtask-input-container button {
+    position: absolute;
+    right: 5px;
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;    
-    border: none;              
-    cursor: pointer;         
-  }
-  
-  .subtask-input-container button img {
-    display: block;            
-    width: 20px;                
-    height: 20px;
-  }
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
 
-  .subtask-input-container button img:hover{
+.subtask-input-container button img {
+    display: block;
+    width: 20px;
+    height: 20px;
+}
+
+.subtask-input-container button img:hover {
     background-color: #bebebe;
     border-radius: 80%;
-  }
-  
-  /* Container für die Subtasks im Edit-Modus */
+}
+
 #subtask-list {
-    list-style: none;  /* Keine Standard-Aufzählungszeichen */
+    list-style: none;
     margin: 0;
     padding: 0;
-  }
-  
-  /* Stil für jedes Subtask-Element */
-  #subtask-list .subtask-item {
+}
+
+#subtask-list .subtask-item {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
     border-radius: 4px;
     width: 100%;
-  }
-  
-  /* Der statische Text, der den Subtask-Titel anzeigt */
-  #subtask-list .subtask-item span {
+}
+
+#subtask-list .subtask-item span {
     flex: 1;
     font-size: 15px;
     color: #333;
-  }
+}
 
-  #subtask-list  label {
+#subtask-list label {
     padding-bottom: 1px !important;
-  }
-  
-  /* Buttons für Edit und Delete */
-  #subtask-list .subtask-edit-btn,
-  #subtask-list .subtask-delete-btn {
-    /* padding: 4px 8px; */
+}
+
+#subtask-list .subtask-edit-btn,
+#subtask-list .subtask-delete-btn {
     border: none;
     border-radius: 3px;
     font-size: 0.9rem;
@@ -451,95 +444,87 @@ label {
     transition: background-color 0.3s ease;
     padding-block: 0px;
     padding-inline: 4px;
-  }
-  
-  #subtask-list .subtask-edit-btn:hover,
-  #subtask-list .subtask-delete-btn:hover {
+}
+
+#subtask-list .subtask-edit-btn:hover,
+#subtask-list .subtask-delete-btn:hover {
     color: #29ABE2;
-  }
-  
-  /* Stil für das Input-Feld im Editiermodus */
-  #subtask-list .subtask-edit-input {
+}
+
+#subtask-list .subtask-edit-input {
     flex: 1;
     padding: 4px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 3px;
-  }
+}
 
-   /* Container für jedes Subtask im Editiermodus */
 #subtask-list .subtask-item {
     display: flex;
     align-items: center;
     width: 100%;
     padding-left: 5px;
-  }
-  
-  /* Stil für den Subtask-Titel */
-  #subtask-list .subtask-item span {
+}
+
+#subtask-list .subtask-item span {
     flex: 1;
     font-size: 1rem;
     color: #333;
-  }
-  
-  /* Delete-Container */
-  .delete-container {
+}
+
+.delete-container {
     display: flex;
     align-items: center;
-  }
-  
-  .delete-container .delete-btn {
+}
+
+.delete-container .delete-btn {
     background: none;
     border: none;
     font-size: 0.9rem;
     cursor: pointer;
-  }
+}
 
-  .delete-container, .edit-container {
-    display: flex !important; /* Falls ein anderes CSS sie versteckt */
+.delete-container,
+.edit-container {
+    display: flex !important;
     visibility: visible !important;
 }
 
-.delete-edit-png{
-  width: 20px;
-  height: 20px;
-  transition: background-color 0.3s ease;
-  border-radius: 50%;
+.delete-edit-png {
+    width: 20px;
+    height: 20px;
+    transition: background-color 0.3s ease;
+    border-radius: 50%;
 }
 
-.delete-edit-png:hover{
-  background-color: #d7d7d7;
-  border-radius: 50%;
+.delete-edit-png:hover {
+    background-color: #d7d7d7;
+    border-radius: 50%;
 }
 
-  
-  /* Button-Seperator */
-  .button-seperator {
+.button-seperator {
     width: 1px;
     background-color: #ccc;
     height: 20px;
     margin-right: 8px;
-  }
-  
-  /* Edit-Container */
-  .edit-container {
+}
+
+.edit-container {
     display: flex;
     align-items: center;
-  }
-  
-  .edit-container .edit-svg {
+}
+
+.edit-container .edit-svg {
     margin-right: 4px;
-  }
-  
-  .edit-container .edit-btn {
+}
+
+.edit-container .edit-btn {
     background: none;
     border: none;
     font-size: 0.9rem;
     cursor: pointer;
-  }
-  
+}
 
-/*----------------- seperator  ----------------- */
 .seperator {
     height: 440px;
     width: 1px;
@@ -547,7 +532,6 @@ label {
     margin-right: 44px;
 }
 
-/*----------------- due date  ----------------- */
 .form-date {
     display: flex;
     flex-direction: column;
@@ -575,7 +559,7 @@ label {
 }
 
 .calendar-icon {
-   display: none;
+    display: none;
 }
 
 .calendar-icon:hover {
@@ -586,8 +570,6 @@ label {
     height: 28px;
     background-color: white;
 }
-
-/*----------------- priority ----------------- */
 
 .form-priority {
     width: 440px;
@@ -663,7 +645,6 @@ input[type="radio"]:checked+.low-radio img {
     box-shadow: 0px 6px 2px #D1D1D1;
 }
 
-/*----------------- category  ----------------- */
 .form-category {
     display: flex;
     flex-direction: column;
@@ -715,8 +696,6 @@ input[type="radio"]:checked+.low-radio img {
 select:focus+#customArrowCategory {
     transform: rotate(180deg);
 }
-
-/*----------------- subtask  ----------------- */
 
 .form-subtask {
     position: relative;
@@ -851,7 +830,6 @@ select:focus+#customArrowCategory {
     border-right: none;
 }
 
-/*----------------- buttons  ----------------- */
 .button-and-text {
     display: flex;
     justify-content: space-between;
@@ -918,7 +896,6 @@ select:focus+#customArrowCategory {
 .submit-card {
     position: absolute;
     bottom: -200px;
-    /* Start unterhalb des Bildschirms */
     width: 280px;
     height: 60px;
     font-size: 18px;
@@ -927,12 +904,9 @@ select:focus+#customArrowCategory {
     text-align: center;
     border-radius: 16px;
     transition: bottom 1s ease, opacity 1s ease;
-    /* Animiert die Bewegung und die Sichtbarkeit */
     gap: 32px;
     opacity: 0;
-    /* Karte beginnt unsichtbar */
     visibility: hidden;
-    /* Karte wird versteckt */
 }
 
 .submit-card img {
@@ -942,11 +916,8 @@ select:focus+#customArrowCategory {
 .submit-card.visible {
     display: flex;
     opacity: 1;
-    /* Karte wird sichtbar */
     visibility: visible;
-    /* Karte wird sichtbar */
     bottom: 50%;
-    /* Positioniert die Karte in der Mitte */
     transform: translateY(50%);
     right: 47%;
     align-items: center;

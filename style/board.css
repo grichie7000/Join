@@ -202,21 +202,17 @@ h1 {
  
 .kanban-board {
     display: flex;
-    gap: 50px;
+    gap: 80px;
     padding-top: 20px;
     padding-left: 180px;
     padding-right: 20px;
     max-height: calc(100vh - 200px);
-    /* Maximale Höhe, an die der Scrollbalken angepasst wird */
     overflow: auto;
-    /* Scrollbalken für X- und Y-Achse */
     flex-wrap: nowrap;
-    /* Spalten bleiben in einer Zeile */
 }
 
 .kanban-column {
     width: 250px;
-    /* Feste Breite für jede Spalte */
     box-sizing: border-box;
 }
 
@@ -317,7 +313,6 @@ h1 {
 
 .task:active {
     transform: rotate(5deg);
-    /* Dreht das Element um 15 Grad */
 }
 
 .task-name {
@@ -347,7 +342,6 @@ h1 {
     margin-top: 10px;
 }
 
-/* Füge dies in dein CSS ein */
 .subtask-progress {
     display: flex;
     align-items: center;
@@ -461,13 +455,11 @@ h1 {
     width: 430px;
     max-height: 80vh;
     overflow-y: auto;
-    /* Scrollbar aktivieren */
     background: white;
     padding: 20px 30px 20px 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     display: block;
-    /* Elemente untereinander */
 }
 
 .overlay-content::-webkit-scrollbar {
@@ -516,11 +508,8 @@ h1 {
     line-height: 0.9;
     transition: background-color 0.2s, color 0.2s;
     width: 26px;
-    /* Feste Breite */
     height: 26px;
-    /* Feste Höhe */
     border-radius: 100%;
-    /* Kreisform */
 }
 
 .close-btn:hover {
@@ -535,7 +524,6 @@ h1 {
     color: white;
 }
 
-/* Styling für die Textelemente im Overlay */
 #taskDetailOverlay .task-title {
     font-size: 50px;
     color: #2A3647;
@@ -684,30 +672,23 @@ input[type="radio"] {
 .edit-mode input,
 .edit-mode textarea {
     font-size: 14px;
-    /* Kleinere Schriftgröße */
     padding: 6px 8px;
-    /* Mehr Padding für besseren Look */
     margin-top: 5px;
     border: 1px solid #d2d2d2;
     border-radius: 5px;
     transition: border-color 0.2s;
-    /* Sanfter Übergang */
 }
 
-/* Optional: Auch der Platzhaltertext kann kleiner gemacht werden */
 .edit-mode input::placeholder,
 .edit-mode textarea::placeholder {
     font-size: 12px;
-    /* Kleinere Schriftgröße für Platzhalter */
     color: #999;
-    /* Leicht grauer Platzhaltertext */
 }
 
 .edit-mode input:focus,
 .edit-mode textarea:focus {
     border: 2px solid #29ABE2;
     outline: none;
-    /* Entfernt den Standard-Fokus-Rahmen */
 }
 
 
@@ -817,23 +798,18 @@ input[type="radio"]:checked+.low-radio img {
     height: 24px;
 }
 
-/* Grundstil für die Radio-Buttons */
 input[type="radio"] {
     display: none;
-    /* Versteckt die Standard-Radio-Schaltfläche */
 }
 
-/* Stil für die Labels, die die Radio-Buttons anzeigen */
 input[type="radio"]+label {
     position: relative;
     padding-left: 30px;
-    /* Platz für die Radio-Schaltfläche */
     font-size: 16px;
     cursor: pointer;
     display: inline-block;
 }
 
-/* Erstellen des benutzerdefinierten Radio-Buttons */
 input[type="radio"]+label::before {
     content: '';
     position: absolute;
@@ -848,14 +824,11 @@ input[type="radio"]+label::before {
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-/* Stil für den ausgewählten Radio-Button */
 input[type="radio"]:checked+label::before {
     background-color: #007bff;
-    /* Farbe für den aktiven Radio-Button */
     border-color: #007bff;
 }
 
-/* Füge ein Häkchen hinzu, wenn der Radio-Button aktiv ist */
 input[type="radio"]:checked+label::after {
     content: '✔';
     position: absolute;
@@ -866,12 +839,10 @@ input[type="radio"]:checked+label::after {
     font-size: 12px;
 }
 
-/* Stil für das Label, wenn es angeklickt wird */
 input[type="radio"]:hover+label::before {
     border-color: #0056b3;
 }
 
-/* Optional: Stil für das Textlabel */
 input[type="radio"]+label {
     color: #333;
     font-weight: normal;
