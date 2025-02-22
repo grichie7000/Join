@@ -1,0 +1,84 @@
+
+@media (min-width: 951px) {
+  .mobile-logo {
+    display: none;
+  }
+}
+
+@media (max-width: 950px) {
+  .joinLogo {
+    display: none;
+  }
+  
+  html {
+	  scroll-behaviour: auto;
+  }
+  
+  .menuPos {
+    flex-direction: row;
+    gap: 16px;
+	padding-left: 16px;
+}
+
+.sideBar
+{
+    height: 72px;
+    min-width: 240px;
+    background-color: #2A3647;
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between !important;
+}
+}
+
+@media (max-width: 950px) {
+
+.mobile-logo {
+    padding-left: 16px;
+  }
+
+.lawSection {
+    bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    font-size: 14px;
+	position: relative !important;
+	width: auto;
+	padding-right: 16px;
+	gap: 8px;
+}
+
+.lawSection a {
+    color: #A8A8A8;
+    padding-left: 8px;
+    padding-right: 8px;
+    height: 72px;
+    display: flex;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	border-radius: 12px;
+}
+
+.backLogo {
+	display:flex;
+	flex-direction: column;
+}
+
+.navMenu {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 8px;
+    font-size: 16px;
+    flex-direction: column;
+}
+
+.navMenu img {
+     padding-left: 0; 
+}
+
+}
