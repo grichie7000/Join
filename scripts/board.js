@@ -628,20 +628,20 @@ const enableEditMode = async () => {
       const allContacts = contactsData ? Object.values(contactsData) : [];
       const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
       checkboxContainer.innerHTML = allContacts.map(contact => `
-  <label class="contact-checkbox">
-    <input 
-      type="checkbox" 
-      name="edit-contact" 
-      value="${contact.name}" 
-      data-color="${contact.color}"
-      onclick="event.stopPropagation()"
-      ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
-    <span class="contact-name-selection">${contact.name}</span>
-    <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">
-      ${getInitials(contact.name)}
-    </span>
-  </label>
-`).join('');
+       <label class="contact-checkbox">
+        <input 
+         type="checkbox" 
+         name="edit-contact" 
+         value="${contact.name}" 
+         data-color="${contact.color}"
+         onclick="event.stopPropagation()"
+         ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
+         <span class="contact-name-selection">${contact.name}</span>
+         <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">
+          ${getInitials(contact.name)}
+         </span>
+       </label>
+       `).join('');
       updateSelectedContactsDisplay(overlay);
       checkboxContainer.addEventListener('change', () => {
         updateSelectedContactsDisplay(overlay);
