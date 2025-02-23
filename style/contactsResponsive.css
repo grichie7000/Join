@@ -1,3 +1,7 @@
+.d-flex {
+	display: flex;
+}
+
 .center {
     display: flex;
     align-items: center;
@@ -167,7 +171,15 @@
 
 /* Popup */
 @media screen and (min-width: 0px) and (max-width: 950px) {
-    .main-content {
+	.help {
+	display: none;
+	}
+
+.d-none {
+    display: none !important;
+}
+
+   .main-content {
         margin-left: 0 !important;
         height: 100%;
     }
@@ -246,11 +258,10 @@
 /* Contact Main */
 @media (max-width: 950px) {
     .btn-container-mobile {
-        display: block;
         position: fixed; 
         right: 20px;
         bottom: 95px;
-        z-index: 1000;
+        z-index: 1;
     }
 
     .top-right-button {
@@ -417,7 +428,7 @@
     }
 
     .contact-name {
-        font-size: 14px !important;
+        font-size: 20px !important;
         font-weight: bold;
         color: #333;
         margin: 0;

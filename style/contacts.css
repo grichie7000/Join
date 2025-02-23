@@ -253,7 +253,7 @@ html {
     position: fixed;
     top: 0;
     bottom: 0;
-    right: -100vw;
+    right: -100vw !important;
     z-index: 1020;
     padding: 0;
     margin: 0;

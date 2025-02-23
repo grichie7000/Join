@@ -200,8 +200,21 @@ input {
 }
 
 .btn-addcontact-mobil {
-    display: flex;
     justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    background-color: #2A3647; 
+    border: none; 
+    border-radius: 50%; 
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); 
+    cursor: pointer;
+    outline: none; 
+    transition: box-shadow 0.3s ease; 
+}
+
+.more-vert-container {
+	justify-content: center;
     align-items: center;
     width: 60px;
     height: 60px;

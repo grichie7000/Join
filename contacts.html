@@ -84,15 +84,15 @@
                     
                 </div>
 
-                <div class="btn-container-mobile">
+                <div class="btn-container-mobile d-flex">
                     <button class="btn-addcontact-mobil">
                         <img src="./assets/img/person_add.png" onclick="addContact()">
                     </button>
                 </div>
 
-                <div class="btn-container-mobile d-none" id="btn-mobile-popup">
-						<button class="add-contact-button center" onclick="addContact()">Add new contact
-                    <img src="./assets/img/person_add.png" alt="">
+                <div class="more-vert-container d-none" id="btn-mobile-popup">
+						<button class="add-contact-button center" onclick="toggleEditDeletePopup()">
+                    <img src="./assets/img/more-vert-white.svg" alt="">
                 </button>
                 </div>
             </div>
@@ -116,10 +116,18 @@
         </div>
     </main>
 
-    <div id="edit-delete-container" class="edit-delete-container" onclick="removeEditDel()">
-        <ul id="contact-pop-up" class="contact-pop-up" >
-
-        </ul> 
+    <div id="edit-delete-container" class="edit-delete-container d-none" onclick="removeEditDel()" style="right: calc(0px); left: 0px;">
+        <ul id="contact-pop-up" class="contact-pop-up d-none" onclick="doNotClose(event)"><li><button class="contact-btn" onclick="editContact('0', removeEditDel())">
+                <img src="./assets/img/edit.png">
+                <p>Edit</p>
+            </button>
+            </li>
+            <li>
+            <button class="contact-btn" onclick="deleteUser('-OFuLvFH_y8RU9ikpE8x', removeEditDel())">
+                <img src="./assets/img/delete.png">
+                <p>Delete</p>
+            </button>
+            </li></ul> 
     </div>
 
     <div class="popup-overlay" id="popup-overlay">
