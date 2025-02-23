@@ -14,81 +14,92 @@
     <link rel="stylesheet" href="./style/sideBar_responsiv.css">
 
     <link rel="icon" type="image/x-icon" href="./assets/img/Join-logo.png">
+    <script src="./scripts/topBar.js"></script>
 
 </head>
 
-<body>
+<body onload="loadInitals()">
+    <div class="sideBar">
 
-    <body>
+        <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
 
-        <div class="sideBar">
+        <div class="menuPos">
+            <a href="./summary.html">
+                <div class="navMenu">
+                    <img src="./assets/img/summaryLogo.png" alt="summaryLogo">Summary
+                </div>
+            </a>
+            <a href="./addTask.html">
+                <div class="navMenu">
+                    <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">Add Task
+                </div>
+            </a>
+            <a href="./board.html">
+                <div class="navMenu">
+                    <img src="./assets/img/BoardLogo.png" alt="summaryLogo">Board
+                </div>
+            </a>
+            <a href="./contacts.html">
+                <div class="navMenu">
+                    <img src="./assets/img/contactsLogo.png" alt="summaryLogo">Contacts
+                </div>
+            </a>
+        </div>
 
-            <img class="joinLogo" src="./assets/img/Join-logo.png" alt="JoinLogo">
+        <div class="lawSection">
+            <a href="./privacyPolicy.html" class="active">Privacy Policy</a>
+            <a href="./legalNotice.html">Legal Notice</a>
+        </div>
+    </div>
 
-            <div class="menuPos">
-                <a href="./summary.html">
-                    <div class="navMenu">
-                        <img src="./assets/img/summaryLogo.png" alt="summaryLogo">Summary
-                    </div>
-                </a>
-                <a href="./addTask.html">
-                    <div class="navMenu">
-                        <img src="./assets/img/addTaskLogo.png" alt="summaryLogo">Add Task
-                    </div>
-                </a>
-                <a href="./board.html">
-                    <div class="navMenu">
-                        <img src="./assets/img/BoardLogo.png" alt="summaryLogo">Board
-                    </div>
-                </a>
-                <a href="./contacts.html">
-                    <div class="navMenu">
-                        <img src="./assets/img/contactsLogo.png" alt="summaryLogo">Contacts
-                    </div>
-                </a>
-            </div>
 
-            <div class="lawSection">
-                <a href="./privacyPolicy.html" class="active">Privacy Policy</a>
-                <a href="./legalNotice.html">Legal Notice</a>
+    <div class="mainContent">
+        <div class="topBar">
+            <h3>Kanban Project Management Tool</h3>
+            <img src="./assets/img/Join-logo2.png" alt="joín">
+            <div class="profile">
+                <a href="./help.html" class="help">?</a>
+                <p class="initials" id="profile-toggle"></p>
+                <div class="dropdown" id="dropdown-menu">
+                    <ul>
+                        <li id="helpDropdown"><a href="./help.html">Help</a></li>
+                        <li><a href="./legalNotice.html">Legal Notice</a></li>
+                        <li><a href="./privacyPolicy.html">Privacy Policy</a></li>
+                        <li><a href="./relogin.html">Log Out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
+        <div class="privacyPolicy">
+            <h1>Privacy Policy</h1>
 
-        <div class="mainContent">
-            <div class="topBar">
-                <h3>Kanban Project Management Tool</h3>
+            <div class="privacyPolicyText">
+                <h2>1. Introduction</h2>
+                <p>We take the privacy of your personal data seriously. This Privacy Policy explains how we handle
+                    your data when you visit our website. Please read it carefully.</p>
+
+                <h2>2. No Data Collection or Processing</h2>
+                <p>We do not collect, store, or process any personal data. No information about your visit,
+                    activities on our website, or your IP address is captured or stored. Our site does not use
+                    tracking technologies like cookies, web beacons, or similar methods.</p>
+
+                <h2>3. No Data Sharing</h2>
+                <p>Since no data is collected, no data is shared with third parties. There is no transmission of
+                    data to external service providers or other organizations.</p>
+
+                <h2>4. Changes to the Privacy Policy</h2>
+                <p>We reserve the right to modify this Privacy Policy at any time. Any changes will be posted on
+                    this page.</p>
+
+                <h2>5. Contact</h2>
+                <p>If you have any questions regarding this Privacy Policy, please feel free to contact us.</p>
             </div>
 
-            <div class="privacyPolicy">
-                <h1>Privacy Policy</h1>
-
-                <div class="privacyPolicyText">
-                    <h2>1. Introduction</h2>
-                    <p>We take the privacy of your personal data seriously. This Privacy Policy explains how we handle
-                        your data when you visit our website. Please read it carefully.</p>
-
-                    <h2>2. No Data Collection or Processing</h2>
-                    <p>We do not collect, store, or process any personal data. No information about your visit,
-                        activities on our website, or your IP address is captured or stored. Our site does not use
-                        tracking technologies like cookies, web beacons, or similar methods.</p>
-
-                    <h2>3. No Data Sharing</h2>
-                    <p>Since no data is collected, no data is shared with third parties. There is no transmission of
-                        data to external service providers or other organizations.</p>
-
-                    <h2>4. Changes to the Privacy Policy</h2>
-                    <p>We reserve the right to modify this Privacy Policy at any time. Any changes will be posted on
-                        this page.</p>
-
-                    <h2>5. Contact</h2>
-                    <p>If you have any questions regarding this Privacy Policy, please feel free to contact us.</p>
-                </div>
-
-                <footer>
-                    &copy; 2025 Developer Academy. All rights reserved.
-                </footer>
-            </div>
-    </body>
+            <footer>
+                &copy; 2025 Developer Academy. All rights reserved.
+            </footer>
+        </div>
+</body>
 
 </html>

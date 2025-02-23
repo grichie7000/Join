@@ -78,6 +78,12 @@ body {
 
 
 /* main content */
+@media (min-width:951px) {
+    .profile {
+        display: none !important;
+    }
+}
+
 @media (max-width: 1510px) and (min-width:951px) {
     .legalNotice {
         padding-left: 92px;
