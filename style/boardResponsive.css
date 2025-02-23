@@ -45,6 +45,10 @@
         display: none;
     }
 
+    .helpDisplay {
+        display: flex;
+    }
+
     .menuPos {
         display: flex;
         flex-direction: row !important;
@@ -62,6 +66,7 @@
 
     .navMenu {
         flex-direction: column;
+        border-radius: 16px;
     }
 
     .active {
