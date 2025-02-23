@@ -81,15 +81,27 @@
     }
 
     .addTask h2 {
-        margin-top: 114px;
+        margin-top: 85px;
+        padding-left: 8%;
+        position: fixed;
+        z-index: 1;
+        padding-top: 32px;
+        background-color: #F6F7F8;
+        width: 100%;
+        padding-bottom: 0;
     }
 
     .seperator {
         display: none;
     }
 
+    #required-text {
+        margin-left: 6px;
+    }
+
     .input-Section {
         display: block;
+        margin-top: 212px;
     }
 
     label {
@@ -99,6 +111,11 @@
 
     .inputLeft {
         margin: 0;
+    }
+
+    .inputRight {
+        margin: 0;
+        margin-top: 18px;
     }
 
     /* title */
@@ -115,7 +132,10 @@
 
     /* description */
     .form-description {
-        width: 305px;
+        align-items: center;
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     #description {
@@ -124,7 +144,10 @@
 
     /* contacts */
     .form-assigned-to {
-        width: 305px;
+        align-items: center;
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     #assigned-to {
@@ -135,30 +158,116 @@
         width: 312px;
     }
 
+    .custom-resize {
+        bottom: 8px;
+        right: 14px;
+    }
+
     /* date */
     .form-date {
-        margin-top: 16px;
+        align-items: center;
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #due-date {
+        width: 280px;
     }
 
     /* prio */
+    .form-priority {
+        align-items: center;
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #priority {
+        width: 310px;
+        gap: 6px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .radio-container {
+        margin-left: 0;
+    }
 
     /* category */
+    .form-category {
+        align-items: center;
+        width: 320px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #category {
+        width: 310px;
+    }
+
+    .custom-arrow-category {
+        right: 28px;
+    }
 
     /* subtasks */
+    .form-subtask {
+        align-items: center;
+        width: 310px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+
+    #subtask {
+        width: 195px;
+    }
+
+    .edit-position {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+
+    #editItemOne {
+        width: 224px;
+    }
+
+    #editItemTwo {
+        width: 224px;
+    }
+
+    #addedSubtask {
+        margin-left: auto;
+        margin-right: auto;
+        width: 320px;
+    }
 
     /* buttons */
     .button-and-text {
-        padding-top: 22px;
-        margin-bottom: 32px;
-        width: 436px;
-        align-items: center;
+        display: block;
+        padding-top: 0;
+        margin-bottom: 0;
+        width: 100%;
     }
 
     .form-buttons {
-        padding-top: 0;
+        padding-top: 12px;
+        position: fixed;
+        bottom: 72px;
+        background-color: #F6F7F8;
+        width: 100%;
+        height: 60px;
+        text-align: center;
     }
 
     #required-text {
-        padding-top: 0px;
+        padding-top: 12px;
+        height: 100px;
+        text-align: center;
+    }
+
+    .submit-card {
+        position: absolute;
+        bottom: 0;
     }
 }

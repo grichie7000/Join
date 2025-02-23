@@ -669,8 +669,9 @@ select:focus+#customArrowCategory {
     display: flex;
     opacity: 1; /* Karte wird sichtbar */
     visibility: visible; /* Karte wird sichtbar */
-    bottom: 50%; /* Positioniert die Karte in der Mitte */
-    transform: translateY(50%);
+    top: 50%; /* Positioniert die Karte vertikal in der Mitte */
+    left: 50%; /* Positioniert die Karte horizontal in der Mitte */
+    transform: translate(-50%, -50%);
     right: 47%;
     align-items: center;
     justify-content: center;
