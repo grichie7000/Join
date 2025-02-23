@@ -23,6 +23,9 @@ function checkLogIn() {
                 greeting.style.display = 'none'; // Remove the div from the layout after the fade-out
             }, 1000); // This ensures that display:none happens after the fade-out is complete
         }, 1000); // 1 second delay before starting to fade out
+    } else {
+        const greeting = document.querySelector('.greeting');
+        greeting.style.display = 'none';
     }
 
     localStorage.setItem('login', false)
