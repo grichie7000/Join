@@ -1,13 +1,31 @@
 
 const BASE_URL_SUMMARY = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 let openTasks;
+const screenWidth = window.innerWidth;
 const now = new Date();
 const hour = now.getHours();
 
 function loadTasks() {
+    checkLogIn()
     loadTasksFromFirebase("tasks", 1)
     loadTasksFromFirebase("initals", 2)
     displayGreetings()
+}
+
+function checkLogIn() {
+    const loginStatus = localStorage.getItem('login');
+
+    if (loginStatus === 'true' && screenWidth < 1511) {
+        setTimeout(function () {
+            const greeting = document.querySelector('.greeting');
+            greeting.style.opacity = '0'; // Fade out the div
+            setTimeout(function () {
+                greeting.style.display = 'none'; // Remove the div from the layout after the fade-out
+            }, 1000); // This ensures that display:none happens after the fade-out is complete
+        }, 1000); // 1 second delay before starting to fade out
+    }
+
+    localStorage.setItem('login', false)
 }
 
 function displayGreetings() {
@@ -46,7 +64,7 @@ async function loadTasksFromFirebase(path = "", tasksTodisplay) {
         if (openTasks === null) {
             document.getElementById('loggedInName').innerHTML = "";
             document.getElementById('loggedInName').innerHTML = "Guest";
-        } else {            
+        } else {
             document.getElementById('loggedInName').innerHTML = "";
             document.getElementById('loggedInName').innerHTML = openTasks[1].name;
         }

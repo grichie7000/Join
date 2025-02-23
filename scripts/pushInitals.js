@@ -12,9 +12,16 @@ function loadInitialsFirebase(user) {
         getLoginName();
         getContactsFromFiresBase("users");
     } else {
-        guestLogIn()
+        guestLogIn();
     }
 
+    storageLogIn();
+
+}
+
+function storageLogIn(){
+    const firstLogIn = true;
+    localStorage.setItem('login', firstLogIn)
 }
 
 function getLoginName() {
