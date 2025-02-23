@@ -1,6 +1,5 @@
 const dbUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
-// Hilfsfunktionen
 const $ = (id) => document.getElementById(id);
 
 function getCategoryColor(category) {

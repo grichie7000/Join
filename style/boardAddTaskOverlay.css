@@ -71,8 +71,6 @@ label {
     font-size: 14px;
 }
 
-
-/*----------------- title ----------------- */
 .form-title {
     display: flex;
     flex-direction: column;
@@ -99,7 +97,6 @@ label {
     border: 2px solid #29ABE2;
 }
 
-/*----------------- description ----------------- */
 .form-description {
     display: flex;
     flex-direction: column;
@@ -136,8 +133,6 @@ label {
     border: 2px solid #29ABE2;
 }
 
-
-/*----------------- assigned to  ----------------- */
 .form-assigned-to {
     display: flex;
     flex-direction: column;
