@@ -1,3 +1,7 @@
+#help-li {
+    display: none;
+}
+
 .center {
     display: flex;
     align-items: center;
@@ -172,6 +176,17 @@
         height: 100%;
     }
 
+#help-li {
+        display: flex!important;
+    align-items: center;
+    justify-content: center;
+    color: #CDCDCD;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    padding: 4px 24px;
+}
+
 	.mobile-logo {
 	display: auto !important;
 	}
@@ -245,12 +260,21 @@
 
 /* Contact Main */
 @media (max-width: 950px) {
-    .btn-container-mobile {
+	.help {
+	display: none;
+	}
+
+.d-none {
+    display: none !important;
+}
+   
+
+   .btn-container-mobile {
         display: block;
         position: fixed; 
         right: 20px;
         bottom: 95px;
-        z-index: 1000;
+        z-index: 1;
     }
 
     .top-right-button {
@@ -417,7 +441,6 @@
     }
 
     .contact-name {
-        font-size: 14px !important;
         font-weight: bold;
         color: #333;
         margin: 0;
