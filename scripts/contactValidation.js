@@ -1,120 +1,189 @@
--/**
- * Validates the form fields before creating a new contact.
- * @function validateForm
- * @returns {void}
+/**
+ * validate the contact form
+ * @returns 
  */
-function validateForm() {
+function validateContactForm() {
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let phone = document.getElementById('phone').value;
     let isValid = true;
-    isValid &= validateName("newContactName");
-    isValid &= validateEmail("newContactEmail");
-    isValid &= validatePhone("newContactPhone");
-
-    if (isValid) {
-        createContact();
+    clearErrorMessages();
+    if (!validateName(name)) {
+        showError('name', 'Name is required and must be at least 2 characters long');
+        isValid = false;
     }
+    if (!validateEmail(email)) {
+        showError('email', 'Email is required and must be a valid email address');
+        isValid = false;
+    }
+    if (!validatePhone(phone)) {
+        showError('phone', 'phone is required and must be a valid phone number');
+        isValid = false;
+    }
+    return isValid;
 }
 
-/**
- * Validates the form fields before saving the edited contact.
- * @function validateEditForm
- * @returns {void}
- */
-function validateEditForm() {
-    let isValid = true;
-    isValid &= validateName("editContactName");
-    isValid &= validateEmail("editContactEmail");
-    isValid &= validatePhone("editContactPhone");
 
-    if (isValid) {
-        saveEditedContact();
-    }
+/**
+ * function for the validation of the name
+ * @param {*} name 
+ * @returns 
+ */
+function validateName(name) {
+    return name.trim().length >= 2;
 }
 
-/**
- * Validates the name input field.
- * @function validateName
- * @param {string} inputId - The ID of the name input field.
- * @returns {boolean} True if the name is valid, false otherwise.
- */
-function validateName(inputId) {
-    const nameInput = document.getElementById(inputId);
-    if (!nameInput.value.trim()) {
-        markInvalid(nameInput, "Name is required");
-        return false;
-    } else {
-        markValid(nameInput);
-        return true;
-    }
-}
 
 /**
- * Validates the email input field.
- * @function validateEmail
- * @param {string} inputId - The ID of the email input field.
- * @returns {boolean} True if the email is valid, false otherwise.
+ * function for the validation of the email
+ * @param {*} email 
+ * @returns 
  */
-function validateEmail(inputId) {
-    const emailInput = document.getElementById(inputId);
-    const emailValue = emailInput.value.trim();
+function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailValue) {
-        markInvalid(emailInput, "Email is required");
-        return false;
-    } else if (!emailRegex.test(emailValue)) {
-        markInvalid(emailInput, "Email must be in a valid format");
-        return false;
-    } else {
-        markValid(emailInput);
-        return true;
+    return emailRegex.test(email);
+}
+
+
+/**
+ * function for the validation of the phone
+ * @param {*} phone 
+ * @returns 
+ */
+function validatePhone(phone) {
+    const phoneRegex = /^[\d\s\+\-\(\)]{6,}$/;
+    return phoneRegex.test(phone);
+}
+
+
+/**
+ * show the error message
+ * @param {*} fieldId 
+ * @param {*} message 
+ */
+function showError(fieldId, message) {
+    const errorDiv = document.getElementById('error-div-' + fieldId);
+    if (errorDiv !== null) {
+        errorDiv.classList.remove('d-none');
+        errorDiv.textContent = message;
     }
+}
+
+
+/**
+ * clear the error messages
+ */
+function clearErrorMessages() {
+    const errorDiv = document.querySelectorAll('.error-message');
+    errorDiv.forEach(error => {
+        error.classList.add('d-none');
+    });
+}
+
+
+/**
+ * show the success message
+ */
+function showSuccessMsgTasks() {
+    let overlayDiv = document.getElementById('overlay-successfull');
+    overlayDiv.classList.add('overlay-suess-contact');
+}
+
+
+/**
+ * hidden the success message
+ */
+function hiddenSuccessMsgTasks() {
+    let overlayDiv = document.getElementById('overlay-successfull');
+    overlayDiv.classList.remove('overlay-suess-contact');
 }
 
 /**
- * Validates the phone input field.
- * @function validatePhone
- * @param {string} inputId - The ID of the phone input field.
- * @returns {boolean} True if the phone number is valid, false otherwise.
+ * go back to the last page
  */
-function validatePhone(inputId) {
-    const phoneInput = document.getElementById(inputId);
-    const phoneValue = phoneInput.value.trim();
-    const phoneRegex = /^[0-9]+$/;
-    const startsWithValid = phoneValue.startsWith("0") || phoneValue.startsWith("+");
-    if (!phoneValue) {
-        markInvalid(phoneInput, "Phone number is required");
-        return false;
-    } else if (!phoneRegex.test(phoneValue) || !startsWithValid) {
-        markInvalid(phoneInput, "Phone number must start with '0' or '+' and contain only numbers");
-        return false;
-    } else {
-        markValid(phoneInput);
-        return true;
-    }
+function goBack() {
+  window.history.back();
 }
+
 
 /**
- * Marks the input field as valid or invalid.
- * 
- * @param {HTMLElement} inputField - The input field element.
- * @param {boolean} isValid - True if the field is valid, false otherwise.
+ * load nav and header
  */
-function markField(inputField, isValid) {
-    if (isValid) {
-        inputField.classList.remove("invalid");
-        inputField.classList.add("valid");
+function includeHTML() {
+  let popUp = document.getElementById("overlay-container");
+  popUp.innerHTML = initProfilePopUp();
+}
+
+
+/**
+ * Generate initials for the top right corner in the header section.
+ */
+function generateInitials() {
+  let content = document.getElementById("profile");
+
+  let userName = sessionStorage.getItem("username");
+  content.innerHTML = "";
+  let nameParts = userName.split(" ");
+  if (nameParts.length >= 2) {
+    let initials = (nameParts[0][0] + nameParts[1][0]).toUpperCase();
+    content.innerHTML = initials;
+  } else if (nameParts.length === 1) {
+    let initials = nameParts[0][0].toUpperCase();
+    content.innerHTML = initials;
+  } else {
+    content.innerHTML = "G";
+  }
+}
+
+
+/**
+ * random color function for the profile section
+ * @returns 
+ */
+function getRandomColor() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
+
+/**
+ * check link function to highlight the active link in the sidebar
+ */
+function checkLink() {
+  const currentPath = window.location.pathname;
+  const sidebarLinks = document.querySelectorAll('#navigation-container .menuPos a');
+  sidebarLinks.forEach(link => {
+    link.classList.remove('active');
+    let href = link.getAttribute('href').replace('../', '');
+    if (currentPath.includes("/join/" + href)) {
+      link.classList.add('active');
     } else {
-        inputField.classList.remove("valid");
-        inputField.classList.add("invalid");
+      link.classList.remove('active');
     }
+  });
 }
 
-function markInvalid(input, message) {
-    input.value = "";
-    input.placeholder = message;
-    input.classList.add("invalid", "error-message");
-}
 
-function markValid(input) {
-    input.placeholder = "";
-    input.classList.remove("invalid", "error-message");
+/**
+ * not logged in function to hide the sidebar and profile section
+ */
+function notLogin() {
+  let sidebar = document.getElementById('navigation-container');
+  let profile = document.getElementById('profile');
+  let info = document.getElementById('info');
+  let menuPos = document.getElementById('menuPos');
+  if (sessionStorage.getItem("username") == null) {
+    sidebar.classList.add('no-login-sidebar-none');
+    profile.classList.add('no-login-none');
+    info.classList.add('no-login-none');
+    asideNav.classList.add('no-login-none');
+  } else {
+    sidebar.classList.remove('no-login-sidebar-none');
+    profile.classList.remove('no-login-none');
+    info.classList.remove('no-login-none');
+    asideNav.classList.remove('no-login-none');
+    generateInitials();
+  }
 }
