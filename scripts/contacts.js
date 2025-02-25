@@ -275,14 +275,13 @@ async function updateUser(user) {
                 const index = userArray.findIndex(u => u.id === updatedData.id);
                 updatedData.firebaseId = userArray[user].firebaseId;
                 if (index !== -1) userArray[index] = updatedData;
-                await reUpdateUser();
+                await reUpdateUser(updatedData);  // Übergibt updatedData an reUpdateUser
             }
         }
     } catch (error) {
         console.error('Fehler:', error);
     }
 }
-
 
 /**
  * update the counter
@@ -350,41 +349,15 @@ function editContact(user) {
     document.body.style.overflow = 'hidden';
 }
 
-/**
- * update the contact
- * @param {*} user 
- * @returns 
- */
-async function updateUser(user) {
-    try {
-        if (!validateContactForm()) {
-            return;
-        } else {
-            const updatedData = { name: document.getElementById("name").value, email: document.getElementById("email").value, phone: document.getElementById("phone").value, color: userArray[user].color, id: userArray[user].id, password: userArray[user].password};
-            let response = await fetch(BASE_URL + "contactsDatabase/" + userArray[user].firebaseId + ".json", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedData)
-            });
-            if (response.ok) {
-                const index = userArray.findIndex(u => u.id === updatedData.id);
-                updatedData.firebaseId = userArray[user].firebaseId;
-                if (index !== -1) userArray[index] = updatedData;
-                await reUpdateUser();
-            }
-        }
-    } catch (error) {
-    }
-}
 
 
 /**
  * update function for updateuser
  */
-async function reUpdateUser() {
+async function reUpdateUser(updatedData) {
     await loadingUsers();
     showContactDetails(updatedData.id);
     closeContactForm();
     await showSuccessMsgTasks();
-    await setTimeout(() => {hiddenSuccessMsgTasks()}, 800)
+    await setTimeout(() => {hiddenSuccessMsgTasks()}, 800);
 }
