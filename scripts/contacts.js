@@ -350,7 +350,6 @@ function editContact(user) {
     document.body.style.overflow = 'hidden';
 }
 
-
 /**
  * update the contact
  * @param {*} user 
@@ -375,7 +374,6 @@ async function updateUser(user) {
             }
         }
     } catch (error) {
-        console.error('Fehler:', error);
     }
 }
 

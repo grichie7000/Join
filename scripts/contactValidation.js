@@ -8,15 +8,15 @@ function validateContactForm() {
     let phone = document.getElementById('phone').value;
     let isValid = true;
     clearErrorMessages();
-    if (!validateName(name)) {
+    if (name && !validateName(name)) {
         showError('name', 'Name is required and must be at least 2 characters long');
         isValid = false;
     }
-    if (!validateEmail(email)) {
+    if (email && !validateEmail(email)) {
         showError('email', 'Email is required and must be a valid email address');
         isValid = false;
     }
-    if (!validatePhone(phone)) {
+    if (phone && !validatePhone(phone)) {
         showError('phone', 'phone is required and must be a valid phone number');
         isValid = false;
     }

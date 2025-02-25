@@ -178,7 +178,6 @@
 
 .helpDisplay {
         display: flex!important;
-    
 }
 
 	.mobile-logo {
@@ -346,7 +345,6 @@
     overflow: scroll;
     position: relative;
     margin-top: 1px;
-    box-shadow: 4px -2px 12px #d1d1d1;
 	min-width: 100px !important;
 	}
 	
@@ -454,7 +452,6 @@
     overflow: scroll;
     position: relative;
     margin-top: 1px;
-    box-shadow: 4px -2px 12px #d1d1d1;
 	}
 
 }

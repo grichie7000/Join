@@ -81,7 +81,7 @@ function renderContactDetails(user) {
  */
 function renderEditContact(user) {
     let initials = userArray[user].name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
-    return `<div class="popup">
+    return `<div class="popup" onclick="event.stopPropagation();">
     <div class="popup-left">
 
         <!-- MOBIEL -->
@@ -108,7 +108,7 @@ function renderEditContact(user) {
                 <img src="./assets/img/x_symbol.png" alt="">
             </button>
         </div>
-        <form class="popup-form" onsubmit="event.preventDefault(); updateUser(${user}); showSaveAlert();">
+        <form class="popup-form" onsubmit="event.preventDefault(); updateUser(${user});">
             <div class="form-group">
                 <div class="input-icon">
                     <input type="text" id="name" placeholder="Name" required value="${userArray[user].name}" onchange="validateContactForm()">
@@ -125,14 +125,14 @@ function renderEditContact(user) {
             </div>
             <div class="form-group">
                 <div class="input-icon">
-                    <input type="tel" id="phone" placeholder="Phone" required value="${userArray[user].phone}" onchange="validateContactForm()">
+                    <input type="text" id="phone" placeholder="Phone" required value="${userArray[user].phone}" onchange="validateContactForm()" oninput="validatePhoneInput(event)">
                     <img src="./assets/img/call.png">
                 </div>
                 <div class="error-message" id="error-div-phone"> </div>
             </div>
              <div class="btn">
                 <button type="button" class="delete-btn btn-center" onclick="deleteUser('${userArray[user].firebaseId}')">Delete</button>
-                <button type="submit" class="save-btn gap btn-center">
+                <button type="submit" class="save-btn gap btn-center" onclick="closeContactForm(); showContactDetails(); closeContactDetails();">
                     Save
                     <img src="./assets/img/check.png">
                 </button>
@@ -142,10 +142,7 @@ function renderEditContact(user) {
 </div>`
 }
 
-function showSaveAlert() {
-    alert("Your contact has been saved! Please refresh page!");
-    // Hier kannst du den Update-Prozess aufrufen, nachdem der Alert angezeigt wurde
-}
+
 
 
 /**
@@ -153,7 +150,7 @@ function showSaveAlert() {
  * @returns 
  */
 function renderNewContact() {    
-    return `<div class="popup">
+    return `<div class="popup" onclick="event.stopPropagation();">
             <div class="popup-left">
 
                 <!-- MOBIEL -->
@@ -200,7 +197,7 @@ function renderNewContact() {
                     </div>
                     <div class="form-group">
                         <div class="input-icon">
-                            <input type="tel" id="phone" placeholder="Phone" required onchange="validateContactForm()">
+                            <input type="text" id="phone" placeholder="Phone" required onchange="validateContactForm()" oninput="validatePhoneInput(event)">
                             <img src="./assets/img/call.png">
                         </div>
                         <div class="error-message" id="error-div-phone"> </div>
@@ -238,4 +235,14 @@ function renderEditDeletePopup(user) {
                 <p>Delete</p>
             </button>
             </li>`
+}
+
+/**
+ * Funktion, um sicherzustellen, dass nur Zahlen im "phone"-Feld eingegeben werden können
+ * @param {Event} event
+ */
+function validatePhoneInput(event) {
+    const input = event.target;
+    const validValue = input.value.replace(/[^0-9]/g, ''); // Entfernt alles, was keine Zahl ist
+    input.value = validValue; // Setzt den bereinigten Wert zurück ins Feld
 }
