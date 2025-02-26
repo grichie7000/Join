@@ -693,20 +693,30 @@ async function setupContactsAndSubtasks(overlay, task) {
   updateSubtasksViewInOverlay();
 }
 
-
 function updateSelectedContactsDisplay(overlay) {
-    const checkboxes = overlay.querySelectorAll('#editContactsCheckboxContainer input[type="checkbox"]');
-    const selectedContainer = overlay.querySelector('.selected-contacts-list');
-    selectedContainer.innerHTML = '';
-    Array.from(checkboxes)
-      .filter(checkbox => checkbox.checked)
-      .forEach(checkbox => {
-          const contact = { 
-              name: checkbox.value, 
-              color: checkbox.dataset.color
-          };
-          selectedContainer.appendChild(createContactBadge(contact));
-      });
+  const checkboxes = overlay.querySelectorAll('#editContactsCheckboxContainer input[type="checkbox"]');
+  const selectedContainer = overlay.querySelector('.selected-contacts-list');
+  selectedContainer.innerHTML = '';
+
+  const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+
+  const maxContacts = 4;
+
+  selectedCheckboxes.slice(0, maxContacts).forEach(checkbox => {
+      const contact = { 
+          name: checkbox.value, 
+          color: checkbox.dataset.color
+      };
+      selectedContainer.appendChild(createContactBadge(contact));
+  });
+
+  const extraCount = selectedCheckboxes.length - maxContacts;
+  if (extraCount > 0) {
+      const extraBadge = document.createElement('div');
+      extraBadge.classList.add('contact-badge', 'extra-badge');
+      extraBadge.textContent = '+' + extraCount;
+      selectedContainer.appendChild(extraBadge);
+  }
 }
 
 document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
