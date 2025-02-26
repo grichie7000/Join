@@ -441,6 +441,12 @@ h1 {
     height: 10px;
 }
 
+.extra-badge {
+    background-color: #adadade5;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
 .overlay {
     display: none;
     position: fixed;
@@ -853,3 +859,9 @@ input[type="radio"]+label {
     font-weight: normal;
     padding-right: 10px;
 }
+
+.scrollable-subtasks {
+    max-height: 100px;
+    overflow-y: auto;
+  }
+  

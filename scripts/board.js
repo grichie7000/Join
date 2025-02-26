@@ -56,131 +56,126 @@ async function loadTasks() {
     }
 }
 
-const createTaskElement = (task, taskId, columnId) => {
-    const div = document.createElement("div");
-    div.className = "task";
-    div.draggable = true;
-    div.id = taskId;
-    let categoryText = task.category || "Keine Kategorie";
-    let categoryBgColor = "#f0f0f0";
-    if (task.category === "Technical Task") {
-        categoryText = "Technical Task";
-        categoryBgColor = "#23D8C2";
-    } else if (task.category === "User Story") {
-        categoryText = "User Story";
-        categoryBgColor = "#1500ff";
-    }
-    const subtasksHtml = task.subtasks && task.subtasks.length > 0 ? `
-        <div class="subtask-progress">
-            <div class="progress-bar">
-                <div class="progress-fill" 
-                     style="width: ${(task.subtasks.filter(s => s.completed).length / task.subtasks.length) * 100}%">
-                </div>
-            </div>
-            <span class="progress-text">
-                ${task.subtasks.filter(s => s.completed).length}/${task.subtasks.length} Subtasks
-            </span>
-        </div>
-    ` : "";
-    const contactsHtml = task.contacts && task.contacts.length > 0
-      ? `<div class="task-contacts">${task.contacts.map(c => {
-          return `
-            <div class="contact-badge" 
-                 style="background: ${getContactColor(c)};" 
-                 title="${c.name}">
-              ${getInitials(c.name)}
-            </div>`;
-      }).join("")}</div>`
-      : "";
+function createTaskElement(task, taskId, columnId) {
+  let div = document.createElement("div");
+  div.className = "task"; div.draggable = true; div.id = taskId;
+  let categoryText = task.category || "Keine Kategorie", categoryBgColor = "#f0f0f0";
+  if (task.category === "Technical Task") { categoryText = "Technical Task"; categoryBgColor = "#23D8C2"; }
+  else if (task.category === "User Story") { categoryText = "User Story"; categoryBgColor = "#1500ff"; }
+  div.innerHTML = '<div class="task-category" style="background: ' + categoryBgColor + '">' + categoryText + '</div>' +
+    '<h3 class="task-title" style="padding-top: 10px">' + task.title + '</h3>' +
+    '<div class="task-description">' + task.description + '</div>' +
+    getSubtasksHtml(task) + getFooterHtml(task);
+  div.addEventListener("click", function(e) { showTaskDetailOverlay(task, taskId, e.currentTarget.parentElement.id); });
+  div.addEventListener("dragstart", drag);
+  return div;
+}
+
+function getSubtasksHtml(task) {
+  if (!task.subtasks || task.subtasks.length === 0) return "";
+  let completed = task.subtasks.filter(function(s) { return s.completed; }).length;
+  let total = task.subtasks.length;
+  return '<div class="subtask-progress"><div class="progress-bar">' +
+    '<div class="progress-fill" style="width: ' + ((completed / total) * 100) + '%"></div></div>' +
+    '<span class="progress-text">' + completed + '/' + total + ' Subtasks</span></div>';
+}
+
+function getFooterHtml(task) {
+  let contactsHtml = "";
+  if (task.contacts && task.contacts.length > 0) {
+    let maxContacts = 4;
+    let displayedContacts = task.contacts.slice(0, maxContacts);
+    let extraCount = task.contacts.length - maxContacts;
+    contactsHtml = '<div class="task-contacts">' +
+      displayedContacts.map(function(c) {
+        return '<div class="contact-badge" style="background: ' +
+          getContactColor(c) + ';" title="' + c.name + '">' +
+          getInitials(c.name) + '</div>';
+      }).join("") +
+      (extraCount > 0 ? '<div class="contact-badge extra-badge">+' + extraCount + '</div>' : '') +
+      '</div>';
+  }
+  let priorityHtml = task.priority ? '<img src="' +
+    { urgent: "assets/img/urgent.png", medium: "assets/img/medium.png", low: "assets/img/low.png" }[task.priority] +
+    '" alt="' + task.priority + '" class="task-priority-icon">' : "";
+  return (contactsHtml || priorityHtml)
+    ? '<div class="task-footer">' + contactsHtml + priorityHtml + '</div>' : "";
+}
+
+function drag(event) {
+  event.dataTransfer.setData("text", event.target.id);
+}
+
+function allowDrop(event) {
+  event.preventDefault();
+}
+
+function moveTo(event, columnId) {
+  event.preventDefault();
+  const taskId = event.dataTransfer.getData("text");
+  const task = $(taskId);
+  const oldColumnElement = $(task.parentElement.id);
+  const oldColumnId = oldColumnElement.id;
+  const newColumnElement = $(columnId);
   
-    let priorityHtml = "";
-    if (task.priority) {
-        const iconMap = {
-            urgent: "assets/img/urgent.png",
-            medium: "assets/img/medium.png",
-            low: "assets/img/low.png"
-        };
-        priorityHtml = `<img src="${iconMap[task.priority]}" alt="${task.priority}" class="task-priority-icon">`;
-    }
-    div.innerHTML = `
-      <div class="task-category" style="background: ${categoryBgColor}">${categoryText}</div>
-      <h3 class="task-title" style="padding-top: 10px">${task.title}</h3>
-      <div class="task-description">${task.description}</div>
-      ${subtasksHtml}
-      ${(contactsHtml || priorityHtml) ? `<div class="task-footer">${contactsHtml}${priorityHtml}</div>` : ''}
-    `;
-    div.addEventListener("click", () => showTaskDetailOverlay(task, taskId, columnId));
-    div.addEventListener("dragstart", drag);
-    return div;
-};
+  if (oldColumnId === columnId) {
+    updatePlaceholders();
+    return;
+  }
+  moveTaskInDOM(task, newColumnElement);
+  if (currentTaskId === taskId) {
+    currentColumnId = columnId;
+  }
+  updateTaskInFirebase(taskId, oldColumnId, columnId, newColumnElement, oldColumnElement);
+}
 
-const drag = (event) => {
-    event.dataTransfer.setData("text", event.target.id);
-};
+function moveTaskInDOM(task, newColumnElement) {
+  const newPlaceholder = newColumnElement.querySelector(".empty-placeholder");
+  if (newPlaceholder) {
+    newColumnElement.removeChild(newPlaceholder);
+  }
+  newColumnElement.appendChild(task);
+}
 
-window.allowDrop = (event) => event.preventDefault();
+async function fetchAndPrepareTaskData(taskId, oldColumnId, columnId, newColumnElement) {
+  const response = await fetch(`${dbUrl}/tasks/${oldColumnId}/${taskId}.json`);
+  const taskData = await response.json();
+  if (taskData) {
+    taskData.status = columnId;
+    taskData.order = newColumnElement.querySelectorAll(".task").length - 1;
+  }
+  return taskData;
+}
 
-window.moveTo = async (event, columnId) => {
-    event.preventDefault();
-    const taskId = event.dataTransfer.getData("text");
-    const task = $(taskId);
-    const oldColumnElement = $(task.parentElement.id);
-    const oldColumnId = oldColumnElement.id;
-    const newColumnElement = $(columnId);
-    if (oldColumnId === columnId) {
-      let dropTarget = event.target.closest('.task');
-      if (dropTarget && dropTarget !== task) {
-        const rect = dropTarget.getBoundingClientRect();
-        const offset = event.clientY - rect.top;
-        if (offset < rect.height / 2) {
-          newColumnElement.insertBefore(task, dropTarget);
-        } else {
-          newColumnElement.insertBefore(task, dropTarget.nextSibling);
-        }
-      } else {
-        newColumnElement.appendChild(task);
-      }
-      const tasks = Array.from(newColumnElement.querySelectorAll('.task'));
-      for (const [index, taskElem] of tasks.entries()) {
-        try {
-          await fetch(`${dbUrl}/tasks/${columnId}/${taskElem.id}.json`, {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ order: index })
-          });
-        } catch (err) {
-          console.error("Fehler beim Aktualisieren der Reihenfolge:", err);
-        }
-      }
-      updatePlaceholders();
-      return;
+async function commitTaskUpdates(taskId, oldColumnId, columnId, taskData, oldColumnElement) {
+  await fetch(`${dbUrl}/tasks/${columnId}/${taskId}.json`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(taskData)
+  });
+  await fetch(`${dbUrl}/tasks/${oldColumnId}/${taskId}.json`, { method: "DELETE" });
+  if (!oldColumnElement.querySelector(".task")) {
+    oldColumnElement.innerHTML =
+      `<div class="empty-placeholder">${getColumnPlaceholderText(oldColumnId)}</div>`;
+  }
+  updatePlaceholders();
+}
+
+async function updateTaskInFirebase(taskId, oldColumnId, columnId, newColumnElement, oldColumnElement) {
+  try {
+    const taskData = await fetchAndPrepareTaskData(taskId, oldColumnId, columnId, newColumnElement);
+    if (taskData) {
+      await commitTaskUpdates(taskId, oldColumnId, columnId, taskData, oldColumnElement);
     }
-    const newPlaceholder = newColumnElement.querySelector(".empty-placeholder");
-    if (newPlaceholder) newColumnElement.removeChild(newPlaceholder);
-    newColumnElement.appendChild(task);
-    try {
-      const oldTaskResponse = await fetch(`${dbUrl}/tasks/${oldColumnId}/${taskId}.json`);
-      const taskData = await oldTaskResponse.json();
-      if (taskData) {
-          taskData.status = columnId;
-          taskData.order = newColumnElement.querySelectorAll('.task').length - 1;
-          await fetch(`${dbUrl}/tasks/${columnId}/${taskId}.json`, {
-              method: 'PUT',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(taskData)
-          });
-          await fetch(`${dbUrl}/tasks/${oldColumnId}/${taskId}.json`, {
-              method: 'DELETE'
-          });
-          if (!oldColumnElement.querySelector(".task")) {
-              oldColumnElement.innerHTML = `<div class="empty-placeholder">${getColumnPlaceholderText(oldColumnId)}</div>`;
-          }
-          updatePlaceholders();
-      }
-    } catch (error) {
-      console.error("Fehler beim Verschieben des Tasks:", error);
-    }
-};
+  } catch (error) {
+    console.error("Fehler beim Verschieben des Tasks:", error);
+  }
+}
+
+window.moveTo = moveTo;
+window.allowDrop = allowDrop;
+
+
 
 window.getColumnPlaceholderText = function (columnId) {
     const columnNames = {
@@ -243,7 +238,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Overlay-Funktionen
 const showOverlay = (columnId) => {
     const overlay = $("taskOverlay");
     overlay.style.display = "flex";
@@ -308,7 +302,6 @@ $("category").addEventListener("input", () => {
   $("category").style.borderColor = "";
 });
 
-// Hinzufügen eines neuen Tasks via fetch (anstelle von Firebase set) mit async/await
 async function addTaskWithFetch(taskData) {
   const newTaskId = Date.now().toString();
   try {
@@ -327,57 +320,71 @@ async function addTaskWithFetch(taskData) {
   }
 }
 
-document.querySelector(".create-btn").addEventListener("click", async (event) => {
-  event.preventDefault();
-  const titleInput = $("title");
-  const dueDateInput = $("due-date");
-  const categoryInput = $("category");
-  const descriptionInput = $("description");
-  const titleValue = titleInput.value.trim();
-  const descriptionValue = descriptionInput.value.trim();
-  const dueDateValue = dueDateInput.value;
-  const categoryValue = categoryInput.value;
-  const errorTitleEl = $("error-title");
-  const errorDueDateEl = $("error-date");
-  const errorCategoryEl = $("error-category");
+function resetFormErrors() {
+  const errorTitleEl = $("error-title"),
+        errorDueDateEl = $("error-date"),
+        errorCategoryEl = $("error-category");
   errorTitleEl.textContent = "";
   errorDueDateEl.textContent = "";
   errorCategoryEl.textContent = "";
-  titleInput.style.borderColor = "";
-  dueDateInput.style.borderColor = "";
-  categoryInput.style.borderColor = "";
+  $("title").style.borderColor = "";
+  $("due-date").style.borderColor = "";
+  $("category").style.borderColor = "";
+}
+
+function validateFormInputs(titleValue, dueDateValue, categoryValue) {
   let isValid = true;
   if (!titleValue) {
-    errorTitleEl.textContent = "This field is required";
-    titleInput.style.borderColor = "red";
+    $("error-title").textContent = "This field is required";
+    $("title").style.borderColor = "red";
     isValid = false;
   }
   if (!dueDateValue) {
-    errorDueDateEl.textContent = "This field is required";
-    dueDateInput.style.borderColor = "red";
+    $("error-date").textContent = "This field is required";
+    $("due-date").style.borderColor = "red";
     isValid = false;
   }
   if (!categoryValue) {
-    errorCategoryEl.textContent = "This field is required";
-    categoryInput.style.borderColor = "red";
+    $("error-category").textContent = "This field is required";
+    $("category").style.borderColor = "red";
     isValid = false;
   }
-  if (!isValid) return;
-  const taskData = {
+  return isValid;
+}
+
+function buildTaskData(titleValue, descriptionValue, dueDateValue, categoryValue) {
+  return {
     title: titleValue,
     description: descriptionValue,
     dueDate: dueDateValue,
-    priority: document.querySelector('input[name="priority"]:checked')?.value || null,
+    priority: document.querySelector('input[name="priority"]:checked') ?
+      document.querySelector('input[name="priority"]:checked').value : null,
     category: categoryValue,
     status: $("taskOverlay").dataset.columnId || "",
     contacts: window.selectedContacts || [],
-    subtasks: (window.selectedSubtasks || []).map(subtask => ({
-      title: typeof subtask === "object" ? subtask.title : subtask,
-      completed: false,
-    })),
+    subtasks: (window.selectedSubtasks || []).map(function(subtask) {
+      return { title: typeof subtask === "object" ? subtask.title : subtask, completed: false };
+    })
   };
-  await addTaskWithFetch(taskData);
-  clearTask();
+}
+
+document.querySelector(".create-btn").addEventListener("click", function(event) {
+  event.preventDefault();
+  const titleInput = $("title"),
+        dueDateInput = $("due-date"),
+        categoryInput = $("category"),
+        descriptionInput = $("description"),
+        titleValue = titleInput.value.trim(),
+        descriptionValue = descriptionInput.value.trim(),
+        dueDateValue = dueDateInput.value,
+        categoryValue = categoryInput.value;
+  
+  resetFormErrors();
+  if (!validateFormInputs(titleValue, dueDateValue, categoryValue)) return;
+  const taskData = buildTaskData(titleValue, descriptionValue, dueDateValue, categoryValue);
+  addTaskWithFetch(taskData).then(function() {
+    clearTask();
+  });
 });
 
 const displayUserInitials = () => {
@@ -431,40 +438,56 @@ function updateSubtasksViewInOverlay() {
     }
 }
 
-const showTaskDetailOverlay = (task, taskId, columnId) => {
-    currentTaskId = taskId;
-    currentColumnId = columnId;
-    const overlay = document.getElementById("taskDetailOverlay");
-    overlay.querySelector('.category-badge').textContent = task.category;
-    overlay.querySelector('.category-badge').style.backgroundColor = getCategoryColor(task.category);
-    overlay.querySelector('.task-title').textContent = task.title;
-    overlay.querySelector('.task-description').textContent = task.description;
-    document.getElementById("overlay-task-title").textContent = task.title;
-    document.getElementById("overlay-task-description").textContent = task.description;
-    overlay.querySelector('.task-due-date').textContent = `Due Date: ${task.dueDate}`;
-    const iconMap = {
-        urgent: "assets/img/urgent.png",
-        medium: "assets/img/medium.png",
-        low: "assets/img/low.png"
-    };
-    overlay.querySelector('.task-priority').innerHTML = `Priority: <img src="${iconMap[task.priority]}" alt="${task.priority}" class="task-priority-icon">`;
-    const contactsList = overlay.querySelector('.contacts-list');
-    contactsList.innerHTML = task.contacts?.map(c => `
+function updateTaskDetailContent(task, overlay) {
+  const categoryBadge = overlay.querySelector('.category-badge');
+  categoryBadge.textContent = task.category;
+  categoryBadge.style.backgroundColor = getCategoryColor(task.category);
+  overlay.querySelector('.task-title').textContent = task.title;
+  overlay.querySelector('.task-description').textContent = task.description;
+  document.getElementById("overlay-task-title").textContent = task.title;
+  document.getElementById("overlay-task-description").textContent = task.description;
+  overlay.querySelector('.task-due-date').textContent = "Due Date: " + task.dueDate;
+  const iconMap = {
+    urgent: "assets/img/urgent.png",
+    medium: "assets/img/medium.png",
+    low: "assets/img/low.png"
+  };
+  overlay.querySelector('.task-priority').innerHTML =
+    "Priority: <img src=\"" + iconMap[task.priority] + "\" alt=\"" + task.priority + "\" class=\"task-priority-icon\">";
+}
+
+function updateOverlayContactsAndSubtasks(task, overlay) {
+  const contactsList = overlay.querySelector('.contacts-list');
+  contactsList.innerHTML = task.contacts && task.contacts.length
+    ? task.contacts.map(c => `
       <div style="background: none" class="contact-item">
         <div class="contact-badge" style="background: ${getContactColor(c)}" title="${c.name}">
           ${getInitials(c.name)}
         </div>
         <span class="contact-name">${c.name}</span>
       </div>
-    `).join('') || '';
-    renderSubtasksView(task);
-    overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
-    overlay.querySelector('.delete-btn').onclick = deleteTask;
-    overlay.querySelector('.edit-btn').onclick = enableEditMode;
-    overlay.querySelector('.save-btn').onclick = saveChanges;
-    overlay.style.display = 'block';
-    overlay.addEventListener("click", hideTaskOverlayOutside);
-};
+    `).join('')
+    : '';
+  renderSubtasksView(task);
+}
+
+function attachOverlayEventHandlers(overlay) {
+  overlay.querySelector('.close-btn').onclick = hideTaskDetailOverlay;
+  overlay.querySelector('.delete-btn').onclick = deleteTask;
+  overlay.querySelector('.edit-btn').onclick = enableEditMode;
+  overlay.querySelector('.save-btn').onclick = saveChanges;
+}
+
+function showTaskDetailOverlay(task, taskId, columnId) {
+  currentTaskId = taskId;
+  currentColumnId = columnId;
+  const overlay = document.getElementById("taskDetailOverlay");
+  updateTaskDetailContent(task, overlay);
+  updateOverlayContactsAndSubtasks(task, overlay);
+  attachOverlayEventHandlers(overlay);
+  overlay.style.display = 'block';
+  overlay.addEventListener("click", hideTaskOverlayOutside);
+}
 
 const hideTaskDetailOverlay = () => {
     const overlay = document.getElementById("taskDetailOverlay");
@@ -546,42 +569,65 @@ function updateProgressBar(task) {
     }
 }
 
-function renderSubtasksEditMode() {
-    const subtasksList = $("subtask-list");
-    if (!subtasksList) return;
-    subtasksList.innerHTML = '';
-    currentSubtasks.forEach((subtask, index) => {
-        const li = document.createElement("li");
-        li.classList.add("subtask-item");
-        const titleSpan = document.createElement("span");
-        titleSpan.textContent = subtask.title;
-        li.appendChild(titleSpan);
-        const buttonContainer = document.createElement("div");
-        buttonContainer.classList.add("subtask-button-container");
-        const editButton = document.createElement("button");
-        editButton.type = "button";
-        editButton.innerHTML = '<img class="delete-edit-png" src="assets/img/edit.png" alt="Edit Icon">';
-        editButton.classList.add("subtask-edit-btn");
-        editButton.addEventListener("click", (e) => {
-            e.stopPropagation();
-            turnSubtaskIntoEditInput(li, titleSpan, index);
-        });
-        buttonContainer.appendChild(editButton);
-        const deleteButton = document.createElement("button");
-        deleteButton.type = "button";
-        deleteButton.innerHTML = '<img class="delete-edit-png" src="assets/img/delete.png" alt="Delete Icon">';
-        deleteButton.classList.add("subtask-delete-btn");
-        deleteButton.addEventListener("click", (e) => {
-            e.stopPropagation();
-            currentSubtasks.splice(index, 1);
-            renderSubtasksEditMode();
-            updateSubtasksViewInOverlay();
-        });
-        buttonContainer.appendChild(deleteButton);
-        li.appendChild(buttonContainer);
-        subtasksList.appendChild(li);
-    });
+function clearAndSetupSubtasksList() {
+  const subtasksList = $("subtask-list");
+  if (!subtasksList) return null;
+  subtasksList.innerHTML = '';
+  if (currentSubtasks.length > 2) {
+    subtasksList.classList.add("scrollable-subtasks");
+  } else {
+    subtasksList.classList.remove("scrollable-subtasks");
+  }
+  return subtasksList;
 }
+
+function createButton(type, clickHandler) {
+  const button = document.createElement("button");
+  button.type = "button";
+  const imgSrc = type === "edit" ? "assets/img/edit.png" : "assets/img/delete.png";
+  const altText = type === "edit" ? "Edit Icon" : "Delete Icon";
+  button.innerHTML = `<img class="delete-edit-png" src="${imgSrc}" alt="${altText}">`;
+  button.classList.add(`subtask-${type}-btn`);
+  button.addEventListener("click", (e) => {
+    e.stopPropagation();
+    clickHandler();
+  });
+  return button;
+}
+
+function createSubtaskItem(subtask, index) {
+  const li = document.createElement("li");
+  li.classList.add("subtask-item");
+  const titleSpan = document.createElement("span");
+  titleSpan.textContent = subtask.title;
+  li.appendChild(titleSpan);
+  const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("subtask-button-container");
+  const editButton = createButton("edit", () => {
+    turnSubtaskIntoEditInput(li, titleSpan, index);
+  });
+  buttonContainer.appendChild(editButton);
+  const deleteButton = createButton("delete", () => {
+    currentSubtasks.splice(index, 1);
+    renderSubtasksEditMode();
+    updateSubtasksViewInOverlay();
+  });
+  buttonContainer.appendChild(deleteButton);
+  li.appendChild(buttonContainer);
+  return li;
+}
+
+function renderSubtasksEditMode() {
+  const subtasksList = clearAndSetupSubtasksList();
+  if (!subtasksList) return;
+  const fragment = document.createDocumentFragment();
+  currentSubtasks.forEach((subtask, index) => {
+    const subtaskItem = createSubtaskItem(subtask, index);
+    fragment.appendChild(subtaskItem);
+  });
+  subtasksList.appendChild(fragment);
+}
+
 
 function turnSubtaskIntoEditInput(li, titleSpan, index) {
     const input = document.createElement("input");
@@ -604,54 +650,49 @@ function turnSubtaskIntoEditInput(li, titleSpan, index) {
     input.focus();
 }
 
-const enableEditMode = async () => {
-    try {
-      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`);
-      const task = await response.json();
-      const overlay = $("taskDetailOverlay");
-      overlay.querySelector('.close-btn').style.display = 'inline-block';
-      overlay.querySelector('.view-mode').style.display = 'none';
-      overlay.querySelector('.edit-mode').style.display = 'block';
-      overlay.querySelector('.edit-svg').style.display = 'none';
-      overlay.querySelector('.delete-svg').style.display = 'none';
-      overlay.querySelector('.edit-btn').style.display = 'none';
-      overlay.querySelector('.delete-btn').style.display = 'none';
-      overlay.querySelector('.button-seperator').style.display = 'none';
-      overlay.querySelector('.save-btn').style.display = 'inline-block';
-      overlay.querySelector('#edit-title').value = task.title;
-      overlay.querySelector('#edit-description').value = task.description;
-      overlay.querySelector('#edit-due-date').value = task.dueDate;
-      overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
-      const contactsResponse = await fetch(`${dbUrl}/contactsDatabase.json`);
-      const contactsData = await contactsResponse.json();
-      const allContacts = contactsData ? Object.values(contactsData) : [];
-      const checkboxContainer = overlay.querySelector('#editContactsCheckboxContainer');
-      checkboxContainer.innerHTML = allContacts.map(contact => `
-       <label class="contact-checkbox">
-        <input 
-         type="checkbox" 
-         name="edit-contact" 
-         value="${contact.name}" 
-         data-color="${contact.color}"
-         onclick="event.stopPropagation()"
-         ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
-         <span class="contact-name-selection">${contact.name}</span>
-         <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">
-          ${getInitials(contact.name)}
-         </span>
-       </label>
-       `).join('');
-      updateSelectedContactsDisplay(overlay);
-      checkboxContainer.addEventListener('change', () => {
-        updateSelectedContactsDisplay(overlay);
-      });
-      currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
-      renderSubtasksEditMode();
-      updateSubtasksViewInOverlay();
-    } catch (error) {
-      console.error("Fehler beim Aktivieren des Edit-Modus:", error);
-    }
-};
+async function enableEditMode() {
+  try {
+    const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`);
+    const task = await response.json();
+    const overlay = $("taskDetailOverlay");
+    updateOverlayWithTask(overlay, task);
+    await setupContactsAndSubtasks(overlay, task);
+  } catch (error) {
+    console.error("Fehler beim Aktivieren des Edit-Modus:", error);
+  }
+}
+
+function updateOverlayWithTask(overlay, task) {
+  overlay.querySelector('.close-btn').style.display = 'inline-block';
+  overlay.querySelector('.view-mode').style.display = 'none';
+  overlay.querySelector('.edit-mode').style.display = 'block';
+  ['.edit-svg', '.delete-svg', '.edit-btn', '.delete-btn', '.button-seperator']
+    .forEach(sel => overlay.querySelector(sel).style.display = 'none');
+  overlay.querySelector('.save-btn').style.display = 'inline-block';
+  overlay.querySelector('#edit-title').value = task.title;
+  overlay.querySelector('#edit-description').value = task.description;
+  overlay.querySelector('#edit-due-date').value = task.dueDate;
+  overlay.querySelector(`input[name="edit-priority"][value="${task.priority}"]`).checked = true;
+}
+
+async function setupContactsAndSubtasks(overlay, task) {
+  const res = await fetch(`${dbUrl}/contactsDatabase.json`);
+  const data = await res.json();
+  const allContacts = data ? Object.values(data) : [];
+  const container = overlay.querySelector('#editContactsCheckboxContainer');
+  container.innerHTML = allContacts.map(contact => `<label class="contact-checkbox">
+    <input type="checkbox" name="edit-contact" value="${contact.name}" data-color="${contact.color}" onclick="event.stopPropagation()"
+    ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
+    <span class="contact-name-selection">${contact.name}</span>
+    <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">${getInitials(contact.name)}</span>
+  </label>`).join('');
+  updateSelectedContactsDisplay(overlay);
+  container.addEventListener('change', () => updateSelectedContactsDisplay(overlay));
+  currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
+  renderSubtasksEditMode();
+  updateSubtasksViewInOverlay();
+}
+
 
 function updateSelectedContactsDisplay(overlay) {
     const checkboxes = overlay.querySelectorAll('#editContactsCheckboxContainer input[type="checkbox"]');
@@ -680,47 +721,56 @@ document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
     }
 });
 
-const saveChanges = async () => {
-    const overlay = $("taskDetailOverlay");
-    const updatedTask = {
-        title: overlay.querySelector('#edit-title').value,
-        description: overlay.querySelector('#edit-description').value,
-        category: overlay.querySelector('.category-badge').textContent,
-        dueDate: overlay.querySelector('#edit-due-date').value,
-        priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
-        contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
-                    .map(c => ({ name: c.value, color: c.dataset.color })),
-        subtasks: currentSubtasks,
-        status: currentColumnId
-    };
-    try {
-      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`, {
-         method: 'PUT',
-         headers: { 'Content-Type': 'application/json' },
-         body: JSON.stringify(updatedTask)
-      });
-      await response.json();
-      await loadTasks();
-      hideTaskDetailOverlay();
-    } catch (error) {
-      console.error("Fehler beim Speichern der Änderungen:", error);
-    }
-};
+function getUpdatedTask() {
+  let overlay = $("taskDetailOverlay");
+  let updatedTask = {
+    title: overlay.querySelector('#edit-title').value,
+    description: overlay.querySelector('#edit-description').value,
+    category: overlay.querySelector('.category-badge').textContent,
+    dueDate: overlay.querySelector('#edit-due-date').value,
+    priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
+    contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
+              .map(function(c) { return { name: c.value, color: c.dataset.color }; }),
+    subtasks: currentSubtasks,
+    status: currentColumnId
+  };
+  return updatedTask;
+}
 
-const deleteTask = async () => {
-    try {
-      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`, {
-         method: 'DELETE'
-      });
-      await response.json();
-      hideTaskDetailOverlay();
-      await loadTasks();
-    } catch (error) {
-      console.error("Fehler beim Löschen des Tasks:", error);
-    }
-};
+async function saveTask(updatedTask) {
+  try {
+    let response = await fetch(dbUrl + "/tasks/" + currentColumnId + "/" + currentTaskId + ".json", {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(updatedTask)
+    });
+    await response.json();
+    await loadTasks();
+    hideTaskDetailOverlay();
+  } catch (error) {
+    console.error("Fehler beim Speichern der Änderungen:", error);
+  }
+}
 
-window.toggleContactsDropdown = function (event) {
+async function saveChanges() {
+  let updatedTask = getUpdatedTask();
+  await saveTask(updatedTask);
+}
+
+async function deleteTask() {
+  try {
+    let response = await fetch(dbUrl + "/tasks/" + currentColumnId + "/" + currentTaskId + ".json", {
+      method: 'DELETE'
+    });
+    await response.json();
+    hideTaskDetailOverlay();
+    await loadTasks();
+  } catch (error) {
+    console.error("Fehler beim Löschen des Tasks:", error);
+  }
+}
+
+document.querySelector('.selected-contacts-display').addEventListener('click', (event) => {
   event.stopPropagation();
   const dropdown = document.getElementById("contactsDropdown");
   const arrow = document.querySelector(".dropdown-arrow");
@@ -731,7 +781,7 @@ window.toggleContactsDropdown = function (event) {
     dropdown.style.display = "block";
     arrow.innerHTML = "&#9662;";
   }
-};
+});
 
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.contact-selection-wrapper')) {
