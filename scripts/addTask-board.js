@@ -112,14 +112,26 @@ function updateGlobalSelectedContacts() {
 function updateAssignedContactsDisplay() {
   const selectedContactsList = document.getElementById("selectedContactsList");
   selectedContactsList.innerHTML = "";
-  window.selectedContacts.forEach(contact => {
+
+  const maxContacts = 4;
+  
+  window.selectedContacts.slice(0, maxContacts).forEach(contact => {
     const badge = document.createElement("div");
     badge.classList.add("selected-contact-item");
     badge.style.backgroundColor = contact.color;
     badge.textContent = contact.initials;
     selectedContactsList.appendChild(badge);
   });
+  
+  const extraCount = window.selectedContacts.length - maxContacts;
+  if (extraCount > 0) {
+    const extraBadge = document.createElement("div");
+    extraBadge.classList.add("selected-contact-item", "extra-badge");
+    extraBadge.textContent = '+' + extraCount;
+    selectedContactsList.appendChild(extraBadge);
+  }
 }
+
 
 function editItemOne(element) {
   const editItem = document.getElementById('editItemOne');
