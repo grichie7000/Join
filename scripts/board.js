@@ -1,5 +1,7 @@
 const dbUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
+let currentOrder = null; 
+
 const $ = (id) => document.getElementById(id);
 
 function getCategoryColor(category) {
@@ -654,6 +656,7 @@ async function enableEditMode() {
   try {
     const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}.json`);
     const task = await response.json();
+    window.currentOrder = task.order; 
     const overlay = $("taskDetailOverlay");
     updateOverlayWithTask(overlay, task);
     await setupContactsAndSubtasks(overlay, task);
@@ -742,7 +745,8 @@ function getUpdatedTask() {
     contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
               .map(function(c) { return { name: c.value, color: c.dataset.color }; }),
     subtasks: currentSubtasks,
-    status: currentColumnId
+    status: currentColumnId,
+    order: window.currentOrder // Hier wird der Order-Wert beibehalten
   };
   return updatedTask;
 }
