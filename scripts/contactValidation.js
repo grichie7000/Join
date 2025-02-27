@@ -1,26 +1,33 @@
+
+
+
 /**
  * validate the contact form
  * @returns 
  */
-function validateContactForm() {
-    let name = document.getElementById('name').value;
-    let email = document.getElementById('email').value;
-    let phone = document.getElementById('phone').value;
-    let isValid = true;
-    clearErrorMessages();
-    if (name && !validateName(name)) {
-        showError('name', 'Name is required and must be at least 2 characters long');
-        isValid = false;
-    }
-    if (email && !validateEmail(email)) {
-        showError('email', 'Email is required and must be a valid email address');
-        isValid = false;
-    }
-    if (phone && !validatePhone(phone)) {
-        showError('phone', 'phone is required and must be a valid phone number');
-        isValid = false;
-    }
-    return isValid;
+ function validateContactForm() {
+  let name = document.getElementById('name').value;
+  let email = document.getElementById('email').value;
+  let phone = document.getElementById('phone').value;
+  let isValid = true;
+  clearErrorMessages();
+  
+  // Überprüfe, ob eine asynchrone Funktion verwendet wird
+  if (name && !validateName(name)) {
+      showError('name', 'Name is required and must be at least 2 characters long');
+      isValid = false;
+  }
+  if (email && !validateEmail(email)) {
+      showError('email', 'Email is required and must be a valid email address');
+      isValid = false;
+  }
+  if (phone && !validatePhone(phone)) {
+      showError('phone', 'phone is required and must be a valid phone number');
+      isValid = false;
+  }
+  
+  // Gib den Status zurück, ohne dass eine asynchrone Aufgabe erforderlich ist
+  return isValid;
 }
 
 
@@ -54,6 +61,7 @@ function validatePhone(phone) {
     const phoneRegex = /^[\d\s\+\-\(\)]{6,}$/;
     return phoneRegex.test(phone);
 }
+
 
 
 /**

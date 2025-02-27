@@ -132,7 +132,7 @@ function renderEditContact(user) {
             </div>
              <div class="btn">
                 <button type="button" class="delete-btn btn-center" onclick="deleteUser('${userArray[user].firebaseId}')">Delete</button>
-                <button type="submit" class="save-btn gap btn-center" onclick="closeContactForm(); showContactDetails(); closeContactDetails();">
+                <button type="submit" class="save-btn gap btn-center">
                     Save
                     <img src="./assets/img/check.png">
                 </button>
@@ -204,7 +204,7 @@ function renderNewContact() {
                     </div>
                     <div class="btn">
                         <button type="button" class="cancel-btn btn-center" onclick="clearContactForm()">
-                            Cancel
+                            Clear
                             <img src="./assets/img/close-white.png">
                         </button>
                         <button type="submit" class="create-btn btn-center gap">

@@ -26,6 +26,10 @@
     overflow: hidden;
 }
 
+.popup-form {
+	padding-top: 10px;
+}
+
 .icon-wrapper {
     display: flex;
     align-items: center;
@@ -176,24 +180,33 @@
         height: 100%;
     }
 
-.helpDisplay {
+	.helpDisplay {
         display: flex!important;
-}
+	}
 
 	.mobile-logo {
 	display: auto !important;
 	}
 
-    .popup {
-        width: 300px;
-        display: block;
-        border-radius: 20px;
-    }
-
     .popup-left {
         width: auto;
         padding-bottom: 70px;
 
+    }
+	
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 8px;
+		height: auto;
+	}
+	
+	.close-btn-wrapper button {
+		display: none;
+	}
+	
+	.close-btn-wrapper {
+        display: none;
     }
 	
     .popup-right {
@@ -204,11 +217,6 @@
 
     .joinLogo {
         display: none !important;
-    }
-
-    .close-btn-wrapper {
-        display: auto;
-		transform: translatey(-10vh); 
     }
 
     .btn {
@@ -257,9 +265,9 @@
 	display: none;
 	}
 
-.d-none {
+	.d-none {
     display: none !important;
-}
+	}
    
 
    .btn-container-mobile {
@@ -410,16 +418,48 @@
         width: 100%;
         margin: 20px;
         max-width: 500px;
+		display: block;
+        border-radius: 20px;
+		max-height: 550px;
     }
 
+	.popup-form .form-group input {
+		width: 100%;
+		padding: 6px;
+		font-size: 12px;
+	}
+
+	.close-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0px;
+    margin-top: 20px;
+	}
+	
+	.close-btn-mobile {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0px;
+	width: 100%;
+	}
+	
     .popup-left {
         width: 100%;
-        padding-bottom: 70px;
+        padding-bottom: 60px;
+		padding-top: 16px;
     }
 
     .contact-buttons {
         display: auto;
     }
+	
+	.icon-wrapper {
+    transform: translate(0, -50%);
+    justify-content: center;
+    margin-bottom: 0;
+    margin-left: 0;
+    height: 40px;
+	
 }
 	
 @media (max-width: 420px) {
@@ -433,9 +473,25 @@
     }
 
     .contact-name {
+        font-size: 18px;
         font-weight: bold;
         color: #333;
         margin: 0;
+    }
+
+    .details-title-span {
+        font-size: 12px;
+        font-weight: 200;
+    }
+
+	.popup {
+        flex-direction: column;
+        width: 100%;
+        margin: 20px;
+        max-width: 500px;
+		display: block;
+        border-radius: 20px;
+		max-height: 95vh;
     }
 	
 	.cancel-btn {
