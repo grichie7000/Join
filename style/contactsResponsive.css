@@ -17,7 +17,7 @@
 }
 
 .popup-form {
-	padding-top: 10px;
+	padding-top: 1px;
 }
 
 .icon-wrapper {
@@ -431,6 +431,10 @@
 		overflow: hidden;
 
     }
+
+	.popup-form {
+	padding-top: 10px;
+	}
 
 	.popup-form .form-group input {
 		width: 100%;
