@@ -680,7 +680,7 @@ async function setupContactsAndSubtasks(overlay, task) {
   const data = await res.json();
   const allContacts = data ? Object.values(data) : [];
   const container = overlay.querySelector('#editContactsCheckboxContainer');
-  container.innerHTML = allContacts.map(contact => `<label class="contact-checkbox">
+  container.innerHTML = allContacts.map(contact => `<label class="contact-checkbox" onclick="event.stopPropagation()">
     <input type="checkbox" name="edit-contact" value="${contact.name}" data-color="${contact.color}" onclick="event.stopPropagation()"
     ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
     <span class="contact-name-selection">${contact.name}</span>
