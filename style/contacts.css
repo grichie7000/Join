@@ -282,8 +282,8 @@ html {
 .error-message {
     color: red;
     font-size: 12px;
-    margin-top: 4px;
     margin-left: 4px;
+	transform: translateY(4px);
 }
 
 input.error {

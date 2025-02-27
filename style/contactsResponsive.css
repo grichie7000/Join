@@ -16,16 +16,6 @@
     align-items: center;
 }
 
-.popup {
-    display: flex;
-	flex-direction: row;
-    width: 800px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
-    overflow: hidden;
-}
-
 .popup-form {
 	padding-top: 10px;
 }
@@ -171,6 +161,18 @@
   .mobile-logo {
     display: none;
   }
+  
+  .popup {
+    display: flex;
+	flex-direction: row;
+    width: 800px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
+    overflow: hidden;
+	height: 320px;
+}
+  
 }
 
 /* Popup */
@@ -420,7 +422,14 @@
         max-width: 500px;
 		display: block;
         border-radius: 20px;
+		height: auto;
 		max-height: 550px;
+	
+		background: #fff;
+		border-radius: 8px;
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
+		overflow: hidden;
+
     }
 
 	.popup-form .form-group input {
