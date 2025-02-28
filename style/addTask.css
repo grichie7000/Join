@@ -544,12 +544,14 @@ select:focus+#customArrowCategory {
 
 #subtaskItem1 {
     display: none;
-    padding-top: 8px;
+    padding: 4px 4px;
     margin-left: 40px;
+    border-radius: 8px;
 }
 
 #subtaskItem1:hover {
     cursor: pointer;
+    background: #29ABE2;
 }
 
 #editItemOne {
@@ -579,7 +581,6 @@ select:focus+#customArrowCategory {
     border-bottom: solid 1px #29ABE2;
     border-right: none;
 }
-
 /*----------------- buttons  ----------------- */
 .button-and-text {
     display: flex;
@@ -588,7 +589,7 @@ select:focus+#customArrowCategory {
     width: 960px;
 }
 
-.form-buttons{
+.form-buttons {
     padding-top: 32px;
 }
 
@@ -646,7 +647,8 @@ select:focus+#customArrowCategory {
 
 .submit-card {
     position: absolute;
-    bottom: -200px; /* Start unterhalb des Bildschirms */
+    bottom: -200px;
+    /* Start unterhalb des Bildschirms */
     width: 280px;
     height: 60px;
     font-size: 18px;
@@ -654,10 +656,13 @@ select:focus+#customArrowCategory {
     color: white;
     text-align: center;
     border-radius: 16px;
-    transition: bottom 1s ease, opacity 1s ease; /* Animiert die Bewegung und die Sichtbarkeit */
+    transition: bottom 1s ease, opacity 1s ease;
+    /* Animiert die Bewegung und die Sichtbarkeit */
     gap: 32px;
-    opacity: 0; /* Karte beginnt unsichtbar */
-    visibility: hidden; /* Karte wird versteckt */
+    opacity: 0;
+    /* Karte beginnt unsichtbar */
+    visibility: hidden;
+    /* Karte wird versteckt */
 }
 
 .submit-card img {
@@ -666,17 +671,21 @@ select:focus+#customArrowCategory {
 
 .submit-card.visible {
     display: flex;
-    opacity: 1; /* Karte wird sichtbar */
-    visibility: visible; /* Karte wird sichtbar */
-    top: 50%; /* Positioniert die Karte vertikal in der Mitte */
-    left: 50%; /* Positioniert die Karte horizontal in der Mitte */
+    opacity: 1;
+    /* Karte wird sichtbar */
+    visibility: visible;
+    /* Karte wird sichtbar */
+    top: 50%;
+    /* Positioniert die Karte vertikal in der Mitte */
+    left: 50%;
+    /* Positioniert die Karte horizontal in der Mitte */
     transform: translate(-50%, -50%);
     right: 47%;
     align-items: center;
     justify-content: center;
 }
 
-#message{
+#message {
     font-size: 16px;
     padding: 4px 6px;
     border: 2px solid white;

@@ -19,6 +19,8 @@ const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebased
 function initAddTask() {
     getElementsByIds()
     loadFirebaseData("contactsDatabase");
+    // Event-Listener für die Enter-Taste
+    document.getElementById('subtask').addEventListener('keydown', handleEnterKey);
 }
 
 
@@ -342,9 +344,6 @@ function submitItemTwo() {
     editIcons.style.display = 'none';
     editItem.style.display = 'none';
 }
-
-
-
 function subtaskInputDelete() {
     document.getElementById('subtask').value = "";
 }
