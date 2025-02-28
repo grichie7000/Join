@@ -357,7 +357,6 @@ input[type="radio"] {
     padding-left: 12px;
 }
 
-
 input[type="radio"]:checked+.urgent-radio {
     background-color: #FF3D00;
     color: white;
@@ -675,4 +674,18 @@ select:focus+#customArrowCategory {
     right: 47%;
     align-items: center;
     justify-content: center;
+}
+
+#message{
+    font-size: 16px;
+    padding: 4px 6px;
+    border: 2px solid white;
+    color: white;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: rgba(63, 61, 61, 0.856);
 }

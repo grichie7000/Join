@@ -187,6 +187,45 @@ function changeDateColor() {
     } else {
         date.style.color = '';
     }
+
+    const dateInput = document.getElementById("due-date");
+    const maxDate = new Date("2099-12-31"); // Maximaldatum festlegen
+    const inputDate = new Date(dateInput.value);
+
+    // Überprüfen, ob das eingegebene Datum nach dem maximalen Datum liegt
+    if (inputDate > maxDate) {
+        document.getElementById("error-date").innerHTML = "maximum date 2099"
+        dateInput.value = ""; // Eingabe zurücksetzen
+    }
+
+}
+
+function countContacts() {
+    const container = document.getElementById('selectedContactsList');
+    const divs = Array.from(container.children).filter(child => child.tagName === 'DIV');
+    console.log('Anzahl der direkten <div> innerhalb des Containers:', divs.length);
+
+    if (divs.length >= 5) {
+        // Prüfen, ob das <p> Tag schon existiert
+        if (!document.getElementById('message')) {
+            // Neues <p> Tag mit einer Nachricht erstellen
+            const p = document.createElement('p');
+            p.id = 'message';
+            p.textContent = '+' + (divs.length - 4);
+            container.appendChild(p);
+
+            // Die Anzahl der letzten Elemente, die ausgeblendet werden sollen
+            let numberOfItemsToHide = divs.length - 4; // Hier kannst du die Zahl ändern
+
+            // Alle Elemente mit der Klasse 'selected-contact-item' holen
+            let selectedContacts = document.querySelectorAll('.selected-contact-item');
+
+            // Die letzten 'numberOfItemsToHide' Elemente ausblenden
+            for (let i = selectedContacts.length - numberOfItemsToHide; i < selectedContacts.length; i++) {
+                selectedContacts[i].style.display = 'none';
+            }
+        }
+    }
 }
 
 function subtaskStyling(subtaskStyling) {
@@ -412,6 +451,7 @@ function selectContact(contactElement, id) {
         selectedContactsList.appendChild(selectedItem);
     });
 
+    countContacts()
 }
 
 // Funktion zum Zurücksetzen der Auswahl

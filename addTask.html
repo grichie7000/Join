@@ -129,7 +129,7 @@
                         <!-- Due date -->
                         <div class="form-date">
                             <label for="due-date">Due Date <span class="required">*</span></label>
-                            <input type="date" id="due-date" name="due_date" required onchange="changeDateColor()">
+                            <input type="date" id="due-date" max="2099-12-31" name="due_date" required onchange="changeDateColor()">
                             <span class="calendar-icon"><img src="./assets/img/date.png" alt="date">
                             </span>
                             <p id="error-date" class="error-message"></p>
@@ -145,7 +145,7 @@
                                             alt=""></span>
                                 </label>
                                 <label class="radio-container">
-                                    <input type="radio" id="medium" name="priority" value="medium">
+                                    <input type="radio" id="medium" name="priority" value="medium" checked>
                                     <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png"
                                             alt=""></span>
                                 </label>
@@ -183,7 +183,7 @@
                             </div>
                         </div>
                         <ul id="addedSubtask">
-                            <li id="subtaskItem1" ondblclick="editItemOne(this)"></li>
+                            <li id="subtaskItem1" onclick="editItemOne(this)"></li>
                             <div class="edit-position">
                                 <input type="text" name="itemOne" id="editItemOne">
                                 <div id="editItemIconOne" class="edit-item-icon">
@@ -192,7 +192,7 @@
                                     <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
                                 </div>
                             </div>
-                            <li id="subtaskItem2" ondblclick="editItemTwo(this)"></li>
+                            <li id="subtaskItem2" onclick="editItemTwo(this)"></li>
                             <div class="edit-position">
                                 <input type="text" name="itemTwo" id="editItemTwo">
                                 <div id="editItemIconTwo" class="edit-item-icon">

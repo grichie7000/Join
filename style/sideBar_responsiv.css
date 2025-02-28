@@ -9,7 +9,7 @@
         background-color: #2A3647;
         position: relative;
         min-width: unset;
-        padding: 8px;
+        padding: 12px;
     }
 
     .lawSection {
@@ -18,7 +18,7 @@
 
     .menuPos {
         flex-direction: row;
-        justify-content: center;
+        justify-content: space-around;
         align-items: center;
         gap:0;
     }
@@ -26,6 +26,8 @@
     .navMenu {
         flex-direction: column;
         width: 85px;
+        padding: 6px;
+        padding-bottom: 8px;
     }
 
     .navMenu img {
@@ -41,7 +43,7 @@
 
     .sideBar {
         height: 56px;
-        padding: 8px;
+        padding: 12px;
     }
 
     .navMenu {
