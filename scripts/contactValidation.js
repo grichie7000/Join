@@ -1,33 +1,22 @@
 
+function validateContactForm() {
+    let isValid = true;
+    clearErrorMessages();
 
+    isValid &= validateField('name', validateName, 'Name is required and must be at least 2 characters long');
+    isValid &= validateField('email', validateEmail, 'Email is required and must be a valid email address');
+    isValid &= validateField('phone', validatePhone, 'Phone is required and must be a valid phone number');
 
-/**
- * validate the contact form
- * @returns 
- */
- function validateContactForm() {
-  let name = document.getElementById('name').value;
-  let email = document.getElementById('email').value;
-  let phone = document.getElementById('phone').value;
-  let isValid = true;
-  clearErrorMessages();
-  
-  // Überprüfe, ob eine asynchrone Funktion verwendet wird
-  if (name && !validateName(name)) {
-      showError('name', 'Name is required and must be at least 2 characters long');
-      isValid = false;
-  }
-  if (email && !validateEmail(email)) {
-      showError('email', 'Email is required and must be a valid email address');
-      isValid = false;
-  }
-  if (phone && !validatePhone(phone)) {
-      showError('phone', 'phone is required and must be a valid phone number');
-      isValid = false;
-  }
-  
-  // Gib den Status zurück, ohne dass eine asynchrone Aufgabe erforderlich ist
-  return isValid;
+    return isValid;
+}
+
+function validateField(fieldId, validationFunction, errorMessage) {
+    const value = document.getElementById(fieldId).value;
+    if (value && !validationFunction(value)) {
+        showError(fieldId, errorMessage);
+        return false;
+    }
+    return true;
 }
 
 
@@ -61,7 +50,6 @@ function validatePhone(phone) {
     const phoneRegex = /^[\d\s\+\-\(\)]{6,}$/;
     return phoneRegex.test(phone);
 }
-
 
 
 /**
@@ -124,27 +112,6 @@ function includeHTML() {
 
 
 /**
- * Generate initials for the top right corner in the header section.
- */
-function generateInitials() {
-  let content = document.getElementById("profile");
-
-  let userName = sessionStorage.getItem("username");
-  content.innerHTML = "";
-  let nameParts = userName.split(" ");
-  if (nameParts.length >= 2) {
-    let initials = (nameParts[0][0] + nameParts[1][0]).toUpperCase();
-    content.innerHTML = initials;
-  } else if (nameParts.length === 1) {
-    let initials = nameParts[0][0].toUpperCase();
-    content.innerHTML = initials;
-  } else {
-    content.innerHTML = "G";
-  }
-}
-
-
-/**
  * random color function for the profile section
  * @returns 
  */
@@ -173,25 +140,30 @@ function checkLink() {
   });
 }
 
-
-/**
- * not logged in function to hide the sidebar and profile section
- */
 function notLogin() {
-  let sidebar = document.getElementById('navigation-container');
-  let profile = document.getElementById('profile');
-  let info = document.getElementById('info');
-  let menuPos = document.getElementById('menuPos');
-  if (sessionStorage.getItem("username") == null) {
+    let sidebar = document.getElementById('navigation-container');
+    let profile = document.getElementById('profile');
+    let info = document.getElementById('info');
+    let menuPos = document.getElementById('menuPos');
+    
+    if (sessionStorage.getItem("username") == null) {
+        hideUserInterface(sidebar, profile, info, menuPos);
+    } else {
+        showUserInterface(sidebar, profile, info, menuPos);
+        generateInitials();
+    }
+}
+
+function hideUserInterface(sidebar, profile, info, menuPos) {
     sidebar.classList.add('no-login-sidebar-none');
     profile.classList.add('no-login-none');
     info.classList.add('no-login-none');
-    asideNav.classList.add('no-login-none');
-  } else {
+    menuPos.classList.add('no-login-none');
+}
+
+function showUserInterface(sidebar, profile, info, menuPos) {
     sidebar.classList.remove('no-login-sidebar-none');
     profile.classList.remove('no-login-none');
     info.classList.remove('no-login-none');
-    asideNav.classList.remove('no-login-none');
-    generateInitials();
-  }
+    menuPos.classList.remove('no-login-none');
 }
