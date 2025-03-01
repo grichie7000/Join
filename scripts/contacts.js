@@ -12,20 +12,6 @@ function initContacts() {
 }
 
 
-// /**
-//  * toogle the dropdown menu
-//  */
-// function toggleDropdown() {
-//     let dropdownOptions = document.getElementById("dropdown-options");
-//     let dropdownArrow = document.getElementById("dropdown-arrow");
-//     dropdownOptions.classList.toggle("show");
-//     if (dropdownOptions.classList.contains("show")) {
-//         dropdownArrow.innerHTML = `<img src="img/assets/icons/arrow-up-dropdown.svg">`;
-//     } else {
-//         dropdownArrow.innerHTML = `<img src="img/assets/icons/arrow-dropdown.svg">`;
-//     }
-// }
-
 
 /**
  * clear the contact form
@@ -43,27 +29,40 @@ function clearContactForm() {
  */
 async function loadingUsers() {
     try {
-        let responseUser = await fetch(BASE_URL + "contactsDatabase" + ".json");
-        let user = await responseUser.json();
-        let usersArray = Object.entries(user).map(([key, user]) => ({
-            ...user,
-            firebaseId: key
-        }));
-
-        usersArray.sort((a, b) => a.name.localeCompare(b.name));
-
-        let groupedUsers = usersArray.reduce((acc, user) => {
-            let firstLetter = user.name.charAt(0).toUpperCase();
-            if (!acc[firstLetter]) {
-                acc[firstLetter] = [];
-            }
-            acc[firstLetter].push(user);
-            return acc;
-        }, {});
+        const users = await fetchUsers();
+        const usersArray = formatUsers(users);
+        const groupedUsers = groupUsersByFirstLetter(usersArray);
         loadRenderContactList(groupedUsers);
     } catch (error) {
         console.error('Fehler:', error);
     }
+}
+
+async function fetchUsers() {
+    const response = await fetch(BASE_URL + "contactsDatabase" + ".json");
+    const user = await response.json();
+    return user;
+}
+
+function formatUsers(users) {
+    const usersArray = Object.entries(users).map(([key, user]) => ({
+        ...user,
+        firebaseId: key
+    }));
+
+    usersArray.sort((a, b) => a.name.localeCompare(b.name));
+    return usersArray;
+}
+
+function groupUsersByFirstLetter(usersArray) {
+    return usersArray.reduce((acc, user) => {
+        const firstLetter = user.name.charAt(0).toUpperCase();
+        if (!acc[firstLetter]) {
+            acc[firstLetter] = [];
+        }
+        acc[firstLetter].push(user);
+        return acc;
+    }, {});
 }
 
 
@@ -110,22 +109,46 @@ function closeContactForm() {
  */
 function showContactDetails(userId) {
     try {
-        let contactDetails = document.getElementById("contact-details");
-        let btnMobilePopup = document.getElementById("btn-mobile-popup");
+        const contactDetails = document.getElementById("contact-details");
+        const btnMobilePopup = document.getElementById("btn-mobile-popup");
         contactDetails.innerHTML = "";
-        let selectedUser = userArray.find(user => user.id == userId);
-        if (window.innerWidth <= 950) {
-            contactDetails.parentElement.classList.add('mobile-popup');
-            btnMobilePopup.classList.remove('d-none');
-            document.body.style.overflow = 'hidden';
-            document.getElementById('contact-pop-up').innerHTML = renderEditDeletePopup(selectedUser);
+
+        const selectedUser = getSelectedUser(userId);
+
+        if (isMobileView()) {
+            openMobilePopup(contactDetails, btnMobilePopup);
+            setMobilePopupContent(selectedUser);
         }
-        contactDetails.innerHTML = renderContactDetails(selectedUser);
+
+        setContactDetails(contactDetails, selectedUser);
         return true;
     } catch (error) {
         return false;
     }
 }
+
+function getSelectedUser(userId) {
+    return userArray.find(user => user.id == userId);
+}
+
+function isMobileView() {
+    return window.innerWidth <= 950;
+}
+
+function openMobilePopup(contactDetails, btnMobilePopup) {
+    contactDetails.parentElement.classList.add('mobile-popup');
+    btnMobilePopup.classList.remove('d-none');
+    document.body.style.overflow = 'hidden';
+}
+
+function setMobilePopupContent(selectedUser) {
+    document.getElementById('contact-pop-up').innerHTML = renderEditDeletePopup(selectedUser);
+}
+
+function setContactDetails(contactDetails, selectedUser) {
+    contactDetails.innerHTML = renderContactDetails(selectedUser);
+}
+
 
 
 /**
@@ -174,114 +197,108 @@ async function loadUserCounter() {
 }
 
 
-/**
- * create the new contact
- * @returns 
- */
-// async function createUserContact() {
-//     try {
-//         if (!validateContactForm()) {
-//             return;
-//         } else {
-//             await loadUserCounter();
-//             let name = document.getElementById("name").value;
-//             let email = document.getElementById("email").value;
-//             let phone = document.getElementById("phone").value;
-//             const response = await postUser(`contactsDatabase/`, {
-//                 "name": name,
-//                 "email": email,
-//                 "password": "",
-//                 "id": usercount + 1,
-//                 "phone": phone,
-//                 "color": getRandomColor(),
-//             });
-//             if (response.name) {
-//                 usercount++;
-//                 await putUsercount(`usercount/`, usercount);
-//                 await loadingUsers();
-//                 closeContactForm();
-//                 await showSuccessMsgTasks();
-//                 await setTimeout(() => {hiddenSuccessMsgTasks()}, 800)
-//             }
-//         }
-//     } catch (error) {
-//         console.error('Fehler:', error);
-//     }
-// }
-
 async function createUserContact() {
     try {
-        if (!validateContactForm()) {
-            return;
-        } else {
-            await loadUserCounter();
-            let name = document.getElementById("name").value;
-            let email = document.getElementById("email").value;
-            let phone = document.getElementById("phone").value;
-            // Berechne die Initialen aus dem Namen:
-            let initials = name
-              .split(" ")
-              .map(word => word.charAt(0).toUpperCase())
-              .join("");
+        if (!validateContactForm()) return;
 
-            const response = await postUser(`contactsDatabase/`, {
-                "name": name,
-                "initials": initials,  // Hier wird das neue Feld hinzugefügt
-                "email": email,
-                "password": "",
-                "id": usercount + 1,
-                "phone": phone,
-                "color": getRandomColor(),
-            });
-            if (response.name) {
-                usercount++;
-                await putUsercount(`usercount/`, usercount);
-                await loadingUsers();
-                closeContactForm();
-                await showSuccessMsgTasks();
-                setTimeout(() => { hiddenSuccessMsgTasks() }, 800);
-            }
+        await loadUserCounter();
+        const name = getNameValue();
+        const email = getEmailValue();
+        const phone = getPhoneValue();
+        const initials = generateInitials(name);
+
+        const response = await postUserToDatabase(name, initials, email, phone);
+        if (response.name) {
+            await handleUserCreationSuccess();
         }
     } catch (error) {
         console.error('Fehler:', error);
     }
+}
+
+function getNameValue() {
+    return document.getElementById("name").value;
+}
+
+function getEmailValue() {
+    return document.getElementById("email").value;
+}
+
+function getPhoneValue() {
+    return document.getElementById("phone").value;
+}
+
+function generateInitials(name) {
+    return name.split(" ")
+               .map(word => word.charAt(0).toUpperCase())
+               .join("");
+}
+
+async function postUserToDatabase(name, initials, email, phone) {
+    return await postUser(`contactsDatabase/`, {
+        "name": name,
+        "initials": initials,
+        "email": email,
+        "password": "",
+        "id": usercount + 1,
+        "phone": phone,
+        "color": getRandomColor(),
+    });
+}
+
+async function handleUserCreationSuccess() {
+    usercount++;
+    await putUsercount(`usercount/`, usercount);
+    await loadingUsers();
+    closeContactForm();
+    await showSuccessMsgTasks();
+    setTimeout(() => { hiddenSuccessMsgTasks() }, 800);
 }
 
 async function updateUser(user) {
     try {
-        if (!validateContactForm()) {
-            return;
-        } else {
-            let newName = document.getElementById("name").value;
-            let initials = newName
-              .split(" ")
-              .map(word => word.charAt(0).toUpperCase())
-              .join("");
-            const updatedData = {
-                name: newName,
-                initials: initials, // Aktualisierte Initialen
-                email: document.getElementById("email").value,
-                phone: document.getElementById("phone").value,
-                color: userArray[user].color,
-                id: userArray[user].id,
-                password: userArray[user].password
-            };
-            let response = await fetch(BASE_URL + "contactsDatabase/" + userArray[user].firebaseId + ".json", {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(updatedData)
-            });
-            if (response.ok) {
-                const index = userArray.findIndex(u => u.id === updatedData.id);
-                updatedData.firebaseId = userArray[user].firebaseId;
-                if (index !== -1) userArray[index] = updatedData;
-                await reUpdateUser(updatedData);  // Übergibt updatedData an reUpdateUser
-            }
+        if (!validateContactForm()) return;
+
+        const newName = getNameValue();
+        const initials = generateInitials(newName);
+        const updatedData = createUpdatedData(newName, initials, user);
+
+        const response = await updateUserInDatabase(user, updatedData);
+        if (response.ok) {
+            await handleUserUpdateSuccess(updatedData, user);
         }
     } catch (error) {
         console.error('Fehler:', error);
     }
 }
+
+function createUpdatedData(newName, initials, user) {
+    return {
+        name: newName,
+        initials: initials,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        color: userArray[user].color,
+        id: userArray[user].id,
+        password: userArray[user].password
+    };
+}
+
+async function updateUserInDatabase(user, updatedData) {
+    return await fetch(BASE_URL + "contactsDatabase/" + userArray[user].firebaseId + ".json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData)
+    });
+}
+
+async function handleUserUpdateSuccess(updatedData, user) {
+    const index = userArray.findIndex(u => u.id === updatedData.id);
+    updatedData.firebaseId = userArray[user].firebaseId;
+    if (index !== -1) userArray[index] = updatedData;
+    await reUpdateUser(updatedData);
+}
+
 
 /**
  * update the counter

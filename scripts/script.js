@@ -91,24 +91,31 @@ function checkLink() {
   });
 }
 
-/**
- * not logged in function to hide the sidebar and profile section
- */
+
 function notLogin() {
-  let sidebar = document.getElementById('navigation-container');
-  let profile = document.getElementById('profile');
-  let info = document.getElementById('info');
-  let asideNav = document.getElementById('menuPos');
-  if (sessionStorage.getItem("username") == null) {
+    let sidebar = document.getElementById('navigation-container');
+    let profile = document.getElementById('profile');
+    let info = document.getElementById('info');
+    let asideNav = document.getElementById('menuPos');
+
+    if (sessionStorage.getItem("username") == null) {
+        hideUserInterface(sidebar, profile, info, asideNav);
+    } else {
+        showUserInterface(sidebar, profile, info, asideNav);
+        generateInitials();
+    }
+}
+
+function hideUserInterface(sidebar, profile, info, asideNav) {
     sidebar.classList.add('no-login-sidebar-none');
     profile.classList.add('no-login-none');
     info.classList.add('no-login-none');
     asideNav.classList.add('no-login-none');
-  } else {
+}
+
+function showUserInterface(sidebar, profile, info, asideNav) {
     sidebar.classList.remove('no-login-sidebar-none');
     profile.classList.remove('no-login-none');
     info.classList.remove('no-login-none');
     asideNav.classList.remove('no-login-none');
-    generateInitials();
-  }
 }
