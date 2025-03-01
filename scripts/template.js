@@ -93,7 +93,7 @@ function renderEditContact(user) {
         <!-- MOBIEL -->
 
         <div class="logo">
-            <img src="./assets/img/join-logo.png">
+            <img src="./assets/img/Join-logo.png">
         </div>
         <h1>Edit contact</h1>
     </div>
@@ -162,7 +162,7 @@ function renderNewContact() {
                 <!-- MOBIEL -->
 
                 <div class="logo">
-                    <img src="./assets/img/join-logo.png">
+                    <img src="./assets/img/Join-logo.png">
                 </div>
                 <h1>Add contact</h1>
                 <p class="text-color">Tasks are better with a team!</p>

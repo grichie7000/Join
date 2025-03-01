@@ -5,6 +5,7 @@ window.selectedSubtasks = [];
 let validateIsOk = [false, false, false];
 let subTaskOne = false;
 let subtaskTwo = false;
+let subtaskCount = 1;  // Zähler für die Subtasks
 let title;
 let errorTitle;
 let date;
@@ -19,8 +20,14 @@ const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebased
 function initAddTask() {
     getElementsByIds()
     loadFirebaseData("contactsDatabase");
-    // Event-Listener für die Enter-Taste
-    document.getElementById('subtask').addEventListener('keydown', handleEnterKey);
+
+    // EventListener für das Input-Feld (für die Enter-Taste)
+    document.getElementById("subtask").addEventListener("keydown", function (event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Verhindert das Absenden des Formulars
+            subtaskAppend();
+        }
+    });
 }
 
 
@@ -205,7 +212,6 @@ function changeDateColor() {
 function countContacts() {
     const container = document.getElementById('selectedContactsList');
     const divs = Array.from(container.children).filter(child => child.tagName === 'DIV');
-    console.log('Anzahl der direkten <div> innerhalb des Containers:', divs.length);
 
     if (divs.length >= 5) {
         // Prüfen, ob das <p> Tag schon existiert
@@ -260,90 +266,106 @@ function subtaskStyling(subtaskStyling) {
     symbolStyling.appendChild(checkImg);
 }
 
+// Funktion, um das Subtask hinzuzufügen
 function subtaskAppend() {
-    const subtaskInput = document.getElementById('subtask').value;
-    const addedSubtaskOne = document.getElementById('subtaskItem1');
-    const addedSubtaskTwo = document.getElementById('subtaskItem2');
+    const inputField = document.getElementById('subtask');
+    const subtaskText = inputField.value.trim();
+    
+    if (subtaskText !== '') {
+        const ul = document.getElementById('addedSubtask');
+        const li = document.createElement('li');
+        li.classList.add('subtask-item');
+        
+        // Listenelement Inhalt
+        li.innerHTML = `
+            <span class="subtask-text">${subtaskText}</span>
+            <div class="action-icons">
+                <img src="../assets/img/edit.png" alt="edit" onclick="editSubtask(this)">
+                | 
+                <img src="../assets/img/addtask_bin.png" alt="delete" onclick="deleteSubtask(this)">
+            </div>
+        `;
+        
+        // Event-Listener hinzufügen, um Listenelement zu bearbeiten
+        li.addEventListener('click', function(event) {
+            // Nur den Bearbeitungsmodus aktivieren, wenn nicht auf die Icons geklickt wurde
+            if (!event.target.closest('.action-icons')) {
+                editSubtask(this);
+            }
+        });
 
-    if (!subTaskOne) {
-        addedSubtaskOne.innerHTML = subtaskInput;
-        addedSubtaskOne.style.display = "inline list-item"
-        subTaskOne = true;
-    } else if (!subtaskTwo) {
-        addedSubtaskTwo.innerHTML = subtaskInput;
-        addedSubtaskTwo.style.display = "inline list-item"
-        subtaskTwo = true;
+        // Neues Subtask zur Liste hinzufügen
+        ul.appendChild(li);
+        
+        // Eingabefeld nach dem Hinzufügen leeren
+        inputField.value = '';
     }
 }
 
-function editItemOne(element) {
-    const editItem = document.getElementById('editItemOne');
-    const editIcons = document.getElementById('editItemIconOne');
-
-    element.style.display = 'none';
-
-    editIcons.style.display = 'flex';
-    editItem.style.display = 'block';
-    editItem.value = element.innerHTML;
+// Funktion, um ein Subtask zu bearbeiten
+function editSubtask(editIcon) {
+    const li = editIcon.closest('li');
+    const subtaskText = li.querySelector('.subtask-text');
+    
+    // Sicherstellen, dass das .subtask-text-Element existiert
+    if (subtaskText) {
+        // Klasse zum Aktivieren des Bearbeitungsmodus hinzufügen
+        li.classList.add('editing');
+        
+        // Das Subtask in ein Input-Feld umwandeln
+        const inputField = document.createElement('input');
+        inputField.type = 'text';
+        inputField.value = subtaskText.textContent.trim();
+        
+        li.innerHTML = `
+            <input type="text" value="${inputField.value}" class="edit-input">
+            <div class="action-icons">
+                <img src="../assets/img/addtask_bin.png" alt="delete" onclick="deleteSubtask(this)">
+                |
+                <img src="../assets/img/check_task.png" alt="check" onclick="saveSubtask(this)">
+            </div>
+        `;
+    }
 }
 
-function deleteItemOne() {
-    const addedSubtaskOne = document.getElementById('subtaskItem1');
-    const editItem = document.getElementById('editItemOne');
-    const editIcons = document.getElementById('editItemIconOne');
-    subTaskOne = false;
-
-    editIcons.style.display = 'none'
-    editItem.style.display = 'none'
-    addedSubtaskOne.innerHTML = '';
+// Funktion, um Änderungen zu speichern
+function saveSubtask(checkIcon) {
+    const li = checkIcon.closest('li');
+    const inputField = li.querySelector('.edit-input');
+    const newText = inputField.value.trim();
+    
+    if (newText !== '') {
+        li.innerHTML = `
+            <span class="subtask-text">${newText}</span>
+            <div class="action-icons">
+                <img src="../assets/img/edit.png" alt="edit" onclick="editSubtask(this)">
+                | 
+                <img src="../assets/img/addtask_bin.png" alt="delete" onclick="deleteSubtask(this)">
+            </div>
+        `;
+        
+        // Entferne die Klasse "editing", wenn die Bearbeitung abgeschlossen ist
+        li.classList.remove('editing');
+    }
 }
 
-function submitItemOne() {
-    const changesItemOne = document.getElementById('editItemOne')
-    const subtaskItemOne = document.getElementById('subtaskItem1');
-    const editItem = document.getElementById('editItemOne');
-    const editIcons = document.getElementById('editItemIconOne');
+// Funktion, um ein Subtask zu löschen
+function deleteSubtask(deleteIcon) {
+    const li = deleteIcon.closest('li');
+    li.remove();
+}
 
-    subtaskItemOne.innerHTML = changesItemOne.value
-    subtaskItemOne.style.display = "inline list-item";
-    editIcons.style.display = 'none';
-    editItem.style.display = 'none';
+// Funktion, um zu überprüfen, ob Enter gedrückt wurde
+function checkEnter(event) {
+    if (event.key === 'Enter') {
+        subtaskAppend();
+    }
 }
 
 
-function editItemTwo(element) {
-    const editItem = document.getElementById('editItemTwo');
-    const editIcons = document.getElementById('editItemIconTwo');
 
-    element.style.display = 'none';
 
-    editIcons.style.display = 'flex';
-    editItem.style.display = 'block';
-    editItem.value = element.innerHTML;
-}
 
-function deleteItemTwo() {
-    const addedSubtaskTwo = document.getElementById('subtaskItem2');
-    const editItem = document.getElementById('editItemTwo');
-    const editIcons = document.getElementById('editItemIconTwo');
-    subtaskTwo = false;
-
-    editIcons.style.display = 'none'
-    editItem.style.display = 'none'
-    addedSubtaskTwo.innerHTML = '';
-}
-
-function submitItemTwo() {
-    const changesItemTwo = document.getElementById('editItemTwo')
-    const subtaskItemTwo = document.getElementById('subtaskItem2');
-    const editItem = document.getElementById('editItemTwo');
-    const editIcons = document.getElementById('editItemIconTwo');
-
-    subtaskItemTwo.innerHTML = changesItemTwo.value
-    subtaskItemTwo.style.display = "inline list-item";
-    editIcons.style.display = 'none';
-    editItem.style.display = 'none';
-}
 function subtaskInputDelete() {
     document.getElementById('subtask').value = "";
 }

@@ -500,15 +500,6 @@ select:focus+#customArrowCategory {
     cursor: pointer;
 }
 
-#addedSubtask {
-    font-size: 16px;
-    height: 48px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 8px;
-    padding-left: 0;
-}
-
 #deleteImg {
     position: relative;
 }
@@ -517,70 +508,119 @@ select:focus+#customArrowCategory {
     display: flex;
 }
 
-.edit-item-icon {
-    display: none;
-    color: #D1D1D1;
+#addedSubtask {
     font-size: 16px;
+    height: 56px;
+    width: 392px;
+    padding-left: 32px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 8px;
+    overflow-y: scroll;
+}
+
+/* Allgemeine Stile für das Subtask-Listenelement */
+.subtask-item {
     height: 24px;
-    width: 72px;
-    border: solid 1px #D1D1D1;
-    border-bottom: solid 1px #29ABE2;
-    border-left: none;
-    background-color: white;
-    justify-content: center;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 8px;
+    padding: 0px 16px;
 }
 
-.edit-item-icon img {
-    height: 20px;
+/* Normaler Hover-Effekt für Subtask-Items */
+.subtask-item:hover {
+    background-color: #d1d1d152;
+    cursor: pointer;
+    border-radius: 12px;
+    padding: 0px 16px;
 }
 
-.edit-item-icon img:hover {
+/* Aktionselemente (Bilder) sind im Normalfall immer unsichtbar */
+.subtask-item .action-icons {
+    display: none;
+    /* Standardmäßig ausblenden */
+}
+
+/* Zeigt die Icons bei Hover */
+.subtask-item:hover .action-icons {
+    /* Zeigt die Icons nur beim Hover über das Listenelement */
+    display: flex;
+    align-items: center;
+}
+
+/* Bearbeitungsmodus - Bilder immer sichtbar */
+.subtask-item.editing .action-icons {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    height: 24px;
+    border-bottom: 1px solid #29ABE2;
+    padding-bottom: 2px;
+    /* Zeigt die Icons immer an, wenn im Bearbeitungsmodus */
+}
+
+/* Input-Feld im Bearbeitungsmodus */
+.subtask-item.editing input[type="text"] {
+    height: 24px;
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid #29ABE2;
+    width: 100%;
+}
+
+.subtask-item .action-icons img:nth-child(2):hover {
+    margin: 0 5px;
     background-color: #D1D1D1;
-    border-radius: 50%;
-    cursor: pointer;
+    border-radius: 16px;
 }
 
-#subtaskItem1 {
-    display: none;
-    padding: 4px 4px;
-    margin-left: 40px;
-    border-radius: 8px;
+.subtask-item .action-icons img:nth-child(1):hover {
+    margin: 0 5px;
+    background-color: #D1D1D1;
+    border-radius: 16px;
 }
 
-#subtaskItem1:hover {
-    cursor: pointer;
-    background: #29ABE2;
+/* Sicherstellen, dass der Hover-Effekt während der Bearbeitung nicht funktioniert */
+.subtask-item.editing:hover {
+    background-color: transparent;
+    /* Kein Hover-Effekt während der Bearbeitung */
 }
 
-#editItemOne {
+/* Optional: Stil für das Input-Feld, wenn es bearbeitet wird */
+.subtask-item.editing input[type="text"]:focus {
+    border-color: #007BFF;
     outline: none;
-    display: none;
-    width: 360px;
-    border: solid 1px #D1D1D1;
-    border-bottom: solid 1px #29ABE2;
-    border-right: none;
 }
 
-#subtaskItem2 {
-    display: none;
-    padding-top: 8px;
-    margin-left: 40px;
+/* Stil für Subtask-Text */
+.subtask-item .subtask-text {
+    flex-grow: 1;
+    word-wrap: break-word;
+    height: 24px;
+    display: flex;
+    align-items: center;
 }
 
-#subtaskItem2:hover {
+/* Stile für die Action-Icons (Bilder) */
+.subtask-item .action-icons img {
+    height: 20px;
+    margin: 0 5px;
     cursor: pointer;
 }
 
-#editItemTwo {
-    outline: none;
-    display: none;
-    width: 360px;
-    border: solid 1px #D1D1D1;
-    border-bottom: solid 1px #29ABE2;
-    border-right: none;
+/* Für die Trennung zwischen den Bildern | */
+.subtask-item .action-icons img:nth-child(2) {
+    margin: 0 5px;
 }
+
+/* Denke daran, dass beim Bearbeiten die Liste ohne Hover-Styles gut aussieht */
+.subtask-item.editing {
+    background-color: transparent;
+    /* Verhindert Hintergrundfarbe während der Bearbeitung */
+}
+
 /*----------------- buttons  ----------------- */
 .button-and-text {
     display: flex;

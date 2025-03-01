@@ -177,32 +177,15 @@
                             <div>
                                 <label for="subtask">Subtasks</label>
                                 <input type="text" id="subtask" name="subtask" placeholder="Add a new Subtask"
-                                    onclick="subtaskStyling(this)">
+                                    onclick="subtaskStyling(this)" onkeyup="checkEnter(event)">
                             </div>
                             <div id="symbolStyling" class="symbol-container">
-                                <img src="./assets/img/plus_task.png" alt="plus">
+                                <img src="./assets/img/plus_task.png" alt="plus" onclick="subtaskAppend()">
                             </div>
                         </div>
                         <ul id="addedSubtask">
-                            <li id="subtaskItem1" onclick="editItemOne(this)"></li>
-                            <div class="edit-position">
-                                <input type="text" name="itemOne" id="editItemOne">
-                                <div id="editItemIconOne" class="edit-item-icon">
-                                    <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemOne()">
-                                    <span>|</span>
-                                    <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
-                                </div>
-                            </div>
-                            <li id="subtaskItem2" onclick="editItemTwo(this)"></li>
-                            <div class="edit-position">
-                                <input type="text" name="itemTwo" id="editItemTwo">
-                                <div id="editItemIconTwo" class="edit-item-icon">
-                                    <img src="./assets/img/addtask_bin.png" alt="bin" onclick="deleteItemTwo()">
-                                    <span>|</span>
-                                    <img src="./assets/img/check_task.png" alt="check" onclick="submitItemTwo()">
-                                </div>
-                            </div>
                         </ul>
+
                     </div>
                 </div>
 
