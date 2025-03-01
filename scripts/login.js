@@ -31,7 +31,7 @@ const handleLogin = async (email, password) => {
   const foundUser = Object.entries(users).find(
     ([, user]) => user.email === email && user.password === password
   );
-  if (!foundUser) throw new Error("Anmeldedaten ungültig");
+  if (!foundUser) throw new Error("Ungültige Eingaben!");
   
   const [userId, user] = foundUser;
   return {

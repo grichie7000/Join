@@ -683,42 +683,84 @@ async function setupContactsAndSubtasks(overlay, task) {
   const data = await res.json();
   const allContacts = data ? Object.values(data) : [];
   const container = overlay.querySelector('#editContactsCheckboxContainer');
-  container.innerHTML = allContacts.map(contact => `<label class="contact-checkbox" onclick="event.stopPropagation()">
-    <input type="checkbox" name="edit-contact" value="${contact.name}" data-color="${contact.color}" onclick="event.stopPropagation()"
-    ${task.contacts?.some(c => c.name === contact.name) ? 'checked' : ''}>
-    <span class="contact-name-selection">${contact.name}</span>
-    <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">${getInitials(contact.name)}</span>
-  </label>`).join('');
+
+  window.selectedContacts = task.contacts || [];
+
+  container.innerHTML = allContacts.map(contact => {
+    const isSelected = window.selectedContacts.some(c => c.name === contact.name);
+    return `
+      <label class="contact-checkbox ${isSelected ? 'selected' : ''}" 
+             data-contact-name="${contact.name}" 
+             data-contact-color="${contact.color}" 
+             style="${isSelected ? 'background-color: #2A3647;' : ''}"
+             onclick="toggleContact(this); event.stopPropagation();">
+        <div class='contact-container-edit'>
+          <span class="contact-badge-selection" style="background: ${contact.color};" title="${contact.name}">
+            ${getInitials(contact.name)}
+          </span>
+          <span class="contact-name-selection" style="${isSelected ? 'color: white;' : ''}">${contact.name}</span>
+        </div>
+        <img style="height: 18px;" class="contact-checkbox-img" src="assets/img/checkbox_${isSelected ? 'checked' : 'empty'}.png" alt="Checkbox">
+      </label>`;
+  }).join('');  
+
   updateSelectedContactsDisplay(overlay);
   container.addEventListener('change', () => updateSelectedContactsDisplay(overlay));
+  
   currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
   renderSubtasksEditMode();
   updateSubtasksViewInOverlay();
 }
 
+
+function toggleContact(label) {
+  const checkboxImg = label.querySelector('.contact-checkbox-img');
+  const contactName = label.querySelector('.contact-name-selection');
+
+  if (label.classList.contains('selected')) {
+    label.classList.remove('selected');
+    checkboxImg.src = 'assets/img/checkbox_empty.png';
+    label.style.backgroundColor = ''; 
+    contactName.style.color = ''; 
+  } else {
+    label.classList.add('selected');
+    checkboxImg.src = 'assets/img/checkbox_checked.png';
+    label.style.backgroundColor = '#2A3647';
+    contactName.style.color = 'white'; 
+  }
+  
+  const overlay = document.getElementById("taskDetailOverlay");
+  if (overlay) {
+    updateSelectedContactsDisplay(overlay);
+  }
+}
+
+window.toggleContact = toggleContact;
+
+
 function updateSelectedContactsDisplay(overlay) {
-  const checkboxes = overlay.querySelectorAll('#editContactsCheckboxContainer input[type="checkbox"]');
+  const container = overlay.querySelector('#editContactsCheckboxContainer');
+  const selectedLabels = container.querySelectorAll('.contact-checkbox.selected');
   const selectedContainer = overlay.querySelector('.selected-contacts-list');
   selectedContainer.innerHTML = '';
-
-  const selectedCheckboxes = Array.from(checkboxes).filter(checkbox => checkbox.checked);
+  const selectedContactsArray = Array.from(selectedLabels).map(label => ({
+    name: label.dataset.contactName,
+    color: label.dataset.contactColor
+  }));
+  
+  window.selectedContacts = selectedContactsArray;
 
   const maxContacts = 4;
-
-  selectedCheckboxes.slice(0, maxContacts).forEach(checkbox => {
-      const contact = { 
-          name: checkbox.value, 
-          color: checkbox.dataset.color
-      };
-      selectedContainer.appendChild(createContactBadge(contact));
+  selectedContactsArray.slice(0, maxContacts).forEach(contact => {
+    selectedContainer.appendChild(createContactBadge(contact));
   });
 
-  const extraCount = selectedCheckboxes.length - maxContacts;
+  const extraCount = selectedContactsArray.length - maxContacts;
   if (extraCount > 0) {
-      const extraBadge = document.createElement('div');
-      extraBadge.classList.add('contact-badge', 'extra-badge');
-      extraBadge.textContent = '+' + extraCount;
-      selectedContainer.appendChild(extraBadge);
+    const extraBadge = document.createElement('div');
+    extraBadge.classList.add('contact-badge', 'extra-badge');
+    extraBadge.textContent = '+' + extraCount;
+    selectedContainer.appendChild(extraBadge);
   }
 }
 
@@ -742,11 +784,10 @@ function getUpdatedTask() {
     category: overlay.querySelector('.category-badge').textContent,
     dueDate: overlay.querySelector('#edit-due-date').value,
     priority: overlay.querySelector('input[name="edit-priority"]:checked').value,
-    contacts: Array.from(overlay.querySelectorAll('input[name="edit-contact"]:checked'))
-              .map(function(c) { return { name: c.value, color: c.dataset.color }; }),
+    contacts: window.selectedContacts || [],  
     subtasks: currentSubtasks,
     status: currentColumnId,
-    order: window.currentOrder // Hier wird der Order-Wert beibehalten
+    order: window.currentOrder
   };
   return updatedTask;
 }

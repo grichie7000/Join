@@ -85,7 +85,6 @@ function handleLoginFormSubmit(event) {
         .then(success => {
             if (success) {
                 manageLocalUsers(email, password);
-                alert("Login erfolgreich!");
                 window.location.href = "summary.html";
             } else {showError(errorMessage, "E-Mail oder Passwort ist nicht korrekt!");}
         })

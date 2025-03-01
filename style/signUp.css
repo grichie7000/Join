@@ -1,5 +1,6 @@
 html,
 body {
+    overflow: hidden;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -114,13 +115,11 @@ input:focus {
     padding: 10px;
 }
 
-
 .input-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
     gap: 20px;
 }
 
@@ -298,34 +297,50 @@ footer {
 
     .back-button {
         left: 25px;
-     }
+    }
 
-     input {
-       width: 90%;
+    input {
+        width: 90%;
     }
 
     .overlay-content {
-       font-size: 17px;
+        font-size: 17px;
     }
 }
 
 @media (max-width: 600px) {
-    h1{
+    h1 {
         font-size: 41px;
     }
 
-    .logo-header-container{
-        width: 70px;
-        height: 70px;
+    .logo-header-container {
+        width: 60px;
+        height: 60px;
     }
 
     .overlay-content {
         font-size: 15px;
-     }
+    }
+
+    .input-container {
+        gap: 10px;
+    }
+
+    .error-message {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 8px;
+        font-size: 13px;
+    }
+
+    footer {
+        margin-top: 20px;
+    }
+
 }
 
 @media (max-width: 400px) {
-    .signUp-container{
+    .signUp-container {
         width: 280px;
     }
 
@@ -333,14 +348,14 @@ footer {
         left: 20px;
         width: 25px;
         height: 25px;
-     }
-
-     .logo-header-container{
-       margin-top: 20px;
-       margin-left: 10px;
     }
 
-    .checkbox{
+    .logo-header-container {
+        margin-top: 20px;
+        margin-left: 10px;
+    }
+
+    .checkbox {
         gap: 0px;
     }
 }

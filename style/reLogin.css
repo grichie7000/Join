@@ -287,6 +287,10 @@ footer {
 }
 
 @media (max-width: 600px) {
+    .input-container {
+        gap: 10px;
+    }
+
     .horizontal-line {
         width: 88px;
     }
@@ -362,8 +366,8 @@ footer {
     }
 
     .logo-header-container {
-        width: 70px;
-        height: 70px;
+        width: 60px;
+        height: 60px;
     }
 
     input {

@@ -60,6 +60,16 @@ function changeDateColor() {
   } else {
     date.style.color = '';
   }
+
+  const dateInput = document.getElementById("due-date");
+    const maxDate = new Date("2099-12-31"); // Maximaldatum festlegen
+    const inputDate = new Date(dateInput.value);
+
+    // Überprüfen, ob das eingegebene Datum nach dem maximalen Datum liegt
+    if (inputDate > maxDate) {
+        document.getElementById("error-date").innerHTML = "maximum date 2099"
+        dateInput.value = ""; // Eingabe zurücksetzen
+    }
 }
 
 async function loadFirebaseData(path = "") {
@@ -156,11 +166,17 @@ function deleteItemOne() {
 }
 
 function submitItemOne() {
-  const changesItemOne = document.getElementById('editItemOne');
+  const changesItemOne = document.getElementById('editItemOne').value;
   const subtaskItemOne = document.getElementById('subtaskItem1');
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
-  subtaskItemOne.innerHTML = changesItemOne.value;
+  
+  // Update the first subtask in the array
+  if (window.selectedSubtasks.length > 0) {
+    window.selectedSubtasks[0].title = changesItemOne;
+  }
+  
+  subtaskItemOne.innerHTML = changesItemOne;
   subtaskItemOne.style.display = "inline list-item";
   editIcons.style.display = 'none';
   editItem.style.display = 'none';
@@ -189,11 +205,16 @@ function deleteItemTwo() {
 }
 
 function submitItemTwo() {
-  const changesItemTwo = document.getElementById('editItemTwo');
+  const changesItemTwo = document.getElementById('editItemTwo').value;
   const subtaskItemTwo = document.getElementById('subtaskItem2');
   const editItem = document.getElementById('editItemTwo');
   const editIcons = document.getElementById('editItemIconTwo');
-  subtaskItemTwo.innerHTML = changesItemTwo.value;
+  
+  if (window.selectedSubtasks.length > 1) {
+    window.selectedSubtasks[1].title = changesItemTwo;
+  }
+  
+  subtaskItemTwo.innerHTML = changesItemTwo;
   subtaskItemTwo.style.display = "inline list-item";
   editIcons.style.display = 'none';
   editItem.style.display = 'none';
@@ -365,7 +386,7 @@ function getAddTaskData() {
     dueDate: date.value,
     priority: priorityValue,
     category: category.value,
-    subtasks: window.selectedSubtasks.filter(st => st)
+    subtasks: window.selectedSubtasks // Verwende das aktualisierte Array
   };
 }
 

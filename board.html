@@ -346,23 +346,20 @@
                             <div class="form-priority">
                                 <label for="priority">Prio</label>
                                 <div id="priority">
-                                    <label class="radio-container">
-                                        <input type="radio" id="urgent" name="priority" value="urgent">
-                                        <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png"
-                                                alt=""></span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" id="medium" name="priority" value="medium">
-                                        <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png"
-                                                alt=""></span>
-                                    </label>
-                                    <label class="radio-container">
-                                        <input type="radio" id="low" name="priority" value="low">
-                                        <span class="radio-custom low-radio">Low <img src="./assets/img/low.png"
-                                                alt=""></span>
-                                    </label>
+                                  <label class="radio-container">
+                                    <input type="radio" id="urgent" name="priority" value="urgent">
+                                    <span class="radio-custom urgent-radio">Urgent <img src="./assets/img/urgent.png" alt=""></span>
+                                  </label>
+                                  <label class="radio-container">
+                                    <input type="radio" id="medium" name="priority" value="medium" checked>
+                                    <span class="radio-custom medium-radio">Medium <img src="./assets/img/medium.png" alt=""></span>
+                                  </label>
+                                  <label class="radio-container">
+                                    <input type="radio" id="low" name="priority" value="low">
+                                    <span class="radio-custom low-radio">Low <img src="./assets/img/low.png" alt=""></span>
+                                  </label>
                                 </div>
-                            </div>
+                              </div>                              
                             <div class="form-category">
                                 <label for="category">Category <span class="required">*</span></label>
                                 <select id="category" name="category" required>
@@ -385,7 +382,7 @@
                                 </div>
                             </div>
                             <ul id="addedSubtask">
-                                <li id="subtaskItem1" ondblclick="editItemOne(this)"></li>
+                                <li style="padding-left: 20px;" id="subtaskItem1" ondblclick="editItemOne(this)"></li>
                                 <div class="edit-position">
                                     <input type="text" name="itemOne" id="editItemOne">
                                     <div id="editItemIconOne" class="edit-item-icon">
@@ -394,7 +391,7 @@
                                         <img src="./assets/img/check_task.png" alt="check" onclick="submitItemOne()">
                                     </div>
                                 </div>
-                                <li id="subtaskItem2" ondblclick="editItemTwo(this)"></li>
+                                <li style="padding-left: 20px;" id="subtaskItem2" ondblclick="editItemTwo(this)"></li>
                                 <div class="edit-position">
                                     <input type="text" name="itemTwo" id="editItemTwo">
                                     <div id="editItemIconTwo" class="edit-item-icon">
