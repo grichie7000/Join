@@ -3,8 +3,6 @@ window.selectedContacts = [];
 window.selectedSubtasks = [];
 
 let validateIsOk = [false, false, false];
-let subTaskOne = false;
-let subtaskTwo = false;
 let subtaskCount = 1;  // Zähler für die Subtasks
 let title;
 let errorTitle;
@@ -150,25 +148,11 @@ function clearTask() {
     category.style.border = ""
 
     const allContacts = document.querySelectorAll('.contact-item');
-
+    let ul = document.getElementById('addedSubtask');
+    while (ul.firstChild) {
+        ul.removeChild(ul.firstChild);
+    }
     clearSelection()
-
-    subTaskOne = false;
-    subtaskTwo = false;
-
-    document.getElementById('editItemOne').style.display = 'none';
-    document.getElementById('editItemIconOne').style.display = 'none';
-    document.getElementById('editItemTwo').style.display = 'none';
-    document.getElementById('editItemIconTwo').style.display = 'none';
-
-    const addedSubtaskOne = document.getElementById('subtaskItem1');
-    addedSubtaskOne.innerHTML = '';
-    addedSubtaskOne.style.display = 'none'
-    const addedSubtaskTwo = document.getElementById('subtaskItem2');
-    addedSubtaskTwo.innerHTML = '';
-    addedSubtaskTwo.style.display = 'none'
-
-
 
     const selectedContactsList = document.getElementById('selectedContactsList');
     selectedContactsList.innerHTML = '';
@@ -270,12 +254,12 @@ function subtaskStyling(subtaskStyling) {
 function subtaskAppend() {
     const inputField = document.getElementById('subtask');
     const subtaskText = inputField.value.trim();
-    
+
     if (subtaskText !== '') {
         const ul = document.getElementById('addedSubtask');
         const li = document.createElement('li');
         li.classList.add('subtask-item');
-        
+
         // Listenelement Inhalt
         li.innerHTML = `
             <span class="subtask-text">${subtaskText}</span>
@@ -285,9 +269,9 @@ function subtaskAppend() {
                 <img src="../assets/img/addtask_bin.png" alt="delete" onclick="deleteSubtask(this)">
             </div>
         `;
-        
+
         // Event-Listener hinzufügen, um Listenelement zu bearbeiten
-        li.addEventListener('click', function(event) {
+        li.addEventListener('click', function (event) {
             // Nur den Bearbeitungsmodus aktivieren, wenn nicht auf die Icons geklickt wurde
             if (!event.target.closest('.action-icons')) {
                 editSubtask(this);
@@ -296,7 +280,7 @@ function subtaskAppend() {
 
         // Neues Subtask zur Liste hinzufügen
         ul.appendChild(li);
-        
+
         // Eingabefeld nach dem Hinzufügen leeren
         inputField.value = '';
     }
@@ -306,17 +290,17 @@ function subtaskAppend() {
 function editSubtask(editIcon) {
     const li = editIcon.closest('li');
     const subtaskText = li.querySelector('.subtask-text');
-    
+
     // Sicherstellen, dass das .subtask-text-Element existiert
     if (subtaskText) {
         // Klasse zum Aktivieren des Bearbeitungsmodus hinzufügen
         li.classList.add('editing');
-        
+
         // Das Subtask in ein Input-Feld umwandeln
         const inputField = document.createElement('input');
         inputField.type = 'text';
         inputField.value = subtaskText.textContent.trim();
-        
+
         li.innerHTML = `
             <input type="text" value="${inputField.value}" class="edit-input">
             <div class="action-icons">
@@ -333,7 +317,7 @@ function saveSubtask(checkIcon) {
     const li = checkIcon.closest('li');
     const inputField = li.querySelector('.edit-input');
     const newText = inputField.value.trim();
-    
+
     if (newText !== '') {
         li.innerHTML = `
             <span class="subtask-text">${newText}</span>
@@ -343,7 +327,7 @@ function saveSubtask(checkIcon) {
                 <img src="../assets/img/addtask_bin.png" alt="delete" onclick="deleteSubtask(this)">
             </div>
         `;
-        
+
         // Entferne die Klasse "editing", wenn die Bearbeitung abgeschlossen ist
         li.classList.remove('editing');
     }
@@ -513,23 +497,32 @@ function getAddTaskData() {
         formDataArray.push(priority.value);
     }
     formDataArray.push(document.getElementById('category').value)
-    formDataArray.push(document.getElementById('subtaskItem1').innerText)
-    formDataArray.push(document.getElementById('subtaskItem2').innerText)
+    // Hole alle span-Elemente mit der Klasse 'subtask-text' innerhalb des ul-Elements
+    let subtaskTexts = document.querySelectorAll('#addedSubtask .subtask-text');
+
+    // Iteriere über alle gefundenen span-Elemente und füge deren Text in das Array hinzu
+    subtaskTexts.forEach(function (subtask) {
+        formDataArray.push(subtask.textContent);
+    });
+
 
     let arrayToObject = {
-        title: formDataArray[0],
-        description: formDataArray[1],
-        contacts: contacts,
-        dueDate: formDataArray[2],
-        priority: formDataArray[3],
-        category: formDataArray[4],
-        subtasks: [
-            { title: formDataArray[5], completed: false },  // Subtask One
-            { title: formDataArray[6], completed: false }   // Subtask Two
-        ]
+        title: formDataArray[0],  
+        description: formDataArray[1],  
+        contacts: contacts,  
+        dueDate: formDataArray[2],  
+        priority: formDataArray[3],  
+        category: formDataArray[4],  
+        subtasks: []  // Initialisiere das Array für Subtasks
     };
 
-
+// Dynamisch Subtasks hinzufügen, basierend auf der Länge von formDataArray
+for (let i = 5; i < formDataArray.length; i++) {
+    arrayToObject.subtasks.push({
+        title: formDataArray[i],
+        completed: false  // Alle Subtasks sind standardmäßig nicht abgeschlossen
+    });
+}
 
     return arrayToObject
 }

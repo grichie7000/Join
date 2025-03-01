@@ -227,20 +227,16 @@
         margin-right: auto;
     }
 
-
-    #editItemOne {
-        width: 224px;
-    }
-
-    #editItemTwo {
-        width: 224px;
-    }
-
     #addedSubtask {
         margin-left: auto;
         margin-right: auto;
         width: 320px;
     }
+
+    .subtask-item{
+        width: 236px;
+    }
+
 
     /* buttons */
     .button-and-text {
