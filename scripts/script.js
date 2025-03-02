@@ -3,29 +3,10 @@ function goBack() {
   window.history.back();
 }
 
-function loadProfile() {
-    let profile = document.getElementById('profile');
-    let userName = sessionStorage.getItem("username");
-    
-}
 
 function includeHTML() {
   let popUp = document.getElementById("overlay-container");
   popUp.innerHTML = initProfilePopUp();
-}
-
-
-function checkLogin() {
-  const isLoginPage = window.location.pathname.includes("join/login.html");
-  const sessionUser = sessionStorage.getItem("username");
-  const localUser = localStorage.getItem("username");
-
-  if (localUser && !sessionUser) {
-    sessionStorage.setItem("username", localUser);
-    sessionStorage.setItem("email", localStorage.getItem("email"));
-  }
-
-  checkPager(sessionUser);
 }
 
 
