@@ -29,24 +29,6 @@ function checkLogin() {
 }
 
 
-function generateInitials() {
-  let content = document.getElementById("profile");
-
-  let userName = sessionStorage.getItem("username");
-  content.innerHTML = "";
-  let nameParts = userName.split(" ");
-  if (nameParts.length >= 2) {
-    let initials = (nameParts[0][0] + nameParts[1][0]).toUpperCase();
-    content.innerHTML = initials;
-  } else if (nameParts.length === 1) {
-    let initials = nameParts[0][0].toUpperCase();
-    content.innerHTML = initials;
-  } else {
-    content.innerHTML = "G";
-  }
-}
-
-
 function getRandomColor() {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
@@ -69,20 +51,6 @@ function checkLink() {
   });
 }
 
-
-function notLogin() {
-    let sidebar = document.getElementById('navigation-container');
-    let profile = document.getElementById('profile');
-    let info = document.getElementById('info');
-    let asideNav = document.getElementById('menuPos');
-
-    if (sessionStorage.getItem("username") == null) {
-        hideUserInterface(sidebar, profile, info, asideNav);
-    } else {
-        showUserInterface(sidebar, profile, info, asideNav);
-        generateInitials();
-    }
-}
 
 function hideUserInterface(sidebar, profile, info, asideNav) {
     sidebar.classList.add('no-login-sidebar-none');
