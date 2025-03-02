@@ -1,4 +1,12 @@
 
+/**
+ * Renders a list of contacts grouped by the first letter of the name.
+ * Creates a section for each group (alphabet letter) and includes contact items for each user in that group.
+ * @param {Object} usergroup - The object containing user groups, where keys are alphabet letters and values are arrays of users.
+ * @param {string} alphabet - The alphabet letter representing the current group.
+ * @returns {string} - The HTML structure for the contact group, including all users in that group.
+ */
+
 function renderContactList(usergroup, alphabet) {
     let group = `<div class="contact-group">
             <h3 class="group-title">${alphabet}</h3>
@@ -9,6 +17,13 @@ function renderContactList(usergroup, alphabet) {
     });
     return group; 
 }
+
+/**
+ * Renders a single contact list item with the user's initials, name, and email.
+ * This item is clickable and triggers the `showContactDetails` function when clicked.
+ * @param {Object} user - The user object containing the user's details (name, email, color, id).
+ * @returns {string} - The HTML structure for a contact item.
+ */
 
 function renderContactListItem(user) {
     let initials = user.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
@@ -24,6 +39,12 @@ function renderContactListItem(user) {
     `;
 }
 
+/**
+ * Renders detailed contact information for a single user, including their name, email, phone number,
+ * and provides options to edit or delete the user.
+ * @param {Object} user - The user object containing the user's details (name, email, phone, color, firebaseId, id).
+ * @returns {string} - The HTML structure for displaying a user's contact details.
+ */
 
 function renderContactDetails(user) {
     let initials = user.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
@@ -58,7 +79,13 @@ function renderContactDetails(user) {
     </div>`;
 }
 
-
+/**
+ * Renders the popup form for editing a contact's information, including name, email, phone, and options to save or delete.
+ * Displays the contact's initials and pre-fills the form with the user's current details.
+ * @param {number} user - The index of the user in the `userArray` to be edited.
+ * @returns {string} - The HTML structure for the popup form to edit the contact.
+ */
+ 
 function renderEditContact(user) {
     let initials = userArray[user].name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
     return `<div class="popup" onclick="event.stopPropagation();">
@@ -122,6 +149,10 @@ function renderEditContact(user) {
 </div>`
 }
 
+/**
+ * Renders the popup form for adding a new contact, including name, email, phone, and options to create or clear the form.
+ * @returns {string} - The HTML structure for the popup form to add a new contact.
+ */
 
 function renderNewContact() {    
     return `<div class="popup" onclick="event.stopPropagation();">
@@ -191,6 +222,12 @@ function renderNewContact() {
         </div>`
 }
 
+/**
+ * Renders the popup options to edit or delete a contact.
+ * Provides buttons for the user to edit or delete the contact.
+ * @param {Object} user - The user object containing the user's details (firebaseId, name).
+ * @returns {string} - The HTML structure for the edit and delete options.
+ */
 
 function renderEditDeletePopup(user) {
     return `<li><button class="contact-btn" onclick="editContact('${userArray.indexOf(user)}', removeEditDel())">
@@ -206,6 +243,11 @@ function renderEditDeletePopup(user) {
             </li>`
 }
 
+/**
+ * Validates and formats the phone number input by removing any non-numeric characters.
+ * Ensures that only numbers are allowed in the phone number input field.
+ * @param {Event} event - The input event triggered when the user types in the phone field.
+ */
 
 function validatePhoneInput(event) {
     const input = event.target;
