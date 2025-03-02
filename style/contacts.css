@@ -42,12 +42,12 @@ html {
 }
 
 ::-webkit-scrollbar { 
-    width: 8px;  /* Adjust the width as needed */ 
+    width: 8px;   
 } 
 
 ::-webkit-scrollbar-thumb { 
-    background-color: darkgrey; /* Color of the scrollbar thumb */ 
-    border-radius: 8px; /* Rounded corners */ 
+    background-color: darkgrey; 
+    border-radius: 8px; 
 } 
 
 .contact-list {

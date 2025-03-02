@@ -171,11 +171,9 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
     overflow: hidden;
 	height: 320px;
-}
-  
+} 
 }
 
-/* Popup */
 @media screen and (min-width: 0px) and (max-width: 950px) {
     .main-content {
         margin-left: 0 !important;
@@ -187,7 +185,7 @@
 	}
 
 	.mobile-logo {
-	display: auto !important;
+		display: auto !important;
 	}
 
     .popup-left {
@@ -258,20 +256,17 @@
 		flex-direction: column-reverse !important;
 		overflow-y: default;
 	}
-	
 }
 
-/* Contact Main */
 @media (max-width: 950px) {
 	.help {
-	display: none;
+		display: none;
 	}
 
 	.d-none {
-    display: none !important;
+		display: none !important;
 	}
    
-
    .btn-container-mobile {
         display: block;
         position: fixed; 
@@ -295,78 +290,78 @@
     } 
 
 	.sideBar {
-	width: 100%;
-    padding: 0;
-	padding-bottom: 4px;
-	display: flex;
-    flex-direction: column;
-    justify-content: space-evenly !important;
-    gap: 4px;
-	position: absolute !important;
-	bottom: 0 !important;
-	height: 70px !important;
-	z-index: 999
+		width: 100%;
+		padding: 0;
+		padding-bottom: 4px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly !important;
+		gap: 4px;
+		position: absolute !important;
+		bottom: 0 !important;
+		height: 70px !important;
+		z-index: 999
 	}
 
 	.topBar {
-    height: 84px;
-    min-height: 84px;
-    width: 100%;
-    background-color: #FFFFFF;
-    box-shadow: 0px 0px 12px grey;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-}
+		height: 84px;
+		min-height: 84px;
+		width: 100%;
+		background-color: #FFFFFF;
+		box-shadow: 0px 0px 12px grey;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		position: relative;
+	}
 
 	.topBar h3 {
 		display: none !important;
 	}
 
 	.menuPos {
-	display: flex;
-	flex-direction: row !important;
-	justify-content: space-evenly;
-	gap: 0px !important;
+		display: flex;
+		flex-direction: row !important;
+		justify-content: space-evenly;
+		gap: 0px !important;
 	}
     
 	.navMenu {
-	flex-direction: column;
+		flex-direction: column;
 	}
 	
 	.menuDesc {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	
 	.navMenu img {
-	display: flex;
-	align-items: center;
-	align-content: center;	
-	padding-left: 0 !important;
+		display: flex;
+		align-items: center;
+		align-content: center;	
+		padding-left: 0 !important;
 	}
 	
 	.contact-list {
-    background-color: white;
-    height: 75vh!important;
-	width: calc(100vw!-10px)!important;
-    overflow: scroll;
-    position: relative;
-    margin-top: 1px;
-	min-width: 100px !important;
+		background-color: white;
+		height: 75vh!important;
+		width: calc(100vw!-10px)!important;
+		overflow: scroll;
+		position: relative;
+		margin-top: 1px;
+		min-width: 100px !important;
 	}
 	
 	.details {
-        display: none !important;
-        margin: 0;
-        position: absolute;
-		 flex: 1;
-    background-color: #F6F7F8;
-    padding: 10px;
-    height: 100%;
-    width: 95%
+		display: none !important;
+		margin: 0;
+		position: absolute;
+		flex: 1;
+		background-color: #F6F7F8;
+		padding: 10px;
+		height: 100%;
+		width: 95%
     }
 	
 	.lawSection {
@@ -395,8 +390,6 @@
 		margin-left: 0px !important;
 	}
 
-
-    
     .close-btn {
         position: absolute;
         top: 10px;
@@ -429,11 +422,10 @@
 		border-radius: 8px;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.342);
 		overflow: hidden;
-
     }
 
 	.popup-form {
-	padding-top: 10px;
+		padding-top: 10px;
 	}
 
 	.popup-form .form-group input {
@@ -443,17 +435,17 @@
 	}
 
 	.close-btn-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0px;
-    margin-top: 20px;
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 0px;
+		margin-top: 20px;
 	}
 	
 	.close-btn-mobile {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0px;
-	width: 100%;
+		display: flex;
+		justify-content: flex-end;
+		margin-bottom: 0px;
+		width: 100%;
 	}
 	
     .popup-left {
@@ -467,12 +459,11 @@
     }
 	
 	.icon-wrapper {
-    transform: translate(0, -50%);
-    justify-content: center;
-    margin-bottom: 0;
-    margin-left: 0;
-    height: 40px;
-	
+		transform: translate(0, -50%);
+		justify-content: center;
+		margin-bottom: 0;
+		margin-left: 0;
+		height: 40px;
 }
 	
 @media (max-width: 420px) {
@@ -522,7 +513,6 @@
     position: relative;
     margin-top: 1px;
 	}
-
 }
 
 @media (max-width: 350px) {

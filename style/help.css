@@ -94,7 +94,6 @@ body {
     color: #777;
 }
 
-/* sidebar */
 @media (max-width: 1510px) and (min-width:951px) {
 
     .sideBar {
@@ -116,7 +115,6 @@ body {
 }
 
 
-/* main content */
 @media (max-width: 1510px) and (min-width:951px) {
     .helpSite {
         padding-left: 92px;
