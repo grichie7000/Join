@@ -1,11 +1,24 @@
+/**
+ * @module addTaskModule
+ * This module handles the initialization and management of the add task page,
+ * including form validation, contact selection, subtask management, and posting data to Firebase.
+ */
+
 const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 
+/**
+ * Initializes the add task page by retrieving necessary DOM elements,
+ * loading Firebase data for contacts, and resetting selected subtasks.
+ */
 function initAddTask() {
   getElementsByIds();
   loadFirebaseData("contactsDatabase");
   window.selectedSubtasks = [];
 }
 
+/**
+ * Clears the selection state from all contact items and resets their checkbox images.
+ */
 function clearSelection() {
   const allContacts = document.querySelectorAll('.contact-item');
   allContacts.forEach(contact => {
@@ -17,6 +30,10 @@ function clearSelection() {
   selectedContactsList.innerHTML = '';
 }
 
+/**
+ * Clears the add task form by resetting error messages, input borders,
+ * subtask displays, and clearing any selected contacts or subtasks.
+ */
 function clearTask() {
   errorTitle.innerHTML = '';
   title.style.border = "";
@@ -44,6 +61,9 @@ function clearTask() {
   selectedContactsList.innerHTML = '';
 }
 
+/**
+ * Retrieves DOM elements by their IDs and assigns them to global variables.
+ */
 function getElementsByIds() {
   title = document.getElementById("title");
   errorTitle = document.getElementById("error-title");
@@ -53,6 +73,9 @@ function getElementsByIds() {
   errorCategory = document.getElementById("error-category");
 }
 
+/**
+ * Changes the color of the date input based on its value and enforces a maximum date of December 31, 2099.
+ */
 function changeDateColor() {
   date = document.getElementById('due-date');
   if (date.value) {
@@ -62,16 +85,21 @@ function changeDateColor() {
   }
 
   const dateInput = document.getElementById("due-date");
-    const maxDate = new Date("2099-12-31"); // Maximaldatum festlegen
-    const inputDate = new Date(dateInput.value);
+  const maxDate = new Date("2099-12-31");
+  const inputDate = new Date(dateInput.value);
 
-    // Überprüfen, ob das eingegebene Datum nach dem maximalen Datum liegt
-    if (inputDate > maxDate) {
-        document.getElementById("error-date").innerHTML = "maximum date 2099"
-        dateInput.value = ""; // Eingabe zurücksetzen
-    }
+  if (inputDate > maxDate) {
+    document.getElementById("error-date").innerHTML = "maximum date 2099";
+    dateInput.value = ""; 
+  }
 }
 
+/**
+ * Loads data from Firebase for the specified path and assigns it to the global variable firebaseData.
+ * Then calls displayContacts to update the contact list in the UI.
+ * @async
+ * @param {string} [path=""] - The Firebase database path to load.
+ */
 async function loadFirebaseData(path = "") {
   let response = await fetch(BASE_URL_ADDTASK + path + ".json");
   let data = await response.json();
@@ -79,6 +107,9 @@ async function loadFirebaseData(path = "") {
   displayContacts();
 }
 
+/**
+ * Displays contacts from the global firebaseData array in the contact list element.
+ */
 function displayContacts() {
   const contactList = document.getElementById("contactListAssigned");
   contactList.innerHTML = "";
@@ -95,6 +126,11 @@ function displayContacts() {
   });
 }
 
+/**
+ * Toggles the selection state of a contact item and updates the global selected contacts.
+ * @param {HTMLElement} contactElement - The contact element that was clicked.
+ * @param {number} id - The contact's ID.
+ */
 function selectContact(contactElement, id) {
   contactElement.classList.toggle("selected");
   const checkboxImage = contactElement.querySelector("img");
@@ -107,6 +143,9 @@ function selectContact(contactElement, id) {
   updateAssignedContactsDisplay();
 }
 
+/**
+ * Updates the global selectedContacts array based on the currently selected contact items.
+ */
 function updateGlobalSelectedContacts() {
   const selectedElements = document.querySelectorAll(".contact-item.selected");
   window.selectedContacts = [];
@@ -119,6 +158,9 @@ function updateGlobalSelectedContacts() {
   });
 }
 
+/**
+ * Updates the display of assigned contacts in the designated contacts list element.
+ */
 function updateAssignedContactsDisplay() {
   const selectedContactsList = document.getElementById("selectedContactsList");
   selectedContactsList.innerHTML = "";
@@ -142,7 +184,10 @@ function updateAssignedContactsDisplay() {
   }
 }
 
-
+/**
+ * Enables editing for the first subtask item.
+ * @param {HTMLElement} element - The subtask element to edit.
+ */
 function editItemOne(element) {
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
@@ -152,6 +197,9 @@ function editItemOne(element) {
   editItem.value = element.innerHTML;
 }
 
+/**
+ * Deletes the first subtask item from the display and removes it from the global subtasks array.
+ */
 function deleteItemOne() {
   const addedSubtaskOne = document.getElementById('subtaskItem1');
   const editItem = document.getElementById('editItemOne');
@@ -165,13 +213,15 @@ function deleteItemOne() {
   }
 }
 
+/**
+ * Submits the changes for the first subtask, updating the display and the global subtasks array.
+ */
 function submitItemOne() {
   const changesItemOne = document.getElementById('editItemOne').value;
   const subtaskItemOne = document.getElementById('subtaskItem1');
   const editItem = document.getElementById('editItemOne');
   const editIcons = document.getElementById('editItemIconOne');
   
-  // Update the first subtask in the array
   if (window.selectedSubtasks.length > 0) {
     window.selectedSubtasks[0].title = changesItemOne;
   }
@@ -182,6 +232,10 @@ function submitItemOne() {
   editItem.style.display = 'none';
 }
 
+/**
+ * Enables editing for the second subtask item.
+ * @param {HTMLElement} element - The subtask element to edit.
+ */
 function editItemTwo(element) {
   const editItem = document.getElementById('editItemTwo');
   const editIcons = document.getElementById('editItemIconTwo');
@@ -191,6 +245,9 @@ function editItemTwo(element) {
   editItem.value = element.innerHTML;
 }
 
+/**
+ * Deletes the second subtask item from the display and removes it from the global subtasks array.
+ */
 function deleteItemTwo() {
   const addedSubtaskTwo = document.getElementById('subtaskItem2');
   const editItem = document.getElementById('editItemTwo');
@@ -204,6 +261,9 @@ function deleteItemTwo() {
   }
 }
 
+/**
+ * Submits the changes for the second subtask, updating the display and the global subtasks array.
+ */
 function submitItemTwo() {
   const changesItemTwo = document.getElementById('editItemTwo').value;
   const subtaskItemTwo = document.getElementById('subtaskItem2');
@@ -220,10 +280,16 @@ function submitItemTwo() {
   editItem.style.display = 'none';
 }
 
+/**
+ * Clears the subtask input field.
+ */
 function subtaskInputDelete() {
   document.getElementById('subtask').value = "";
 }
 
+/**
+ * Resets the subtask input styling and value.
+ */
 function resetAddtaskInput() {
   const symbolStyling = document.getElementById('symbolStyling');
   const plusImg = document.createElement('img');
@@ -234,11 +300,15 @@ function resetAddtaskInput() {
   subtaskInput.style.border = "2px solid #D1D1D1";
   subtaskInput.value = "";
   plusImg.src = './assets/img/plus_task.png';
-  plusImg.alt = 'checked';
+  plusImg.alt = 'plus';
   plusImg.id = 'checkImg';
   symbolStyling.appendChild(plusImg);
 }
 
+/**
+ * Validates the entire form and submits it if all validations pass.
+ * @param {Event} event - The form submission event.
+ */
 function validateFormular(event) {
   event.preventDefault();
   validateTitle(event);
@@ -249,6 +319,11 @@ function validateFormular(event) {
   }
 }
 
+/**
+ * Validates the task title field.
+ * @param {Event} event - The event triggering title validation.
+ * @returns {boolean} True if the title is valid; false otherwise.
+ */
 function validateTitle(event) {
   errorTitle.innerHTML = "";
   if (!title.value.trim()) {
@@ -261,6 +336,11 @@ function validateTitle(event) {
   validateIsOk[0] = true;
 }
 
+/**
+ * Validates the due date field.
+ * @param {Event} event - The event triggering date validation.
+ * @returns {boolean} True if the due date is valid; false otherwise.
+ */
 function validateDate(event) {
   errorDate.innerHTML = "";
   if (!date.value) {
@@ -273,6 +353,11 @@ function validateDate(event) {
   validateIsOk[1] = true;
 }
 
+/**
+ * Validates the task category field.
+ * @param {Event} event - The event triggering category validation.
+ * @returns {boolean} True if the category is valid; false otherwise.
+ */
 function validateCategory(event) {
   errorCategory.innerHTML = "";
   if (!category.value) {
@@ -285,6 +370,10 @@ function validateCategory(event) {
   validateIsOk[2] = true;
 }
 
+/**
+ * Applies styling to the subtask input element and displays delete and check icons.
+ * @param {HTMLElement} inputElement - The subtask input element.
+ */
 function subtaskStyling(inputElement) {
   const symbolStyling = document.getElementById("symbolStyling");
   inputElement.style.border = "2px solid #29ABE2";
@@ -308,6 +397,10 @@ function subtaskStyling(inputElement) {
   symbolStyling.appendChild(checkImg);
 }
 
+/**
+ * Appends a new subtask from the subtask input field to the global selected subtasks array
+ * and updates the subtask display.
+ */
 function subtaskAppend() {
   const subtaskInputValue = document.getElementById("subtask").value.trim();
   const addedSubtaskOne = document.getElementById("subtaskItem1");
@@ -329,25 +422,9 @@ function subtaskAppend() {
   resetAddtaskInput();
 }
 
-function subtaskInputDelete() {
-  document.getElementById("subtask").value = "";
-}
-
-function resetAddtaskInput() {
-  const symbolStyling = document.getElementById("symbolStyling");
-  symbolStyling.style.border = "2px solid #D1D1D1";
-  symbolStyling.innerHTML = "";
-  symbolStyling.style.borderLeft = "none";
-  const subtaskInput = document.getElementById("subtask");
-  subtaskInput.style.border = "2px solid #D1D1D1";
-  subtaskInput.value = "";
-  const plusImg = document.createElement("img");
-  plusImg.src = "./assets/img/plus_task.png";
-  plusImg.alt = "plus";
-  plusImg.id = "checkImg";
-  symbolStyling.appendChild(plusImg);
-}
-
+/**
+ * Toggles the dropdown for contact assignment.
+ */
 function toggleDropdown() {
   const assignedToElement = document.getElementById("assigned-to");
   const customArrowAssigned = document.getElementById("customArrowAssigned");
@@ -376,6 +453,10 @@ document.addEventListener("click", function (event) {
   }
 });
 
+/**
+ * Gathers add task form data and returns it as an object.
+ * @returns {Object} The add task data.
+ */
 function getAddTaskData() {
   const priorityElement = document.querySelector('input[name="priority"]:checked');
   const priorityValue = priorityElement ? priorityElement.value : "medium";
@@ -386,10 +467,15 @@ function getAddTaskData() {
     dueDate: date.value,
     priority: priorityValue,
     category: category.value,
-    subtasks: window.selectedSubtasks // Verwende das aktualisierte Array
+    subtasks: window.selectedSubtasks
   };
 }
 
+/**
+ * Handles form submission by gathering form data, displaying a confirmation card,
+ * posting data to Firebase, and redirecting to the board page.
+ * @param {Event} event - The form submission event.
+ */
 function submitForm(event) {
   event.preventDefault();
   const dataToBoard = getAddTaskData();
@@ -401,6 +487,13 @@ function submitForm(event) {
   }, 1500);
 }
 
+/**
+ * Posts the provided data to Firebase at the specified path.
+ * @async
+ * @param {string} [path=""] - The Firebase database path.
+ * @param {Object} [data={}] - The data to post.
+ * @returns {Promise<void>}
+ */
 async function postDatatoBoard(path = "", data = {}) {
   await fetch(BASE_URL_ADDTASK + path + ".json", {
     method: "POST",

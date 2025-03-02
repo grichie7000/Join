@@ -1,7 +1,13 @@
+/**
+ * @module loginScript
+ * This script initializes Firebase, handles user login,
+ * and implements password visibility toggling.
+ */
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js';
 import { getDatabase, ref, get } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js';
 
-// Firebase-Konfiguration (gleich wie in register.js)
+// Firebase configuration (same as in register.js)
 const firebaseConfig = {
   apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
   authDomain: "join-d3707.firebaseapp.com",
@@ -15,7 +21,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Berechnet Initialen
+/**
+ * Computes the initials from a full name.
+ *
+ * This function replaces multiple spaces with a single space,
+ * trims any leading or trailing whitespace, splits the name by spaces,
+ * and extracts the first letter of the first two parts.
+ *
+ * @param {string} name - The full name.
+ * @returns {string} The initials, composed of the first letters of up to two name parts.
+ */
 const getInitials = (name) => {
   return name.replace(/\s+/g, ' ')
              .trim()
@@ -25,13 +40,26 @@ const getInitials = (name) => {
              .join('');
 };
 
+/**
+ * Authenticates a user based on email and password.
+ *
+ * This function retrieves user data from the Firebase database,
+ * searches for a user whose email and password match the provided values,
+ * and returns a user object if found.
+ *
+ * @async
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<Object>} A promise that resolves to a user object including the user ID and initials.
+ * @throws {Error} Throws an error if no matching user is found.
+ */
 const handleLogin = async (email, password) => {
   const snapshot = await get(ref(db, 'users'));
   const users = snapshot.val() || {};
   const foundUser = Object.entries(users).find(
     ([, user]) => user.email === email && user.password === password
   );
-  if (!foundUser) throw new Error("Ungültige Eingaben!");
+  if (!foundUser) throw new Error("Invalid credentials!");
   
   const [userId, user] = foundUser;
   return {
@@ -41,7 +69,18 @@ const handleLogin = async (email, password) => {
   };
 };
 
-
+/**
+ * Event handler for the login form submission.
+ *
+ * This function prevents the default form submission behavior,
+ * reads the email and password input values, authenticates the user,
+ * and stores the user data in local storage. If the login is successful,
+ * the page is redirected to the summary page.
+ *
+ * @async
+ * @param {Event} e - The form submit event.
+ * @returns {Promise<void>}
+ */
 const handleSubmit = async (e) => {
   e.preventDefault();
   
@@ -49,34 +88,40 @@ const handleSubmit = async (e) => {
   const password = document.getElementById('password').value.trim();
   const errorElement = document.getElementById('error-message');
 
-  console.log("Login-Versuch mit:", email, password);
+  console.log("Attempting login with:", email, password);
 
   try {
     const user = await handleLogin(email, password);
-    console.log("Gefundener Benutzer:", user);
+    console.log("User found:", user);
 
     localStorage.removeItem('loggedInUser');
-localStorage.setItem('loggedInUser', JSON.stringify({
-  ...user,
-  initials: user.initials || getInitials(user.name)
-}));
+    localStorage.setItem('loggedInUser', JSON.stringify({
+      ...user,
+      initials: user.initials || getInitials(user.name)
+    }));
 
+    console.log("loggedInUser has been updated:", localStorage.getItem('loggedInUser'));
 
-    console.log("loggedInUser wurde überschrieben:", localStorage.getItem('loggedInUser'));
-
-    // Seite neu laden
+    // Redirect to summary page
     window.location.href = 'summary.html';
   } catch (error) {
-    console.error("Login-Fehler:", error);
+    console.error("Login error:", error);
     errorElement.textContent = error.message;
     errorElement.style.display = 'block';
   }
 };
 
-
-
-
-// Passwort-Sichtbarkeit (Beispiel)
+/**
+ * Initializes the password visibility toggle for an input field.
+ *
+ * This function adds event listeners to the specified input field.
+ * A click near the right edge toggles the input type between 'password'
+ * and 'text', and an input event toggles an active class based on whether
+ * the field has any content.
+ *
+ * @param {string} inputId - The ID of the password input field.
+ * @returns {void}
+ */
 const setupPasswordToggle = (inputId) => {
   const input = document.getElementById(inputId);
   const toggle = () => {
@@ -97,6 +142,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("loginForm");
   form.addEventListener("submit", handleSubmit);
 
-  // Setup für die Passwort-Icon-Umschaltung
   setupPasswordToggle('password');
 });
