@@ -520,5 +520,14 @@
 
 .menuDesc {
    font-size: 12px!important;
-}
+	}
+
+.navMenu {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 12px!important;
+    font-size: 16px;
+	}
+
 }
