@@ -1,9 +1,4 @@
-/**
- * render the contact list
- * @param {*} usergroup - the user-group
- * @param {*} alphabet - the current alphabet
- * @returns 
- */
+
 function renderContactList(usergroup, alphabet) {
     let group = `<div class="contact-group">
             <h3 class="group-title">${alphabet}</h3>
@@ -15,11 +10,6 @@ function renderContactList(usergroup, alphabet) {
     return group; 
 }
 
-/**
- * render the user item
- * @param {*} user 
- * @returns 
- */
 function renderContactListItem(user) {
     let initials = user.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
     let capitalizedUserName = user.name.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ');
@@ -35,11 +25,6 @@ function renderContactListItem(user) {
 }
 
 
-/**
- * renderer the contact details
- * @param {*} user 
- * @returns 
- */
 function renderContactDetails(user) {
     let initials = user.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
     let capitalizedUserName = user.name.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ');
@@ -74,11 +59,6 @@ function renderContactDetails(user) {
 }
 
 
-/**
- * renderer the edit overlay
- * @param {*} user 
- * @returns 
- */
 function renderEditContact(user) {
     let initials = userArray[user].name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
     return `<div class="popup" onclick="event.stopPropagation();">
@@ -143,12 +123,6 @@ function renderEditContact(user) {
 }
 
 
-
-
-/**
- * renderer the new contact overlay
- * @returns 
- */
 function renderNewContact() {    
     return `<div class="popup" onclick="event.stopPropagation();">
             <div class="popup-left">
@@ -218,11 +192,6 @@ function renderNewContact() {
 }
 
 
-/**
- * renderer the edit and delete popup
- * @param {*} user 
- * @returns 
- */
 function renderEditDeletePopup(user) {
     return `<li><button class="contact-btn" onclick="editContact('${userArray.indexOf(user)}', removeEditDel())">
                 <img src="./assets/img/edit.png">
@@ -237,12 +206,9 @@ function renderEditDeletePopup(user) {
             </li>`
 }
 
-/**
- * Funktion, um sicherzustellen, dass nur Zahlen im "phone"-Feld eingegeben werden können
- * @param {Event} event
- */
+
 function validatePhoneInput(event) {
     const input = event.target;
-    const validValue = input.value.replace(/[^0-9]/g, ''); // Entfernt alles, was keine Zahl ist
-    input.value = validValue; // Setzt den bereinigten Wert zurück ins Feld
+    const validValue = input.value.replace(/[^0-9]/g, ''); 
+    input.value = validValue; 
 }

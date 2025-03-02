@@ -20,43 +20,23 @@ function validateField(fieldId, validationFunction, errorMessage) {
 }
 
 
-/**
- * function for the validation of the name
- * @param {*} name 
- * @returns 
- */
 function validateName(name) {
     return name.trim().length >= 2;
 }
 
 
-/**
- * function for the validation of the email
- * @param {*} email 
- * @returns 
- */
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
 
-/**
- * function for the validation of the phone
- * @param {*} phone 
- * @returns 
- */
 function validatePhone(phone) {
     const phoneRegex = /^[\d\s\+\-\(\)]{6,}$/;
     return phoneRegex.test(phone);
 }
 
 
-/**
- * show the error message
- * @param {*} fieldId 
- * @param {*} message 
- */
 function showError(fieldId, message) {
     const errorDiv = document.getElementById('error-div-' + fieldId);
     if (errorDiv !== null) {
@@ -66,9 +46,6 @@ function showError(fieldId, message) {
 }
 
 
-/**
- * clear the error messages
- */
 function clearErrorMessages() {
     const errorDiv = document.querySelectorAll('.error-message');
     errorDiv.forEach(error => {
@@ -77,44 +54,28 @@ function clearErrorMessages() {
 }
 
 
-/**
- * show the success message
- */
 function showSuccessMsgTasks() {
     let overlayDiv = document.getElementById('overlay-successfull');
     overlayDiv.classList.add('overlay-suess-contact');
 }
 
 
-/**
- * hidden the success message
- */
 function hiddenSuccessMsgTasks() {
     let overlayDiv = document.getElementById('overlay-successfull');
     overlayDiv.classList.remove('overlay-suess-contact');
 }
 
-/**
- * go back to the last page
- */
 function goBack() {
   window.history.back();
 }
 
 
-/**
- * load nav and header
- */
 function includeHTML() {
   let popUp = document.getElementById("overlay-container");
   popUp.innerHTML = initProfilePopUp();
 }
 
 
-/**
- * random color function for the profile section
- * @returns 
- */
 function getRandomColor() {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
@@ -123,9 +84,6 @@ function getRandomColor() {
 }
 
 
-/**
- * check link function to highlight the active link in the sidebar
- */
 function checkLink() {
   const currentPath = window.location.pathname;
   const sidebarLinks = document.querySelectorAll('#navigation-container .menuPos a');

@@ -3,19 +3,12 @@ let usercount = 0;
 let userArray = []; 
 
 
-/**
- * initializes the contacts page.
- */
 function initContacts() {
     checkLink();
     loadingUsers();
 }
 
 
-
-/**
- * clear the contact form
- */
 function clearContactForm() {
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";
@@ -24,9 +17,6 @@ function clearContactForm() {
 }
 
 
-/**
- * Fetches users from the database and sorts them alphabetically by name.
- */
 async function loadingUsers() {
     try {
         const users = await fetchUsers();
@@ -66,10 +56,6 @@ function groupUsersByFirstLetter(usersArray) {
 }
 
 
-/**
- * load the contact list.
- * @param {*} groupedUsers - the grouped users
- */
 function loadRenderContactList(groupedUsers) {
     let contactList = document.getElementById("contact-list");
     contactList.innerHTML = "";
@@ -80,9 +66,6 @@ function loadRenderContactList(groupedUsers) {
 }
 
 
-/**
- * load the add contact form.
- */
 function addContact() {
     let popupOverlay = document.getElementById("popup-overlay");
     popupOverlay.innerHTML = "";
@@ -92,9 +75,6 @@ function addContact() {
 }
 
 
-/**
- * close the add contact form.
- */
 function closeContactForm() {
     let popupOverlay = document.getElementById("popup-overlay");
     popupOverlay.classList.remove("showAddContact");
@@ -102,11 +82,6 @@ function closeContactForm() {
 }
 
 
-/**
- * show the contact details.
- * @param {*} userId 
- * @returns 
- */
 function showContactDetails(userId) {
     try {
         const contactDetails = document.getElementById("contact-details");
@@ -150,10 +125,6 @@ function setContactDetails(contactDetails, selectedUser) {
 }
 
 
-
-/**
- * toggle the edit and delete popup.
- */
 function toggleEditDeletePopup() {
     let contactButtons = document.getElementById("edit-delete-container");
     contactButtons.style.right = "calc(0px)";
@@ -161,9 +132,6 @@ function toggleEditDeletePopup() {
 }
 
 
-/**
- * remove the edit and delete popup.
- */
 function removeEditDel() {
     let contactButtons = document.getElementById("edit-delete-container");
     contactButtons.style.right = "calc(-100vw)";
@@ -171,9 +139,6 @@ function removeEditDel() {
 }
 
 
-/**
- * close the contact details.
- */
 function closeContactDetails() {
     let contactDetails = document.getElementById("contact-details");
     let btnMobilePopup = document.getElementById("btn-mobile-popup");
@@ -183,9 +148,6 @@ function closeContactDetails() {
 }
 
 
-/**
- * load the user counter.
- */
 async function loadUserCounter() {
     try {
         let response = await fetch(BASE_URL  + "usercount" + ".json");
@@ -300,12 +262,6 @@ async function handleUserUpdateSuccess(updatedData, user) {
 }
 
 
-/**
- * update the counter
- * @param {*} path 
- * @param {*} data 
- * @returns 
- */
 async function putUsercount(path = "", data = "") {
     let response = await fetch(BASE_URL + "usercount/" + ".json", {
         method: "PUT",
@@ -318,13 +274,7 @@ async function putUsercount(path = "", data = "") {
 }
 
 
-/**
- * post the new contact
- * @param {*} path 
- * @param {*} data 
- * @returns 
- */
-async function postUser(path = "", data = "") { // Anlegen von Daten 
+async function postUser(path = "", data = "") { 
     let response = await fetch(BASE_URL + path + ".json", {
         method: "POST",
         headers: {
@@ -337,10 +287,6 @@ async function postUser(path = "", data = "") { // Anlegen von Daten
 }
 
 
-/**
- * delete the contact
- * @param {*} id 
- */
 async function deleteUser(id) {
     let url = BASE_URL + "contactsDatabase/" + id + "/" + ".json";
     let response = await fetch(url, {
@@ -354,10 +300,6 @@ async function deleteUser(id) {
 }
 
 
-/**
- * edit the contact
- * @param {*} user 
- */
 function editContact(user) {
     let popupOverlay = document.getElementById("popup-overlay");
     popupOverlay.innerHTML = "";
@@ -367,10 +309,6 @@ function editContact(user) {
 }
 
 
-
-/**
- * update function for updateuser
- */
 async function reUpdateUser(updatedData) {
     await loadingUsers();
     showContactDetails(updatedData.id);

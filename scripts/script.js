@@ -1,37 +1,25 @@
-/**
- * go back to the last page
- */
+
 function goBack() {
   window.history.back();
 }
 
-/**
- * load the profile
- */
 function loadProfile() {
     let profile = document.getElementById('profile');
     let userName = sessionStorage.getItem("username");
     
 }
 
-/**
- * load nav and header
- */
 function includeHTML() {
   let popUp = document.getElementById("overlay-container");
   popUp.innerHTML = initProfilePopUp();
 }
 
 
-/**
- * check the login status
- */
 function checkLogin() {
   const isLoginPage = window.location.pathname.includes("join/login.html");
   const sessionUser = sessionStorage.getItem("username");
   const localUser = localStorage.getItem("username");
 
-  // Wenn Remember-Me aktiv (localUser vorhanden)
   if (localUser && !sessionUser) {
     sessionStorage.setItem("username", localUser);
     sessionStorage.setItem("email", localStorage.getItem("email"));
@@ -41,9 +29,6 @@ function checkLogin() {
 }
 
 
-/**
- * Generate initials for the top right corner in the header section.
- */
 function generateInitials() {
   let content = document.getElementById("profile");
 
@@ -62,10 +47,6 @@ function generateInitials() {
 }
 
 
-/**
- * random color function for the profile section
- * @returns 
- */
 function getRandomColor() {
   const r = Math.floor(Math.random() * 256);
   const g = Math.floor(Math.random() * 256);
@@ -74,9 +55,6 @@ function getRandomColor() {
 }
 
 
-/**
- * check link function to highlight the active link in the sidebar
- */
 function checkLink() {
   const currentPath = window.location.pathname;
   const sidebarLinks = document.querySelectorAll('#navigation-container .menuPos a');
