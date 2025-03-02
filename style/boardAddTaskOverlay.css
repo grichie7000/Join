@@ -3,28 +3,43 @@ body {
 }
 
 .overlay-board-addTask {
-    display: none;
+    display: none; 
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* background appears instantly */
     z-index: 1000;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-}
-
-.overlay-board-addTask-content {
+  }
+  
+  .overlay-board-addTask-content {
     background-color: white;
     padding: 10px;
     border-radius: 10px;
     width: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
-}
-
+    /* Start offscreen to the right */
+    transform: translateX(100%);
+    /* Animate in from the right */
+    animation: slideInContent 0.5s ease-out forwards;
+  }
+  
+  @keyframes slideInContent {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
 ::marker {
     content: none !important;
 }

@@ -1,7 +1,13 @@
+/**
+ * @module registration
+ * This module initializes Firebase, validates user input, computes initials,
+ * saves a new user to the database, manages the registration process, and sets up
+ * password visibility toggling.
+ */
+
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
 import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
 
-// Firebase-Konfiguration
 const firebaseConfig = {
   apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
   authDomain: "join-d3707.firebaseapp.com",
@@ -15,7 +21,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Berechnet Initialen aus dem Namen
+/**
+ * Computes the initials from a given name.
+ *
+ * This function replaces multiple spaces with a single space,
+ * trims leading and trailing whitespace, splits the name into parts,
+ * and returns the uppercase initials from the first two parts.
+ *
+ * @param {string} name - The full name.
+ * @returns {string} The computed initials.
+ */
 const getInitials = (name) => {
   return name.replace(/\s+/g, ' ')
              .trim()
@@ -25,67 +40,109 @@ const getInitials = (name) => {
              .join('');
 };
 
-// Validierung der Eingaben
+/**
+ * Validates the email and password inputs.
+ *
+ * Checks if the email is in a valid format, if the password meets the criteria,
+ * and if the password matches the repeated password.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {string} repeatPassword - The repeated password for confirmation.
+ * @returns {string} An empty string if inputs are valid, otherwise an error message.
+ */
 const validateInput = (email, password, repeatPassword) => {
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   const passwordValid = /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
   
-  if (!emailValid) return "Ungültige E-Mail-Adresse!";
-  if (!passwordValid) return "Passwort benötigt 8 Zeichen, einen Großbuchstaben und eine Zahl!";
-  if (password !== repeatPassword) return "Passwörter stimmen nicht überein!";
+  if (!emailValid) return "Invalid email address!";
+  if (!passwordValid) return "Password must be at least 8 characters long, include an uppercase letter and a number!";
+  if (password !== repeatPassword) return "Passwords do not match!";
   return "";
 };
 
-// Speichert den neuen Benutzer in der Datenbank
+/**
+ * Saves a new user to the Firebase database.
+ *
+ * Generates a unique userId using the current timestamp and constructs the user data
+ * including name, email, password, and initials. The user is then saved in the database.
+ * 
+ * ⚠️ Note: The password is stored in plaintext for demonstration purposes only.
+ *
+ * @async
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<Object>} A promise that resolves with the saved user data.
+ */
 const saveUser = async (name, email, password) => {
   const userId = Date.now();
   const userData = {
     name: name.trim(),
     email: email.trim(),
-    password, // ⚠️ Nur zu Demo-Zwecken – niemals im Klartext speichern!
+    password, // ⚠️ For demo purposes only – never store passwords in plaintext!
     initials: getInitials(name)
   };
   await set(ref(db, `users/${userId}`), userData);
   return userData;
 };
 
+/**
+ * Checks if the email is already registered and registers a new user if not.
+ *
+ * Retrieves the list of users from the database and verifies that the email is unique.
+ * If registration is successful, the user data is saved in localStorage and a success overlay is shown.
+ * Finally, after a short delay, the page is redirected.
+ *
+ * @async
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {HTMLElement} errorMessage - The element to display error messages.
+ * @returns {Promise<void>}
+ */
 const checkAndRegister = async (name, email, password, errorMessage) => {
   try {
     const snapshot = await get(ref(db, 'users'));
     const users = snapshot.val() || {};
 
     if (Object.values(users).some(user => user.email === email)) {
-      throw new Error("E-Mail bereits registriert!");
+      throw new Error("Email already registered!");
     }
 
     const user = await saveUser(name, email, password);
 
-    // Speichere den aktuell eingeloggten Benutzer in localStorage unter "loggedInUser"
     localStorage.setItem('loggedInUser', JSON.stringify({
       email: user.email,
       initials: user.initials,
       name: user.name
     }));
 
-    // Zeige den Erfolgsoverlay an
     const overlay = document.getElementById("successOverlay");
     const overlayContent = document.getElementById('overlay-content');
     overlay.style.display = "flex";
     overlayContent.style.display = 'flex';
 
-    // Nach 1 Sekunde Overlay ausblenden und dann umleiten
     setTimeout(() => {
       overlay.style.display = "none";
       overlayContent.style.display = 'none';
-      window.location.href = "relogin.html"; // Hier ggf. die Zielseite anpassen
+      window.location.href = "relogin.html";
     }, 1000);
     
   } catch (error) {
     errorMessage.textContent = error.message;
   }
-}
+};
 
-// Passwort-Sichtbarkeit (Beispiel)
+/**
+ * Sets up password visibility toggling for an input field.
+ *
+ * Adds event listeners to the specified input field so that clicking on the icon area
+ * toggles the input type between 'password' and 'text', and adjusts the CSS classes accordingly.
+ *
+ * @param {string} inputId - The ID of the password input element.
+ * @returns {void}
+ */
 const setupPasswordToggle = (inputId) => {
   const input = document.getElementById(inputId);
   const toggle = () => {
@@ -124,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
     await checkAndRegister(name, email, password, errorMessage);
   });
 
-  // Setup für die Passwort-Icon-Umschaltung
   setupPasswordToggle('password');
   setupPasswordToggle('repeat-password');
 });
