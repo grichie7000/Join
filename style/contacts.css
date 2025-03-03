@@ -1,5 +1,6 @@
 p {
     margin: 0;
+	font-size: 16px;
 }
 
 html {
@@ -133,10 +134,11 @@ html {
     font-weight: bold;
     color: #333;
     margin: 0;
+	font-size: 17px;
 }
 
 .contact-email {
-    font-size: 12px;
+    font-size: 16px;
     color: #29ABE2;
 }
 
@@ -281,7 +283,7 @@ html {
 
 .error-message {
     color: red;
-    font-size: 12px;
+    font-size: 15px;
     margin-left: 4px;
 	transform: translateY(4px);
 }
@@ -339,7 +341,7 @@ body {
 
 .contact-list {
     background-color: white;
-	padding: 20px 1px;
+	padding: 20px 0px;
     min-width: 360px;
     height: 80vh;
     overflow: scroll;

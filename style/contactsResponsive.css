@@ -90,7 +90,7 @@
 
 .popup-left p {
     margin: 0;
-    font-size: 14px;
+    font-size: 16px;
     color: #ffffff;
 }
 
@@ -117,7 +117,7 @@
 .popup-form .form-group input {
     width: 100%;
     padding: 10px;
-    font-size: 14px;
+    font-size: 16px!important;
     border: 1px solid #b4b4b4;
     border-radius: 8px;
 }
@@ -188,6 +188,11 @@
 		display: auto !important;
 	}
 
+	.logo img{
+    height: 40px;
+    width: 40px;
+	}
+
     .popup-left {
         width: auto;
         padding-bottom: 70px;
@@ -228,6 +233,7 @@
 
     .cancel-btn, .create-btn {
         padding: 12px 12px;
+		font-size: 16px
     }
 
     .icon-wrapper {
@@ -431,7 +437,7 @@
 	.popup-form .form-group input {
 		width: 100%;
 		padding: 6px;
-		font-size: 12px;
+		font-size: 16px;
 	}
 
 	.close-btn-wrapper {
@@ -451,7 +457,7 @@
     .popup-left {
         width: 100%;
         padding-bottom: 60px;
-		padding-top: 16px;
+		padding-top: 8px;
     }
 
     .contact-buttons {
@@ -519,14 +525,16 @@
 @media (max-width: 350px) {
 
 .menuDesc {
-   font-size: 12px!important;
+   font-size: 15px!important;
 	}
 
 .navMenu {
     display: flex;
     gap: 8px;
     align-items: center;
-    padding: 12px!important;
+    padding: 11px!important;
+	padding-top:10px!important;
+	padding-bottom: 12px!important;
     font-size: 16px;
 	}
 
