@@ -56,7 +56,6 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.8);
-        /* Dunkler Hintergrund */
         color: white;
         display: flex;
         justify-content: center;
@@ -65,9 +64,7 @@
         text-align: center;
         opacity: 1;
         transition: opacity 1s ease-out;
-        /* Fade-Out Effekt */
         z-index: 1000;
-        /* Damit der div ganz oben ist */
     }
 }
 
@@ -100,113 +97,145 @@
         align-items: start;
         gap: 6px;
         height: 124px;
-        margin-top: 124px;
+        margin-top: 82px;
+    }
+
+    .summary h2 {
+        font-size: 52px;
+    }
+
+    .headlineText {
+        font-size: 22px;
+    }
+
+    .seperatorHeadlineRespo {
+        width: 104px;
+    }
+
+    .taskCards {
+        padding-top: 24px;
     }
 }
 
+@media (max-width: 600px) {
 
-@media (max-width: 575px) {
+    .summary {
+        width: 320px;
+    }
+
     .toDoAndDone {
-        height: unset;
-        width: unset;
-        display: block;
-        gap: 0px;
+        width: 300px;
+        height: 130px;
+        gap: 8px;
+        font-size: 16px;
     }
 
     .toDoCard {
-        height: 160px;
-        width: 430px;
-        margin-bottom: 8px;
+        width: 150px;
+        height: 130px;
+        gap: 10px;
     }
 
     .doneCard {
-        height: 160px;
-        width: 430px;
-        margin-bottom: 8px;
+        width: 150px;
+        height: 130px;
+        gap: 10px;
     }
 
-    .urgentSection {
-        height: unset;
-        width: unset;
-        margin-top: 8px;
+    .doneImg img {
+        height: 50px;
+    }
+
+    .toDoImg Img {
+        height: 50px;
+    }
+
+    #openToDos {
+        font-size: 40px;
+    }
+
+    #openDones {
+        font-size: 40px;
     }
 
     .urgentCard {
-        height: unset;
-        width: 430px;
-        border-radius: 16px;
-        display: block;
-        padding-top: 16px;
-        padding-bottom: 16px;
-        margin-bottom: 8px;
-    }
-
-    .urgentSeperator {
-        display: none;
-    }
-
-    .urgentLeft {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 16px;
-        margin-left: 0px;
-        margin-bottom: 16px;
-    }
-
-    .urgentRight {
-        text-align: center;
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    .openTasks {
-        height: unset;
-        width: unset;
-        display: block;
+        width: 300px;
+        height: 130px;
         gap: 0;
     }
 
-    .totalTasks {
-        width: 430px;
+    .urgentLeft {
+        gap: 8px;
+        margin-left: 16px;
+    }
+
+    #openUrgents {
+        font-size: 40px;
+    }
+
+    .urgentPos {
+        font-size: 20px;
+    }
+
+    .urgentSection {
+        height: 130px;
         margin-bottom: 8px;
+    }
+
+    .urgentImg img {
+        height: 50px;
+    }
+
+    .urgentRight {
+        margin-right: 0px;
+        margin-left: 20px;
+    }
+
+    #deadline {
+        font-size: 20px;
+    }
+
+    #openTotalTasks {
+        font-size: 40px;
+    }
+
+    #inProgress {
+        font-size: 40px;
+    }
+
+    #awaitingFeedback {
+        font-size: 40px;
+    }
+
+    .totalTasksPos {
+        font-size: 18px;
+    }
+
+    .feedbackTaskPos {
+        font-size: 18px;
+    }
+
+    .inProgressPos {
+        font-size: 18px;
+    }
+
+    .totalTasks {
+        height: 130px;
+        width: 100px;
     }
 
     .tasksInProgress {
-        width: 430px;
-        margin-bottom: 8px;
+        height: 130px;
+        width: 100px;
     }
 
     .feedbackTask {
-        width: 430px;
-        margin-bottom: 8px;
-    }
-}
-
-@media (max-width: 455px) {
-
-
-    .toDoCard {
-        width: 300px;
+        height: 130px;
+        width: 100px;
     }
 
-    .doneCard {
+    .openTasks {
         width: 300px;
-    }
-
-    .urgentCard {
-        width: 300px;
-    }
-
-    .totalTasks {
-        width: 300px;
-    }
-
-    .tasksInProgress {
-        width: 300px;
-    }
-
-    .feedbackTask {
-        width: 300px;
+        gap: 4px;
     }
 }
