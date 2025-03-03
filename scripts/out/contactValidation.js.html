@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contactValidation.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contactValidation.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Validates the contact form by checking all required fields.
+ * Calls `validateField` for each form field to ensure they meet the validation criteria.
+ * @returns {boolean} True if all fields are valid, false otherwise.
+ */
+function validateContactForm() {  
+    let isValid = true;
+    clearErrorMessages();
+
+    isValid &amp;= validateField('name', validateName, 'Name is required and must be at least 2 characters long');
+    isValid &amp;= validateField('email', validateEmail, 'Email is required and must be a valid email address');
+    isValid &amp;= validateField('phone', validatePhone, 'Phone is required and must be a valid phone number');
+
+    return isValid;
+}
+
+/**
+ * Validates a specific field in the form.
+ * It uses the provided validation function to check the field's value and shows an error message if validation fails.
+ * @param {string} fieldId - The ID of the field to validate.
+ * @param {function} validationFunction - The function used to validate the field's value.
+ * @param {string} errorMessage - The error message to display if validation fails.
+ * @returns {boolean} True if the field is valid, false otherwise.
+ */
+function validateField(fieldId, validationFunction, errorMessage) {
+    const value = document.getElementById(fieldId).value;
+    if (value &amp;&amp; !validationFunction(value)) {
+        showError(fieldId, errorMessage);
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Validates that the name is at least 2 characters long.
+ * @param {string} name - The name to validate.
+ * @returns {boolean} True if the name is valid (at least 2 characters), false otherwise.
+ */
+function validateName(name) {
+    return name.trim().length >= 2;
+}
+
+/**
+ * Validates an email address using a regular expression.
+ * Checks if the email follows the basic structure of a valid email (e.g., name@example.com).
+ * @param {string} email - The email address to validate.
+ * @returns {boolean} True if the email is valid, false otherwise.
+ */
+function validateEmail(email) { 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+/**
+ * Validates a phone number using a regular expression.
+ * Checks if the phone number consists of digits, spaces, plus, minus, parentheses, and is at least 6 characters long.
+ * @param {string} phone - The phone number to validate.
+ * @returns {boolean} True if the phone number is valid, false otherwise.
+ */
+function validatePhone(phone) {
+    const phoneRegex = /^[\d\s\+\-\(\)]{6,}$/;
+    return phoneRegex.test(phone);
+}
+
+/**
+ * Displays an error message for a specific field.
+ * The message is shown in the corresponding error div for that field.
+ * @param {string} fieldId - The ID of the field that the error message is related to.
+ * @param {string} message - The error message to display.
+ */
+function showError(fieldId, message) {
+    const errorDiv = document.getElementById('error-div-' + fieldId);
+    if (errorDiv !== null) {
+        errorDiv.classList.remove('d-none');
+        errorDiv.textContent = message;
+    }
+}
+
+/**
+ * Clears all error messages displayed on the form.
+ * Hides all elements with the class "error-message".
+ */
+function clearErrorMessages() {
+    const errorDiv = document.querySelectorAll('.error-message');
+    errorDiv.forEach(error => {
+        error.classList.add('d-none');
+    });
+}
+
+/**
+ * Displays a success message by showing the success overlay.
+ * Adds the class 'overlay-suess-contact' to the success overlay element.
+ */
+function showSuccessMsgTasks() {
+    let overlayDiv = document.getElementById('overlay-successfull');
+    overlayDiv.classList.add('overlay-suess-contact');
+}
+
+/**
+ * Hides the success message by removing the success overlay.
+ * Removes the class 'overlay-suess-contact' from the success overlay element.
+ */
+function hiddenSuccessMsgTasks() {
+    let overlayDiv = document.getElementById('overlay-successfull');
+    overlayDiv.classList.remove('overlay-suess-contact');
+}
+
+/**
+ * Navigates the browser history back to the previous page.
+ */
+function goBack() {
+  window.history.back();
+}
+
+/**
+ * Includes HTML content into the page by setting the inner HTML of an element with ID "overlay-container".
+ * The HTML content is initialized by calling the `initProfilePopUp` function.
+ */
+function includeHTML() {
+  let popUp = document.getElementById("overlay-container");
+  popUp.innerHTML = initProfilePopUp();
+}
+
+/**
+ * Generates a random RGB color.
+ * The color is returned in hexadecimal format (e.g., "#RRGGBB").
+ * @returns {string} A random RGB color in hexadecimal format.
+ */
+function getRandomColor() {
+  const r = Math.floor(Math.random() * 256);
+  const g = Math.floor(Math.random() * 256);
+  const b = Math.floor(Math.random() * 256);
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
+/**
+ * Checks the current path of the window and highlights the corresponding link in the sidebar.
+ * Adds the 'active' class to the sidebar link if the link matches the current URL path.
+ */
+function checkLink() {
+  const currentPath = window.location.pathname;
+  const sidebarLinks = document.querySelectorAll('#navigation-container .menuPos a');
+  sidebarLinks.forEach(link => {
+    link.classList.remove('active');
+    let href = link.getAttribute('href').replace('../', '');
+    if (currentPath.includes("/join/" + href)) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+
+/**
+ * Checks if the user is logged in by looking for a "username" in the sessionStorage.
+ * If not logged in, it hides the user interface elements. If logged in, it shows the user interface 
+ * and generates initials for the user.
+ */
+function notLogin() { 
+    let sidebar = document.getElementById('navigation-container');
+    let profile = document.getElementById('profile');
+    let info = document.getElementById('info');
+    let menuPos = document.getElementById('menuPos');
+    
+    if (sessionStorage.getItem("username") == null) {
+        hideUserInterface(sidebar, profile, info, menuPos);
+    } else {
+        showUserInterface(sidebar, profile, info, menuPos);
+        generateInitials();
+    }
+}
+
+/**
+ * Hides the user interface elements when the user is not logged in.
+ * Adds specific CSS classes to the elements to hide them from view.
+ * @param {HTMLElement} sidebar - The sidebar element to hide.
+ * @param {HTMLElement} profile - The profile element to hide.
+ * @param {HTMLElement} info - The info section element to hide.
+ * @param {HTMLElement} menuPos - The menu position element to hide.
+ */
+function hideUserInterface(sidebar, profile, info, menuPos) {
+    sidebar.classList.add('no-login-sidebar-none');
+    profile.classList.add('no-login-none');
+    info.classList.add('no-login-none');
+    menuPos.classList.add('no-login-none');
+}
+
+/**
+ * Shows the user interface elements when the user is logged in.
+ * Removes the CSS classes that hide the elements, making them visible.
+ * @param {HTMLElement} sidebar - The sidebar element to show.
+ * @param {HTMLElement} profile - The profile element to show.
+ * @param {HTMLElement} info - The info section element to show.
+ * @param {HTMLElement} menuPos - The menu position element to show.
+ */
+function showUserInterface(sidebar, profile, info, menuPos) {
+    sidebar.classList.remove('no-login-sidebar-none');
+    profile.classList.remove('no-login-none');
+    info.classList.remove('no-login-none');
+    menuPos.classList.remove('no-login-none');
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="addTaskModule%250DThis%2520module%2520handles%2520the%2520initialization%2520and%2520management%2520of%2520the%2520add%2520task%2520page,%250Dincluding%2520form%2520validation,%2520contact%2520selection,%2520subtask%2520management,%2520and%2520posting%2520data%2520to%2520Firebase.module_.html">addTaskModuleThis module handles the initialization and management of the add task page,including form validation, contact selection, subtask management, and posting data to Firebase.</a></li><li><a href="login%250DThis%2520module%2520handles%2520Firebase%2520initialization,%2520input%2520validation,%250Dpassword%2520visibility%2520toggling,%2520local%2520user%2520management,%2520and%2520user%2520login.module_.html">loginThis module handles Firebase initialization, input validation,password visibility toggling, local user management, and user login.</a></li><li><a href="loginScript%250DThis%2520script%2520initializes%2520Firebase,%2520handles%2520user%2520login,%250Dand%2520implements%2520password%2520visibility%2520toggling.module_.html">loginScriptThis script initializes Firebase, handles user login,and implements password visibility toggling.</a></li><li><a href="registration%250DThis%2520module%2520initializes%2520Firebase,%2520validates%2520user%2520input,%2520computes%2520initials,%250Dsaves%2520a%2520new%2520user%2520to%2520the%2520database,%2520manages%2520the%2520registration%2520process,%2520and%2520sets%2520up%250Dpassword%2520visibility%2520toggling.module_.html">registrationThis module initializes Firebase, validates user input, computes initials,saves a new user to the database, manages the registration process, and sets uppassword visibility toggling.</a></li><li><a href="taskManager%250DThis%2520module%2520handles%2520task%2520loading,%2520rendering,%2520drag%2520&%2520drop,%250Dsearch,%2520detail%2520overlay%2520display_editing,%2520and%2520updating%2520tasks%2520in%2520Firebase.module_.html">taskManagerThis module handles task loading, rendering, drag & drop,search, detail overlay display/editing, and updating tasks in Firebase.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#BASE_URL_INITALS">BASE_URL_INITALS</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addNewSubtask">addNewSubtask</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskInputListeners">addSubtaskInputListeners</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#cancelSubtaskInput">cancelSubtaskInput</a></li><li><a href="global.html#changeDateColor">changeDateColor</a></li><li><a href="global.html#checkEnter">checkEnter</a></li><li><a href="global.html#checkLink">checkLink</a></li><li><a href="global.html#checkLogIn">checkLogIn</a></li><li><a href="global.html#clearContactForm">clearContactForm</a></li><li><a href="global.html#clearErrorMessages">clearErrorMessages</a></li><li><a href="global.html#clearSelection">clearSelection</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#closeContactDetails">closeContactDetails</a></li><li><a href="global.html#closeContactForm">closeContactForm</a></li><li><a href="global.html#contactsHtmlTemplate">contactsHtmlTemplate</a></li><li><a href="global.html#countContacts">countContacts</a></li><li><a href="global.html#countObjects">countObjects</a></li><li><a href="global.html#createCheckIcon">createCheckIcon</a></li><li><a href="global.html#createCheckImage">createCheckImage</a></li><li><a href="global.html#createDeleteImage">createDeleteImage</a></li><li><a href="global.html#createInputField">createInputField</a></li><li><a href="global.html#createProfileCircle">createProfileCircle</a></li><li><a href="global.html#createSymbolTask">createSymbolTask</a></li><li><a href="global.html#createUpdatedData">createUpdatedData</a></li><li><a href="global.html#createUserContact">createUserContact</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#displayContacts">displayContacts</a></li><li><a href="global.html#displayFilteredTasks">displayFilteredTasks</a></li><li><a href="global.html#displayGreetings">displayGreetings</a></li><li><a href="global.html#displayInitals">displayInitals</a></li><li><a href="global.html#displaySelectedContacts">displaySelectedContacts</a></li><li><a href="global.html#displayTasks">displayTasks</a></li><li><a href="global.html#editContact">editContact</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#emailToFind">emailToFind</a></li><li><a href="global.html#emptyCategoryHTML">emptyCategoryHTML</a></li><li><a href="global.html#fetchTasksFromFirebase">fetchTasksFromFirebase</a></li><li><a href="global.html#fetchUsers">fetchUsers</a></li><li><a href="global.html#formatUsers">formatUsers</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateSubtasksHtml">generateSubtasksHtml</a></li><li><a href="global.html#generateTaskBadge">generateTaskBadge</a></li><li><a href="global.html#generateTaskEditHTML">generateTaskEditHTML</a></li><li><a href="global.html#generateTaskHtml">generateTaskHtml</a></li><li><a href="global.html#generateTaskPriorityElement">generateTaskPriorityElement</a></li><li><a href="global.html#getAddTask">getAddTask</a></li><li><a href="global.html#getAddTaskData">getAddTaskData</a></li><li><a href="global.html#getContactsData">getContactsData</a></li><li><a href="global.html#getContactsFromFiresBase">getContactsFromFiresBase</a></li><li><a href="global.html#getCurrentSubtasks">getCurrentSubtasks</a></li><li><a href="global.html#getElementsByIds">getElementsByIds</a></li><li><a href="global.html#getEmailValue">getEmailValue</a></li><li><a href="global.html#getFirebaseInitals">getFirebaseInitals</a></li><li><a href="global.html#getFormData">getFormData</a></li><li><a href="global.html#getLoginName">getLoginName</a></li><li><a href="global.html#getNameValue">getNameValue</a></li><li><a href="global.html#getPhoneValue">getPhoneValue</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getSelectedUser">getSelectedUser</a></li><li><a href="global.html#getSubtaskName">getSubtaskName</a></li><li><a href="global.html#getSubtasksData">getSubtasksData</a></li><li><a href="global.html#goBack">goBack</a></li><li><a href="global.html#goToBoardSite">goToBoardSite</a></li><li><a href="global.html#groupUsersByFirstLetter">groupUsersByFirstLetter</a></li><li><a href="global.html#guestLogIn">guestLogIn</a></li><li><a href="global.html#handleSubtaskInputKeydown">handleSubtaskInputKeydown</a></li><li><a href="global.html#handleSubtaskSave">handleSubtaskSave</a></li><li><a href="global.html#handleUserCreationSuccess">handleUserCreationSuccess</a></li><li><a href="global.html#handleUserUpdateSuccess">handleUserUpdateSuccess</a></li><li><a href="global.html#hiddenSuccessMsgTasks">hiddenSuccessMsgTasks</a></li><li><a href="global.html#hideUserInterface">hideUserInterface</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initializeSubtaskUI">initializeSubtaskUI</a></li><li><a href="global.html#isMobileView">isMobileView</a></li><li><a href="global.html#loadFirebaseData">loadFirebaseData</a></li><li><a href="global.html#loadInitals">loadInitals</a></li><li><a href="global.html#loadInitialsFirebase">loadInitialsFirebase</a></li><li><a href="global.html#loadRenderContactList">loadRenderContactList</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTasksFromFirebase">loadTasksFromFirebase</a></li><li><a href="global.html#loadUserCounter">loadUserCounter</a></li><li><a href="global.html#loadingUsers">loadingUsers</a></li><li><a href="global.html#notLogin">notLogin</a></li><li><a href="global.html#openMobilePopup">openMobilePopup</a></li><li><a href="global.html#postDatatoBoard">postDatatoBoard</a></li><li><a href="global.html#postInitals">postInitals</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#postUserToDatabase">postUserToDatabase</a></li><li><a href="global.html#putUsercount">putUsercount</a></li><li><a href="global.html#reUpdateUser">reUpdateUser</a></li><li><a href="global.html#removeEditDel">removeEditDel</a></li><li><a href="global.html#renderAssignedUser">renderAssignedUser</a></li><li><a href="global.html#renderContactDetails">renderContactDetails</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderContactListItem">renderContactListItem</a></li><li><a href="global.html#renderEditContact">renderEditContact</a></li><li><a href="global.html#renderEditDeletePopup">renderEditDeletePopup</a></li><li><a href="global.html#renderEditSubtask">renderEditSubtask</a></li><li><a href="global.html#renderNewContact">renderNewContact</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#rendererAvatar">rendererAvatar</a></li><li><a href="global.html#resetAddtaskInput">resetAddtaskInput</a></li><li><a href="global.html#resetToDropdownButton">resetToDropdownButton</a></li><li><a href="global.html#saveSubtask">saveSubtask</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#setContactDetails">setContactDetails</a></li><li><a href="global.html#setMobilePopupContent">setMobilePopupContent</a></li><li><a href="global.html#setupSubtaskEditUI">setupSubtaskEditUI</a></li><li><a href="global.html#setupSubtaskInput">setupSubtaskInput</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccessMsgTasks">showSuccessMsgTasks</a></li><li><a href="global.html#showUserInterface">showUserInterface</a></li><li><a href="global.html#storageLogIn">storageLogIn</a></li><li><a href="global.html#styleSubtaskInput">styleSubtaskInput</a></li><li><a href="global.html#styleSymbolContainer">styleSymbolContainer</a></li><li><a href="global.html#submitForm">submitForm</a></li><li><a href="global.html#subtaskAppend">subtaskAppend</a></li><li><a href="global.html#subtaskInputDelete">subtaskInputDelete</a></li><li><a href="global.html#subtaskStyling">subtaskStyling</a></li><li><a href="global.html#switchToSearchInput">switchToSearchInput</a></li><li><a href="global.html#tasksDone">tasksDone</a></li><li><a href="global.html#tasksFeedback">tasksFeedback</a></li><li><a href="global.html#tasksInBoard">tasksInBoard</a></li><li><a href="global.html#tasksInProgress">tasksInProgress</a></li><li><a href="global.html#tasksToDo">tasksToDo</a></li><li><a href="global.html#toggleDropdown">toggleDropdown</a></li><li><a href="global.html#toggleEditDeletePopup">toggleEditDeletePopup</a></li><li><a href="global.html#toggleSelection">toggleSelection</a></li><li><a href="global.html#toggleSubtask">toggleSubtask</a></li><li><a href="global.html#toggleSubtaskIcons">toggleSubtaskIcons</a></li><li><a href="global.html#unfocusInput">unfocusInput</a></li><li><a href="global.html#updatePopupSubtasks">updatePopupSubtasks</a></li><li><a href="global.html#updateSubtaskBar">updateSubtaskBar</a></li><li><a href="global.html#updateSubtasksList">updateSubtasksList</a></li><li><a href="global.html#updateSymbolContainer">updateSymbolContainer</a></li><li><a href="global.html#updateTaskDisplay">updateTaskDisplay</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updateUserDisplay">updateUserDisplay</a></li><li><a href="global.html#updateUserInDatabase">updateUserInDatabase</a></li><li><a href="global.html#urgentDate">urgentDate</a></li><li><a href="global.html#urgentTasks">urgentTasks</a></li><li><a href="global.html#userArray">userArray</a></li><li><a href="global.html#usercount">usercount</a></li><li><a href="global.html#validateCategory">validateCategory</a></li><li><a href="global.html#validateContactForm">validateContactForm</a></li><li><a href="global.html#validateDate">validateDate</a></li><li><a href="global.html#validateEmail">validateEmail</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateFormular">validateFormular</a></li><li><a href="global.html#validateName">validateName</a></li><li><a href="global.html#validatePhone">validatePhone</a></li><li><a href="global.html#validatePhoneInput">validatePhoneInput</a></li><li><a href="global.html#validateTitle">validateTitle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 03 2025 11:54:03 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

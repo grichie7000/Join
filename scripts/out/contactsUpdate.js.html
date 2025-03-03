@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contactsUpdate.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contactsUpdate.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Updates an existing user contact.
+ * @param {Object} user - The user object to be updated.
+ * @returns {Promise&lt;void>}
+ */
+async function updateUser(user) {
+    try {
+        if (!validateContactForm()) return;
+
+        const newName = getNameValue();
+        const initials = generateInitials(newName);
+        const updatedData = createUpdatedData(newName, initials, user);
+
+        const response = await updateUserInDatabase(user, updatedData);
+        if (response.ok) {
+            await handleUserUpdateSuccess(updatedData, user);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+/**
+ * Creates updated user data for the given user.
+ * @param {string} newName - The new name of the user.
+ * @param {string} initials - The initials of the user.
+ * @param {Object} user - The original user data.
+ * @returns {Object} The updated user data.
+ */
+function createUpdatedData(newName, initials, user) {
+    return {
+        name: newName,
+        initials: initials,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        color: userArray[user].color,
+        id: userArray[user].id,
+        password: userArray[user].password
+    };
+}
+
+/**
+ * Updates the user data in the Firebase database.
+ * @param {Object} user - The original user data.
+ * @param {Object} updatedData - The updated user data.
+ * @returns {Promise&lt;Response>} The response from the Firebase API.
+ */
+async function updateUserInDatabase(user, updatedData) {
+    return await fetch(BASE_URL + "contactsDatabase/" + userArray[user].firebaseId + ".json", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedData)
+    });
+}
+
+/**
+ * Handles the success of updating user data.
+ * @param {Object} updatedData - The updated user data.
+ * @param {Object} user - The original user data.
+ * @returns {Promise&lt;void>}
+ */
+async function handleUserUpdateSuccess(updatedData, user) {
+    const index = userArray.findIndex(u => u.id === updatedData.id);
+    updatedData.firebaseId = userArray[user].firebaseId;
+    if (index !== -1) userArray[index] = updatedData;
+    await reUpdateUser(updatedData);
+}
+
+/**
+ * Makes an asynchronous PUT request to update the user count at a specified path.
+ * Sends the data in JSON format to the server and returns the response in JSON format.
+ * @async
+ * @param {string} [path=""] - The relative path to the resource on the server.
+ * @param {Object} [data=""] - The data to be sent in the request body (JSON format).
+ * @returns {Promise&lt;Object>} - A promise that resolves to the response data in JSON format.
+ */
+
+async function putUsercount(path = "", data = "") {
+    let response = await fetch(BASE_URL + "usercount/" + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+    return responseToJson = await response.json();
+}
+
+/**
+ * Makes an asynchronous POST request to create a new user or update existing user data at a specified path.
+ * Sends the data in JSON format to the server and returns the response in JSON format.
+ * @async
+ * @param {string} [path=""] - The relative path to the resource on the server.
+ * @param {Object} [data=""] - The data to be sent in the request body (JSON format).
+ * @returns {Promise&lt;Object>} - A promise that resolves to the response data in JSON format.
+ */
+
+async function postUser(path = "", data = "") { 
+    let response = await fetch(BASE_URL + path + ".json", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    });
+    responseToJson = await response.json();
+    return responseToJson;
+}
+
+/**
+ * Deletes a user from the database by sending an asynchronous DELETE request to the specified user ID.
+ * After successful deletion, it clears the contact details from the UI and reloads the page.
+ * @async
+ * @param {string} id - The ID of the user to be deleted from the database.
+ * @returns {Promise&lt;void>} - A promise that resolves when the user has been deleted and the page is reloaded.
+ */
+
+async function deleteUser(id) {
+    let url = BASE_URL + "contactsDatabase/" + id + "/" + ".json";
+    let response = await fetch(url, {
+        method: "DELETE"
+    });
+    let data = await response.json();
+    let contactDetails = document.getElementById("contact-details");
+    contactDetails.innerHTML = "";
+    contactDetails.parentElement.classList.remove('mobile-popup');
+    window.location.reload();
+}
+
+/**
+ * Opens the popup for editing a contact, pre-filling the form with the provided user's data.
+ * Displays the popup and prevents the page from scrolling while the popup is open.
+ * @param {Object} user - The user object containing the details of the user to be edited.
+ */
+
+function editContact(user) {
+    let popupOverlay = document.getElementById("popup-overlay");
+    popupOverlay.innerHTML = "";
+    popupOverlay.innerHTML = renderEditContact(user);
+    popupOverlay.classList.add("showAddContact");
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Updates the user list and shows updated details.
+ * @param {Object} updatedData - The updated user data.
+ * @returns {Promise&lt;void>}
+ */
+async function reUpdateUser(updatedData) {
+    await loadingUsers();
+    showContactDetails(updatedData.id);
+    closeContactForm();
+    await showSuccessMsgTasks();
+    await setTimeout(() => { hiddenSuccessMsgTasks() }, 800);
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="addTaskModule%250DThis%2520module%2520handles%2520the%2520initialization%2520and%2520management%2520of%2520the%2520add%2520task%2520page,%250Dincluding%2520form%2520validation,%2520contact%2520selection,%2520subtask%2520management,%2520and%2520posting%2520data%2520to%2520Firebase.module_.html">addTaskModuleThis module handles the initialization and management of the add task page,including form validation, contact selection, subtask management, and posting data to Firebase.</a></li><li><a href="login%250DThis%2520module%2520handles%2520Firebase%2520initialization,%2520input%2520validation,%250Dpassword%2520visibility%2520toggling,%2520local%2520user%2520management,%2520and%2520user%2520login.module_.html">loginThis module handles Firebase initialization, input validation,password visibility toggling, local user management, and user login.</a></li><li><a href="loginScript%250DThis%2520script%2520initializes%2520Firebase,%2520handles%2520user%2520login,%250Dand%2520implements%2520password%2520visibility%2520toggling.module_.html">loginScriptThis script initializes Firebase, handles user login,and implements password visibility toggling.</a></li><li><a href="registration%250DThis%2520module%2520initializes%2520Firebase,%2520validates%2520user%2520input,%2520computes%2520initials,%250Dsaves%2520a%2520new%2520user%2520to%2520the%2520database,%2520manages%2520the%2520registration%2520process,%2520and%2520sets%2520up%250Dpassword%2520visibility%2520toggling.module_.html">registrationThis module initializes Firebase, validates user input, computes initials,saves a new user to the database, manages the registration process, and sets uppassword visibility toggling.</a></li><li><a href="taskManager%250DThis%2520module%2520handles%2520task%2520loading,%2520rendering,%2520drag%2520&%2520drop,%250Dsearch,%2520detail%2520overlay%2520display_editing,%2520and%2520updating%2520tasks%2520in%2520Firebase.module_.html">taskManagerThis module handles task loading, rendering, drag & drop,search, detail overlay display/editing, and updating tasks in Firebase.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#BASE_URL_INITALS">BASE_URL_INITALS</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addNewSubtask">addNewSubtask</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskInputListeners">addSubtaskInputListeners</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#cancelSubtaskInput">cancelSubtaskInput</a></li><li><a href="global.html#changeDateColor">changeDateColor</a></li><li><a href="global.html#checkEnter">checkEnter</a></li><li><a href="global.html#checkLink">checkLink</a></li><li><a href="global.html#checkLogIn">checkLogIn</a></li><li><a href="global.html#clearContactForm">clearContactForm</a></li><li><a href="global.html#clearErrorMessages">clearErrorMessages</a></li><li><a href="global.html#clearSelection">clearSelection</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#closeContactDetails">closeContactDetails</a></li><li><a href="global.html#closeContactForm">closeContactForm</a></li><li><a href="global.html#contactsHtmlTemplate">contactsHtmlTemplate</a></li><li><a href="global.html#countContacts">countContacts</a></li><li><a href="global.html#countObjects">countObjects</a></li><li><a href="global.html#createCheckIcon">createCheckIcon</a></li><li><a href="global.html#createCheckImage">createCheckImage</a></li><li><a href="global.html#createDeleteImage">createDeleteImage</a></li><li><a href="global.html#createInputField">createInputField</a></li><li><a href="global.html#createProfileCircle">createProfileCircle</a></li><li><a href="global.html#createSymbolTask">createSymbolTask</a></li><li><a href="global.html#createUpdatedData">createUpdatedData</a></li><li><a href="global.html#createUserContact">createUserContact</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#displayContacts">displayContacts</a></li><li><a href="global.html#displayFilteredTasks">displayFilteredTasks</a></li><li><a href="global.html#displayGreetings">displayGreetings</a></li><li><a href="global.html#displayInitals">displayInitals</a></li><li><a href="global.html#displaySelectedContacts">displaySelectedContacts</a></li><li><a href="global.html#displayTasks">displayTasks</a></li><li><a href="global.html#editContact">editContact</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#emailToFind">emailToFind</a></li><li><a href="global.html#emptyCategoryHTML">emptyCategoryHTML</a></li><li><a href="global.html#fetchTasksFromFirebase">fetchTasksFromFirebase</a></li><li><a href="global.html#fetchUsers">fetchUsers</a></li><li><a href="global.html#formatUsers">formatUsers</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateSubtasksHtml">generateSubtasksHtml</a></li><li><a href="global.html#generateTaskBadge">generateTaskBadge</a></li><li><a href="global.html#generateTaskEditHTML">generateTaskEditHTML</a></li><li><a href="global.html#generateTaskHtml">generateTaskHtml</a></li><li><a href="global.html#generateTaskPriorityElement">generateTaskPriorityElement</a></li><li><a href="global.html#getAddTask">getAddTask</a></li><li><a href="global.html#getAddTaskData">getAddTaskData</a></li><li><a href="global.html#getContactsData">getContactsData</a></li><li><a href="global.html#getContactsFromFiresBase">getContactsFromFiresBase</a></li><li><a href="global.html#getCurrentSubtasks">getCurrentSubtasks</a></li><li><a href="global.html#getElementsByIds">getElementsByIds</a></li><li><a href="global.html#getEmailValue">getEmailValue</a></li><li><a href="global.html#getFirebaseInitals">getFirebaseInitals</a></li><li><a href="global.html#getFormData">getFormData</a></li><li><a href="global.html#getLoginName">getLoginName</a></li><li><a href="global.html#getNameValue">getNameValue</a></li><li><a href="global.html#getPhoneValue">getPhoneValue</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getSelectedUser">getSelectedUser</a></li><li><a href="global.html#getSubtaskName">getSubtaskName</a></li><li><a href="global.html#getSubtasksData">getSubtasksData</a></li><li><a href="global.html#goBack">goBack</a></li><li><a href="global.html#goToBoardSite">goToBoardSite</a></li><li><a href="global.html#groupUsersByFirstLetter">groupUsersByFirstLetter</a></li><li><a href="global.html#guestLogIn">guestLogIn</a></li><li><a href="global.html#handleSubtaskInputKeydown">handleSubtaskInputKeydown</a></li><li><a href="global.html#handleSubtaskSave">handleSubtaskSave</a></li><li><a href="global.html#handleUserCreationSuccess">handleUserCreationSuccess</a></li><li><a href="global.html#handleUserUpdateSuccess">handleUserUpdateSuccess</a></li><li><a href="global.html#hiddenSuccessMsgTasks">hiddenSuccessMsgTasks</a></li><li><a href="global.html#hideUserInterface">hideUserInterface</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initializeSubtaskUI">initializeSubtaskUI</a></li><li><a href="global.html#isMobileView">isMobileView</a></li><li><a href="global.html#loadFirebaseData">loadFirebaseData</a></li><li><a href="global.html#loadInitals">loadInitals</a></li><li><a href="global.html#loadInitialsFirebase">loadInitialsFirebase</a></li><li><a href="global.html#loadRenderContactList">loadRenderContactList</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTasksFromFirebase">loadTasksFromFirebase</a></li><li><a href="global.html#loadUserCounter">loadUserCounter</a></li><li><a href="global.html#loadingUsers">loadingUsers</a></li><li><a href="global.html#notLogin">notLogin</a></li><li><a href="global.html#openMobilePopup">openMobilePopup</a></li><li><a href="global.html#postDatatoBoard">postDatatoBoard</a></li><li><a href="global.html#postInitals">postInitals</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#postUserToDatabase">postUserToDatabase</a></li><li><a href="global.html#putUsercount">putUsercount</a></li><li><a href="global.html#reUpdateUser">reUpdateUser</a></li><li><a href="global.html#removeEditDel">removeEditDel</a></li><li><a href="global.html#renderAssignedUser">renderAssignedUser</a></li><li><a href="global.html#renderContactDetails">renderContactDetails</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderContactListItem">renderContactListItem</a></li><li><a href="global.html#renderEditContact">renderEditContact</a></li><li><a href="global.html#renderEditDeletePopup">renderEditDeletePopup</a></li><li><a href="global.html#renderEditSubtask">renderEditSubtask</a></li><li><a href="global.html#renderNewContact">renderNewContact</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#rendererAvatar">rendererAvatar</a></li><li><a href="global.html#resetAddtaskInput">resetAddtaskInput</a></li><li><a href="global.html#resetToDropdownButton">resetToDropdownButton</a></li><li><a href="global.html#saveSubtask">saveSubtask</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#setContactDetails">setContactDetails</a></li><li><a href="global.html#setMobilePopupContent">setMobilePopupContent</a></li><li><a href="global.html#setupSubtaskEditUI">setupSubtaskEditUI</a></li><li><a href="global.html#setupSubtaskInput">setupSubtaskInput</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccessMsgTasks">showSuccessMsgTasks</a></li><li><a href="global.html#showUserInterface">showUserInterface</a></li><li><a href="global.html#storageLogIn">storageLogIn</a></li><li><a href="global.html#styleSubtaskInput">styleSubtaskInput</a></li><li><a href="global.html#styleSymbolContainer">styleSymbolContainer</a></li><li><a href="global.html#submitForm">submitForm</a></li><li><a href="global.html#subtaskAppend">subtaskAppend</a></li><li><a href="global.html#subtaskInputDelete">subtaskInputDelete</a></li><li><a href="global.html#subtaskStyling">subtaskStyling</a></li><li><a href="global.html#switchToSearchInput">switchToSearchInput</a></li><li><a href="global.html#tasksDone">tasksDone</a></li><li><a href="global.html#tasksFeedback">tasksFeedback</a></li><li><a href="global.html#tasksInBoard">tasksInBoard</a></li><li><a href="global.html#tasksInProgress">tasksInProgress</a></li><li><a href="global.html#tasksToDo">tasksToDo</a></li><li><a href="global.html#toggleDropdown">toggleDropdown</a></li><li><a href="global.html#toggleEditDeletePopup">toggleEditDeletePopup</a></li><li><a href="global.html#toggleSelection">toggleSelection</a></li><li><a href="global.html#toggleSubtask">toggleSubtask</a></li><li><a href="global.html#toggleSubtaskIcons">toggleSubtaskIcons</a></li><li><a href="global.html#unfocusInput">unfocusInput</a></li><li><a href="global.html#updatePopupSubtasks">updatePopupSubtasks</a></li><li><a href="global.html#updateSubtaskBar">updateSubtaskBar</a></li><li><a href="global.html#updateSubtasksList">updateSubtasksList</a></li><li><a href="global.html#updateSymbolContainer">updateSymbolContainer</a></li><li><a href="global.html#updateTaskDisplay">updateTaskDisplay</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updateUserDisplay">updateUserDisplay</a></li><li><a href="global.html#updateUserInDatabase">updateUserInDatabase</a></li><li><a href="global.html#urgentDate">urgentDate</a></li><li><a href="global.html#urgentTasks">urgentTasks</a></li><li><a href="global.html#userArray">userArray</a></li><li><a href="global.html#usercount">usercount</a></li><li><a href="global.html#validateCategory">validateCategory</a></li><li><a href="global.html#validateContactForm">validateContactForm</a></li><li><a href="global.html#validateDate">validateDate</a></li><li><a href="global.html#validateEmail">validateEmail</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateFormular">validateFormular</a></li><li><a href="global.html#validateName">validateName</a></li><li><a href="global.html#validatePhone">validatePhone</a></li><li><a href="global.html#validatePhoneInput">validatePhoneInput</a></li><li><a href="global.html#validateTitle">validateTitle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 03 2025 11:54:03 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

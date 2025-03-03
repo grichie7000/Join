@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: signUp.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: signUp.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module registration
+ * This module initializes Firebase, validates user input, computes initials,
+ * saves a new user to the database, manages the registration process, and sets up
+ * password visibility toggling.
+ */
+
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
+import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
+  authDomain: "join-d3707.firebaseapp.com",
+  databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "join-d3707",
+  storageBucket: "join-d3707.firebasestorage.app",
+  messagingSenderId: "961213557325",
+  appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+/**
+ * Computes the initials from a given name.
+ *
+ * This function replaces multiple spaces with a single space,
+ * trims leading and trailing whitespace, splits the name into parts,
+ * and returns the uppercase initials from the first two parts.
+ *
+ * @param {string} name - The full name.
+ * @returns {string} The computed initials.
+ */
+const getInitials = (name) => {
+  return name.replace(/\s+/g, ' ')
+             .trim()
+             .split(' ')
+             .slice(0, 2)
+             .map(part => part.charAt(0).toUpperCase())
+             .join('');
+};
+
+/**
+ * Validates the email and password inputs.
+ *
+ * Checks if the email is in a valid format, if the password meets the criteria,
+ * and if the password matches the repeated password.
+ *
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {string} repeatPassword - The repeated password for confirmation.
+ * @returns {string} An empty string if inputs are valid, otherwise an error message.
+ */
+const validateInput = (email, password, repeatPassword) => {
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const passwordValid = /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
+  
+  if (!emailValid) return "Invalid email address!";
+  if (!passwordValid) return "Password must be at least 8 characters long, include an uppercase letter and a number!";
+  if (password !== repeatPassword) return "Passwords do not match!";
+  return "";
+};
+
+/**
+ * Saves a new user to the Firebase database.
+ *
+ * Generates a unique userId using the current timestamp and constructs the user data
+ * including name, email, password, and initials. The user is then saved in the database.
+ * 
+ * ⚠️ Note: The password is stored in plaintext for demonstration purposes only.
+ *
+ * @async
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise&lt;Object>} A promise that resolves with the saved user data.
+ */
+const saveUser = async (name, email, password) => {
+  const userId = Date.now();
+  const userData = {
+    name: name.trim(),
+    email: email.trim(),
+    password, // ⚠️ For demo purposes only – never store passwords in plaintext!
+    initials: getInitials(name)
+  };
+  await set(ref(db, `users/${userId}`), userData);
+  return userData;
+};
+
+/**
+ * Checks if the email is already registered and registers a new user if not.
+ *
+ * Retrieves the list of users from the database and verifies that the email is unique.
+ * If registration is successful, the user data is saved in localStorage and a success overlay is shown.
+ * Finally, after a short delay, the page is redirected.
+ *
+ * @async
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {HTMLElement} errorMessage - The element to display error messages.
+ * @returns {Promise&lt;void>}
+ */
+const checkAndRegister = async (name, email, password, errorMessage) => {
+  try {
+    const snapshot = await get(ref(db, 'users'));
+    const users = snapshot.val() || {};
+
+    if (Object.values(users).some(user => user.email === email)) {
+      throw new Error("Email already registered!");
+    }
+
+    const user = await saveUser(name, email, password);
+
+    localStorage.setItem('loggedInUser', JSON.stringify({
+      email: user.email,
+      initials: user.initials,
+      name: user.name
+    }));
+
+    const overlay = document.getElementById("successOverlay");
+    const overlayContent = document.getElementById('overlay-content');
+    overlay.style.display = "flex";
+    overlayContent.style.display = 'flex';
+
+    setTimeout(() => {
+      overlay.style.display = "none";
+      overlayContent.style.display = 'none';
+      window.location.href = "relogin.html";
+    }, 1000);
+    
+  } catch (error) {
+    errorMessage.textContent = error.message;
+  }
+};
+
+/**
+ * Sets up password visibility toggling for an input field.
+ *
+ * Adds event listeners to the specified input field so that clicking on the icon area
+ * toggles the input type between 'password' and 'text', and adjusts the CSS classes accordingly.
+ *
+ * @param {string} inputId - The ID of the password input element.
+ * @returns {void}
+ */
+const setupPasswordToggle = (inputId) => {
+  const input = document.getElementById(inputId);
+  const toggle = () => {
+    input.type = input.type === 'password' ? 'text' : 'password';
+    input.classList.toggle('input-with-eye-icon-clicked');
+  };
+  
+  input.addEventListener('click', (e) => {
+    if (e.offsetX > input.offsetWidth - 40) toggle();
+  });
+  
+  input.addEventListener('input', () => {
+    input.classList.toggle('input-with-eye-icon-active', input.value.length > 0);
+  });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById("form");
+  const errorMessage = document.getElementById("error-message");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const repeatPassword = document.getElementById("repeat-password").value.trim();
+
+    const validationError = validateInput(email, password, repeatPassword);
+    if (validationError) {
+      errorMessage.textContent = validationError;
+      errorMessage.style.display = 'block';
+      return;
+    }
+    
+    await checkAndRegister(name, email, password, errorMessage);
+  });
+
+  setupPasswordToggle('password');
+  setupPasswordToggle('repeat-password');
+});
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="addTaskModule%250DThis%2520module%2520handles%2520the%2520initialization%2520and%2520management%2520of%2520the%2520add%2520task%2520page,%250Dincluding%2520form%2520validation,%2520contact%2520selection,%2520subtask%2520management,%2520and%2520posting%2520data%2520to%2520Firebase.module_.html">addTaskModuleThis module handles the initialization and management of the add task page,including form validation, contact selection, subtask management, and posting data to Firebase.</a></li><li><a href="login%250DThis%2520module%2520handles%2520Firebase%2520initialization,%2520input%2520validation,%250Dpassword%2520visibility%2520toggling,%2520local%2520user%2520management,%2520and%2520user%2520login.module_.html">loginThis module handles Firebase initialization, input validation,password visibility toggling, local user management, and user login.</a></li><li><a href="loginScript%250DThis%2520script%2520initializes%2520Firebase,%2520handles%2520user%2520login,%250Dand%2520implements%2520password%2520visibility%2520toggling.module_.html">loginScriptThis script initializes Firebase, handles user login,and implements password visibility toggling.</a></li><li><a href="registration%250DThis%2520module%2520initializes%2520Firebase,%2520validates%2520user%2520input,%2520computes%2520initials,%250Dsaves%2520a%2520new%2520user%2520to%2520the%2520database,%2520manages%2520the%2520registration%2520process,%2520and%2520sets%2520up%250Dpassword%2520visibility%2520toggling.module_.html">registrationThis module initializes Firebase, validates user input, computes initials,saves a new user to the database, manages the registration process, and sets uppassword visibility toggling.</a></li><li><a href="taskManager%250DThis%2520module%2520handles%2520task%2520loading,%2520rendering,%2520drag%2520&%2520drop,%250Dsearch,%2520detail%2520overlay%2520display_editing,%2520and%2520updating%2520tasks%2520in%2520Firebase.module_.html">taskManagerThis module handles task loading, rendering, drag & drop,search, detail overlay display/editing, and updating tasks in Firebase.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#BASE_URL_INITALS">BASE_URL_INITALS</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addNewSubtask">addNewSubtask</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskInputListeners">addSubtaskInputListeners</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#cancelSubtaskInput">cancelSubtaskInput</a></li><li><a href="global.html#changeDateColor">changeDateColor</a></li><li><a href="global.html#checkEnter">checkEnter</a></li><li><a href="global.html#checkLink">checkLink</a></li><li><a href="global.html#checkLogIn">checkLogIn</a></li><li><a href="global.html#clearContactForm">clearContactForm</a></li><li><a href="global.html#clearErrorMessages">clearErrorMessages</a></li><li><a href="global.html#clearSelection">clearSelection</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#closeContactDetails">closeContactDetails</a></li><li><a href="global.html#closeContactForm">closeContactForm</a></li><li><a href="global.html#contactsHtmlTemplate">contactsHtmlTemplate</a></li><li><a href="global.html#countContacts">countContacts</a></li><li><a href="global.html#countObjects">countObjects</a></li><li><a href="global.html#createCheckIcon">createCheckIcon</a></li><li><a href="global.html#createCheckImage">createCheckImage</a></li><li><a href="global.html#createDeleteImage">createDeleteImage</a></li><li><a href="global.html#createInputField">createInputField</a></li><li><a href="global.html#createProfileCircle">createProfileCircle</a></li><li><a href="global.html#createSymbolTask">createSymbolTask</a></li><li><a href="global.html#createUpdatedData">createUpdatedData</a></li><li><a href="global.html#createUserContact">createUserContact</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#displayContacts">displayContacts</a></li><li><a href="global.html#displayFilteredTasks">displayFilteredTasks</a></li><li><a href="global.html#displayGreetings">displayGreetings</a></li><li><a href="global.html#displayInitals">displayInitals</a></li><li><a href="global.html#displaySelectedContacts">displaySelectedContacts</a></li><li><a href="global.html#displayTasks">displayTasks</a></li><li><a href="global.html#editContact">editContact</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#emailToFind">emailToFind</a></li><li><a href="global.html#emptyCategoryHTML">emptyCategoryHTML</a></li><li><a href="global.html#fetchTasksFromFirebase">fetchTasksFromFirebase</a></li><li><a href="global.html#fetchUsers">fetchUsers</a></li><li><a href="global.html#formatUsers">formatUsers</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateSubtasksHtml">generateSubtasksHtml</a></li><li><a href="global.html#generateTaskBadge">generateTaskBadge</a></li><li><a href="global.html#generateTaskEditHTML">generateTaskEditHTML</a></li><li><a href="global.html#generateTaskHtml">generateTaskHtml</a></li><li><a href="global.html#generateTaskPriorityElement">generateTaskPriorityElement</a></li><li><a href="global.html#getAddTask">getAddTask</a></li><li><a href="global.html#getAddTaskData">getAddTaskData</a></li><li><a href="global.html#getContactsData">getContactsData</a></li><li><a href="global.html#getContactsFromFiresBase">getContactsFromFiresBase</a></li><li><a href="global.html#getCurrentSubtasks">getCurrentSubtasks</a></li><li><a href="global.html#getElementsByIds">getElementsByIds</a></li><li><a href="global.html#getEmailValue">getEmailValue</a></li><li><a href="global.html#getFirebaseInitals">getFirebaseInitals</a></li><li><a href="global.html#getFormData">getFormData</a></li><li><a href="global.html#getLoginName">getLoginName</a></li><li><a href="global.html#getNameValue">getNameValue</a></li><li><a href="global.html#getPhoneValue">getPhoneValue</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getSelectedUser">getSelectedUser</a></li><li><a href="global.html#getSubtaskName">getSubtaskName</a></li><li><a href="global.html#getSubtasksData">getSubtasksData</a></li><li><a href="global.html#goBack">goBack</a></li><li><a href="global.html#goToBoardSite">goToBoardSite</a></li><li><a href="global.html#groupUsersByFirstLetter">groupUsersByFirstLetter</a></li><li><a href="global.html#guestLogIn">guestLogIn</a></li><li><a href="global.html#handleSubtaskInputKeydown">handleSubtaskInputKeydown</a></li><li><a href="global.html#handleSubtaskSave">handleSubtaskSave</a></li><li><a href="global.html#handleUserCreationSuccess">handleUserCreationSuccess</a></li><li><a href="global.html#handleUserUpdateSuccess">handleUserUpdateSuccess</a></li><li><a href="global.html#hiddenSuccessMsgTasks">hiddenSuccessMsgTasks</a></li><li><a href="global.html#hideUserInterface">hideUserInterface</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initializeSubtaskUI">initializeSubtaskUI</a></li><li><a href="global.html#isMobileView">isMobileView</a></li><li><a href="global.html#loadFirebaseData">loadFirebaseData</a></li><li><a href="global.html#loadInitals">loadInitals</a></li><li><a href="global.html#loadInitialsFirebase">loadInitialsFirebase</a></li><li><a href="global.html#loadRenderContactList">loadRenderContactList</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTasksFromFirebase">loadTasksFromFirebase</a></li><li><a href="global.html#loadUserCounter">loadUserCounter</a></li><li><a href="global.html#loadingUsers">loadingUsers</a></li><li><a href="global.html#notLogin">notLogin</a></li><li><a href="global.html#openMobilePopup">openMobilePopup</a></li><li><a href="global.html#postDatatoBoard">postDatatoBoard</a></li><li><a href="global.html#postInitals">postInitals</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#postUserToDatabase">postUserToDatabase</a></li><li><a href="global.html#putUsercount">putUsercount</a></li><li><a href="global.html#reUpdateUser">reUpdateUser</a></li><li><a href="global.html#removeEditDel">removeEditDel</a></li><li><a href="global.html#renderAssignedUser">renderAssignedUser</a></li><li><a href="global.html#renderContactDetails">renderContactDetails</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderContactListItem">renderContactListItem</a></li><li><a href="global.html#renderEditContact">renderEditContact</a></li><li><a href="global.html#renderEditDeletePopup">renderEditDeletePopup</a></li><li><a href="global.html#renderEditSubtask">renderEditSubtask</a></li><li><a href="global.html#renderNewContact">renderNewContact</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#rendererAvatar">rendererAvatar</a></li><li><a href="global.html#resetAddtaskInput">resetAddtaskInput</a></li><li><a href="global.html#resetToDropdownButton">resetToDropdownButton</a></li><li><a href="global.html#saveSubtask">saveSubtask</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#setContactDetails">setContactDetails</a></li><li><a href="global.html#setMobilePopupContent">setMobilePopupContent</a></li><li><a href="global.html#setupSubtaskEditUI">setupSubtaskEditUI</a></li><li><a href="global.html#setupSubtaskInput">setupSubtaskInput</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccessMsgTasks">showSuccessMsgTasks</a></li><li><a href="global.html#showUserInterface">showUserInterface</a></li><li><a href="global.html#storageLogIn">storageLogIn</a></li><li><a href="global.html#styleSubtaskInput">styleSubtaskInput</a></li><li><a href="global.html#styleSymbolContainer">styleSymbolContainer</a></li><li><a href="global.html#submitForm">submitForm</a></li><li><a href="global.html#subtaskAppend">subtaskAppend</a></li><li><a href="global.html#subtaskInputDelete">subtaskInputDelete</a></li><li><a href="global.html#subtaskStyling">subtaskStyling</a></li><li><a href="global.html#switchToSearchInput">switchToSearchInput</a></li><li><a href="global.html#tasksDone">tasksDone</a></li><li><a href="global.html#tasksFeedback">tasksFeedback</a></li><li><a href="global.html#tasksInBoard">tasksInBoard</a></li><li><a href="global.html#tasksInProgress">tasksInProgress</a></li><li><a href="global.html#tasksToDo">tasksToDo</a></li><li><a href="global.html#toggleDropdown">toggleDropdown</a></li><li><a href="global.html#toggleEditDeletePopup">toggleEditDeletePopup</a></li><li><a href="global.html#toggleSelection">toggleSelection</a></li><li><a href="global.html#toggleSubtask">toggleSubtask</a></li><li><a href="global.html#toggleSubtaskIcons">toggleSubtaskIcons</a></li><li><a href="global.html#unfocusInput">unfocusInput</a></li><li><a href="global.html#updatePopupSubtasks">updatePopupSubtasks</a></li><li><a href="global.html#updateSubtaskBar">updateSubtaskBar</a></li><li><a href="global.html#updateSubtasksList">updateSubtasksList</a></li><li><a href="global.html#updateSymbolContainer">updateSymbolContainer</a></li><li><a href="global.html#updateTaskDisplay">updateTaskDisplay</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updateUserDisplay">updateUserDisplay</a></li><li><a href="global.html#updateUserInDatabase">updateUserInDatabase</a></li><li><a href="global.html#urgentDate">urgentDate</a></li><li><a href="global.html#urgentTasks">urgentTasks</a></li><li><a href="global.html#userArray">userArray</a></li><li><a href="global.html#usercount">usercount</a></li><li><a href="global.html#validateCategory">validateCategory</a></li><li><a href="global.html#validateContactForm">validateContactForm</a></li><li><a href="global.html#validateDate">validateDate</a></li><li><a href="global.html#validateEmail">validateEmail</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateFormular">validateFormular</a></li><li><a href="global.html#validateName">validateName</a></li><li><a href="global.html#validatePhone">validatePhone</a></li><li><a href="global.html#validatePhoneInput">validatePhoneInput</a></li><li><a href="global.html#validateTitle">validateTitle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 03 2025 11:54:03 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

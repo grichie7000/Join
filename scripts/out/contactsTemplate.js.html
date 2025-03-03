@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contactsTemplate.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contactsTemplate.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * Renders a list of contacts grouped by the first letter of the name.
+ * Creates a section for each group (alphabet letter) and includes contact items for each user in that group.
+ * @param {Object} usergroup - The object containing user groups, where keys are alphabet letters and values are arrays of users.
+ * @param {string} alphabet - The alphabet letter representing the current group.
+ * @returns {string} - The HTML structure for the contact group, including all users in that group.
+ */
+
+function renderContactList(usergroup, alphabet) {
+    let group = `&lt;div class="contact-group">
+            &lt;h3 class="group-title">${alphabet}&lt;/h3>
+            &lt;div class="divider-contact">&lt;/div>`;
+    usergroup[alphabet].forEach(user => {
+        userArray.push(user);
+        group += renderContactListItem(user) + `&lt;/div>`;    
+    });
+    return group; 
+}
+
+/**
+ * Renders a single contact list item with the user's initials, name, and email.
+ * This item is clickable and triggers the `showContactDetails` function when clicked.
+ * @param {Object} user - The user object containing the user's details (name, email, color, id).
+ * @returns {string} - The HTML structure for a contact item.
+ */
+
+function renderContactListItem(user) {
+    let initials = user.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
+    let capitalizedUserName = user.name.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ');
+    return `
+        &lt;div class="contact-item" tabindex="0" onclick="showContactDetails('${user.id}')">
+                &lt;span class="contact-icon center" style="background-color:${user.color}">${initials}&lt;/span>
+                &lt;div class="contact-details">
+                    &lt;span class="contact-name">${capitalizedUserName}&lt;/span>
+                    &lt;span class="contact-email">${user.email}&lt;/span>
+                &lt;/div>
+            &lt;/div>
+    `;
+}
+
+/**
+ * Renders detailed contact information for a single user, including their name, email, phone number,
+ * and provides options to edit or delete the user.
+ * @param {Object} user - The user object containing the user's details (name, email, phone, color, firebaseId, id).
+ * @returns {string} - The HTML structure for displaying a user's contact details.
+ */
+
+function renderContactDetails(user) {
+    let initials = user.name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
+    let capitalizedUserName = user.name.split(' ').map(name => name.charAt(0).toUpperCase() + name.slice(1)).join(' ');
+    return `
+    &lt;div class="contact-header">
+        &lt;span class="contact-icon-border center" style="background-color: ${user.color}">${initials}&lt;/span>
+        &lt;div class="contact-info-div">
+            &lt;h2 class="contact-name">${capitalizedUserName}&lt;/h2>
+            &lt;div class="contact-buttons" id="contact-buttons">
+                &lt;button class="contact-btn" onclick="editContact('${userArray.indexOf(user)}')">
+                    &lt;img src="./assets/img/edit.png">
+                    &lt;p>Edit&lt;/p>
+                &lt;/button>
+                &lt;button class="contact-btn" onclick="deleteUser('${user.firebaseId}')">
+                    &lt;img src="./assets/img/delete.png">
+                    &lt;p>Delete&lt;/p>
+                &lt;/button>
+            &lt;/div>
+        &lt;/div>
+    &lt;/div>
+    &lt;div class="contact-info">
+        &lt;div class="contact-info-mag">
+            &lt;p>Contact Information&lt;/p>
+        &lt;/div>
+        &lt;div class="contact-info-mp">
+            &lt;p class="contact-bold">Email&lt;/p>
+            &lt;p class="contact-info-mail">${user.email}&lt;/p>
+            &lt;p class="contact-bold">Phone&lt;/p>
+            &lt;p>${user.phone}&lt;/p>
+        &lt;/div>
+    &lt;/div>`;
+}
+
+/**
+ * Renders the popup form for editing a contact's information, including name, email, phone, and options to save or delete.
+ * Displays the contact's initials and pre-fills the form with the user's current details.
+ * @param {number} user - The index of the user in the `userArray` to be edited.
+ * @returns {string} - The HTML structure for the popup form to edit the contact.
+ */
+ 
+function renderEditContact(user) {
+    let initials = userArray[user].name.split(' ').map(name => name.charAt(0).toUpperCase()).join('');
+    return `&lt;div class="popup" onclick="event.stopPropagation();">
+    &lt;div class="popup-left">
+
+        &lt;!-- MOBIEL -->
+        &lt;div class="close-btn-mobile">
+            &lt;button onclick="closeContactForm()">
+                &lt;img src="./assets/img/close-white.png" alt="">
+            &lt;/button>
+        &lt;/div>
+        &lt;!-- MOBIEL -->
+
+        &lt;div class="logo">
+            &lt;img src="./assets/img/Join-logo.png">
+        &lt;/div>
+        &lt;h1>Edit contact&lt;/h1>
+    &lt;/div>
+
+    &lt;div class="icon-wrapper">
+        &lt;span class="add-contact-initials center" style="background-color: ${userArray[user].color};">${initials}&lt;/span>
+    &lt;/div>
+
+    &lt;div class="popup-right">
+        &lt;div class="close-btn-wrapper">
+            &lt;button onclick="closeContactForm()">
+                &lt;img src="./assets/img/x_symbol.png" alt="">
+            &lt;/button>
+        &lt;/div>
+        &lt;form class="popup-form" onsubmit="event.preventDefault(); updateUser(${user});">
+            &lt;div class="form-group">
+                &lt;div class="input-icon">
+                    &lt;input type="text" id="name" placeholder="Name" required value="${userArray[user].name}" onchange="validateContactForm()">
+                    &lt;img src="./assets/img/person.png">
+                &lt;/div>
+                &lt;div class="error-message" id="error-div-name"> &lt;/div>
+            &lt;/div>
+            &lt;div class="form-group">
+                &lt;div class="input-icon">
+                    &lt;input type="email" id="email" placeholder="Email" required value="${userArray[user].email}" onchange="validateContactForm()">
+                    &lt;img src="./assets/img/mail.svg">
+                &lt;/div>
+                &lt;div class="error-message" id="error-div-email"> &lt;/div>
+            &lt;/div>
+            &lt;div class="form-group">
+                &lt;div class="input-icon">
+                    &lt;input type="text" id="phone" placeholder="Phone" required value="${userArray[user].phone}" onchange="validateContactForm()" oninput="validatePhoneInput(event)">
+                    &lt;img src="./assets/img/call.png">
+                &lt;/div>
+                &lt;div class="error-message" id="error-div-phone"> &lt;/div>
+            &lt;/div>
+             &lt;div class="btn">
+                &lt;button type="button" class="delete-btn btn-center" onclick="deleteUser('${userArray[user].firebaseId}')">Delete&lt;/button>
+                &lt;button type="submit" class="save-btn gap btn-center">
+                    Save
+                    &lt;img src="./assets/img/check.png">
+                &lt;/button>
+            &lt;/div> 
+        &lt;/form>
+    &lt;/div>
+&lt;/div>`
+}
+
+/**
+ * Renders the popup form for adding a new contact, including name, email, phone, and options to create or clear the form.
+ * @returns {string} - The HTML structure for the popup form to add a new contact.
+ */
+
+function renderNewContact() {    
+    return `&lt;div class="popup" onclick="event.stopPropagation();">
+            &lt;div class="popup-left">
+
+                &lt;!-- MOBIEL -->
+                &lt;div class="close-btn-mobile">
+                    &lt;button onclick="closeContactForm()">
+                        &lt;img src="./assets/img/close-white.png" alt="">
+                    &lt;/button>
+                &lt;/div>
+                &lt;!-- MOBIEL -->
+
+                &lt;div class="logo">
+                    &lt;img src="./assets/img/Join-logo.png">
+                &lt;/div>
+                &lt;h1>Add contact&lt;/h1>
+                &lt;p class="text-color">Tasks are better with a team!&lt;/p>
+                &lt;div class="divider-add-contact">&lt;/div>
+            &lt;/div>
+
+            &lt;div class="icon-wrapper">
+                &lt;span class="add-contact-icon center" style="background-color: #747474;">&lt;img
+                        src="./assets/img/person-white.svg">&lt;/span>
+            &lt;/div>
+
+            &lt;div class="popup-right">
+                &lt;div class="close-btn-wrapper">
+                    &lt;button onclick="closeContactForm()">
+                        &lt;img src="./assets/img/close-white.png" alt="">
+                    &lt;/button>
+                &lt;/div>
+                &lt;form class="popup-form" onsubmit="event.preventDefault(); createUserContact();">
+                    &lt;div class="form-group">
+                        &lt;div class="input-icon">
+                            &lt;input type="text" id="name" placeholder="Name" required onchange="validateContactForm()">
+                            &lt;img src="./assets/img/person.png">
+                        &lt;/div>
+                        &lt;div class="error-message" id="error-div-name"> &lt;/div>
+                    &lt;/div>
+                    &lt;div class="form-group">
+                        &lt;div class="input-icon">
+                            &lt;input type="email" id="email" placeholder="Email" required onchange="validateContactForm()">
+                            &lt;img src="./assets/img/mail.svg">
+                        &lt;/div>
+                        &lt;div class="error-message" id="error-div-email"> &lt;/div>
+                    &lt;/div>
+                    &lt;div class="form-group">
+                        &lt;div class="input-icon">
+                            &lt;input type="text" id="phone" placeholder="Phone" required onchange="validateContactForm()" oninput="validatePhoneInput(event)">
+                            &lt;img src="./assets/img/call.png">
+                        &lt;/div>
+                        &lt;div class="error-message" id="error-div-phone"> &lt;/div>
+                    &lt;/div>
+                    &lt;div class="btn">
+                        &lt;button type="button" class="cancel-btn btn-center" onclick="clearContactForm()">
+                            Clear
+                            &lt;img src="./assets/img/close-white.png">
+                        &lt;/button>
+                        &lt;button type="submit" class="create-btn btn-center gap">
+                            Create contact
+                            &lt;img src="./assets/img/check-white.svg">
+                        &lt;/button>
+                    &lt;/div>
+                &lt;/form>
+            &lt;/div>
+        &lt;/div>`
+}
+
+/**
+ * Renders the popup options to edit or delete a contact.
+ * Provides buttons for the user to edit or delete the contact.
+ * @param {Object} user - The user object containing the user's details (firebaseId, name).
+ * @returns {string} - The HTML structure for the edit and delete options.
+ */
+
+function renderEditDeletePopup(user) {
+    return `&lt;li>&lt;button class="contact-btn" onclick="editContact('${userArray.indexOf(user)}', removeEditDel())">
+                &lt;img src="./assets/img/edit.png">
+                &lt;p>Edit&lt;/p>
+            &lt;/button>
+            &lt;/li>
+            &lt;li>
+            &lt;button class="contact-btn" onclick="deleteUser('${user.firebaseId}', removeEditDel())">
+                &lt;img src="./assets/img/delete.png">
+                &lt;p>Delete&lt;/p>
+            &lt;/button>
+            &lt;/li>`
+}
+
+/**
+ * Validates and formats the phone number input by removing any non-numeric characters.
+ * Ensures that only numbers are allowed in the phone number input field.
+ * @param {Event} event - The input event triggered when the user types in the phone field.
+ */
+
+function validatePhoneInput(event) {
+    const input = event.target;
+    const validValue = input.value.replace(/[^0-9]/g, ''); 
+    input.value = validValue; 
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="addTaskModule%250DThis%2520module%2520handles%2520the%2520initialization%2520and%2520management%2520of%2520the%2520add%2520task%2520page,%250Dincluding%2520form%2520validation,%2520contact%2520selection,%2520subtask%2520management,%2520and%2520posting%2520data%2520to%2520Firebase.module_.html">addTaskModuleThis module handles the initialization and management of the add task page,including form validation, contact selection, subtask management, and posting data to Firebase.</a></li><li><a href="login%250DThis%2520module%2520handles%2520Firebase%2520initialization,%2520input%2520validation,%250Dpassword%2520visibility%2520toggling,%2520local%2520user%2520management,%2520and%2520user%2520login.module_.html">loginThis module handles Firebase initialization, input validation,password visibility toggling, local user management, and user login.</a></li><li><a href="loginScript%250DThis%2520script%2520initializes%2520Firebase,%2520handles%2520user%2520login,%250Dand%2520implements%2520password%2520visibility%2520toggling.module_.html">loginScriptThis script initializes Firebase, handles user login,and implements password visibility toggling.</a></li><li><a href="registration%250DThis%2520module%2520initializes%2520Firebase,%2520validates%2520user%2520input,%2520computes%2520initials,%250Dsaves%2520a%2520new%2520user%2520to%2520the%2520database,%2520manages%2520the%2520registration%2520process,%2520and%2520sets%2520up%250Dpassword%2520visibility%2520toggling.module_.html">registrationThis module initializes Firebase, validates user input, computes initials,saves a new user to the database, manages the registration process, and sets uppassword visibility toggling.</a></li><li><a href="taskManager%250DThis%2520module%2520handles%2520task%2520loading,%2520rendering,%2520drag%2520&%2520drop,%250Dsearch,%2520detail%2520overlay%2520display_editing,%2520and%2520updating%2520tasks%2520in%2520Firebase.module_.html">taskManagerThis module handles task loading, rendering, drag & drop,search, detail overlay display/editing, and updating tasks in Firebase.</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BASE_URL">BASE_URL</a></li><li><a href="global.html#BASE_URL_INITALS">BASE_URL_INITALS</a></li><li><a href="global.html#addContact">addContact</a></li><li><a href="global.html#addNewSubtask">addNewSubtask</a></li><li><a href="global.html#addSubtask">addSubtask</a></li><li><a href="global.html#addSubtaskInputListeners">addSubtaskInputListeners</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#cancelSubtaskInput">cancelSubtaskInput</a></li><li><a href="global.html#changeDateColor">changeDateColor</a></li><li><a href="global.html#checkEnter">checkEnter</a></li><li><a href="global.html#checkLink">checkLink</a></li><li><a href="global.html#checkLogIn">checkLogIn</a></li><li><a href="global.html#clearContactForm">clearContactForm</a></li><li><a href="global.html#clearErrorMessages">clearErrorMessages</a></li><li><a href="global.html#clearSelection">clearSelection</a></li><li><a href="global.html#clearSubtaskInput">clearSubtaskInput</a></li><li><a href="global.html#clearTask">clearTask</a></li><li><a href="global.html#closeContactDetails">closeContactDetails</a></li><li><a href="global.html#closeContactForm">closeContactForm</a></li><li><a href="global.html#contactsHtmlTemplate">contactsHtmlTemplate</a></li><li><a href="global.html#countContacts">countContacts</a></li><li><a href="global.html#countObjects">countObjects</a></li><li><a href="global.html#createCheckIcon">createCheckIcon</a></li><li><a href="global.html#createCheckImage">createCheckImage</a></li><li><a href="global.html#createDeleteImage">createDeleteImage</a></li><li><a href="global.html#createInputField">createInputField</a></li><li><a href="global.html#createProfileCircle">createProfileCircle</a></li><li><a href="global.html#createSymbolTask">createSymbolTask</a></li><li><a href="global.html#createUpdatedData">createUpdatedData</a></li><li><a href="global.html#createUserContact">createUserContact</a></li><li><a href="global.html#deleteSubtask">deleteSubtask</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#displayContacts">displayContacts</a></li><li><a href="global.html#displayFilteredTasks">displayFilteredTasks</a></li><li><a href="global.html#displayGreetings">displayGreetings</a></li><li><a href="global.html#displayInitals">displayInitals</a></li><li><a href="global.html#displaySelectedContacts">displaySelectedContacts</a></li><li><a href="global.html#displayTasks">displayTasks</a></li><li><a href="global.html#editContact">editContact</a></li><li><a href="global.html#editSubtask">editSubtask</a></li><li><a href="global.html#emailToFind">emailToFind</a></li><li><a href="global.html#emptyCategoryHTML">emptyCategoryHTML</a></li><li><a href="global.html#fetchTasksFromFirebase">fetchTasksFromFirebase</a></li><li><a href="global.html#fetchUsers">fetchUsers</a></li><li><a href="global.html#formatUsers">formatUsers</a></li><li><a href="global.html#generateInitials">generateInitials</a></li><li><a href="global.html#generateSubtasksHtml">generateSubtasksHtml</a></li><li><a href="global.html#generateTaskBadge">generateTaskBadge</a></li><li><a href="global.html#generateTaskEditHTML">generateTaskEditHTML</a></li><li><a href="global.html#generateTaskHtml">generateTaskHtml</a></li><li><a href="global.html#generateTaskPriorityElement">generateTaskPriorityElement</a></li><li><a href="global.html#getAddTask">getAddTask</a></li><li><a href="global.html#getAddTaskData">getAddTaskData</a></li><li><a href="global.html#getContactsData">getContactsData</a></li><li><a href="global.html#getContactsFromFiresBase">getContactsFromFiresBase</a></li><li><a href="global.html#getCurrentSubtasks">getCurrentSubtasks</a></li><li><a href="global.html#getElementsByIds">getElementsByIds</a></li><li><a href="global.html#getEmailValue">getEmailValue</a></li><li><a href="global.html#getFirebaseInitals">getFirebaseInitals</a></li><li><a href="global.html#getFormData">getFormData</a></li><li><a href="global.html#getLoginName">getLoginName</a></li><li><a href="global.html#getNameValue">getNameValue</a></li><li><a href="global.html#getPhoneValue">getPhoneValue</a></li><li><a href="global.html#getRandomColor">getRandomColor</a></li><li><a href="global.html#getSelectedUser">getSelectedUser</a></li><li><a href="global.html#getSubtaskName">getSubtaskName</a></li><li><a href="global.html#getSubtasksData">getSubtasksData</a></li><li><a href="global.html#goBack">goBack</a></li><li><a href="global.html#goToBoardSite">goToBoardSite</a></li><li><a href="global.html#groupUsersByFirstLetter">groupUsersByFirstLetter</a></li><li><a href="global.html#guestLogIn">guestLogIn</a></li><li><a href="global.html#handleSubtaskInputKeydown">handleSubtaskInputKeydown</a></li><li><a href="global.html#handleSubtaskSave">handleSubtaskSave</a></li><li><a href="global.html#handleUserCreationSuccess">handleUserCreationSuccess</a></li><li><a href="global.html#handleUserUpdateSuccess">handleUserUpdateSuccess</a></li><li><a href="global.html#hiddenSuccessMsgTasks">hiddenSuccessMsgTasks</a></li><li><a href="global.html#hideUserInterface">hideUserInterface</a></li><li><a href="global.html#includeHTML">includeHTML</a></li><li><a href="global.html#initAddTask">initAddTask</a></li><li><a href="global.html#initContacts">initContacts</a></li><li><a href="global.html#initializeSubtaskUI">initializeSubtaskUI</a></li><li><a href="global.html#isMobileView">isMobileView</a></li><li><a href="global.html#loadFirebaseData">loadFirebaseData</a></li><li><a href="global.html#loadInitals">loadInitals</a></li><li><a href="global.html#loadInitialsFirebase">loadInitialsFirebase</a></li><li><a href="global.html#loadRenderContactList">loadRenderContactList</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#loadTasksFromFirebase">loadTasksFromFirebase</a></li><li><a href="global.html#loadUserCounter">loadUserCounter</a></li><li><a href="global.html#loadingUsers">loadingUsers</a></li><li><a href="global.html#notLogin">notLogin</a></li><li><a href="global.html#openMobilePopup">openMobilePopup</a></li><li><a href="global.html#postDatatoBoard">postDatatoBoard</a></li><li><a href="global.html#postInitals">postInitals</a></li><li><a href="global.html#postUser">postUser</a></li><li><a href="global.html#postUserToDatabase">postUserToDatabase</a></li><li><a href="global.html#putUsercount">putUsercount</a></li><li><a href="global.html#reUpdateUser">reUpdateUser</a></li><li><a href="global.html#removeEditDel">removeEditDel</a></li><li><a href="global.html#renderAssignedUser">renderAssignedUser</a></li><li><a href="global.html#renderContactDetails">renderContactDetails</a></li><li><a href="global.html#renderContactList">renderContactList</a></li><li><a href="global.html#renderContactListItem">renderContactListItem</a></li><li><a href="global.html#renderEditContact">renderEditContact</a></li><li><a href="global.html#renderEditDeletePopup">renderEditDeletePopup</a></li><li><a href="global.html#renderEditSubtask">renderEditSubtask</a></li><li><a href="global.html#renderNewContact">renderNewContact</a></li><li><a href="global.html#renderSubtasks">renderSubtasks</a></li><li><a href="global.html#rendererAvatar">rendererAvatar</a></li><li><a href="global.html#resetAddtaskInput">resetAddtaskInput</a></li><li><a href="global.html#resetToDropdownButton">resetToDropdownButton</a></li><li><a href="global.html#saveSubtask">saveSubtask</a></li><li><a href="global.html#selectContact">selectContact</a></li><li><a href="global.html#setContactDetails">setContactDetails</a></li><li><a href="global.html#setMobilePopupContent">setMobilePopupContent</a></li><li><a href="global.html#setupSubtaskEditUI">setupSubtaskEditUI</a></li><li><a href="global.html#setupSubtaskInput">setupSubtaskInput</a></li><li><a href="global.html#showContactDetails">showContactDetails</a></li><li><a href="global.html#showError">showError</a></li><li><a href="global.html#showSuccessMsgTasks">showSuccessMsgTasks</a></li><li><a href="global.html#showUserInterface">showUserInterface</a></li><li><a href="global.html#storageLogIn">storageLogIn</a></li><li><a href="global.html#styleSubtaskInput">styleSubtaskInput</a></li><li><a href="global.html#styleSymbolContainer">styleSymbolContainer</a></li><li><a href="global.html#submitForm">submitForm</a></li><li><a href="global.html#subtaskAppend">subtaskAppend</a></li><li><a href="global.html#subtaskInputDelete">subtaskInputDelete</a></li><li><a href="global.html#subtaskStyling">subtaskStyling</a></li><li><a href="global.html#switchToSearchInput">switchToSearchInput</a></li><li><a href="global.html#tasksDone">tasksDone</a></li><li><a href="global.html#tasksFeedback">tasksFeedback</a></li><li><a href="global.html#tasksInBoard">tasksInBoard</a></li><li><a href="global.html#tasksInProgress">tasksInProgress</a></li><li><a href="global.html#tasksToDo">tasksToDo</a></li><li><a href="global.html#toggleDropdown">toggleDropdown</a></li><li><a href="global.html#toggleEditDeletePopup">toggleEditDeletePopup</a></li><li><a href="global.html#toggleSelection">toggleSelection</a></li><li><a href="global.html#toggleSubtask">toggleSubtask</a></li><li><a href="global.html#toggleSubtaskIcons">toggleSubtaskIcons</a></li><li><a href="global.html#unfocusInput">unfocusInput</a></li><li><a href="global.html#updatePopupSubtasks">updatePopupSubtasks</a></li><li><a href="global.html#updateSubtaskBar">updateSubtaskBar</a></li><li><a href="global.html#updateSubtasksList">updateSubtasksList</a></li><li><a href="global.html#updateSymbolContainer">updateSymbolContainer</a></li><li><a href="global.html#updateTaskDisplay">updateTaskDisplay</a></li><li><a href="global.html#updateUser">updateUser</a></li><li><a href="global.html#updateUserDisplay">updateUserDisplay</a></li><li><a href="global.html#updateUserInDatabase">updateUserInDatabase</a></li><li><a href="global.html#urgentDate">urgentDate</a></li><li><a href="global.html#urgentTasks">urgentTasks</a></li><li><a href="global.html#userArray">userArray</a></li><li><a href="global.html#usercount">usercount</a></li><li><a href="global.html#validateCategory">validateCategory</a></li><li><a href="global.html#validateContactForm">validateContactForm</a></li><li><a href="global.html#validateDate">validateDate</a></li><li><a href="global.html#validateEmail">validateEmail</a></li><li><a href="global.html#validateField">validateField</a></li><li><a href="global.html#validateFormular">validateFormular</a></li><li><a href="global.html#validateName">validateName</a></li><li><a href="global.html#validatePhone">validatePhone</a></li><li><a href="global.html#validatePhoneInput">validatePhoneInput</a></li><li><a href="global.html#validateTitle">validateTitle</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Mon Mar 03 2025 11:54:03 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
