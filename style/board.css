@@ -1,6 +1,7 @@
 html, body {
     display: flex;
     overflow-y: hidden;
+    overflow-x: hidden;
     height: 100%;
     width: 100%;
 }
