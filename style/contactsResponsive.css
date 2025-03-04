@@ -323,14 +323,14 @@
 	.sideBar {
 		width: 100%;
 		padding: 0;
-		padding-bottom: 4px;
+		padding-bottom: 0px;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-evenly !important;
 		gap: 4px;
 		position: absolute !important;
 		bottom: 0 !important;
-		height: 70px !important;
+		height: 72px !important;
 		z-index: 999
 	}
 
