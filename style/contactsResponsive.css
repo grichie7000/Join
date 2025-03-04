@@ -309,6 +309,37 @@
 		z-index: 999
 	}
 
+    .menuPos {
+        display: flex;
+        flex-direction: row !important;
+        justify-content: space-evenly;
+        gap: 0px !important;
+    }
+
+    .navMenu {
+        flex-direction: column;
+        border-radius: 16px;
+    }
+
+    .active {
+        background-color: #091931;
+        width: 60px;
+        border-radius: 15px;
+    }
+
+    .menuDesc {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .navMenu img {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        padding-left: 0 !important;
+    }
+
 	.topBar {
 		height: 84px;
 		min-height: 84px;
@@ -323,35 +354,6 @@
 
 	.topBar h3 {
 		display: none !important;
-	}
-
-	.menuPos {
-		display: flex;
-		flex-direction: row !important;
-		justify-content: space-evenly;
-		gap: 0px !important;
-	}
-    
-	.navMenu {
-		flex-direction: column;
-		display: flex;
-		gap: 8px;
-		align-items: center;
-		padding: 7px;
-		font-size: 16px;
-	}
-	
-	.menuDesc {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-	
-	.navMenu img {
-		display: flex;
-		align-items: center;
-		align-content: center;	
-		padding-left: 0 !important;
 	}
 	
 	.contact-list {
@@ -475,7 +477,7 @@
 		margin-bottom: 0;
 		margin-left: 0;
 		height: 40px;
-		}
+	}
 }
 	
 @media (max-width: 420px) {
@@ -519,36 +521,22 @@
     }
 	
 	.cancel-btn {
-    display: none;
+		display: none;
 	}
 
-	.sideBar {
-	height: 75px !important;
-	}
-
-.contact-list {
-    background-color: white;
-    height: 75vh!important;
-    overflow: scroll;
-    position: relative;
-    margin-top: 1px;
+	.contact-list {
+		background-color: white;
+		height: 75vh!important;
+		overflow: scroll;
+		position: relative;
+		margin-top: 1px;
 	}
 }
 
 @media (max-width: 350px) {
 
-.menuDesc {
-   font-size: 15px!important;
-	}
-
-.navMenu {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    padding: 11px!important;
-	padding-top:10px!important;
-	padding-bottom: 12px!important;
-    font-size: 16px;
+	.navMenu {
+		font-size: 13px;
 	}
 
 }
