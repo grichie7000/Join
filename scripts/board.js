@@ -312,28 +312,32 @@ window.getColumnPlaceholderText = function (columnId) {
 };
 
 /**
- * Updates column placeholders based on task visibility.
+ * Aktualisiert den Placeholder für eine einzelne Spalte basierend auf der Sichtbarkeit der Tasks.
+ */
+const updateColumnPlaceholder = (columnId) => {
+  const column = $(columnId);
+  if (!column) return;
+  const tasks = column.querySelectorAll('.task');
+  const visibleTasks = Array.from(tasks).filter(task => task.style.display !== 'none');
+  if (visibleTasks.length === 0 && !column.querySelector('.empty-placeholder')) {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'empty-placeholder';
+    placeholder.textContent = getColumnPlaceholderText(columnId);
+    column.appendChild(placeholder);
+  } else if (visibleTasks.length > 0) {
+    const existingPlaceholder = column.querySelector('.empty-placeholder');
+    if (existingPlaceholder) existingPlaceholder.remove();
+  }
+};
+
+/**
+ * Aktualisiert die Placeholders in allen Spalten basierend auf der Task-Sichtbarkeit.
  */
 const updatePlaceholders = () => {
-    const columns = ["to-do", "in-progress", "await-feedback", "done"];
-    columns.forEach(columnId => {
-      const column = $(columnId);
-      if (!column) return;
-      const tasks = column.querySelectorAll('.task');
-      const visibleTasks = Array.from(tasks).filter(task => task.style.display !== 'none');
-      if (visibleTasks.length === 0 && !column.querySelector('.empty-placeholder')) {
-        const placeholder = document.createElement('div');
-        placeholder.className = 'empty-placeholder';
-        placeholder.textContent = getColumnPlaceholderText(columnId);
-        column.appendChild(placeholder);
-      } else if (visibleTasks.length > 0) {
-        const existingPlaceholder = column.querySelector('.empty-placeholder');
-        if (existingPlaceholder) {
-          existingPlaceholder.remove();
-        }
-      }
-    });
+  const columns = ["to-do", "in-progress", "await-feedback", "done"];
+  columns.forEach(updateColumnPlaceholder);
 };
+
 
 /**
  * Searches tasks based on the provided search term.

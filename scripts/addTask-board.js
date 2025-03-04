@@ -98,7 +98,6 @@ function changeDateColor() {
  * Loads data from Firebase for the specified path and assigns it to the global variable firebaseData.
  * Then calls displayContacts to update the contact list in the UI.
  * @async
- * @param {string} [path=""] - The Firebase database path to load.
  */
 async function loadFirebaseData(path = "") {
   let response = await fetch(BASE_URL_ADDTASK + path + ".json");
@@ -128,8 +127,6 @@ function displayContacts() {
 
 /**
  * Toggles the selection state of a contact item and updates the global selected contacts.
- * @param {HTMLElement} contactElement - The contact element that was clicked.
- * @param {number} id - The contact's ID.
  */
 function selectContact(contactElement, id) {
   contactElement.classList.toggle("selected");
@@ -186,7 +183,6 @@ function updateAssignedContactsDisplay() {
 
 /**
  * Enables editing for the first subtask item.
- * @param {HTMLElement} element - The subtask element to edit.
  */
 function editItemOne(element) {
   const editItem = document.getElementById('editItemOne');
@@ -234,7 +230,6 @@ function submitItemOne() {
 
 /**
  * Enables editing for the second subtask item.
- * @param {HTMLElement} element - The subtask element to edit.
  */
 function editItemTwo(element) {
   const editItem = document.getElementById('editItemTwo');
@@ -307,7 +302,6 @@ function resetAddtaskInput() {
 
 /**
  * Validates the entire form and submits it if all validations pass.
- * @param {Event} event - The form submission event.
  */
 function validateFormular(event) {
   event.preventDefault();
@@ -321,8 +315,6 @@ function validateFormular(event) {
 
 /**
  * Validates the task title field.
- * @param {Event} event - The event triggering title validation.
- * @returns {boolean} True if the title is valid; false otherwise.
  */
 function validateTitle(event) {
   errorTitle.innerHTML = "";
@@ -338,8 +330,6 @@ function validateTitle(event) {
 
 /**
  * Validates the due date field.
- * @param {Event} event - The event triggering date validation.
- * @returns {boolean} True if the due date is valid; false otherwise.
  */
 function validateDate(event) {
   errorDate.innerHTML = "";
@@ -355,8 +345,6 @@ function validateDate(event) {
 
 /**
  * Validates the task category field.
- * @param {Event} event - The event triggering category validation.
- * @returns {boolean} True if the category is valid; false otherwise.
  */
 function validateCategory(event) {
   errorCategory.innerHTML = "";
@@ -372,7 +360,6 @@ function validateCategory(event) {
 
 /**
  * Applies styling to the subtask input element and displays delete and check icons.
- * @param {HTMLElement} inputElement - The subtask input element.
  */
 function subtaskStyling(inputElement) {
   const symbolStyling = document.getElementById("symbolStyling");
@@ -455,7 +442,6 @@ document.addEventListener("click", function (event) {
 
 /**
  * Gathers add task form data and returns it as an object.
- * @returns {Object} The add task data.
  */
 function getAddTaskData() {
   const priorityElement = document.querySelector('input[name="priority"]:checked');
@@ -474,7 +460,6 @@ function getAddTaskData() {
 /**
  * Handles form submission by gathering form data, displaying a confirmation card,
  * posting data to Firebase, and redirecting to the board page.
- * @param {Event} event - The form submission event.
  */
 function submitForm(event) {
   event.preventDefault();
@@ -490,9 +475,6 @@ function submitForm(event) {
 /**
  * Posts the provided data to Firebase at the specified path.
  * @async
- * @param {string} [path=""] - The Firebase database path.
- * @param {Object} [data={}] - The data to post.
- * @returns {Promise<void>}
  */
 async function postDatatoBoard(path = "", data = {}) {
   await fetch(BASE_URL_ADDTASK + path + ".json", {
