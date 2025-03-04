@@ -1,20 +1,20 @@
 /**
  * @module registration
- * Dieses Modul kommuniziert mit der Firebase Realtime Database über fetch,
- * validiert Benutzereingaben, berechnet Initialen, speichert einen neuen Nutzer
- * in der Datenbank, verwaltet den Registrierungsprozess und ermöglicht das Umschalten
- * der Passwort-Sichtbarkeit.
+ * This module initializes Firebase, validates user input, computes initials,
+ * saves a new user to the database, manages the registration process, and sets up
+ * password visibility toggling.
  */
 
-// Basis-URL Deiner Firebase Realtime Database
+// Base URL of your Firebase Realtime Database
 const baseUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
- * Führt einen GET-Request an den angegebenen Pfad in Firebase aus.
+ * Performs a GET request to the specified path in Firebase.
  *
- * @param {string} path - Der Pfad in der Datenbank (z.B. "users").
- * @returns {Promise<Object|null>} Das abgerufene JSON-Objekt oder null, falls nichts vorhanden ist.
+ * @param {string} path - The path in the database (e.g., "users").
+ * @returns {Promise<Object|null>} The retrieved JSON object or null if nothing is found.
  */
+
 async function firebaseGet(path) {
   const response = await fetch(`${baseUrl}/${path}.json`);
   if (!response.ok) {
@@ -23,13 +23,14 @@ async function firebaseGet(path) {
   return await response.json();
 }
 
-/**
- * Führt einen PUT-Request an den angegebenen Pfad in Firebase aus, um Daten zu speichern.
+/** 
+ * Performs a PUT request to the specified path in Firebase to store data.
  *
- * @param {string} path - Der Pfad in der Datenbank (z.B. "users/123456").
- * @param {Object} data - Die zu speichernden Daten.
- * @returns {Promise<Object>} Die Antwort von Firebase.
+ * @param {string} path - The path in the database (e.g., "users/123456").
+ * @param {Object} data - The data to be stored.
+ * @returns {Promise<Object>} The response from Firebase.
  */
+
 async function firebaseSet(path, data) {
   const response = await fetch(`${baseUrl}/${path}.json`, {
     method: 'PUT',
@@ -45,14 +46,15 @@ async function firebaseSet(path, data) {
 }
 
 /**
- * Berechnet die Initialen aus einem gegebenen Namen.
+ * Calculates the initials from a given name.
  *
- * Ersetzt mehrere Leerzeichen durch ein einzelnes, trimmt den String,
- * teilt den Namen in Teile auf und gibt die Großbuchstaben der ersten zwei Teile zurück.
+ * Replaces multiple spaces with a single one, trims the string,
+ * splits the name into parts, and returns the uppercase letters of the first two parts.
  *
- * @param {string} name - Der vollständige Name.
- * @returns {string} Die berechneten Initialen.
+ * @param {string} name - The full name.
+ * @returns {string} The calculated initials.
  */
+
 const getInitials = (name) => {
   return name.replace(/\s+/g, ' ')
              .trim()
@@ -63,16 +65,17 @@ const getInitials = (name) => {
 };
 
 /**
- * Validiert die E-Mail und Passwort-Eingaben.
+ * Validates the email and password inputs.
  *
- * Überprüft, ob die E-Mail im richtigen Format vorliegt, das Passwort die Kriterien erfüllt
- * und ob beide Passwörter übereinstimmen.
+ * Checks if the email is in the correct format, if the password meets the criteria,
+ * and if both passwords match.
  *
- * @param {string} email - Die E-Mail-Adresse des Nutzers.
- * @param {string} password - Das Passwort des Nutzers.
- * @param {string} repeatPassword - Das wiederholte Passwort zur Bestätigung.
- * @returns {string} Einen leeren String, wenn die Eingaben valide sind, sonst eine Fehlermeldung.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {string} repeatPassword - The repeated password for confirmation.
+ * @returns {string} An empty string if the inputs are valid, otherwise an error message.
  */
+
 const validateInput = (email, password, repeatPassword) => {
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   const passwordValid = /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password);
@@ -83,26 +86,27 @@ const validateInput = (email, password, repeatPassword) => {
   return "";
 };
 
-/**
- * Speichert einen neuen Nutzer in der Firebase-Datenbank.
+/** 
+ * Stores a new user in the Firebase database.
  *
- * Generiert eine eindeutige userId mithilfe des aktuellen Zeitstempels, erstellt das
- * Nutzerdatenobjekt und speichert es über einen PUT-Request.
+ * Generates a unique userId using the current timestamp, creates the
+ * user data object, and stores it via a PUT request.
  * 
- * ⚠️ Hinweis: Das Passwort wird hier zu Demonstrationszwecken im Klartext gespeichert!
+ * ⚠️ Note: The password is stored in plaintext here for demonstration purposes!
  *
  * @async
- * @param {string} name - Der Name des Nutzers.
- * @param {string} email - Die E-Mail-Adresse des Nutzers.
- * @param {string} password - Das Passwort des Nutzers.
- * @returns {Promise<Object>} Ein Promise, das mit den gespeicherten Nutzerdaten aufgelöst wird.
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<Object>} A promise that resolves with the stored user data.
  */
+
 const saveUser = async (name, email, password) => {
   const userId = Date.now();
   const userData = {
     name: name.trim(),
     email: email.trim(),
-    password, // ⚠️ Nur zu Demo-Zwecken – Passwörter niemals im Klartext speichern!
+    password, // ⚠️ For demo purposes only – never store passwords in plaintext!
     initials: getInitials(name)
   };
   await firebaseSet(`users/${userId}`, userData);
@@ -110,19 +114,20 @@ const saveUser = async (name, email, password) => {
 };
 
 /**
- * Prüft, ob die E-Mail bereits registriert ist und registriert einen neuen Nutzer, falls nicht.
+ * Checks if the email is already registered and registers a new user if not.
  *
- * Ruft die Liste der Nutzer aus Firebase ab und verifiziert, dass die E-Mail einzigartig ist.
- * Bei erfolgreicher Registrierung wird der Nutzer in localStorage gespeichert und ein
- * Erfolgsoverlay angezeigt. Anschließend erfolgt eine Weiterleitung.
+ * Retrieves the list of users from Firebase and verifies that the email is unique.
+ * Upon successful registration, the user is saved in localStorage and a
+ * success overlay is displayed. Then, a redirect occurs.
  *
  * @async
- * @param {string} name - Der Name des Nutzers.
- * @param {string} email - Die E-Mail-Adresse des Nutzers.
- * @param {string} password - Das Passwort des Nutzers.
- * @param {HTMLElement} errorMessage - Das Element zur Anzeige von Fehlermeldungen.
+ * @param {string} name - The user's name.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {HTMLElement} errorMessage - The element to display error messages.
  * @returns {Promise<void>}
  */
+
 const checkAndRegister = async (name, email, password, errorMessage) => {
   try {
     const users = await firebaseGet("users") || {};
@@ -157,12 +162,10 @@ const checkAndRegister = async (name, email, password, errorMessage) => {
 };
 
 /**
- * Ermöglicht das Umschalten der Passwort-Sichtbarkeit.
+ * Adds event listeners to the specified input field so that clicking on the icon area
+ * toggles the input type between 'password' and 'text'.
  *
- * Fügt dem angegebenen Eingabefeld Event Listener hinzu, die bei einem Klick
- * auf den Icon-Bereich das Input-Feld zwischen 'password' und 'text' umschalten.
- *
- * @param {string} inputId - Die ID des Passwort-Eingabefelds.
+ * @param {string} inputId - The ID of the password input element.
  * @returns {void}
  */
 const setupPasswordToggle = (inputId) => {
@@ -186,11 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const errorMessage = document.getElementById("error-message");
   const nameInput = document.getElementById("name");
 
-  // Stelle sicher, dass der Fehlerbereich initial unsichtbar ist, aber im Layout bleibt.
-  errorMessage.style.visibility = 'hidden';
+  // Makes sure the error area is initially invisible but still part of the layout.
+errorMessage.style.visibility = 'hidden';
 
-  // Verhindert, dass im Namen Zahlen eingegeben werden und dass
-  // das Feld mit einem Leerzeichen beginnt oder mehrere aufeinanderfolgende Leerzeichen enthält.
+// Prevents numbers from being entered in the name and ensures
+// the field doesn't start with a space or contain multiple consecutive spaces.
+
   nameInput.addEventListener("keypress", (e) => {
     if (/\d/.test(e.key)) {
       e.preventDefault();

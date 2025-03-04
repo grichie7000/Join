@@ -4,14 +4,14 @@
  * handles user login, and implements password visibility toggling.
  */
 
-// Basis-URL Deiner Firebase Realtime Database
+// Base URL of your Firebase Realtime Database
 const baseUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
- * Führt einen GET-Request an den angegebenen Pfad in Firebase aus.
+ * Performs a GET request to the specified path in Firebase.
  *
- * @param {string} path - Der Pfad in der Datenbank (z.B. "users").
- * @returns {Promise<Object|null>} Das abgerufene JSON-Objekt oder null.
+ * @param {string} path - The path in the database (e.g., "users").
+ * @returns {Promise<Object|null>} The retrieved JSON object or null.
  */
 async function firebaseGet(path) {
   const response = await fetch(`${baseUrl}/${path}.json`);
@@ -21,17 +21,18 @@ async function firebaseGet(path) {
   return await response.json();
 }
 
-/**
- * Berechnet die Initialen aus einem vollständigen Namen.
+/** 
+ * Calculates the initials from a full name.
  *
- * Ersetzt mehrere Leerzeichen durch ein einzelnes, trimmt den String,
- * teilt den Namen anhand von Leerzeichen und extrahiert die ersten Buchstaben
- * der ersten zwei Teile.
+ * Replaces multiple spaces with a single one, trims the string,
+ * splits the name by spaces, and extracts the first letters
+ * of the first two parts.
  *
- * @param {string} name - Der vollständige Name.
- * @returns {string} Die Initialen, zusammengesetzt aus den ersten Buchstaben der
- *                   ersten zwei Namensbestandteile.
+ * @param {string} name - The full name.
+ * @returns {string} The initials, composed of the first letters of
+ *                   the first two name components.
  */
+
 const getInitials = (name) => {
   return name.replace(/\s+/g, ' ')
              .trim()
@@ -42,18 +43,19 @@ const getInitials = (name) => {
 };
 
 /**
- * Authentifiziert einen Benutzer basierend auf E-Mail und Passwort.
+ * Authenticates a user based on email and password.
  *
- * Diese Funktion ruft die Nutzerdaten aus Firebase ab, sucht nach einem
- * Benutzer, dessen E-Mail und Passwort mit den übergebenen Werten übereinstimmen,
- * und gibt ein Benutzerobjekt zurück, falls gefunden.
+ * This function retrieves user data from Firebase, searches for a
+ * user whose email and password match the provided values,
+ * and returns a user object if found.
  *
  * @async
- * @param {string} email - Die E-Mail-Adresse des Benutzers.
- * @param {string} password - Das Passwort des Benutzers.
- * @returns {Promise<Object>} Ein Promise, das ein Benutzerobjekt mit ID und Initialen zurückgibt.
- * @throws {Error} Wird ausgelöst, wenn kein passender Benutzer gefunden wird.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<Object>} A promise that returns a user object with ID and initials.
+ * @throws {Error} Thrown if no matching user is found.
  */
+
 const handleLogin = async (email, password) => {
   const users = await firebaseGet("users") || {};
   const foundUser = Object.entries(users).find(
@@ -69,18 +71,19 @@ const handleLogin = async (email, password) => {
   };
 };
 
-/**
- * Event-Handler für das Abschicken des Login-Formulars.
+/** 
+ * Event handler for submitting the login form.
  *
- * Diese Funktion verhindert das Standard-Verhalten des Formulars,
- * liest die eingegebenen Werte für E-Mail und Passwort aus, authentifiziert
- * den Benutzer und speichert die Benutzerdaten im localStorage. Bei erfolgreichem Login
- * erfolgt eine Weiterleitung zur Summary-Seite.
+ * This function prevents the default form behavior,
+ * reads the entered values for email and password, authenticates
+ * the user, and stores the user data in localStorage. Upon successful login,
+ * the user is redirected to the summary page.
  *
  * @async
- * @param {Event} e - Das Submit-Event des Formulars.
+ * @param {Event} e - The submit event of the form.
  * @returns {Promise<void>}
  */
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   
@@ -102,7 +105,7 @@ const handleSubmit = async (e) => {
 
     console.log("loggedInUser has been updated:", localStorage.getItem('loggedInUser'));
 
-    // Weiterleitung zur summary.html
+    // Redirect to summary.html
     window.location.href = 'summary.html';
   } catch (error) {
     console.error("Login error:", error);
@@ -112,15 +115,16 @@ const handleSubmit = async (e) => {
 };
 
 /**
- * Initialisiert das Umschalten der Passwort-Sichtbarkeit für ein Eingabefeld.
+ * Initializes the toggling of password visibility for an input field.
  *
- * Fügt dem angegebenen Eingabefeld Event-Listener hinzu. Ein Klick nahe am rechten Rand
- * wechselt den Input-Typ zwischen 'password' und 'text'. Ein input-Event
- * fügt eine CSS-Klasse hinzu, sofern das Feld Inhalt hat.
+ * Adds event listeners to the specified input field. A click near the right edge
+ * toggles the input type between 'password' and 'text'. An input event
+ * adds a CSS class if the field contains content.
  *
- * @param {string} inputId - Die ID des Passwort-Eingabefelds.
+ * @param {string} inputId - The ID of the password input field.
  * @returns {void}
  */
+
 const setupPasswordToggle = (inputId) => {
   const input = document.getElementById(inputId);
   const toggle = () => {

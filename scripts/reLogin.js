@@ -4,16 +4,17 @@
  * password visibility toggling, local user management, and user login.
  */
 
-// Basis-URL Deiner Firebase Realtime Database
+// Base URL of your Firebase Realtime Database
 const baseUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
- * Führt einen GET-Request an den angegebenen Pfad in Firebase aus.
+ * Performs a GET request to the specified path in Firebase.
  *
- * @param {string} path - Der Pfad in der Datenbank (z.B. "users").
- * @returns {Promise<Object|null>} Ein Promise, das das abgerufene JSON-Objekt oder null zurückgibt.
- * @throws {Error} Wird geworfen, wenn der Request fehlschlägt.
+ * @param {string} path - The path in the database (e.g., "users").
+ * @returns {Promise<Object|null>} A promise that returns the retrieved JSON object or null.
+ * @throws {Error} Thrown if the request fails.
  */
+
 async function firebaseGet(path) {
   const response = await fetch(`${baseUrl}/${path}.json`);
   if (!response.ok) {
@@ -25,9 +26,9 @@ async function firebaseGet(path) {
 /**
  * Validates the provided email and password.
  *
- * @param {string} email - Die E-Mail-Adresse.
- * @param {string} password - Das Passwort.
- * @returns {boolean} True, wenn sowohl E-Mail als auch Passwort gültig sind, ansonsten false.
+ * @param {string} email - The email address.
+ * @param {string} password - The password.
+ * @returns {boolean} True if both the email and password are valid, otherwise false.
  */
 function validateInput(email, password) {
   const emailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
@@ -35,16 +36,17 @@ function validateInput(email, password) {
   return emailValid && passwordValid;
 }
 
-/**
- * Berechnet die Initialen aus einem vollständigen Namen.
+/** 
+ * Calculates the initials from a full name.
  *
- * Ersetzt mehrere Leerzeichen durch ein einzelnes, trimmt den String,
- * teilt den Namen anhand von Leerzeichen und extrahiert die ersten Buchstaben
- * der ersten zwei Teile.
+ * Replaces multiple spaces with a single one, trims the string,
+ * splits the name by spaces, and extracts the first letters
+ * of the first two parts.
  *
- * @param {string} name - Der vollständige Name.
- * @returns {string} Die Initialen, zusammengesetzt aus den ersten Buchstaben der ersten zwei Namensbestandteile.
+ * @param {string} name - The full name.
+ * @returns {string} The initials, composed of the first letters of the first two name components.
  */
+
 function getInitials(name) {
   return name.replace(/\s+/g, ' ')
              .trim()
@@ -58,10 +60,11 @@ function getInitials(name) {
 const passwordInput = document.getElementById('password');
 
 /**
- * Aktualisiert das Icon des Passwort-Input-Feldes basierend auf dessen Inhalt.
+ * Updates the icon of the password input field based on its content.
  *
  * @returns {void}
  */
+
 function updateInputIcon() {
   if (passwordInput.value) {
     passwordInput.classList.remove('input-with-eye-icon');
@@ -73,11 +76,12 @@ function updateInputIcon() {
 }
 
 /**
- * Schaltet die Sichtbarkeit des Passworts um, wenn im Icon-Bereich geklickt wird.
+ * Toggles the visibility of the password when clicked in the icon area.
  *
- * @param {MouseEvent} event - Das Klick-Event auf dem Passwort-Input.
+ * @param {MouseEvent} event - The click event on the password input.
  * @returns {void}
  */
+
 function togglePassword(event) {
   const clickX = event.offsetX;
   const iconArea = passwordInput.offsetWidth - 40;
@@ -97,17 +101,18 @@ passwordInput.addEventListener('input', updateInputIcon);
 passwordInput.addEventListener('click', togglePassword);
 
 /**
- * Verwaltet lokale Benutzerdaten im localStorage.
+ * Manages local user data in localStorage.
  *
- * Wenn populate true ist, werden die E-Mail-Vorschläge aktualisiert und
- * das Passwortfeld ggf. automatisch befüllt. Andernfalls wird der Benutzer
- * zu den gespeicherten Benutzern hinzugefügt, falls er noch nicht vorhanden ist.
+ * If populate is true, the email suggestions are updated and
+ * the password field is automatically filled if necessary. Otherwise,
+ * the user is added to the stored users if they are not already present.
  *
- * @param {string} email - Die E-Mail-Adresse des Benutzers.
- * @param {string} password - Das Passwort des Benutzers.
- * @param {boolean} [populate=false] - Ob E-Mail-Vorschläge und Passwortfeld befüllt werden sollen.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @param {boolean} [populate=false] - Whether email suggestions and the password field should be populated.
  * @returns {void}
  */
+
 function manageLocalUsers(email, password, populate = false) {
   const users = JSON.parse(localStorage.getItem("savedUsers")) || [];
   if (populate) {
@@ -121,16 +126,17 @@ function manageLocalUsers(email, password, populate = false) {
 }
 
 /**
- * Authentifiziert den Benutzer mithilfe der Firebase-Datenbank (über die REST API).
+ * Authenticates the user using the Firebase database (via the REST API).
  *
- * Ruft den "users"-Knoten ab und prüft, ob ein Benutzer mit der übergebenen E-Mail
- * und dem Passwort existiert.
+ * Retrieves the "users" node and checks if a user with the provided email
+ * and password exists.
  *
  * @async
- * @param {string} email - Die E-Mail-Adresse des Benutzers.
- * @param {string} password - Das Passwort des Benutzers.
- * @returns {Promise<boolean>} Ein Promise, das true zurückgibt, wenn die Authentifizierung erfolgreich ist, ansonsten false.
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<boolean>} A promise that returns true if authentication is successful, otherwise false.
  */
+
 async function handleLogin(email, password) {
   const users = await firebaseGet("users");
   if (!users) return false;
@@ -138,13 +144,13 @@ async function handleLogin(email, password) {
 }
 
 /**
- * Behandelt das Absenden des Login-Formulars.
+ * Handles the submission of the login form.
  *
- * Verhindert die Standardaktion des Formulars, liest die Eingabewerte,
- * validiert diese und versucht, den Benutzer zu authentifizieren. Bei Erfolg
- * werden lokale Benutzerdaten aktualisiert und der Benutzer zur Summary-Seite weitergeleitet.
+ * Prevents the default form action, reads the input values,
+ * validates them, and attempts to authenticate the user. On success,
+ * local user data is updated and the user is redirected to the summary page.
  *
- * @param {Event} event - Das Submit-Event des Formulars.
+ * @param {Event} event - The submit event of the form.
  * @returns {void}
  */
 function handleLoginFormSubmit(event) {
@@ -169,34 +175,35 @@ function handleLoginFormSubmit(event) {
     .catch(error => showError(errorMessage, "Error: " + error.message));
 }
 
-/**
- * Behandelt Fokus- und Eingabeereignisse für das E-Mail-Feld.
+/** 
+ * Handles focus and input events for the email field.
  *
- * Aktualisiert die E-Mail-Vorschläge und füllt ggf. das Passwortfeld automatisch.
+ * Updates the email suggestions and, if necessary, auto-fills the password field.
  *
- * @param {Event} event - Das Fokus- oder Eingabe-Event.
+ * @param {Event} event - The focus or input event.
  * @returns {void}
  */
+
 function handleEmailFocusOrInput(event) {
   const email = event.type === "input" ? event.target.value : "";
   manageLocalUsers(email, "", true);
 }
 
-/**
- * Liest den getrimmten Wert eines Input-Felds anhand seiner ID aus.
+/** 
+ * Reads the trimmed value of an input field based on its ID.
  *
- * @param {string} id - Die ID des Input-Felds.
- * @returns {string} Der getrimmte Wert des Felds.
+ * @param {string} id - The ID of the input field.
+ * @returns {string} The trimmed value of the field.
  */
 function getInputValue(id) {
   return document.getElementById(id).value.trim();
 }
 
 /**
- * Zeigt eine Fehlermeldung in einem angegebenen DOM-Element an.
+ * Displays an error message in a specified DOM element.
  *
- * @param {HTMLElement} element - Das DOM-Element, in dem die Fehlermeldung angezeigt wird.
- * @param {string} message - Die anzuzeigende Fehlermeldung.
+ * @param {HTMLElement} element - The DOM element where the error message will be shown.
+ * @param {string} message - The error message to be displayed.
  * @returns {void}
  */
 function showError(element, message) {
