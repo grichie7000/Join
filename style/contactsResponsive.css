@@ -317,8 +317,9 @@
     }
 
     .sidebarcontact {
-        flex: 1;
-    } 
+		height: calc(100vh - 156px)!important;
+		flex: 1;
+	}
 
 	.sideBar {
 		width: 100%;
