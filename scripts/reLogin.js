@@ -1,182 +1,206 @@
 /**
  * @module login
- * This module handles Firebase initialization, input validation,
+ * This module handles Firebase interaction via the REST API, input validation,
  * password visibility toggling, local user management, and user login.
  */
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-app.js";
-import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-database.js";
+// Basis-URL Deiner Firebase Realtime Database
+const baseUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
-    authDomain: "join-d3707.firebaseapp.com",
-    databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "join-d3707",
-    storageBucket: "join-d3707.firebasestorage.app",
-    messagingSenderId: "961213557325",
-    appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
-};
-
-const db = getDatabase(initializeApp(firebaseConfig));
+/**
+ * Führt einen GET-Request an den angegebenen Pfad in Firebase aus.
+ *
+ * @param {string} path - Der Pfad in der Datenbank (z.B. "users").
+ * @returns {Promise<Object|null>} Ein Promise, das das abgerufene JSON-Objekt oder null zurückgibt.
+ * @throws {Error} Wird geworfen, wenn der Request fehlschlägt.
+ */
+async function firebaseGet(path) {
+  const response = await fetch(`${baseUrl}/${path}.json`);
+  if (!response.ok) {
+    throw new Error("Fehler beim Abrufen der Daten aus Firebase");
+  }
+  return await response.json();
+}
 
 /**
  * Validates the provided email and password.
  *
- * @param {string} email - The user's email address.
- * @param {string} password - The user's password.
- * @returns {boolean} True if both email and password are valid, otherwise false.
+ * @param {string} email - Die E-Mail-Adresse.
+ * @param {string} password - Das Passwort.
+ * @returns {boolean} True, wenn sowohl E-Mail als auch Passwort gültig sind, ansonsten false.
  */
 function validateInput(email, password) {
-    const emailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
-    const passwordValid = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
-    return emailValid && passwordValid;
+  const emailValid = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(email);
+  const passwordValid = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/.test(password);
+  return emailValid && passwordValid;
 }
 
+/**
+ * Berechnet die Initialen aus einem vollständigen Namen.
+ *
+ * Ersetzt mehrere Leerzeichen durch ein einzelnes, trimmt den String,
+ * teilt den Namen anhand von Leerzeichen und extrahiert die ersten Buchstaben
+ * der ersten zwei Teile.
+ *
+ * @param {string} name - Der vollständige Name.
+ * @returns {string} Die Initialen, zusammengesetzt aus den ersten Buchstaben der ersten zwei Namensbestandteile.
+ */
+function getInitials(name) {
+  return name.replace(/\s+/g, ' ')
+             .trim()
+             .split(' ')
+             .slice(0, 2)
+             .map(part => part.charAt(0).toUpperCase())
+             .join('');
+}
+
+// Hole das Passwort-Eingabefeld
 const passwordInput = document.getElementById('password');
 
 /**
- * Updates the password input's icon based on its value.
+ * Aktualisiert das Icon des Passwort-Input-Feldes basierend auf dessen Inhalt.
  *
  * @returns {void}
  */
 function updateInputIcon() {
-    if (passwordInput.value) {
-        passwordInput.classList.remove('input-with-eye-icon');
-        passwordInput.classList.add('input-with-eye-icon-active');
-    } else {
-        passwordInput.classList.remove('input-with-eye-icon-active', 'input-with-eye-icon-clicked');
-        passwordInput.classList.add('input-with-eye-icon');
-    }
+  if (passwordInput.value) {
+    passwordInput.classList.remove('input-with-eye-icon');
+    passwordInput.classList.add('input-with-eye-icon-active');
+  } else {
+    passwordInput.classList.remove('input-with-eye-icon-active', 'input-with-eye-icon-clicked');
+    passwordInput.classList.add('input-with-eye-icon');
+  }
 }
 
 /**
- * Toggles the password visibility when the icon area is clicked.
+ * Schaltet die Sichtbarkeit des Passworts um, wenn im Icon-Bereich geklickt wird.
  *
- * @param {MouseEvent} event - The click event on the password input.
+ * @param {MouseEvent} event - Das Klick-Event auf dem Passwort-Input.
  * @returns {void}
  */
 function togglePassword(event) {
-    const clickX = event.offsetX;
-    const iconArea = passwordInput.offsetWidth - 40;
-
-    if (clickX >= iconArea && passwordInput.value) {
-        const isActive = passwordInput.classList.contains('input-with-eye-icon-active');
-        if (isActive) {
-            passwordInput.type = 'text';
-        } else {
-            passwordInput.type = 'password';
-        }
-        passwordInput.classList.toggle('input-with-eye-icon-active', !isActive);
-        passwordInput.classList.toggle('input-with-eye-icon-clicked', isActive);
+  const clickX = event.offsetX;
+  const iconArea = passwordInput.offsetWidth - 40;
+  if (clickX >= iconArea && passwordInput.value) {
+    const isActive = passwordInput.classList.contains('input-with-eye-icon-active');
+    if (isActive) {
+      passwordInput.type = 'text';
+    } else {
+      passwordInput.type = 'password';
     }
+    passwordInput.classList.toggle('input-with-eye-icon-active', !isActive);
+    passwordInput.classList.toggle('input-with-eye-icon-clicked', isActive);
+  }
 }
 
 passwordInput.addEventListener('input', updateInputIcon);
 passwordInput.addEventListener('click', togglePassword);
 
 /**
- * Manages local user data in the browser's localStorage.
+ * Verwaltet lokale Benutzerdaten im localStorage.
  *
- * When populate is true, it fills the email suggestions and auto-fills the password field.
- * Otherwise, it adds a new user to the saved users if not already present.
+ * Wenn populate true ist, werden die E-Mail-Vorschläge aktualisiert und
+ * das Passwortfeld ggf. automatisch befüllt. Andernfalls wird der Benutzer
+ * zu den gespeicherten Benutzern hinzugefügt, falls er noch nicht vorhanden ist.
  *
- * @param {string} email - The user's email.
- * @param {string} password - The user's password.
- * @param {boolean} [populate=false] - Whether to populate the email suggestions and password field.
+ * @param {string} email - Die E-Mail-Adresse des Benutzers.
+ * @param {string} password - Das Passwort des Benutzers.
+ * @param {boolean} [populate=false] - Ob E-Mail-Vorschläge und Passwortfeld befüllt werden sollen.
  * @returns {void}
  */
 function manageLocalUsers(email, password, populate = false) {
-    const users = JSON.parse(localStorage.getItem("savedUsers")) || [];
-    if (populate) {
-        document.getElementById("emailSuggestions").innerHTML = users.map(u => `<option value="${u.email}"></option>`).join("");
-        const user = users.find(u => u.email === email);
-        document.getElementById("password").value = user ? user.password : "";
-    } else if (!users.some(u => u.email === email)) {
-        users.push({ email, password });
-        localStorage.setItem("savedUsers", JSON.stringify(users));
-    }
+  const users = JSON.parse(localStorage.getItem("savedUsers")) || [];
+  if (populate) {
+    document.getElementById("emailSuggestions").innerHTML = users.map(u => `<option value="${u.email}"></option>`).join("");
+    const user = users.find(u => u.email === email);
+    document.getElementById("password").value = user ? user.password : "";
+  } else if (!users.some(u => u.email === email)) {
+    users.push({ email, password });
+    localStorage.setItem("savedUsers", JSON.stringify(users));
+  }
 }
 
 /**
- * Authenticates the user using the Firebase database.
+ * Authentifiziert den Benutzer mithilfe der Firebase-Datenbank (über die REST API).
  *
- * Retrieves the 'users' node from the Firebase database and checks if
- * a user with the provided email and password exists.
+ * Ruft den "users"-Knoten ab und prüft, ob ein Benutzer mit der übergebenen E-Mail
+ * und dem Passwort existiert.
  *
  * @async
- * @param {string} email - The user's email.
- * @param {string} password - The user's password.
- * @returns {Promise<boolean>} A promise that resolves to true if authentication is successful, otherwise false.
+ * @param {string} email - Die E-Mail-Adresse des Benutzers.
+ * @param {string} password - Das Passwort des Benutzers.
+ * @returns {Promise<boolean>} Ein Promise, das true zurückgibt, wenn die Authentifizierung erfolgreich ist, ansonsten false.
  */
 async function handleLogin(email, password) {
-    const snapshot = await get(child(ref(db), `users`));
-    if (!snapshot.exists()) return false;
-    return Object.values(snapshot.val()).some(user => user.email === email && user.password === password);
+  const users = await firebaseGet("users");
+  if (!users) return false;
+  return Object.values(users).some(user => user.email === email && user.password === password);
 }
 
 /**
- * Handles the login form submission.
+ * Behandelt das Absenden des Login-Formulars.
  *
- * Prevents the default form submission, validates the input, attempts login,
- * manages local users, and redirects to the summary page upon success.
+ * Verhindert die Standardaktion des Formulars, liest die Eingabewerte,
+ * validiert diese und versucht, den Benutzer zu authentifizieren. Bei Erfolg
+ * werden lokale Benutzerdaten aktualisiert und der Benutzer zur Summary-Seite weitergeleitet.
  *
- * @param {Event} event - The form submission event.
+ * @param {Event} event - Das Submit-Event des Formulars.
  * @returns {void}
  */
 function handleLoginFormSubmit(event) {
-    event.preventDefault();
-    const email = getInputValue("email");
-    const password = getInputValue("password");
-    const errorMessage = document.getElementById("error-message");
+  event.preventDefault();
+  const email = getInputValue("email");
+  const password = getInputValue("password");
+  const errorMessage = document.getElementById("error-message");
 
-    if (!validateInput(email, password)) {
-        return showError(errorMessage, "Invalid input!");
-    }
+  if (!validateInput(email, password)) {
+    return showError(errorMessage, "Invalid input!");
+  }
 
-    handleLogin(email, password)
-        .then(success => {
-            if (success) {
-                manageLocalUsers(email, password);
-                window.location.href = "summary.html";
-            } else {
-                showError(errorMessage, "Email or password is incorrect!");
-            }
-        })
-        .catch(error => showError(errorMessage, "Error: " + error.message));
+  handleLogin(email, password)
+    .then(success => {
+      if (success) {
+        manageLocalUsers(email, password);
+        window.location.href = "summary.html";
+      } else {
+        showError(errorMessage, "Email or password is incorrect!");
+      }
+    })
+    .catch(error => showError(errorMessage, "Error: " + error.message));
 }
 
 /**
- * Handles focus and input events for the email field.
+ * Behandelt Fokus- und Eingabeereignisse für das E-Mail-Feld.
  *
- * Populates email suggestions and auto-fills the password field if available.
+ * Aktualisiert die E-Mail-Vorschläge und füllt ggf. das Passwortfeld automatisch.
  *
- * @param {Event} event - The focus or input event.
+ * @param {Event} event - Das Fokus- oder Eingabe-Event.
  * @returns {void}
  */
 function handleEmailFocusOrInput(event) {
-    const email = event.type === "input" ? event.target.value : "";
-    manageLocalUsers(email, "", true);
+  const email = event.type === "input" ? event.target.value : "";
+  manageLocalUsers(email, "", true);
 }
 
 /**
- * Retrieves the trimmed value of an input field by its ID.
+ * Liest den getrimmten Wert eines Input-Felds anhand seiner ID aus.
  *
- * @param {string} id - The ID of the input element.
- * @returns {string} The trimmed input value.
+ * @param {string} id - Die ID des Input-Felds.
+ * @returns {string} Der getrimmte Wert des Felds.
  */
 function getInputValue(id) {
-    return document.getElementById(id).value.trim();
+  return document.getElementById(id).value.trim();
 }
 
 /**
- * Displays an error message in the specified element.
+ * Zeigt eine Fehlermeldung in einem angegebenen DOM-Element an.
  *
- * @param {HTMLElement} element - The DOM element to display the error in.
- * @param {string} message - The error message to display.
+ * @param {HTMLElement} element - Das DOM-Element, in dem die Fehlermeldung angezeigt wird.
+ * @param {string} message - Die anzuzeigende Fehlermeldung.
  * @returns {void}
  */
 function showError(element, message) {
-    element.textContent = message;
+  element.textContent = message;
 }
 
 document.getElementById("loginForm").addEventListener("submit", handleLoginFormSubmit);

@@ -1,35 +1,57 @@
 /**
  * @module registration
- * This module initializes Firebase, validates user input, computes initials,
- * saves a new user to the database, manages the registration process, and sets up
- * password visibility toggling.
+ * Dieses Modul kommuniziert mit der Firebase Realtime Database über fetch,
+ * validiert Benutzereingaben, berechnet Initialen, speichert einen neuen Nutzer
+ * in der Datenbank, verwaltet den Registrierungsprozess und ermöglicht das Umschalten
+ * der Passwort-Sichtbarkeit.
  */
 
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js';
-import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyBCuA1XInnSHfEyGUKQQqmqRgvqfhx7dHc",
-  authDomain: "join-d3707.firebaseapp.com",
-  databaseURL: "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "join-d3707",
-  storageBucket: "join-d3707.firebasestorage.app",
-  messagingSenderId: "961213557325",
-  appId: "1:961213557325:web:0253482ac485b4bb0e4a04"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+// Basis-URL Deiner Firebase Realtime Database
+const baseUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
 /**
- * Computes the initials from a given name.
+ * Führt einen GET-Request an den angegebenen Pfad in Firebase aus.
  *
- * This function replaces multiple spaces with a single space,
- * trims leading and trailing whitespace, splits the name into parts,
- * and returns the uppercase initials from the first two parts.
+ * @param {string} path - Der Pfad in der Datenbank (z.B. "users").
+ * @returns {Promise<Object|null>} Das abgerufene JSON-Objekt oder null, falls nichts vorhanden ist.
+ */
+async function firebaseGet(path) {
+  const response = await fetch(`${baseUrl}/${path}.json`);
+  if (!response.ok) {
+    throw new Error("Fehler beim Abrufen der Daten aus Firebase");
+  }
+  return await response.json();
+}
+
+/**
+ * Führt einen PUT-Request an den angegebenen Pfad in Firebase aus, um Daten zu speichern.
  *
- * @param {string} name - The full name.
- * @returns {string} The computed initials.
+ * @param {string} path - Der Pfad in der Datenbank (z.B. "users/123456").
+ * @param {Object} data - Die zu speichernden Daten.
+ * @returns {Promise<Object>} Die Antwort von Firebase.
+ */
+async function firebaseSet(path, data) {
+  const response = await fetch(`${baseUrl}/${path}.json`, {
+    method: 'PUT',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  });
+  if (!response.ok) {
+    throw new Error("Fehler beim Speichern der Daten in Firebase");
+  }
+  return await response.json();
+}
+
+/**
+ * Berechnet die Initialen aus einem gegebenen Namen.
+ *
+ * Ersetzt mehrere Leerzeichen durch ein einzelnes, trimmt den String,
+ * teilt den Namen in Teile auf und gibt die Großbuchstaben der ersten zwei Teile zurück.
+ *
+ * @param {string} name - Der vollständige Name.
+ * @returns {string} Die berechneten Initialen.
  */
 const getInitials = (name) => {
   return name.replace(/\s+/g, ' ')
@@ -41,15 +63,15 @@ const getInitials = (name) => {
 };
 
 /**
- * Validates the email and password inputs.
+ * Validiert die E-Mail und Passwort-Eingaben.
  *
- * Checks if the email is in a valid format, if the password meets the criteria,
- * and if the password matches the repeated password.
+ * Überprüft, ob die E-Mail im richtigen Format vorliegt, das Passwort die Kriterien erfüllt
+ * und ob beide Passwörter übereinstimmen.
  *
- * @param {string} email - The user's email address.
- * @param {string} password - The user's password.
- * @param {string} repeatPassword - The repeated password for confirmation.
- * @returns {string} An empty string if inputs are valid, otherwise an error message.
+ * @param {string} email - Die E-Mail-Adresse des Nutzers.
+ * @param {string} password - Das Passwort des Nutzers.
+ * @param {string} repeatPassword - Das wiederholte Passwort zur Bestätigung.
+ * @returns {string} Einen leeren String, wenn die Eingaben valide sind, sonst eine Fehlermeldung.
  */
 const validateInput = (email, password, repeatPassword) => {
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
@@ -62,49 +84,48 @@ const validateInput = (email, password, repeatPassword) => {
 };
 
 /**
- * Saves a new user to the Firebase database.
+ * Speichert einen neuen Nutzer in der Firebase-Datenbank.
  *
- * Generates a unique userId using the current timestamp and constructs the user data
- * including name, email, password, and initials. The user is then saved in the database.
+ * Generiert eine eindeutige userId mithilfe des aktuellen Zeitstempels, erstellt das
+ * Nutzerdatenobjekt und speichert es über einen PUT-Request.
  * 
- * ⚠️ Note: The password is stored in plaintext for demonstration purposes only.
+ * ⚠️ Hinweis: Das Passwort wird hier zu Demonstrationszwecken im Klartext gespeichert!
  *
  * @async
- * @param {string} name - The user's name.
- * @param {string} email - The user's email address.
- * @param {string} password - The user's password.
- * @returns {Promise<Object>} A promise that resolves with the saved user data.
+ * @param {string} name - Der Name des Nutzers.
+ * @param {string} email - Die E-Mail-Adresse des Nutzers.
+ * @param {string} password - Das Passwort des Nutzers.
+ * @returns {Promise<Object>} Ein Promise, das mit den gespeicherten Nutzerdaten aufgelöst wird.
  */
 const saveUser = async (name, email, password) => {
   const userId = Date.now();
   const userData = {
     name: name.trim(),
     email: email.trim(),
-    password, // ⚠️ For demo purposes only – never store passwords in plaintext!
+    password, // ⚠️ Nur zu Demo-Zwecken – Passwörter niemals im Klartext speichern!
     initials: getInitials(name)
   };
-  await set(ref(db, `users/${userId}`), userData);
+  await firebaseSet(`users/${userId}`, userData);
   return userData;
 };
 
 /**
- * Checks if the email is already registered and registers a new user if not.
+ * Prüft, ob die E-Mail bereits registriert ist und registriert einen neuen Nutzer, falls nicht.
  *
- * Retrieves the list of users from the database and verifies that the email is unique.
- * If registration is successful, the user data is saved in localStorage and a success overlay is shown.
- * Finally, after a short delay, the page is redirected.
+ * Ruft die Liste der Nutzer aus Firebase ab und verifiziert, dass die E-Mail einzigartig ist.
+ * Bei erfolgreicher Registrierung wird der Nutzer in localStorage gespeichert und ein
+ * Erfolgsoverlay angezeigt. Anschließend erfolgt eine Weiterleitung.
  *
  * @async
- * @param {string} name - The user's name.
- * @param {string} email - The user's email address.
- * @param {string} password - The user's password.
- * @param {HTMLElement} errorMessage - The element to display error messages.
+ * @param {string} name - Der Name des Nutzers.
+ * @param {string} email - Die E-Mail-Adresse des Nutzers.
+ * @param {string} password - Das Passwort des Nutzers.
+ * @param {HTMLElement} errorMessage - Das Element zur Anzeige von Fehlermeldungen.
  * @returns {Promise<void>}
  */
 const checkAndRegister = async (name, email, password, errorMessage) => {
   try {
-    const snapshot = await get(ref(db, 'users'));
-    const users = snapshot.val() || {};
+    const users = await firebaseGet("users") || {};
 
     if (Object.values(users).some(user => user.email === email)) {
       throw new Error("Email already registered!");
@@ -121,26 +142,27 @@ const checkAndRegister = async (name, email, password, errorMessage) => {
     const overlay = document.getElementById("successOverlay");
     const overlayContent = document.getElementById('overlay-content');
     overlay.style.display = "flex";
-    overlayContent.style.display = 'flex';
+    overlayContent.style.display = "flex";
 
     setTimeout(() => {
       overlay.style.display = "none";
-      overlayContent.style.display = 'none';
+      overlayContent.style.display = "none";
       window.location.href = "relogin.html";
     }, 1000);
     
   } catch (error) {
     errorMessage.textContent = error.message;
+    errorMessage.style.visibility = 'visible';
   }
 };
 
 /**
- * Sets up password visibility toggling for an input field.
+ * Ermöglicht das Umschalten der Passwort-Sichtbarkeit.
  *
- * Adds event listeners to the specified input field so that clicking on the icon area
- * toggles the input type between 'password' and 'text', and adjusts the CSS classes accordingly.
+ * Fügt dem angegebenen Eingabefeld Event Listener hinzu, die bei einem Klick
+ * auf den Icon-Bereich das Input-Feld zwischen 'password' und 'text' umschalten.
  *
- * @param {string} inputId - The ID of the password input element.
+ * @param {string} inputId - Die ID des Passwort-Eingabefelds.
  * @returns {void}
  */
 const setupPasswordToggle = (inputId) => {
@@ -162,19 +184,56 @@ const setupPasswordToggle = (inputId) => {
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById("form");
   const errorMessage = document.getElementById("error-message");
+  const nameInput = document.getElementById("name");
+
+  // Stelle sicher, dass der Fehlerbereich initial unsichtbar ist, aber im Layout bleibt.
+  errorMessage.style.visibility = 'hidden';
+
+  // Verhindert, dass im Namen Zahlen eingegeben werden und dass
+  // das Feld mit einem Leerzeichen beginnt oder mehrere aufeinanderfolgende Leerzeichen enthält.
+  nameInput.addEventListener("keypress", (e) => {
+    if (/\d/.test(e.key)) {
+      e.preventDefault();
+      errorMessage.textContent = "Der Benutzername darf nur Buchstaben enthalten!";
+      errorMessage.style.visibility = 'visible';
+      return;
+    }
+    if (e.key === " ") {
+      if (nameInput.value.length === 0 || nameInput.value.slice(-1) === " ") {
+        e.preventDefault();
+      }
+    }
+  });
+
+  nameInput.addEventListener("input", () => {
+    nameInput.value = nameInput.value.replace(/\s{2,}/g, ' ');
+    if (/\d/.test(nameInput.value)) {
+      errorMessage.textContent = "Der Benutzername darf nur Buchstaben enthalten!";
+      errorMessage.style.visibility = 'visible';
+    } else {
+      errorMessage.textContent = "";
+      errorMessage.style.visibility = 'hidden';
+    }
+  });
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     
-    const name = document.getElementById("name").value.trim();
+    const name = nameInput.value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
     const repeatPassword = document.getElementById("repeat-password").value.trim();
 
+    if (!/^[A-Za-z\s]+$/.test(name)) {
+      errorMessage.textContent = "Der Benutzername darf nur Buchstaben enthalten!";
+      errorMessage.style.visibility = 'visible';
+      return;
+    }
+    
     const validationError = validateInput(email, password, repeatPassword);
     if (validationError) {
       errorMessage.textContent = validationError;
-      errorMessage.style.display = 'block';
+      errorMessage.style.visibility = 'visible';
       return;
     }
     
