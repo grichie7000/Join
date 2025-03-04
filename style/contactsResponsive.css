@@ -255,6 +255,20 @@
         height: 70px;
     }
 
+	.add-contact-initials {
+		width: 90px;
+		height: 90px;
+		border-radius: 50%;
+		border: 3px solid rgb(255, 255, 255); 
+		color: white;
+		font-weight: 500;
+		font-size: 20px;
+		margin-right: 10px;
+		font-size: 40px;
+		font-weight: 500;
+		color: #fff;
+	}
+
     .close-btn-mobile {
         display: flex;
         justify-content: flex-end;
