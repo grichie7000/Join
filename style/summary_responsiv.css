@@ -97,7 +97,7 @@
         align-items: start;
         gap: 6px;
         height: 124px;
-        margin-top: 82px;
+        margin-top: 70px;
     }
 
     .summary h2 {
@@ -113,32 +113,36 @@
     }
 
     .taskCards {
-        padding-top: 24px;
+        padding-top: 0px;
     }
 }
 
 @media (max-width: 600px) {
 
+    .mainContent{
+        height: unset;
+    }
+
     .summary {
-        width: 320px;
+        width: unset;
     }
 
     .toDoAndDone {
         width: 300px;
-        height: 130px;
+        height: 100px;
         gap: 8px;
         font-size: 16px;
     }
 
     .toDoCard {
         width: 150px;
-        height: 130px;
+        height: 100px;
         gap: 10px;
     }
 
     .doneCard {
         width: 150px;
-        height: 130px;
+        height: 100px;
         gap: 10px;
     }
 
@@ -160,7 +164,7 @@
 
     .urgentCard {
         width: 300px;
-        height: 130px;
+        height: 110px;
         gap: 0;
     }
 
@@ -178,7 +182,8 @@
     }
 
     .urgentSection {
-        height: 130px;
+        height: 110px;
+        width: 100%;
         margin-bottom: 8px;
     }
 
@@ -220,22 +225,23 @@
     }
 
     .totalTasks {
-        height: 130px;
+        height: 100px;
         width: 100px;
     }
 
     .tasksInProgress {
-        height: 130px;
+        height: 100px;
         width: 100px;
     }
 
     .feedbackTask {
-        height: 130px;
+        height: 100px;
         width: 100px;
     }
 
     .openTasks {
         width: 300px;
+        height: 110px;
         gap: 4px;
     }
 }
