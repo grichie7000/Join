@@ -384,7 +384,7 @@
 	
 	.contact-list {
 		background-color: white;
-		height: 75vh!important;
+		height: calc(100vh - 156px)!important;
 		width: calc(100vw!-10px)!important;
 		overflow: scroll;
 		position: relative;
@@ -554,7 +554,6 @@
 
 	.contact-list {
 		background-color: white;
-		height: 75vh!important;
 		overflow: scroll;
 		position: relative;
 		margin-top: 1px;
