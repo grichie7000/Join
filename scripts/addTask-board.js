@@ -1,5 +1,5 @@
 /**
- * @module addTaskModule
+ * @module addTaskBoardModule
  * This module handles the initialization and management of the add task page,
  * including form validation, contact selection, subtask management, and posting data to Firebase.
  */
@@ -34,7 +34,8 @@ function clearSelection() {
  * Clears the add task form by resetting error messages, input borders,
  * subtask displays, and clearing any selected contacts or subtasks.
  */
-function clearTask() {
+
+function clearFormFields() {
   errorTitle.innerHTML = '';
   title.style.border = "";
   errorDate.innerHTML = '';
@@ -42,7 +43,9 @@ function clearTask() {
   date.style.color = "#D1D1D1";
   errorCategory.innerHTML = '';
   category.style.border = "";
-  const allContacts = document.querySelectorAll('.contact-item');
+}
+
+function clearSubtasksAndContacts() {
   clearSelection();
   subTaskOne = false;
   subtaskTwo = false;
@@ -50,16 +53,24 @@ function clearTask() {
   document.getElementById('editItemIconOne').style.display = 'none';
   document.getElementById('editItemTwo').style.display = 'none';
   document.getElementById('editItemIconTwo').style.display = 'none';
+  
   const addedSubtaskOne = document.getElementById('subtaskItem1');
   addedSubtaskOne.innerHTML = '';
   addedSubtaskOne.style.display = 'none';
-  console.log("teste");
+  
   const addedSubtaskTwo = document.getElementById('subtaskItem2');
   addedSubtaskTwo.innerHTML = '';
   addedSubtaskTwo.style.display = 'none';
+  
   const selectedContactsList = document.getElementById('selectedContactsList');
   selectedContactsList.innerHTML = '';
 }
+
+function clearTask() {
+  clearFormFields();
+  clearSubtasksAndContacts();
+}
+
 
 /**
  * Retrieves DOM elements by their IDs and assigns them to global variables.
@@ -364,24 +375,25 @@ function validateCategory(event) {
 function subtaskStyling(inputElement) {
   const symbolStyling = document.getElementById("symbolStyling");
   inputElement.style.border = "2px solid #29ABE2";
-  symbolStyling.style.border = "2px solid #29ABE2";
-  symbolStyling.style.borderLeft = "none";
-  const deleteImg = document.createElement("img");
-  deleteImg.src = "./assets/img/x_task.png";
-  deleteImg.alt = "delete";
-  deleteImg.id = "deleteImg";
-  deleteImg.onclick = subtaskInputDelete;
-  const checkImg = document.createElement("img");
-  checkImg.src = "./assets/img/check_task.png";
-  checkImg.alt = "checked";
-  checkImg.id = "checkImg";
-  checkImg.onclick = subtaskAppend;
+  symbolStyling.style.cssText = "border: 2px solid #29ABE2; border-left: none;";
+  symbolStyling.innerHTML = "";
+
+  const deleteImg = Object.assign(document.createElement("img"), {
+    src: "./assets/img/x_task.png",
+    alt: "delete",
+    id: "deleteImg",
+    onclick: subtaskInputDelete
+  });
+  const checkImg = Object.assign(document.createElement("img"), {
+    src: "./assets/img/check_task.png",
+    alt: "checked",
+    id: "checkImg",
+    onclick: subtaskAppend
+  });
   const symbolTask = document.createElement("span");
   symbolTask.textContent = "|";
-  symbolStyling.innerHTML = "";
-  symbolStyling.appendChild(deleteImg);
-  symbolStyling.appendChild(symbolTask);
-  symbolStyling.appendChild(checkImg);
+
+  symbolStyling.append(deleteImg, symbolTask, checkImg);
 }
 
 /**

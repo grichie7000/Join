@@ -19,11 +19,11 @@
 }
 
 @media (max-width: 1350px) {
-    .board-header{
+    .board-header {
         padding-left: 35px;
     }
 
-    .kanban-board{
+    .kanban-board {
         padding-left: 35px;
     }
 }
@@ -112,8 +112,8 @@
 
     .logo-header-container {
         display: flex;
-        width: 50px;
-        height: 50px;
+        width: 32px;
+        height: 40px;
         padding-left: 20px;
     }
 

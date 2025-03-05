@@ -1,5 +1,5 @@
 /**
- * @module taskManager
+ * @module board
  * This module handles task loading, rendering, drag & drop,
  * search, detail overlay display/editing, and updating tasks in Firebase.
  */
@@ -98,18 +98,7 @@ async function loadTasks() {
     }
 }
 
-/**
- * Creates a DOM element representing a task.
- * @param {Object} task - The task data.
- * @param {string} taskId - The task ID.
- * @param {string} columnId - The column ID.
- * @returns {HTMLElement} The created task element.
- */
-function createTaskElement(task, taskId, columnId) {
-  let div = document.createElement("div");
-  div.className = "task";
-  div.draggable = true;
-  div.id = taskId;
+function getCategoryHtml(task) {
   let categoryText = task.category || "Keine Kategorie";
   let categoryBgColor = "#f0f0f0";
   if (task.category === "Technical Task") {
@@ -119,15 +108,31 @@ function createTaskElement(task, taskId, columnId) {
     categoryText = "User Story";
     categoryBgColor = "#1500ff";
   }
-  div.innerHTML =
-    '<div class="task-category" style="background: ' + categoryBgColor + '">' + categoryText + '</div>' +
-    '<h3 class="task-title" style="padding-top: 10px">' + task.title + '</h3>' +
-    '<div class="task-description">' + task.description + '</div>' +
-    getSubtasksHtml(task) + getFooterHtml(task);
+  return '<div class="task-category" style="background: ' + categoryBgColor + '">' + categoryText + '</div>';
+}
+
+function getTaskContentHtml(task) {
+  return getCategoryHtml(task) +
+         '<h3 class="task-title" style="padding-top: 10px">' + task.title + '</h3>' +
+         '<div class="task-description">' + task.description + '</div>' +
+         getSubtasksHtml(task) +
+         getFooterHtml(task);
+}
+
+function attachTaskEventListeners(div, task, taskId, columnId) {
   div.addEventListener("click", function(e) {
-    showTaskDetailOverlay(task, taskId, e.currentTarget.parentElement.id);
+    showTaskDetailOverlay(task, taskId, columnId);
   });
   div.addEventListener("dragstart", drag);
+}
+
+function createTaskElement(task, taskId, columnId) {
+  const div = document.createElement("div");
+  div.className = "task";
+  div.draggable = true;
+  div.id = taskId;
+  div.innerHTML = getTaskContentHtml(task);
+  attachTaskEventListeners(div, task, taskId, columnId);
   return div;
 }
 
@@ -150,30 +155,47 @@ function getSubtasksHtml(task) {
  * @param {Object} task - The task data.
  * @returns {string} HTML string for the task footer.
  */
-function getFooterHtml(task) {
-  let contactsHtml = "";
+
+function getContactsHtml(task) {
   if (task.contacts && task.contacts.length > 0) {
     const maxContacts = 4;
     const displayedContacts = task.contacts.slice(0, maxContacts);
     const extraCount = task.contacts.length - maxContacts;
-    contactsHtml = '<div class="task-contacts">' +
+    let contactsHtml = '<div class="task-contacts">' +
       displayedContacts.map(c => {
         return '<div class="contact-badge" style="background: ' +
           getContactColor(c) + ';" title="' + c.name + '">' +
           getInitials(c.name) + '</div>';
-      }).join("") +
-      (extraCount > 0 ? '<div class="contact-badge extra-badge">+' + extraCount + '</div>' : '') +
-      '</div>';
+      }).join("");
+    if (extraCount > 0) {
+      contactsHtml += '<div class="contact-badge extra-badge">+' + extraCount + '</div>';
+    }
+    contactsHtml += '</div>';
+    return contactsHtml;
   }
-  const priorityHtml = task.priority
-    ? '<img src="' +
-      { urgent: "assets/img/urgent.png", medium: "assets/img/medium.png", low: "assets/img/low.png" }[task.priority] +
-      '" alt="' + task.priority + '" class="task-priority-icon">'
-    : "";
+  return "";
+}
+
+function getPriorityHtml(task) {
+  if (task.priority) {
+    const priorityIcons = {
+      urgent: "assets/img/urgent.png",
+      medium: "assets/img/medium.png",
+      low: "assets/img/low.png"
+    };
+    return '<img src="' + priorityIcons[task.priority] + '" alt="' + task.priority + '" class="task-priority-icon">';
+  }
+  return "";
+}
+
+function getFooterHtml(task) {
+  const contactsHtml = getContactsHtml(task);
+  const priorityHtml = getPriorityHtml(task);
   return (contactsHtml || priorityHtml)
     ? '<div class="task-footer">' + contactsHtml + priorityHtml + '</div>'
     : "";
 }
+
 
 /**
  * Handles the dragstart event for a task element.
