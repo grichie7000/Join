@@ -561,9 +561,8 @@
 }
 
 @media (max-width: 350px) {
-
-	.navMenu {
-		font-size: 13px;
-	}
-
+    .menuPos a {
+        color: #CDCDCD;
+        font-size: 13px;
+    }
 }
