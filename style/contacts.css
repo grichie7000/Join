@@ -34,7 +34,7 @@ html {
 
 .sidebarcontact {
     background-color: #ffffff;
-    padding: 10px;
+    padding-top: 10px;
     overflow-y: auto;
     height: calc(100vh - 80px);
     box-shadow: 0px 0px 5px rgb(0 0 0 / 20%);
@@ -343,7 +343,7 @@ body {
     background-color: white;
 	padding: 20px 0px;
     min-width: 360px;
-    height: 80vh;
+    height: 70vh;
     overflow: scroll;
     position: relative;
     margin-top: 1px;
