@@ -6,10 +6,6 @@
 
 const dbUrl = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app";
 
-/**
- * Holds the current order value for a task.
- * @type {number|null}
- */
 let currentOrder = null; 
 
 /**
@@ -98,6 +94,11 @@ async function loadTasks() {
     }
 }
 
+/**
+ * Returns HTML markup for the task category.
+ * @param {Object} task - The task object.
+ * @returns {string} HTML string representing the task's category badge.
+ */
 function getCategoryHtml(task) {
   let categoryText = task.category || "Keine Kategorie";
   let categoryBgColor = "#f0f0f0";
@@ -111,6 +112,11 @@ function getCategoryHtml(task) {
   return '<div class="task-category" style="background: ' + categoryBgColor + '">' + categoryText + '</div>';
 }
 
+/**
+ * Returns HTML markup for the complete task content.
+ * @param {Object} task - The task object.
+ * @returns {string} HTML string for task title, description, subtasks, and footer.
+ */
 function getTaskContentHtml(task) {
   return getCategoryHtml(task) +
          '<h3 class="task-title" style="padding-top: 10px">' + task.title + '</h3>' +
@@ -119,6 +125,13 @@ function getTaskContentHtml(task) {
          getFooterHtml(task);
 }
 
+/**
+ * Attaches click and dragstart event listeners to a task element.
+ * @param {HTMLElement} div - The task element.
+ * @param {Object} task - The task data.
+ * @param {string} taskId - The task ID.
+ * @param {string} columnId - The column ID where the task belongs.
+ */
 function attachTaskEventListeners(div, task, taskId, columnId) {
   div.addEventListener("click", function(e) {
     showTaskDetailOverlay(task, taskId, columnId);
@@ -126,6 +139,13 @@ function attachTaskEventListeners(div, task, taskId, columnId) {
   div.addEventListener("dragstart", drag);
 }
 
+/**
+ * Creates a task element for rendering.
+ * @param {Object} task - The task data.
+ * @param {string} taskId - The task ID.
+ * @param {string} columnId - The column ID.
+ * @returns {HTMLElement} The created task element.
+ */
 function createTaskElement(task, taskId, columnId) {
   const div = document.createElement("div");
   div.className = "task";
@@ -151,31 +171,38 @@ function getSubtasksHtml(task) {
 }
 
 /**
- * Returns HTML for the task footer, including contact badges and priority icon.
- * @param {Object} task - The task data.
- * @returns {string} HTML string for the task footer.
+ * Generates HTML markup for a single contact badge.
+ * @param {Object} contact - The contact object.
+ * @returns {string} HTML string for the contact badge.
  */
-
-function getContactsHtml(task) {
-  if (task.contacts && task.contacts.length > 0) {
-    const maxContacts = 4;
-    const displayedContacts = task.contacts.slice(0, maxContacts);
-    const extraCount = task.contacts.length - maxContacts;
-    let contactsHtml = '<div class="task-contacts">' +
-      displayedContacts.map(c => {
-        return '<div class="contact-badge" style="background: ' +
-          getContactColor(c) + ';" title="' + c.name + '">' +
-          getInitials(c.name) + '</div>';
-      }).join("");
-    if (extraCount > 0) {
-      contactsHtml += '<div class="contact-badge extra-badge">+' + extraCount + '</div>';
-    }
-    contactsHtml += '</div>';
-    return contactsHtml;
-  }
-  return "";
+function generateContactBadgeHtml(contact) {
+  return '<div class="contact-badge" style="background: ' +
+         getContactColor(contact) + ';" title="' + contact.name + '">' +
+         getInitials(contact.name) + '</div>';
 }
 
+/**
+ * Returns HTML markup for displaying task contacts.
+ * @param {Object} task - The task object.
+ * @returns {string} HTML string for the contacts section of the task.
+ */
+function getContactsHtml(task) {
+  if (!(task.contacts && task.contacts.length > 0)) return "";
+  const maxContacts = 4;
+  const displayedContacts = task.contacts.slice(0, maxContacts);
+  const extraCount = task.contacts.length - maxContacts;
+  let badgesHtml = displayedContacts.map(generateContactBadgeHtml).join("");
+  if (extraCount > 0) {
+    badgesHtml += '<div class="contact-badge extra-badge">+' + extraCount + '</div>';
+  }
+  return '<div class="task-contacts">' + badgesHtml + '</div>';
+}
+
+/**
+ * Returns HTML markup for displaying the task's priority icon.
+ * @param {Object} task - The task object.
+ * @returns {string} HTML string for the priority icon.
+ */
 function getPriorityHtml(task) {
   if (task.priority) {
     const priorityIcons = {
@@ -188,6 +215,11 @@ function getPriorityHtml(task) {
   return "";
 }
 
+/**
+ * Returns HTML markup for the task footer, combining contacts and priority.
+ * @param {Object} task - The task object.
+ * @returns {string} HTML string for the task footer.
+ */
 function getFooterHtml(task) {
   const contactsHtml = getContactsHtml(task);
   const priorityHtml = getPriorityHtml(task);
@@ -195,7 +227,6 @@ function getFooterHtml(task) {
     ? '<div class="task-footer">' + contactsHtml + priorityHtml + '</div>'
     : "";
 }
-
 
 /**
  * Handles the dragstart event for a task element.
@@ -334,7 +365,8 @@ window.getColumnPlaceholderText = function (columnId) {
 };
 
 /**
- * Updates column placeholders based on task visibility.
+ * Updates the placeholder in a specific column based on the visibility of tasks.
+ * @param {string} columnId - The column ID.
  */
 const updateColumnPlaceholder = (columnId) => {
   const column = $(columnId);
@@ -359,7 +391,6 @@ const updatePlaceholders = () => {
   const columns = ["to-do", "in-progress", "await-feedback", "done"];
   columns.forEach(updateColumnPlaceholder);
 };
-
 
 /**
  * Searches tasks based on the provided search term.

@@ -1,14 +1,15 @@
 /**
  * @module addTaskBoardModule
- * This module handles the initialization and management of the add task page,
- * including form validation, contact selection, subtask management, and posting data to Firebase.
+ * This module manages the initialization and management of the "Add Task" page,
+ * including form validation, contact selection, subtask management, and
+ * sending data to Firebase.
  */
 
 const BASE_URL_ADDTASK = "https://join-d3707-default-rtdb.europe-west1.firebasedatabase.app/";
 
 /**
- * Initializes the add task page by retrieving necessary DOM elements,
- * loading Firebase data for contacts, and resetting selected subtasks.
+ * Initializes the "Add Task" page by retrieving necessary DOM elements,
+ * loading Firebase data for contacts, and resetting the global list of selected subtasks.
  */
 function initAddTask() {
   getElementsByIds();
@@ -17,7 +18,7 @@ function initAddTask() {
 }
 
 /**
- * Clears the selection state from all contact items and resets their checkbox images.
+ * Removes the selection from all contact elements and resets their checkbox images.
  */
 function clearSelection() {
   const allContacts = document.querySelectorAll('.contact-item');
@@ -31,10 +32,8 @@ function clearSelection() {
 }
 
 /**
- * Clears the add task form by resetting error messages, input borders,
- * subtask displays, and clearing any selected contacts or subtasks.
+ * Resets the "Add Task" form by clearing error messages, input fields, and their styling.
  */
-
 function clearFormFields() {
   errorTitle.innerHTML = '';
   title.style.border = "";
@@ -45,32 +44,52 @@ function clearFormFields() {
   category.style.border = "";
 }
 
-function clearSubtasksAndContacts() {
-  clearSelection();
+/**
+ * Clears the subtask display by resetting subtask flags, hiding edit fields,
+ * and clearing the subtask elements.
+ */
+function clearSubtasksDisplay() {
   subTaskOne = false;
   subtaskTwo = false;
   document.getElementById('editItemOne').style.display = 'none';
   document.getElementById('editItemIconOne').style.display = 'none';
   document.getElementById('editItemTwo').style.display = 'none';
   document.getElementById('editItemIconTwo').style.display = 'none';
-  
+
   const addedSubtaskOne = document.getElementById('subtaskItem1');
   addedSubtaskOne.innerHTML = '';
   addedSubtaskOne.style.display = 'none';
-  
+
   const addedSubtaskTwo = document.getElementById('subtaskItem2');
   addedSubtaskTwo.innerHTML = '';
   addedSubtaskTwo.style.display = 'none';
-  
+}
+
+/**
+ * Clears contact selections by resetting the selection and clearing the contacts list.
+ */
+function clearContactsDisplay() {
+  clearSelection();
   const selectedContactsList = document.getElementById('selectedContactsList');
   selectedContactsList.innerHTML = '';
 }
 
+/**
+ * Clears both subtasks and contacts by calling the respective helper functions.
+ */
+function clearSubtasksAndContacts() {
+  clearContactsDisplay();
+  clearSubtasksDisplay();
+}
+
+/**
+ * Performs a complete reset of the "Add Task" page by clearing both form fields
+ * and subtasks/contacts.
+ */
 function clearTask() {
   clearFormFields();
   clearSubtasksAndContacts();
 }
-
 
 /**
  * Retrieves DOM elements by their IDs and assigns them to global variables.
@@ -85,7 +104,8 @@ function getElementsByIds() {
 }
 
 /**
- * Changes the color of the date input based on its value and enforces a maximum date of December 31, 2099.
+ * Changes the color of the date input field based on its value and enforces a maximum date (December 31, 2099).
+ * If the entered date exceeds the maximum, an error message is displayed and the date is reset.
  */
 function changeDateColor() {
   date = document.getElementById('due-date');
@@ -106,9 +126,10 @@ function changeDateColor() {
 }
 
 /**
- * Loads data from Firebase for the specified path and assigns it to the global variable firebaseData.
- * Then calls displayContacts to update the contact list in the UI.
+ * Loads data from Firebase for the specified path, stores it in the global variable
+ * "firebaseData", and then calls the function to display contacts.
  * @async
+ * @param {string} [path=""] - The path in the Firebase database from which to load data.
  */
 async function loadFirebaseData(path = "") {
   let response = await fetch(BASE_URL_ADDTASK + path + ".json");
@@ -118,7 +139,7 @@ async function loadFirebaseData(path = "") {
 }
 
 /**
- * Displays contacts from the global firebaseData array in the contact list element.
+ * Displays contacts from the global variable "firebaseData" in the contact list of the UI.
  */
 function displayContacts() {
   const contactList = document.getElementById("contactListAssigned");
@@ -137,7 +158,10 @@ function displayContacts() {
 }
 
 /**
- * Toggles the selection state of a contact item and updates the global selected contacts.
+ * Toggles the selection state of a contact element, changes the displayed checkbox image,
+ * and updates the global contact selection.
+ * @param {HTMLElement} contactElement - The HTML element of the contact.
+ * @param {number} id - The unique ID of the contact.
  */
 function selectContact(contactElement, id) {
   contactElement.classList.toggle("selected");
@@ -152,7 +176,7 @@ function selectContact(contactElement, id) {
 }
 
 /**
- * Updates the global selectedContacts array based on the currently selected contact items.
+ * Updates the global variable "selectedContacts" based on the currently selected contact elements.
  */
 function updateGlobalSelectedContacts() {
   const selectedElements = document.querySelectorAll(".contact-item.selected");
@@ -167,14 +191,11 @@ function updateGlobalSelectedContacts() {
 }
 
 /**
- * Updates the display of assigned contacts in the designated contacts list element.
+ * Updates the primary contact badges (up to 4 contacts) in the contacts list.
+ * @param {HTMLElement} selectedContactsList - The element where badges are displayed.
  */
-function updateAssignedContactsDisplay() {
-  const selectedContactsList = document.getElementById("selectedContactsList");
-  selectedContactsList.innerHTML = "";
-
+function updatePrimaryContactBadges(selectedContactsList) {
   const maxContacts = 4;
-  
   window.selectedContacts.slice(0, maxContacts).forEach(contact => {
     const badge = document.createElement("div");
     badge.classList.add("selected-contact-item");
@@ -182,7 +203,14 @@ function updateAssignedContactsDisplay() {
     badge.textContent = contact.initials;
     selectedContactsList.appendChild(badge);
   });
-  
+}
+
+/**
+ * Updates the extra contact badge if there are more than 4 contacts.
+ * @param {HTMLElement} selectedContactsList - The element where badges are displayed.
+ */
+function updateExtraContactBadge(selectedContactsList) {
+  const maxContacts = 4;
   const extraCount = window.selectedContacts.length - maxContacts;
   if (extraCount > 0) {
     const extraBadge = document.createElement("div");
@@ -193,7 +221,19 @@ function updateAssignedContactsDisplay() {
 }
 
 /**
- * Enables editing for the first subtask item.
+ * Updates the display of selected contacts in the designated contacts list.
+ * It calls the helper functions to update primary contact badges and the extra badge.
+ */
+function updateAssignedContactsDisplay() {
+  const selectedContactsList = document.getElementById("selectedContactsList");
+  selectedContactsList.innerHTML = "";
+  updatePrimaryContactBadges(selectedContactsList);
+  updateExtraContactBadge(selectedContactsList);
+}
+
+/**
+ * Enables editing for the first subtask by displaying the corresponding edit field and icons.
+ * @param {HTMLElement} element - The element to be edited.
  */
 function editItemOne(element) {
   const editItem = document.getElementById('editItemOne');
@@ -205,7 +245,7 @@ function editItemOne(element) {
 }
 
 /**
- * Deletes the first subtask item from the display and removes it from the global subtasks array.
+ * Deletes the first subtask from the display and removes it from the global subtasks list.
  */
 function deleteItemOne() {
   const addedSubtaskOne = document.getElementById('subtaskItem1');
@@ -221,7 +261,7 @@ function deleteItemOne() {
 }
 
 /**
- * Submits the changes for the first subtask, updating the display and the global subtasks array.
+ * Submits changes for the first subtask, updates the display, and saves the changes in the global subtasks list.
  */
 function submitItemOne() {
   const changesItemOne = document.getElementById('editItemOne').value;
@@ -240,7 +280,8 @@ function submitItemOne() {
 }
 
 /**
- * Enables editing for the second subtask item.
+ * Enables editing for the second subtask by displaying the corresponding edit field and icons.
+ * @param {HTMLElement} element - The element to be edited.
  */
 function editItemTwo(element) {
   const editItem = document.getElementById('editItemTwo');
@@ -252,7 +293,7 @@ function editItemTwo(element) {
 }
 
 /**
- * Deletes the second subtask item from the display and removes it from the global subtasks array.
+ * Deletes the second subtask from the display and removes it from the global subtasks list.
  */
 function deleteItemTwo() {
   const addedSubtaskTwo = document.getElementById('subtaskItem2');
@@ -268,7 +309,7 @@ function deleteItemTwo() {
 }
 
 /**
- * Submits the changes for the second subtask, updating the display and the global subtasks array.
+ * Submits changes for the second subtask, updates the display, and saves the changes in the global subtasks list.
  */
 function submitItemTwo() {
   const changesItemTwo = document.getElementById('editItemTwo').value;
@@ -294,7 +335,8 @@ function subtaskInputDelete() {
 }
 
 /**
- * Resets the subtask input styling and value.
+ * Resets the styling and value of the subtask input field,
+ * including displaying the plus symbol.
  */
 function resetAddtaskInput() {
   const symbolStyling = document.getElementById('symbolStyling');
@@ -309,193 +351,6 @@ function resetAddtaskInput() {
   plusImg.alt = 'plus';
   plusImg.id = 'checkImg';
   symbolStyling.appendChild(plusImg);
-}
-
-/**
- * Validates the entire form and submits it if all validations pass.
- */
-function validateFormular(event) {
-  event.preventDefault();
-  validateTitle(event);
-  validateDate(event);
-  validateCategory(event);
-  if (validateIsOk.every(val => val === true)) {
-    submitForm(event);
-  }
-}
-
-/**
- * Validates the task title field.
- */
-function validateTitle(event) {
-  errorTitle.innerHTML = "";
-  if (!title.value.trim()) {
-    errorTitle.innerHTML = "This field is required";
-    title.style.border = "2px solid #FF8190";
-    validateIsOk[0] = false;
-    return false;
-  }
-  title.style.border = "2px solid #D1D1D1";
-  validateIsOk[0] = true;
-}
-
-/**
- * Validates the due date field.
- */
-function validateDate(event) {
-  errorDate.innerHTML = "";
-  if (!date.value) {
-    errorDate.innerHTML = "This field is required";
-    date.style.border = "2px solid #FF8190";
-    validateIsOk[1] = false;
-    return false;
-  }
-  date.style.border = "2px solid #D1D1D1";
-  validateIsOk[1] = true;
-}
-
-/**
- * Validates the task category field.
- */
-function validateCategory(event) {
-  errorCategory.innerHTML = "";
-  if (!category.value) {
-    errorCategory.innerHTML = "This field is required";
-    category.style.border = "2px solid #FF8190";
-    validateIsOk[2] = false;
-    return false;
-  }
-  category.style.border = "2px solid #D1D1D1";
-  validateIsOk[2] = true;
-}
-
-/**
- * Applies styling to the subtask input element and displays delete and check icons.
- */
-function subtaskStyling(inputElement) {
-  const symbolStyling = document.getElementById("symbolStyling");
-  inputElement.style.border = "2px solid #29ABE2";
-  symbolStyling.style.cssText = "border: 2px solid #29ABE2; border-left: none;";
-  symbolStyling.innerHTML = "";
-
-  const deleteImg = Object.assign(document.createElement("img"), {
-    src: "./assets/img/x_task.png",
-    alt: "delete",
-    id: "deleteImg",
-    onclick: subtaskInputDelete
-  });
-  const checkImg = Object.assign(document.createElement("img"), {
-    src: "./assets/img/check_task.png",
-    alt: "checked",
-    id: "checkImg",
-    onclick: subtaskAppend
-  });
-  const symbolTask = document.createElement("span");
-  symbolTask.textContent = "|";
-
-  symbolStyling.append(deleteImg, symbolTask, checkImg);
-}
-
-/**
- * Appends a new subtask from the subtask input field to the global selected subtasks array
- * and updates the subtask display.
- */
-function subtaskAppend() {
-  const subtaskInputValue = document.getElementById("subtask").value.trim();
-  const addedSubtaskOne = document.getElementById("subtaskItem1");
-  const addedSubtaskTwo = document.getElementById("subtaskItem2");
-  if (!subtaskInputValue) return;
-  if (window.selectedSubtasks.length < 2) {
-    window.selectedSubtasks.push({
-      title: subtaskInputValue,
-      completed: false
-    });
-    if (window.selectedSubtasks.length === 1) {
-      addedSubtaskOne.innerHTML = subtaskInputValue;
-      addedSubtaskOne.style.display = "inline";
-    } else {
-      addedSubtaskTwo.innerHTML = subtaskInputValue;
-      addedSubtaskTwo.style.display = "inline";
-    }
-  }
-  resetAddtaskInput();
-}
-
-/**
- * Toggles the dropdown for contact assignment.
- */
-function toggleDropdown() {
-  const assignedToElement = document.getElementById("assigned-to");
-  const customArrowAssigned = document.getElementById("customArrowAssigned");
-  const placeholderAssigned = document.getElementById("placeholderAssigned");
-  assignedToElement.classList.toggle("open");
-  customArrowAssigned.classList.toggle("open");
-  if (assignedToElement.classList.contains("open")) {
-    placeholderAssigned.innerHTML = "An |";
-  } else {
-    placeholderAssigned.innerHTML = "Select contacts to assign";
-  }
-}
-
-document.addEventListener("click", function (event) {
-  const assignedToElement = document.getElementById("assigned-to");
-  const customArrowAssigned = document.getElementById("customArrowAssigned");
-  const placeholderAssigned = document.getElementById("placeholderAssigned");
-  const formSubtask = document.querySelector(".form-subtask");
-  if (!formSubtask.contains(event.target)) {
-    resetAddtaskInput();
-  }
-  if (!assignedToElement.contains(event.target)) {
-    assignedToElement.classList.remove("open");
-    customArrowAssigned.classList.remove("open");
-    placeholderAssigned.innerHTML = "Select contacts to assign";
-  }
-});
-
-/**
- * Gathers add task form data and returns it as an object.
- */
-function getAddTaskData() {
-  const priorityElement = document.querySelector('input[name="priority"]:checked');
-  const priorityValue = priorityElement ? priorityElement.value : "medium";
-  return {
-    title: title.value.trim(),
-    description: document.getElementById("description").value.trim(),
-    contacts: window.selectedContacts,
-    dueDate: date.value,
-    priority: priorityValue,
-    category: category.value,
-    subtasks: window.selectedSubtasks
-  };
-}
-
-/**
- * Handles form submission by gathering form data, displaying a confirmation card,
- * posting data to Firebase, and redirecting to the board page.
- */
-function submitForm(event) {
-  event.preventDefault();
-  const dataToBoard = getAddTaskData();
-  const card = document.getElementById("submit-card");
-  card.classList.add("visible");
-  postDatatoBoard("/tasks/to-do", dataToBoard);
-  setTimeout(function () {
-    window.location.href = "./board.html";
-  }, 1500);
-}
-
-/**
- * Posts the provided data to Firebase at the specified path.
- * @async
- */
-async function postDatatoBoard(path = "", data = {}) {
-  await fetch(BASE_URL_ADDTASK + path + ".json", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify(data)
-  });
 }
 
 window.initAddTask = initAddTask;

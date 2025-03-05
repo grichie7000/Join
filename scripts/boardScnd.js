@@ -5,17 +5,17 @@
  * @returns {Promise<void>}
  */
 async function updateTaskSubtasksInFirebase(subtasks) {
-    try {
-      const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}/subtasks.json`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(subtasks)
-      });
-      await response.json();
-      console.log("Subtasks updated");
-    } catch (err) {
-      console.error("Error updating subtasks:", err);
-    }
+  try {
+    const response = await fetch(`${dbUrl}/tasks/${currentColumnId}/${currentTaskId}/subtasks.json`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(subtasks)
+    });
+    await response.json();
+    console.log("Subtasks updated");
+  } catch (err) {
+    console.error("Error updating subtasks:", err);
+  }
 }
 
 /**
@@ -23,17 +23,17 @@ async function updateTaskSubtasksInFirebase(subtasks) {
  * @param {Object} task - The task data.
  */
 function updateProgressBar(task) {
-    const taskElement = document.getElementById(currentTaskId);
-    if (!taskElement) return;
-    const progressFill = taskElement.querySelector('.progress-fill');
-    const progressText = taskElement.querySelector('.progress-text');
-    if (progressFill && progressText) {
-        const completedSubtasks = task.subtasks.filter(s => s.completed).length;
-        const totalSubtasks = task.subtasks.length;
-        const progressPercentage = (completedSubtasks / totalSubtasks) * 100;
-        progressFill.style.width = `${progressPercentage}%`;
-        progressText.textContent = `${completedSubtasks}/${totalSubtasks} Subtasks`;
-    }
+  const taskElement = document.getElementById(currentTaskId);
+  if (!taskElement) return;
+  const progressFill = taskElement.querySelector('.progress-fill');
+  const progressText = taskElement.querySelector('.progress-text');
+  if (progressFill && progressText) {
+    const completedSubtasks = task.subtasks.filter(s => s.completed).length;
+    const totalSubtasks = task.subtasks.length;
+    const progressPercentage = (completedSubtasks / totalSubtasks) * 100;
+    progressFill.style.width = `${progressPercentage}%`;
+    progressText.textContent = `${completedSubtasks}/${totalSubtasks} Subtasks`;
+  }
 }
 
 /**
@@ -121,24 +121,24 @@ function renderSubtasksEditMode() {
  * @param {number} index - The subtask index.
  */
 function turnSubtaskIntoEditInput(li, titleSpan, index) {
-    const input = document.createElement("input");
-    input.type = "text";
-    input.value = currentSubtasks[index].title;
-    input.classList.add("subtask-edit-input");
-    input.addEventListener("blur", () => {
-        if (input.value.trim() !== "") {
-            currentSubtasks[index].title = input.value.trim();
-        }
-        renderSubtasksEditMode();
-        updateSubtasksViewInOverlay();
-    });
-    input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            input.blur();
-        }
-    });
-    li.replaceChild(input, titleSpan);
-    input.focus();
+  const input = document.createElement("input");
+  input.type = "text";
+  input.value = currentSubtasks[index].title;
+  input.classList.add("subtask-edit-input");
+  input.addEventListener("blur", () => {
+    if (input.value.trim() !== "") {
+      currentSubtasks[index].title = input.value.trim();
+    }
+    renderSubtasksEditMode();
+    updateSubtasksViewInOverlay();
+  });
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      input.blur();
+    }
+  });
+  li.replaceChild(input, titleSpan);
+  input.focus();
 }
 
 /**
@@ -212,7 +212,7 @@ async function setupContactsAndSubtasks(overlay, task) {
 
   updateSelectedContactsDisplay(overlay);
   container.addEventListener('change', () => updateSelectedContactsDisplay(overlay));
-  
+
   currentSubtasks = task.subtasks ? task.subtasks.map(s => ({ ...s })) : [];
   renderSubtasksEditMode();
   updateSubtasksViewInOverlay();
@@ -237,7 +237,7 @@ function toggleContact(label) {
     label.style.backgroundColor = '#2A3647';
     contactName.style.color = 'white';
   }
-  
+
   const overlay = document.getElementById("taskDetailOverlay");
   if (overlay) {
     updateSelectedContactsDisplay(overlay);
@@ -259,7 +259,7 @@ function updateSelectedContactsDisplay(overlay) {
     name: label.dataset.contactName,
     color: label.dataset.contactColor
   }));
-  
+
   window.selectedContacts = selectedContactsArray;
 
   const maxContacts = 4;
@@ -276,16 +276,55 @@ function updateSelectedContactsDisplay(overlay) {
   }
 }
 
+/**
+ * Event handler for adding a new subtask.
+ * Listens for a click on the add subtask button, creates a new subtask, and updates the view.
+ * @param {Event} e - The click event.
+ */
 document.getElementById("add-subtask-btn").addEventListener("click", (e) => {
-    e.preventDefault();
-    const subtaskInput = document.getElementById("edit-subtask");
-    const title = subtaskInput.value.trim();
-    if (title !== "") {
-        currentSubtasks.push({ title: title, completed: false });
-        renderSubtasksEditMode();
-        updateSubtasksViewInOverlay();
-        subtaskInput.value = "";
+  e.preventDefault();
+  const subtaskInput = document.getElementById("edit-subtask");
+  const title = subtaskInput.value.trim();
+  if (title !== "") {
+    currentSubtasks.push({ title: title, completed: false });
+    renderSubtasksEditMode();
+    updateSubtasksViewInOverlay();
+    subtaskInput.value = "";
+  }
+});
+
+/**
+ * Toggles the display of the contacts dropdown when the selected contacts display is clicked.
+ * @param {Event} event - The click event.
+ */
+document.querySelector('.selected-contacts-display').addEventListener('click', (event) => {
+  event.stopPropagation();
+  const dropdown = document.getElementById("contactsDropdown");
+  const arrow = document.querySelector(".dropdown-arrow");
+  if (dropdown.style.display === "block") {
+    dropdown.style.display = "none";
+    arrow.innerHTML = "&#9652;";
+  } else {
+    dropdown.style.display = "block";
+    arrow.innerHTML = "&#9662;";
+  }
+});
+
+/**
+ * Closes the contacts dropdown when clicking outside of the contact selection wrapper.
+ * @param {Event} e - The click event.
+ */
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.contact-selection-wrapper')) {
+    const dropdown = document.getElementById("contactsDropdown");
+    if (dropdown) {
+      dropdown.style.display = "none";
     }
+    const arrow = document.querySelector(".dropdown-arrow");
+    if (arrow) {
+      arrow.innerHTML = "&#9652;";
+    }
+  }
 });
 
 /**
@@ -356,29 +395,3 @@ async function deleteTask() {
     console.error("Error deleting task:", error);
   }
 }
-
-document.querySelector('.selected-contacts-display').addEventListener('click', (event) => {
-  event.stopPropagation();
-  const dropdown = document.getElementById("contactsDropdown");
-  const arrow = document.querySelector(".dropdown-arrow");
-  if (dropdown.style.display === "block") {
-    dropdown.style.display = "none";
-    arrow.innerHTML = "&#9652;";
-  } else {
-    dropdown.style.display = "block";
-    arrow.innerHTML = "&#9662;";
-  }
-});
-
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.contact-selection-wrapper')) {
-    const dropdown = document.getElementById("contactsDropdown");
-    if (dropdown) {
-      dropdown.style.display = "none";
-    }
-    const arrow = document.querySelector(".dropdown-arrow");
-    if (arrow) {
-      arrow.innerHTML = "&#9652;";
-    }
-  }
-});
