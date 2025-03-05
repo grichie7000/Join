@@ -132,30 +132,33 @@ function resetFormErrors() {
 }
 
 /**
- * Validates required form inputs.
+ * Validates a single form field.
+ * @param {string} value - The field value.
+ * @param {string} fieldId - The id of the field element.
+ * @param {string} errorId - The id of the error element.
+ * @returns {boolean} True if the field is valid; otherwise, false.
+ */
+function validateField(value, fieldId, errorId) {
+  if (!value) {
+    $(errorId).textContent = "This field is required";
+    $(fieldId).style.borderColor = "red";
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Validates required form inputs by calling validateField for each input.
  * @param {string} titleValue - The task title.
  * @param {string} dueDateValue - The due date.
  * @param {string} categoryValue - The task category.
  * @returns {boolean} True if all required fields are provided; otherwise, false.
  */
 function validateFormInputs(titleValue, dueDateValue, categoryValue) {
-  let isValid = true;
-  if (!titleValue) {
-    $("error-title").textContent = "This field is required";
-    $("title").style.borderColor = "red";
-    isValid = false;
-  }
-  if (!dueDateValue) {
-    $("error-date").textContent = "This field is required";
-    $("due-date").style.borderColor = "red";
-    isValid = false;
-  }
-  if (!categoryValue) {
-    $("error-category").textContent = "This field is required";
-    $("category").style.borderColor = "red";
-    isValid = false;
-  }
-  return isValid;
+  const validTitle = validateField(titleValue, "title", "error-title");
+  const validDate = validateField(dueDateValue, "due-date", "error-date");
+  const validCategory = validateField(categoryValue, "category", "error-category");
+  return validTitle && validDate && validCategory;
 }
 
 /**
@@ -270,10 +273,8 @@ function updateTaskDetailContent(task, overlay) {
   document.getElementById("overlay-task-title").textContent = task.title;
   document.getElementById("overlay-task-description").textContent = task.description;
   overlay.querySelector('.task-due-date').textContent = "Due Date: " + task.dueDate;
-  const iconMap = {
-    urgent: "assets/img/urgent.png",
-    medium: "assets/img/medium.png",
-    low: "assets/img/low.png"
+  const iconMap = { 
+    urgent: "assets/img/urgent.png", medium: "assets/img/medium.png", low: "assets/img/low.png"
   };
   overlay.querySelector('.task-priority').innerHTML =
     "Priority: <img src=\"" + iconMap[task.priority] + "\" alt=\"" + task.priority + "\" class=\"task-priority-icon\">";
