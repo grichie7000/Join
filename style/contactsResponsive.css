@@ -564,4 +564,9 @@
         color: #CDCDCD;
         font-size: 13px;
     }
+	
+	.navMenu {
+    padding-top: 10px!important;
+	padding-bottom: 9px!important;
+}
 }
